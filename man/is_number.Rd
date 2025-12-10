@@ -35,8 +35,7 @@ Check if x is a numeric vector of the correct length with numbers of the
 correct sign.
 }
 \note{
-\code{NA_real_} and \code{NA_integer_} are considered numeric, whereas
-\code{NA_complex_} is not.
+\code{NA_real_} and \code{NA_integer_} is numeric, whereas \code{NA_complex_} is not.
 }
 \examples{
 is_number(1) # TRUE
@@ -47,5 +46,5 @@ is_number(NA_real_) # TRUE: `allow_NA` has not yet been implemented
 is_number(NA_character_) # FALSE: incorrect type
 }
 \seealso{
-\code{\link[=is_character]{is_character()}}
+\code{\link[=is_logical]{is_logical()}} \code{\link[=is_character]{is_character()}}
 }

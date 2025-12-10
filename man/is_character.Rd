@@ -57,5 +57,5 @@ is_character(NA_character_, allow_NA = TRUE) # TRUE
 is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 }
 \seealso{
-\code{\link[=is_number]{is_number()}}
+\code{\link[=is_logical]{is_logical()}} \code{\link[=is_number]{is_number()}}
 }
