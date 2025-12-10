@@ -21,7 +21,8 @@ for(allow_empty in logicals) {
 
 for(x in list(NULL, FALSE, TRUE, NA, NaN, numeric(0), NA_real_, 0, 314, Inf,
               c(NA_character_, NA_character_), c("", ""), c("nco", ""),
-              c("nco", "ibf"))) {
+              c("nco", "ibf"), data.frame(a = "nco"), matrix("nco"),
+              list("nco"))) {
   for(allow_empty in logicals) {
     for(allow_zero in logicals) {
       for(allow_NA in logicals) {
