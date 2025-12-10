@@ -3,7 +3,7 @@
 #' @export
 all_characters <- function(x, allow_empty = FALSE, allow_zero = FALSE,
                            allow_NA = FALSE) {
-  is.character(x) &&
+  is.character(x) && is.null(dim(x)) &&
     (allow_zero || length(x) > 0) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
     (allow_NA || !anyNA(x))
