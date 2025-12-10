@@ -30,7 +30,7 @@
 #' with `is_character()` and `all_characters()` by setting arguments
 #' `allow_empty`, `allow_zero`, or `allow_NA` to `TRUE`, respectively.
 #'
-#' @seealso [is_number()]
+#' @seealso [is_logical()] [is_number()]
 #'
 #' @examples
 #' is_character("a") # TRUE
