@@ -1,4 +1,6 @@
-#' Check if x is a length-one logical vector.
+#' Check if `x` is logical
+#'
+#' Check if x is a length-one logical vector with only allowed logical values.
 #'
 #' @param x object to test.
 #' @param allow_zero logical of length 1 indicating if zero-length logical
@@ -27,7 +29,10 @@
 #' `is_logical()` by setting arguments `allow_zero` or `allow_NA` to `TRUE`,
 #' respectively.
 #'
-#' @seealso [is_number()] [is_character()]
+#' @seealso The vignette about type conversion:
+#' `vignette("Type_Coercion", package = "checkinput")`.
+#'
+#' @family collections of checks on type and length
 #'
 #' @examples
 #' is_logical(TRUE) # TRUE
