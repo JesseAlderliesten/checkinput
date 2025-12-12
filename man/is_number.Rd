@@ -8,8 +8,7 @@
 \alias{is_nonnegative}
 \alias{is_number}
 \alias{is_positive}
-\title{Check if x is a numeric vector of the correct length with numbers of the
-correct sign.}
+\title{Check if \code{x} is numeric}
 \usage{
 all_nonnegative(x)
 
@@ -27,15 +26,15 @@ is_positive(x)
 \item{x}{object to test.}
 }
 \value{
-A single non-NA logical value indicating if \code{x} is a numeric vector
-of the correct length with numbers of the correct sign.
+\code{TRUE} or \code{FALSE} indicating if \code{x} is a numeric vector of the
+correct length with numbers of the correct sign.
 }
 \description{
-Check if x is a numeric vector of the correct length with numbers of the
+Checks if \code{x} is a numeric vector of the correct length with numbers of the
 correct sign.
 }
 \note{
-\code{NA_real_} and \code{NA_integer_} is numeric, whereas \code{NA_complex_} is not.
+\code{NA_real_} and \code{NA_integer_} are numeric, whereas \code{NA_complex_} is not.
 }
 \examples{
 is_number(1) # TRUE
@@ -44,7 +43,19 @@ all_numbers(c(1, 2)) # TRUE
 is_number("a") # FALSE: incorrect type
 is_number(NA_real_) # TRUE: `allow_NA` has not yet been implemented
 is_number(NA_character_) # FALSE: incorrect type
+is_nonnegative(3) # TRUE
+all_nonnegative(c(3, 0)) # TRUE
+is_positive(3) # TRUE
+is_positive(0) # FALSE
+all_positive(c(3, 0)) # FALSE
 }
 \seealso{
-\code{\link[=is_logical]{is_logical()}} \code{\link[=is_character]{is_character()}}
+The vignette about type conversion:
+\code{vignette("Type_Coercion", package = "checkinput")}.
+
+Other collections of checks on type and length: 
+\code{\link{all_characters}()},
+\code{\link{is_logical}()},
+\code{\link{is_zerolength}()}
 }
+\concept{collections of checks on type and length}

@@ -3,7 +3,7 @@
 \name{all_characters}
 \alias{all_characters}
 \alias{is_character}
-\title{Check if x is a character vector of the correct length}
+\title{Check if \code{x} is character}
 \usage{
 all_characters(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 
@@ -23,11 +23,12 @@ allowed, see \code{Details}.}
 }
 \value{
 A single logical value (\code{TRUE}, \code{FALSE}, or \code{NA}) indicating if \code{x}
-has the correct length and contains only allowed character values, see
-\code{Details}.
+is a character vector of the correct length with only allowed character
+values, see \code{Details}.
 }
 \description{
-Check if x is a character vector of the correct length
+Checks if \code{x} is a character vector of the correct length with only allowed
+character values.
 }
 \details{
 If argument \code{allow_zero} is \code{FALSE}, the correct length is 1 for
@@ -57,5 +58,12 @@ is_character(NA_character_, allow_NA = TRUE) # TRUE
 is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 }
 \seealso{
-\code{\link[=is_logical]{is_logical()}} \code{\link[=is_number]{is_number()}}
+The vignette about type conversion:
+\code{vignette("Type_Coercion", package = "checkinput")}.
+
+Other collections of checks on type and length: 
+\code{\link{all_nonnegative}()},
+\code{\link{is_logical}()},
+\code{\link{is_zerolength}()}
 }
+\concept{collections of checks on type and length}

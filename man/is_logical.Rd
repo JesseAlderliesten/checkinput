@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_logical.R
 \name{is_logical}
 \alias{is_logical}
-\title{Check if x is a length-one logical vector.}
+\title{Check if \code{x} is logical}
 \usage{
 is_logical(x, allow_NA = FALSE, allow_zero = FALSE)
 }
@@ -21,7 +21,7 @@ is a length-one logical vector and contains only allowed logical values, see
 \code{Details}.
 }
 \description{
-Check if x is a length-one logical vector.
+Check if x is a length-one logical vector with only allowed logical values.
 }
 \details{
 If argument \code{allow_zero} is \code{FALSE}, the correct length is 1 for
@@ -49,5 +49,12 @@ is_logical(NA, allow_NA = TRUE) # TRUE
 is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 }
 \seealso{
-\code{\link[=is_number]{is_number()}} \code{\link[=is_character]{is_character()}}
+The vignette about type conversion:
+\code{vignette("Type_Coercion", package = "checkinput")}.
+
+Other collections of checks on type and length: 
+\code{\link{all_characters}()},
+\code{\link{all_nonnegative}()},
+\code{\link{is_zerolength}()}
 }
+\concept{collections of checks on type and length}
