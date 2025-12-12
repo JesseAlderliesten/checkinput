@@ -1,4 +1,7 @@
-#' Check if x is a character vector of the correct length
+#' Check if `x` is character
+#'
+#' Checks if `x` is a character vector of the correct length with only allowed
+#' character values.
 #'
 #' @param x object to test.
 #' @param allow_empty logical of length 1 indicating if empty strings (`""`)
@@ -9,8 +12,8 @@
 #' allowed, see `Details`.
 #'
 #' @returns A single logical value (`TRUE`, `FALSE`, or `NA`) indicating if `x`
-#' has the correct length and contains only allowed character values, see
-#' `Details`.
+#' is a character vector of the correct length with only allowed character
+#' values, see `Details`.
 #'
 #' @export
 #'
@@ -30,7 +33,10 @@
 #' with `is_character()` and `all_characters()` by setting arguments
 #' `allow_empty`, `allow_zero`, or `allow_NA` to `TRUE`, respectively.
 #'
-#' @seealso [is_logical()] [is_number()]
+#' @seealso The vignette about type conversion:
+#' `vignette("Type_Coercion", package = "checkinput")`.
+#'
+#' @family collections of checks on type and length
 #'
 #' @examples
 #' is_character("a") # TRUE
