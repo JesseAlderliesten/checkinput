@@ -1,4 +1,4 @@
-# Used in examples
+#### Test the examples ####
 for(x in list(1, NA_real_)) {
   expect_true(is_number(x = x))
 }
@@ -7,7 +7,8 @@ for(x in list(c(1, 2), "a", NA_character_)) {
   expect_false(is_number(x = x))
 }
 
-# Tests
+
+#### Tests ####
 for(x in list(-Inf, -314, 0, 314, Inf, NaN)) {
   expect_true(is_number(x = x))
 }

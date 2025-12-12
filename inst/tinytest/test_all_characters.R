@@ -1,9 +1,10 @@
 logicals <- list(FALSE, TRUE, NA)
 
-# Examples
+#### Test the examples ####
 expect_true(all_characters(x = c("a", "b")))
 
-# Tests
+
+#### Tests ####
 for(x in list("nco", c("nco", "ibf"))) {
   for(allow_empty in logicals) {
     for(allow_zero in logicals) {

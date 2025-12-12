@@ -1,7 +1,8 @@
-# Examples
+#### Test the examples ####
 expect_true(all_numbers(x = c(1, 2)))
 
-# Tests
+
+#### Tests ####
 for(x in list(-314, 0, 314, c(-314, 0, 314), c(-Inf, Inf), c(NA_real_, NaN))) {
   expect_true(all_numbers(x = x))
 }

@@ -1,4 +1,4 @@
-# Examples
+#### Test the examples ####
 expect_true(is_logical(x = TRUE))
 expect_true(is_logical(x = NA, allow_NA = TRUE))
 
@@ -8,7 +8,8 @@ for(x in list(c(TRUE, TRUE), 1, NA)) {
 
 expect_false(is_logical(x = NA_character_, allow_NA = TRUE))
 
-# Tests
+
+#### Tests ####
 logicals <- list(FALSE, TRUE, NA)
 
 for(x in list(TRUE, FALSE)) {
