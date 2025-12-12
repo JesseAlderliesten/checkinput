@@ -1,0 +1,102 @@
+---
+title: "Type Coercion"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Type Coercion}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(checkinput)
+```
+
+When testing vector input of length larger than one, it should be kept in mind
+that objects are coerced to a common type when combined into a vector. The type
+of the vector, and thus of all its components, will be the highest type of the
+components in the hierarchy `NULL` < `raw` < `logical` < `integer` < `double` <
+`complex` < `character` < `list` < `expression` (see `help(typeof)` and the
+section `Details` in `help(c)`). For example, numeric `314` will be coerced to
+character `"314"` when it is combined into a vector with character data such as
+`"nco"`, such that `c(314, "nco")` results in the character vector
+`c("314", "nco")`. This also holds for the logical `NA`, which will be coerced
+to `NA_character_` but still prints as `NA`.
+
+```{r Type coercion}
+num <- 314
+str(num)
+char <- "nco"
+str(char)
+str(c(num, char))
+
+logiNA <- NA
+str(logiNA)
+logiNA_char <- c(logiNA, char)
+str(logiNA_char)
+str(logiNA_char[1])
+logiNA_char[1]
+```
+
+Although zero-length objects (see `?is_zerolength()`) are discarded when
+combined into a vector with other values, their types are taken into account for
+type coercion. For example, numeric `314` will be coerced to character `"314"`
+when it is combined into a vector with zero-length `character(0)`, such that
+`c(314, character(0))` results in the character string `"314"`, not in the
+numeric value `314`.
+
+```{r Type coercion of zero-length object}
+num <- 314
+str(num)
+zerochar <- character(0)
+str(zerochar)
+str(c(num, zerochar))
+```
+
+Type coercion also occurs when `unlist()` is used on a list to create a vector.
+Therefore `all_characters(unlist(z))` does *not* check if all elements of list
+`z` are character, but rather if any element of `z` is character *and* none of
+the elements of `z` is of a higher type. The correct way to check if all
+elements in list `z` are character is to use
+`all(unlist(lapply(X = z, FUN = all_characters, ...)))`,
+where `...` indicates where to place arguments that have to be passed to
+`all_characters()`.
+
+```{r Use of all_characters() on unlisted lists}
+z <- list("a", 2, "c")
+z
+all_characters(unlist(z)) # TRUE, even though the second element of 'z' is numeric!
+all(unlist(lapply(X = z, FUN = all_characters))) # FALSE
+
+```
+
+Type coercion in a vector has as consequence that code like
+`all_characters(c(x, y))` does *not* check if all elements in `x` and `y` are
+character: `x` and `y` will be coerced to the highest of their types before the
+check is performed, such that `all_characters(c(x, y))` tests if any of `x` or
+`y` is character *and* none of `x` or `y` is of a higher type. The correct way
+to check if all elements in `x` and `y` are character is to use
+`all_characters(x) && all_characters(y)` or, to generalise easier to more than
+two objects, use `all(unlist(lapply(X = list(x, y), FUN = all_characters, ...)))`,
+where `...` indicates where to place arguments that have to be passed to
+`all_characters()`.
+
+```{r Use of all_characters() on vectors}
+x <- 1:3
+all_characters(x) # FALSE
+
+y <- letters[x]
+all_characters(y) # TRUE
+
+all_characters(c(x, y)) # TRUE, even though 'x' is numeric!
+all_characters(x) && all_characters(y) # FALSE
+all(unlist(lapply(X = list(x, y), FUN = all_characters))) # FALSE
+```
