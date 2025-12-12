@@ -1,3 +1,8 @@
+#### Test the examples ####
+expect_true(all_nonnegative(x = c(3, 0)))
+
+
+#### Tests ####
 for(x in list(c(0, 0), c(314, 314), c(Inf, Inf))) {
   expect_true(all_nonnegative(x = x))
 }

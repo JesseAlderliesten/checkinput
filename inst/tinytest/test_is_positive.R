@@ -1,3 +1,9 @@
+#### Test the examples ####
+expect_true(is_positive(x = 3))
+expect_false(is_positive(x = 0))
+
+
+#### Tests ####
 for(x in list(314, Inf)) {
   expect_true(is_positive(x = x))
 }

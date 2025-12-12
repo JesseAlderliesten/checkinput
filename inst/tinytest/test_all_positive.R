@@ -1,3 +1,8 @@
+#### Test the examples ####
+expect_false(all_positive(x = c(3, 0)))
+
+
+#### Tests ####
 for(x in list(314, Inf, c(314, 314))) {
   expect_true(all_positive(x = x))
 }

@@ -1,3 +1,8 @@
+#### Test the examples ####
+expect_true(is_nonnegative(x = 3))
+
+
+#### Tests ####
 for(x in list(0, 314, Inf)) {
   expect_true(is_nonnegative(x = x))
 }
