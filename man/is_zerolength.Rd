@@ -16,38 +16,44 @@ is_zerolength(x)
 Check if \code{x} is a zero-length object
 }
 \details{
-Currently no check is performed on dimensions >> Check how zero-row and zero-column matrices / dataframes behave!
+No check is performed on dimensions, such that a \code{\link[=matrix]{matrix()}} with
+zero rows is a zero-length object whereas a \code{\link[=data.frame]{data.frame()}} with zero rows is
+\emph{not} (see the \code{Examples}).
 }
 \note{
 Zero-\code{\link[=length]{length()}} objects can have different \link[=typeof]{types}: NULL (\link{NULL}),
 logical (\code{logical(0)}), integer (\code{integer(0)}), double (\code{numeric(0)}),
-complex (\code{complex(0)}), and character (\code{character(0)}). \code{""} is not a
+complex (\code{complex(0)}), character (\code{character(0)}), and list (\code{\link[=list]{list()}} and
+\code{data.frame()}). \code{""} is not a
 zero-length object: it has a \link[=nchar]{width} of 0 characters but a \code{length}
 of 1.
 
-A \link{matrix} with zero rows is a zero-length object, whereas a \link{data.frame}
-with zero rows is \emph{not} (see the \code{Examples}).
-
 Checking equality to zero-length objects should be done using
-\verb{isTRUE(all.equal(x, <zero-length object>))} (\code{is.null()} can be used to
-check if an object is \code{NULL}). Using \link[=Comparison]{==} leads to \code{logical(0)},
-which gives an error when used as complete \link[=Control]{conditional statement}.
+\verb{isTRUE(all.equal(x, <zero-length object>))} (\code{\link[=is.null]{is.null()}} can be used as well
+to check if an object is \code{NULL}). Using \link[=Comparison]{==} to check equality to
+zero-length objects leads to \code{logical(0)}, which gives an error when used as
+complete \link[=Control]{conditional statement}.
 
 \code{all(logical(0))}, and hence \code{all(numeric(0))} and \code{all(character(0))} that
 get coerced to type \code{logical}, returns \code{TRUE}, see the \code{Note} in \code{\link[=all]{all()}}.
 
 Although zero-length objects are discarded when combined into a vector with
-other values, their types are taken into account for type coercion. For example,
+other values, their types are taken into account for type coercion, see the
+vignette mentioned in the \verb{See also} section. For example,
 numeric \code{314} will be coerced to character \code{"314"} when it is combined into a
 vector with zero-length \code{character(0)}, such that \code{c(314, character(0))}
-results in the character string \code{"314"}, not in the numeric value \code{314}.
+results in the character string \code{"314"}, not in the numeric value \code{314}. If
+zero-length objects are combined into a vector with only zero-length values,
+the type of the vector is the highest type of the components in the hierarchy
+\code{NULL} < \code{raw} < \code{logical} < \code{integer} < \code{double} < \code{complex} < \code{character} <
+\code{list} < \code{expression}, see the section \code{Details} in \code{help(c)}.
 }
 \examples{
 is_zerolength(x = character(0)) # TRUE
 is_zerolength(x = 0) # FALSE
 # A matrix with zero rows is a zero-length object ...
 is_zerolength(x = as.matrix(data.frame(a = 314))[numeric(0), , drop = FALSE])
-# whereas a dataframe with zero rows is *not* a zero-length object
+# ... whereas a dataframe with zero rows is *not* a zero-length object.
 is_zerolength(x = data.frame(a = 314)[numeric(0), , drop = FALSE])
 
 # Zero-length objects affect type coercion.
