@@ -4,11 +4,10 @@
 #' character values.
 #'
 #' @inheritParams is_logical
-#' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`? See
-#' `Details`.
+#' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
-#' correct length with only allowed character values, see `Details`.
+#' correct length with only allowed character values.
 #'
 #' @export
 #'
