@@ -3,7 +3,7 @@
 #' Checks if `x` is a numeric vector of the correct length with numbers of the
 #' correct sign.
 #'
-#' @inheritParams is_character
+#' @inheritParams all_characters
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a numeric vector of the
 #' correct length with numbers of the correct sign.
@@ -11,6 +11,9 @@
 #' @export
 #'
 #' @note `NA_real_` and `NA_integer_` are numeric, whereas `NA_complex_` is not.
+#'
+#' @details The correct length of `x` is larger than zero for `all_numbers()`
+#' and one for `is_number()`.
 #'
 #' @seealso The vignette about type conversion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
