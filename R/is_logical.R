@@ -3,13 +3,11 @@
 #' Check if `x` is a length-one logical vector with only allowed logical values.
 #'
 #' @param x object to test.
-#' @param allow_zero `TRUE` or `FALSE`: allow zero-length values in `x`? See
-#' `Details`.
-#' @param allow_NA `TRUE` or `FALSE`: allow NAs of the correct type in `x`? See
-#' `Details`.
+#' @param allow_zero `TRUE` or `FALSE`: allow zero-length values in `x`?
+#' @param allow_NA `TRUE` or `FALSE`: allow NAs of the correct type in `x`?
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
-#' and contains only allowed logical values, see `Details`.
+#' and contains only allowed logical values.
 #'
 #' @export
 #'
