@@ -9,29 +9,25 @@ is_logical(x, allow_NA = FALSE, allow_zero = FALSE)
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_NA}{logical of length 1 indicating if \code{NA} should be allowed, see
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}? See
 \code{Details}.}
 
-\item{allow_zero}{logical of length 1 indicating if zero-length logical
-strings (\code{logical(0)}) should be allowed, see \code{Details}.}
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}? See
+\code{Details}.}
 }
 \value{
-A single logical value (\code{TRUE}, \code{FALSE}, or \code{NA}) indicating if \code{x}
-is a length-one logical vector and contains only allowed logical values, see
-\code{Details}.
+\code{TRUE} or \code{FALSE} indicating if \code{x} is a length-one logical vector
+and contains only allowed logical values, see \code{Details}.
 }
 \description{
-Check if x is a length-one logical vector with only allowed logical values.
+Check if \code{x} is a length-one logical vector with only allowed logical values.
 }
 \details{
-If argument \code{allow_zero} is \code{FALSE}, the correct length is 1 for
-\code{is_logical()}. If \code{allow_zero} is \code{TRUE}, the zero-length logical value
-logical(0) is allowed. \code{allow_zero} only has an effect if \code{logical(0)} is the
-only value in \code{x}, because \code{logical(0)} is discarded when it is put in a
-vector together with other values.
-
-\code{NA} is returned if arguments \code{allow_zero} or \code{allow_NA} are \code{NA} and \code{x} is
-\code{logical(0)} or \code{NA}, respectively.
+The correct length of \code{x} is one if argument \code{allow_zero} is \code{FALSE}
+and zero or one if argument \code{allow_zero} is \code{TRUE}. Argument \code{allow_zero}
+only has an effect if \code{logical(0)} is the only value in \code{x}, because
+\code{logical(0)} is discarded when it is put in a vector together with other
+values.
 }
 \note{
 \code{is_logical()} is mainly used for argument checking and therefore by
@@ -40,6 +36,12 @@ default return \code{FALSE} for zero-length logical strings and \code{NA}. In co
 \code{is_logical()} by setting arguments \code{allow_zero} or \code{allow_NA} to \code{TRUE},
 respectively.
 }
+\section{Programming note}{
+ This implementation differs from the legacy-code:
+\code{NA} is not allowed for arguments \code{allow_empty}, \code{allow_zero}, and
+\code{allow_NA}, such that the return will never be \code{NA}.
+}
+
 \examples{
 is_logical(TRUE) # TRUE
 is_logical(c(TRUE, TRUE)) # FALSE: incorrect length

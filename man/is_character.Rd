@@ -12,33 +12,31 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_empty}{logical of length 1 indicating if empty strings (\code{""})
-should be allowed, see \code{Details}.}
+\item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}? See
+\code{Details}.}
 
-\item{allow_zero}{logical of length 1 indicating if zero-length character
-strings (\code{character(0)}) should be allowed, see \code{Details}.}
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}? See
+\code{Details}.}
 
-\item{allow_NA}{logical of length 1 indicating if \code{NA_character_} should be
-allowed, see \code{Details}.}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}? See
+\code{Details}.}
 }
 \value{
-A single logical value (\code{TRUE}, \code{FALSE}, or \code{NA}) indicating if \code{x}
-is a character vector of the correct length with only allowed character
-values, see \code{Details}.
+\code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector of the
+correct length with only allowed character values, see \code{Details}.
 }
 \description{
 Checks if \code{x} is a character vector of the correct length with only allowed
 character values.
 }
 \details{
-If argument \code{allow_zero} is \code{FALSE}, the correct length is 1 for
-\code{is_character()} and >= 1 for \code{all_characters()}. If \code{allow_zero} is \code{TRUE},
-zero-length characters are also allowed. \code{allow_zero} only has an effect if
-\code{character(0)} is the only value in \code{x}, because \code{character(0)} is discarded
-when it is put in a vector together with other values.
-
-\code{NA} is returned if arguments \code{allow_empty}, \code{allow_zero}, or \code{allow_NA} are
-\code{NA} and \code{x} is \code{""}, \code{character(0)}, or \code{NA_character_}, respectively.
+The correct length of \code{x} for \code{is_character()} is one if argument
+\code{allow_zero} is \code{FALSE} and zero or one if argument \code{allow_zero} is \code{TRUE}.
+The correct length of \code{x} for \code{all_character()} is one or larger if argument
+\code{allow_zero} is \code{FALSE} and zero or larger if argument \code{allow_zero} is
+\code{TRUE}. Argument \code{allow_zero} only has an effect if \code{character(0)} is the
+only value in \code{x}, because \code{character(0)} is discarded when it is put in a
+vector together with other values.
 }
 \note{
 \code{is_character()} and \code{all_characters()} are mainly used for argument
@@ -48,6 +46,12 @@ zero-length character strings, and \code{NA_character_}. In contrast,
 with \code{is_character()} and \code{all_characters()} by setting arguments
 \code{allow_empty}, \code{allow_zero}, or \code{allow_NA} to \code{TRUE}, respectively.
 }
+\section{Programming note}{
+ This implementation differs from the legacy-code:
+\code{NA} is not allowed for arguments \code{allow_empty}, \code{allow_zero}, and
+\code{allow_NA}, such that the return will never be \code{NA}.
+}
+
 \examples{
 is_character("a") # TRUE
 is_character(c("a", "b")) # FALSE: incorrect length

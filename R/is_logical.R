@@ -1,33 +1,33 @@
 #' Check if `x` is logical
 #'
-#' Check if x is a length-one logical vector with only allowed logical values.
+#' Check if `x` is a length-one logical vector with only allowed logical values.
 #'
 #' @param x object to test.
-#' @param allow_zero logical of length 1 indicating if zero-length logical
-#' strings (`logical(0)`) should be allowed, see `Details`.
-#' @param allow_NA logical of length 1 indicating if `NA` should be allowed, see
+#' @param allow_zero `TRUE` or `FALSE`: allow zero-length values in `x`? See
+#' `Details`.
+#' @param allow_NA `TRUE` or `FALSE`: allow NAs of the correct type in `x`? See
 #' `Details`.
 #'
-#' @returns A single logical value (`TRUE`, `FALSE`, or `NA`) indicating if `x`
-#' is a length-one logical vector and contains only allowed logical values, see
-#' `Details`.
+#' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
+#' and contains only allowed logical values, see `Details`.
 #'
 #' @export
 #'
-#' @details If argument `allow_zero` is `FALSE`, the correct length is 1 for
-#' `is_logical()`. If `allow_zero` is `TRUE`, the zero-length logical value
-#' logical(0) is allowed. `allow_zero` only has an effect if `logical(0)` is the
-#' only value in `x`, because `logical(0)` is discarded when it is put in a
-#' vector together with other values.
-#'
-#' `NA` is returned if arguments `allow_zero` or `allow_NA` are `NA` and `x` is
-#' `logical(0)` or `NA`, respectively.
+#' @details The correct length of `x` is one if argument `allow_zero` is `FALSE`
+#' and zero or one if argument `allow_zero` is `TRUE`. Argument `allow_zero`
+#' only has an effect if `logical(0)` is the only value in `x`, because
+#' `logical(0)` is discarded when it is put in a vector together with other
+#' values.
 #'
 #' @note `is_logical()` is mainly used for argument checking and therefore by
 #' default return `FALSE` for zero-length logical strings and `NA`. In contrast,
 #' [is.logical()] returns `TRUE` for these inputs, which can be achieved with
 #' `is_logical()` by setting arguments `allow_zero` or `allow_NA` to `TRUE`,
 #' respectively.
+#'
+#' @section Programming note: This implementation differs from the legacy-code:
+#' `NA` is not allowed for arguments `allow_empty`, `allow_zero`, and
+#' `allow_NA`, such that the return will never be `NA`.
 #'
 #' @seealso The vignette about type conversion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
@@ -41,9 +41,9 @@
 #' is_logical(NA) # FALSE: default 'allow_NA' is FALSE
 #' is_logical(NA, allow_NA = TRUE) # TRUE
 #' is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
-is_logical <- function(x, allow_NA = FALSE, allow_zero = FALSE) {
-  stopifnot(is.logical(allow_NA), length(allow_NA) == 1L,
-            is.logical(allow_zero), length(allow_zero) == 1L)
+is_logical <- function(x, allow_zero = FALSE, allow_NA = FALSE) {
+  stopifnot(is.logical(allow_zero), length(allow_zero) == 1L, !is.na(allow_zero),
+            is.logical(allow_NA), length(allow_NA) == 1L, !is.na(allow_NA))
   is.logical(x) && is.null(dim(x)) &&
     (length(x) == 1L || (allow_zero && length(x) == 0L)) &&
     (allow_NA || !anyNA(x))
