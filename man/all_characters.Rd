@@ -30,20 +30,20 @@ Checks if \code{x} is a character vector of the correct length with only allowed
 character values.
 }
 \details{
-The correct length of \code{x} for \code{is_character()} is one if argument
+The correct length of \code{x} for \code{all_character()} is one or larger if
+argument \code{allow_zero} is \code{FALSE} and zero or larger if argument \code{allow_zero}
+is \code{TRUE}. The correct length of \code{x} for \code{is_character()} is one if argument
 \code{allow_zero} is \code{FALSE} and zero or one if argument \code{allow_zero} is \code{TRUE}.
-The correct length of \code{x} for \code{all_character()} is one or larger if argument
-\code{allow_zero} is \code{FALSE} and zero or larger if argument \code{allow_zero} is
-\code{TRUE}. Argument \code{allow_zero} only has an effect if \code{character(0)} is the
-only value in \code{x}, because \code{character(0)} is discarded when it is put in a
-vector together with other values.
+Argument \code{allow_zero} only has an effect if \code{character(0)} is the only value
+in \code{x}, because \code{character(0)} is discarded when it is put in a vector
+together with other values.
 }
 \note{
-\code{is_character()} and \code{all_characters()} are mainly used for argument
+\code{all_characters()} and \code{is_character()} are mainly used for argument
 checking and therefore by default return \code{FALSE} for empty strings,
 zero-length character strings, and \code{NA_character_}. In contrast,
 \code{\link[=is.character]{is.character()}} returns \code{TRUE} for these inputs, which can be achieved
-with \code{is_character()} and \code{all_characters()} by setting arguments
+with \code{all_characters()} and \code{is_character()} by setting arguments
 \code{allow_empty}, \code{allow_zero}, or \code{allow_NA} to \code{TRUE}, respectively.
 }
 \section{Programming note}{
