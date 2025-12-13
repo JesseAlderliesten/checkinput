@@ -4,15 +4,15 @@
 \alias{is_logical}
 \title{Check if \code{x} is logical}
 \usage{
-is_logical(x, allow_NA = FALSE, allow_zero = FALSE)
+is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 }
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}? See
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}? See
 \code{Details}.}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}? See
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}? See
 \code{Details}.}
 }
 \value{
