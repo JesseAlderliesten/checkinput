@@ -2,21 +2,18 @@
 #'
 #' @param x object to test.
 #'
-#' @returns `TRUE` or `FALSE` indicating if `x` is a zero-length object.
-#'
-#' @export
-#'
 #' @details No check is performed on dimensions, such that a [matrix()] with
 #' zero rows is a zero-length object whereas a [data.frame()] with zero rows is
 #' *not* (see the `Examples`).
+#'
+#' @returns `TRUE` or `FALSE` indicating if `x` is a zero-length object.
 #'
 #' @note
 #' Zero-[length()] objects can have different [types][typeof()]: NULL ([NULL]),
 #' logical (`logical(0)`), integer (`integer(0)`), double (`numeric(0)`),
 #' complex (`complex(0)`), character (`character(0)`), and list ([list()] and
-#' `data.frame()`). `""` is not a
-#' zero-length object: it has a [width][nchar()] of 0 characters but a `length`
-#' of 1.
+#' `data.frame()`). `""` is not a zero-length object: it has a [width][nchar()]
+#' of 0 characters but a `length` of 1.
 #'
 #' Checking equality to zero-length objects should be done using
 #' `isTRUE(all.equal(x, <zero-length object>))` ([is.null()] can be used as well
@@ -40,7 +37,6 @@
 #'
 #' @seealso The vignette about type conversion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
-#'
 #' @family collections of checks on type and length
 #'
 #' @examples
@@ -57,6 +53,8 @@
 #' zerochar <- character(0)
 #' str(zerochar) # chr(0)
 #' str(c(num, zerochar)) # chr "314", not num 314
+#'
+#' @export
 is_zerolength <- function(x) {
   length(x) == 0L
 }

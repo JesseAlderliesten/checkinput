@@ -12,18 +12,15 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}? See
-\code{Details}.}
+\item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}? See
-\code{Details}.}
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}? See
-\code{Details}.}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector of the
-correct length with only allowed character values, see \code{Details}.
+correct length with only allowed character values.
 }
 \description{
 Checks if \code{x} is a character vector of the correct length with only allowed
@@ -60,12 +57,14 @@ is_character(1) # FALSE: incorrect type
 is_character(NA_character_) # FALSE: default 'allow_NA' is FALSE
 is_character(NA_character_, allow_NA = TRUE) # TRUE
 is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
+
 }
 \seealso{
 The vignette about type conversion:
 \code{vignette("Type_Coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 
+\code{\link{all_names}()},
 \code{\link{all_nonnegative}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}

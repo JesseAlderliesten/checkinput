@@ -33,6 +33,10 @@ correct length with numbers of the correct sign.
 Checks if \code{x} is a numeric vector of the correct length with numbers of the
 correct sign.
 }
+\details{
+The correct length of \code{x} is larger than zero for \code{all_numbers()}
+and one for \code{is_number()}.
+}
 \note{
 \code{NA_real_} and \code{NA_integer_} are numeric, whereas \code{NA_complex_} is not.
 }
@@ -48,6 +52,7 @@ all_nonnegative(c(3, 0)) # TRUE
 is_positive(3) # TRUE
 is_positive(0) # FALSE
 all_positive(c(3, 0)) # FALSE
+
 }
 \seealso{
 The vignette about type conversion:
@@ -55,6 +60,7 @@ The vignette about type conversion:
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
+\code{\link{all_names}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}
 }

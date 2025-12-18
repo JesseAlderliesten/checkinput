@@ -24,9 +24,8 @@ zero rows is a zero-length object whereas a \code{\link[=data.frame]{data.frame(
 Zero-\code{\link[=length]{length()}} objects can have different \link[=typeof]{types}: NULL (\link{NULL}),
 logical (\code{logical(0)}), integer (\code{integer(0)}), double (\code{numeric(0)}),
 complex (\code{complex(0)}), character (\code{character(0)}), and list (\code{\link[=list]{list()}} and
-\code{data.frame()}). \code{""} is not a
-zero-length object: it has a \link[=nchar]{width} of 0 characters but a \code{length}
-of 1.
+\code{data.frame()}). \code{""} is not a zero-length object: it has a \link[=nchar]{width}
+of 0 characters but a \code{length} of 1.
 
 Checking equality to zero-length objects should be done using
 \verb{isTRUE(all.equal(x, <zero-length object>))} (\code{\link[=is.null]{is.null()}} can be used as well
@@ -62,6 +61,7 @@ str(num) # num 314
 zerochar <- character(0)
 str(zerochar) # chr(0)
 str(c(num, zerochar)) # chr "314", not num 314
+
 }
 \seealso{
 The vignette about type conversion:
@@ -69,6 +69,7 @@ The vignette about type conversion:
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
+\code{\link{all_names}()},
 \code{\link{all_nonnegative}()},
 \code{\link{is_logical}()}
 }

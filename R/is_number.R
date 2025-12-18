@@ -5,19 +5,16 @@
 #'
 #' @inheritParams all_characters
 #'
-#' @returns `TRUE` or `FALSE` indicating if `x` is a numeric vector of the
-#' correct length with numbers of the correct sign.
-#'
-#' @export
-#'
-#' @note `NA_real_` and `NA_integer_` are numeric, whereas `NA_complex_` is not.
-#'
 #' @details The correct length of `x` is larger than zero for `all_numbers()`
 #' and one for `is_number()`.
 #'
+#' @returns `TRUE` or `FALSE` indicating if `x` is a numeric vector of the
+#' correct length with numbers of the correct sign.
+#'
+#' @note `NA_real_` and `NA_integer_` are numeric, whereas `NA_complex_` is not.
+#'
 #' @seealso The vignette about type conversion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
-#'
 #' @family collections of checks on type and length
 #'
 #' @examples
@@ -32,6 +29,8 @@
 #' is_positive(3) # TRUE
 #' is_positive(0) # FALSE
 #' all_positive(c(3, 0)) # FALSE
+#'
+#' @export
 is_number <- function(x) {
   is.numeric(x) && length(x) == 1L && is.null(dim(x))
 }

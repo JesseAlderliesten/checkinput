@@ -9,15 +9,13 @@ is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}? See
-\code{Details}.}
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}? See
-\code{Details}.}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a length-one logical vector
-and contains only allowed logical values, see \code{Details}.
+and contains only allowed logical values.
 }
 \description{
 Check if \code{x} is a length-one logical vector with only allowed logical values.
@@ -49,6 +47,7 @@ is_logical(1) # FALSE: incorrect type
 is_logical(NA) # FALSE: default 'allow_NA' is FALSE
 is_logical(NA, allow_NA = TRUE) # TRUE
 is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
+
 }
 \seealso{
 The vignette about type conversion:
@@ -56,6 +55,7 @@ The vignette about type conversion:
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
+\code{\link{all_names}()},
 \code{\link{all_nonnegative}()},
 \code{\link{is_zerolength}()}
 }
