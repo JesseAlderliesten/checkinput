@@ -21,9 +21,9 @@
 #'
 #' @note `is_logical()` is mainly used for argument checking and therefore by
 #' default return `FALSE` for zero-length logical strings and `NA`. In contrast,
-#' [is.logical()] returns `TRUE` for these inputs, which can be achieved with
-#' `is_logical()` by setting arguments `allow_zero` or `allow_NA` to `TRUE`,
-#' respectively.
+#' [base::is.logical()] returns `TRUE` for these inputs, which can be achieved
+#' with `is_logical()` by setting arguments `allow_zero` or `allow_NA` to
+#' `TRUE`, respectively.
 #'
 #' @seealso The vignette about type conversion:
 #' `vignette("Type_Coercion", package = "checkinput")`.

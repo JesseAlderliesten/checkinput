@@ -16,25 +16,25 @@ is_zerolength(x)
 Check if \code{x} is a zero-length object
 }
 \details{
-No check is performed on dimensions, such that a \code{\link[=matrix]{matrix()}} with
-zero rows is a zero-length object whereas a \code{\link[=data.frame]{data.frame()}} with zero rows is
-\emph{not} (see the \code{Examples}).
+No check is performed on dimensions, such that a \code{\link[base:matrix]{base::matrix()}}
+with zero rows is a zero-length object whereas a \code{\link[base:data.frame]{base::data.frame()}} with
+zero rows is \emph{not} (see the \code{Examples}).
 }
 \note{
-Zero-\code{\link[=length]{length()}} objects can have different \link[=typeof]{types}: NULL (\link{NULL}),
-logical (\code{logical(0)}), integer (\code{integer(0)}), double (\code{numeric(0)}),
-complex (\code{complex(0)}), character (\code{character(0)}), and list (\code{\link[=list]{list()}} and
-\code{data.frame()}). \code{""} is not a zero-length object: it has a \link[=nchar]{width}
-of 0 characters but a \code{length} of 1.
+Zero-\code{\link[=length]{length()}} objects can have different \link[base:typeof]{types}: NULL
+(\link[base:NULL]{base::NULL}), logical (\code{logical(0)}), integer (\code{integer(0)}), double
+(\code{numeric(0)}), complex (\code{complex(0)}), character (\code{character(0)}), and list
+(\code{\link[base:list]{base::list()}} and \code{data.frame()}). \code{""} is not a zero-length object: it has
+a \link[base:nchar]{width} of 0 characters but a \code{length} of one.
 
 Checking equality to zero-length objects should be done using
-\verb{isTRUE(all.equal(x, <zero-length object>))} (\code{\link[=is.null]{is.null()}} can be used as well
-to check if an object is \code{NULL}). Using \link[=Comparison]{==} to check equality to
-zero-length objects leads to \code{logical(0)}, which gives an error when used as
-complete \link[=Control]{conditional statement}.
+\verb{isTRUE(all.equal(x, <zero-length object>))} (\code{\link[base:NULL]{base::is.null()}} can be used
+as well to check if an object is \code{NULL}). Using \link[base:Comparison]{==} to
+check equality to zero-length objects leads to \code{logical(0)}, which gives an
+error when used as complete \link[base:Control]{conditional statement}.
 
 \code{all(logical(0))}, and hence \code{all(numeric(0))} and \code{all(character(0))} that
-get coerced to type \code{logical}, returns \code{TRUE}, see the \code{Note} in \code{\link[=all]{all()}}.
+get coerced to type \code{logical}, returns \code{TRUE}, see the \code{Note} in \code{\link[base:all]{base::all()}}.
 
 Although zero-length objects are discarded when combined into a vector with
 other values, their types are taken into account for type coercion, see the

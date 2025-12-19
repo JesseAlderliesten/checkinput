@@ -21,7 +21,7 @@
 #' @note `all_characters()` and `is_character()` are mainly used for argument
 #' checking and therefore by default return `FALSE` for empty strings,
 #' zero-length character strings, and `NA_character_`. In contrast,
-#' [is.character()] returns `TRUE` for these inputs, which can be achieved
+#' [base::is.character()] returns `TRUE` for these inputs, which can be achieved
 #' with `all_characters()` and `is_character()` by setting arguments
 #' `allow_empty`, `allow_zero`, or `allow_NA` to `TRUE`, respectively.
 #'
