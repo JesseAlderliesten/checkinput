@@ -1,0 +1,102 @@
+---
+output: github_document
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# checkinput
+
+With `checkinput`, you can write concise checks which can be tailored to the
+need of the specific function for which the input is checked. In addition, it
+contains a few functions to make it easier to construct messages about numeric
+input.
+
+## Installation
+
+You can install the development version of `checkinput` from
+[GitHub](https://github.com/JesseAlderliesten/checkinput) with:
+
+```{r installing checkinput}
+# if(requireNamespace("remotes")) {
+#   remotes::install_github("JesseAlderliesten/checkinput")
+# } else {
+#   install.packages("remotes")
+#   remotes::install_github("JesseAlderliesten/checkinput")
+# }
+```
+
+## Example
+
+Say you want to collect information on hobbies of people through a function in
+which it is optional for them to provide their name. With `checkinput`, you
+could write a function like `list_hobbies()`:
+
+```{r using checkinput}
+list_hobbies <- function(name, age, hobbies) {
+  stopifnot(is_character(name, allow_empty = TRUE, allow_NA = TRUE),
+            is_nonnegative(age), all_characters(hobbies))
+  list(name = name, age = age, hobbies = hobbies)
+}
+```
+
+The checks inside `stopifnot()` ensure that (1) `name` contains a single
+character string that might be empty (`""`) or the character-type `NA`
+(`NA_character_`) if people do not want to give their name; (2) `age` contains a
+single non-negative number; (3) `hobbies` contains at least one character string
+and does not contain any empty strings or `NA`s.
+
+The base-R equivalent of `list_hobbies()` would require much more code to check
+the input:
+
+```{r using base R}
+list_hobbies_base <- function(name, age, hobbies) {
+  stopifnot(is.null(dim(name)), length(name) > 0L, length(name) < 2L,
+            is.character(name), is.numeric(age), length(age) == 1L,
+            is.null(dim(age)), age >= age, is.null(dim(hobbies)),
+            length(hobbies) > 0L, is.character(hobbies),
+            all(nzchar(hobbies, keepNA = FALSE)), !anyNA(hobbies))
+  list(name = name, age = age, hobbies = hobbies)
+}
+```
+
+If the input passes all checks, both functions produce the same output:
+
+```{r comparing output}
+library(checkinput)
+John_checkinput <- list_hobbies(name = "John", age = 25,
+                                hobbies = c("books", "construction sets"))
+John_base <- list_hobbies_base(name = "John", age = 25,
+                               hobbies = c("books", "construction sets"))
+identical(John_checkinput, John_base)
+
+baby_checkinput <- list_hobbies(name = "", age = 0, hobbies = c("drinking"))
+
+baby_base <- list_hobbies_base(name = "", age = 0, hobbies = c("drinking"))
+identical(baby_checkinput, baby_base)
+```
+
+Error messages when a check fails can be more-informative when using `checkinput`:
+
+```{r comparing errors}
+try(list_hobbies(name = "John", age = 25,
+                 hobbies = c("books", "", "construction sets")))
+try(list_hobbies_base(name = "John", age = 25,
+                      hobbies = c("books", "", "construction sets")))
+
+try(list_hobbies(name = "", age = -1, hobbies = c("drinking")))
+try(list_hobbies_base(name = "", age = -1, hobbies = c("drinking")))
+```
+
+In the last example, `list_hobbies_base()` does not throw an error if a negative
+value is entered for the baby's age: the check was accidentally written as
+`age >= age` instead of `age >= 0`, such that the check that `age` should be
+non-negative is incorrectly implemented. This shows another advantage of being
+able to specify constraints on the input through arguments of the
+check-functions instead of having to spell out each condition: there is less
+need to adjust variable names, which reduces the chance of coding errors.
