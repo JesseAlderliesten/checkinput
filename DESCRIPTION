@@ -17,5 +17,3 @@ Suggests:
 URL: https://github.com/JesseAlderliesten/checkinput
 BugReports: https://github.com/JesseAlderliesten/checkinput/issues
 VignetteBuilder: knitr
-Imports: 
-    methods

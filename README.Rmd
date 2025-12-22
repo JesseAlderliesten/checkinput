@@ -13,9 +13,7 @@ knitr::opts_chunk$set(
 # checkinput
 
 With `checkinput`, you can write concise checks which can be tailored to the
-need of the specific function for which the input is checked. In addition, it
-contains a few functions to make it easier to construct messages about numeric
-input.
+need of the specific function for which the input is checked.
 
 ## Installation
 
