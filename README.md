@@ -10,12 +10,18 @@ You can install the development version of `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) with:
 
 ``` r
-# if(requireNamespace("remotes")) {
-#   remotes::install_github("JesseAlderliesten/checkinput")
-# } else {
-#   install.packages("remotes")
-#   remotes::install_github("JesseAlderliesten/checkinput")
-# }
+# You can add argument 'lib' to specify the location where the packages should
+# be installed.
+if(requireNamespace("remotes")) {
+  remotes::install_github("JesseAlderliesten/checkinput")
+} else {
+  install.packages("remotes")
+  remotes::install_github("JesseAlderliesten/checkinput")
+}
+#> Loading required namespace: remotes
+#> Using GitHub PAT from the git credential store.
+#> Skipping install of 'checkinput' from a github remote, the SHA1 (1ca21c41) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 ```
 
 ## Example
