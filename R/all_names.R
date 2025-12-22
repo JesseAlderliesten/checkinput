@@ -63,7 +63,6 @@
 #' @section Programming note 3: Could add argument 'allow_' and pass that to
 #' make.names(), to catch names with underscores?
 #'
-#' @seealso [paste_quoted()]
 #' @family collections of checks on type and length
 #'
 #' @examples
