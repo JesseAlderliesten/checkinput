@@ -98,8 +98,6 @@ all_names(x = "e.1", allow_susp = TRUE) # TRUE
 
 }
 \seealso{
-\code{\link[=paste_quoted]{paste_quoted()}}
-
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_nonnegative}()},
