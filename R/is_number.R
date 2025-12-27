@@ -11,6 +11,19 @@
 #' @returns `TRUE` or `FALSE` indicating if `x` is a numeric vector of the
 #' correct length with numbers of the correct sign.
 #'
+#' @section Wishlist:
+#' Add arguments to optionally allow for zero-length numerics and disallow the
+#' numeric `NA`s (i.e., `NA_real_`, `NA_integer_`; see the code of
+#' [is_logical()]): using `is_number()` or `all_numbers()` in conditional
+#' statements currently leads to an error if `x` contains `NA`s.
+#'
+#' @section Programming note:
+#' [is.numeric()] tests the [mode()] of `x`, which is `numeric` for both
+#' floating-point numbers such as 3.2 and integers such as 3L. In contrast,
+#' `class(x) == "numeric"` would test the [class()] of `x` which is `numeric`
+#' for floating-point numbers but `integer` for integers (see the `Note on names`
+#' in [is.numeric()]).
+#'
 #' @note `NA_real_` and `NA_integer_` are numeric, whereas `NA_complex_` is not.
 #'
 #' @seealso The vignette about type conversion:
