@@ -1,3 +1,10 @@
+#### Test section 'Programming note' ####
+expect_identical(mode(3.2), "numeric")
+expect_identical(mode(3L), "numeric")
+expect_identical(class(3.2), "numeric")
+expect_identical(class(3L), "integer")
+
+
 #### Test the examples ####
 for(x in list(1, NA_real_)) {
   expect_true(is_number(x = x))
