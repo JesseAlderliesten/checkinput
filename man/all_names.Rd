@@ -22,9 +22,9 @@ Check if \code{x} is a character vector that only contains unique, syntactically
 valid names that do not suggest they were automatically created or modified.
 }
 \details{
-\link[base:make.names]{Syntactically valid names} are names that (1) only consist
-of letters, numbers, dots and underscores; (2) start with a letter or with a
-dot not followed by a number; (3) are not \link[=Reserved]{reserved words} such as
+\link[=make.names]{Syntactically valid names} are names that (1) only consist of
+letters, numbers, dots and underscores; (2) start with a letter or with a dot
+not followed by a number; (3) are not \link[=Reserved]{reserved words} such as
 \link{for} or any of the \link{NA}s.
 
 Duplicated names, which \emph{are} syntactically valid, are \emph{not} allowed if
@@ -40,9 +40,9 @@ was read into \R: column names created by \code{read.csv()} have pattern \code{X
 \code{X.1}, \code{X.2}, \code{...} if \code{header} is \code{TRUE} and pattern \code{V1}, \code{V2}, \code{V3},
 \code{...} if \code{header} is \code{FALSE}.
 \item Names that might have been modified by
-\link[base:make.names]{make.names(..., unique = TRUE)} to make duplicated
-names unique: a dot and a number (starting at \code{1} for the first duplicate)
-is added to duplicated names to make them unique. This is also used by
+\link[=make.names]{make.names(..., unique = TRUE)} to make duplicated names
+unique: a dot and a number (starting at \code{1} for the first duplicate) is
+added to duplicated names to make them unique. This is also used by
 read.csv().
 }
 
@@ -59,9 +59,9 @@ and \code{silently} were removed.
 }
 
 \section{Programming note 2}{
- The \link[base:regex]{regular expressions} that are
-used to identify suspicious names contain the following elements: (1) require
-a pattern to start at the beginning of a string: \code{^}; (2) contain an \code{X} or a
+ The \link[=regex]{regular expressions} that are used
+to identify suspicious names contain the following elements: (1) require a
+pattern to start at the beginning of a string: \code{^}; (2) contain an \code{X} or a
 \code{V} followed by a literal dot: \verb{X\\\\.} or \verb{V\\\\.}; (3) contain one or more
 digits: \verb{[[:digit:]]+}; (4) require a pattern to reach the end of the string:
 \code{$}.
