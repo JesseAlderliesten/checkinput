@@ -40,6 +40,23 @@ and one for \code{is_number()}.
 \note{
 \code{NA_real_} and \code{NA_integer_} are numeric, whereas \code{NA_complex_} is not.
 }
+\section{Wishlist}{
+
+Add arguments to optionally allow for zero-length numerics and disallow the
+numeric \code{NA}s (i.e., \code{NA_real_}, \code{NA_integer_}; see the code of
+\code{\link[=is_logical]{is_logical()}}): using \code{is_number()} or \code{all_numbers()} in conditional
+statements currently leads to an error if \code{x} contains \code{NA}s.
+}
+
+\section{Programming note}{
+
+\code{\link[=is.numeric]{is.numeric()}} tests the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for both
+floating-point numbers such as 3.2 and integers such as 3L. In contrast,
+\code{class(x) == "numeric"} would test the \code{\link[=class]{class()}} of \code{x} which is \code{numeric}
+for floating-point numbers but \code{integer} for integers (see the \verb{Note on names}
+in \code{\link[=is.numeric]{is.numeric()}}).
+}
+
 \examples{
 is_number(1) # TRUE
 is_number(c(1, 2)) # FALSE: incorrect length

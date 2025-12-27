@@ -8,9 +8,9 @@
 #' @param allow_susp `TRUE` or `FALSE`: allow suspicious names?
 #'
 #' @details
-#' [Syntactically valid names][base::make.names] are names that (1) only consist
-#' of letters, numbers, dots and underscores; (2) start with a letter or with a
-#' dot not followed by a number; (3) are not [reserved words][Reserved] such as
+#' [Syntactically valid names][make.names] are names that (1) only consist of
+#' letters, numbers, dots and underscores; (2) start with a letter or with a dot
+#' not followed by a number; (3) are not [reserved words][Reserved] such as
 #' [for] or any of the [NA]s.
 #'
 #' Duplicated names, which *are* syntactically valid, are *not* allowed if
@@ -26,9 +26,9 @@
 #'   `X.1`, `X.2`, `...` if `header` is `TRUE` and pattern `V1`, `V2`, `V3`,
 #'   `...` if `header` is `FALSE`.
 #' - Names that might have been modified by
-#'   [make.names(..., unique = TRUE)][base::make.names()] to make duplicated
-#'   names unique: a dot and a number (starting at `1` for the first duplicate)
-#'   is added to duplicated names to make them unique. This is also used by
+#'   [make.names(..., unique = TRUE)][make.names()] to make duplicated names
+#'   unique: a dot and a number (starting at `1` for the first duplicate) is
+#'   added to duplicated names to make them unique. This is also used by
 #'   read.csv().
 #'
 #' Invalid names are *not* reported as suspicious names. In addition, duplicated
@@ -44,9 +44,9 @@
 #' `allow_duplicated` was shortened to `allow_dupl`; arguments `check_syntax`
 #' and `silently` were removed.
 #'
-#' @section Programming note 2: The [regular expressions][base::regex] that are
-#' used to identify suspicious names contain the following elements: (1) require
-#' a pattern to start at the beginning of a string: `^`; (2) contain an `X` or a
+#' @section Programming note 2: The [regular expressions][regex] that are used
+#' to identify suspicious names contain the following elements: (1) require a
+#' pattern to start at the beginning of a string: `^`; (2) contain an `X` or a
 #' `V` followed by a literal dot: `X\\.` or `V\\.`; (3) contain one or more
 #' digits: `[[:digit:]]+`; (4) require a pattern to reach the end of the string:
 #' `$`.
@@ -113,11 +113,12 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE) {
   #   getting NA as condition and '| is.na(x)' is used to catch the NAs.
   # - Argument 'unique' of make.names() is set to FALSE because duplicated names
   #   have been catched above.
+  bool_NA <- is.na(x)
   out_make_names <- make.names(x, unique = FALSE, allow_ = TRUE)
   bool_invalid <- x != out_make_names
-  if(any(bool_invalid, na.rm = TRUE) || anyNA(x)) {
+  if(any(bool_invalid, na.rm = TRUE) || any(bool_NA)) {
     bool_zchar_x <- !nzchar(x)
-    bool_other_invalid <- is.na(x) | (bool_invalid & !bool_zchar_x)
+    bool_other_invalid <- bool_NA | (bool_invalid & !bool_zchar_x)
     invalid <- character(0)
     if(any(bool_other_invalid)) {
       invalid <- paste0(invalid, "'", paste0(x[bool_other_invalid],
