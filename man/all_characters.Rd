@@ -39,9 +39,9 @@ together with other values.
 \code{all_characters()} and \code{is_character()} are mainly used for argument
 checking and therefore by default return \code{FALSE} for empty strings,
 zero-length character strings, and \code{NA_character_}. In contrast,
-\code{\link[base:character]{base::is.character()}} returns \code{TRUE} for these inputs, which can be achieved
-with \code{all_characters()} and \code{is_character()} by setting arguments
-\code{allow_empty}, \code{allow_zero}, or \code{allow_NA} to \code{TRUE}, respectively.
+\code{\link[=is.character]{is.character()}} returns \code{TRUE} for these inputs, which can be achieved with
+\code{all_characters()} and \code{is_character()} by setting arguments \code{allow_empty},
+\code{allow_zero}, or \code{allow_NA} to \code{TRUE}, respectively.
 }
 \section{Programming note}{
  This implementation differs from the legacy-code:

@@ -2,27 +2,28 @@
 #'
 #' @param x object to test.
 #'
-#' @details No check is performed on dimensions, such that a [base::matrix()]
-#' with zero rows is a zero-length object whereas a [base::data.frame()] with
+#' @details No check is performed on dimensions, such that a [matrix()]
+#' with zero rows is a zero-length object whereas a [data.frame()] with
 #' zero rows is *not* (see the `Examples`).
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a zero-length object.
 #'
 #' @note
-#' Zero-[length()] objects can have different [types][base::typeof()]: NULL
-#' ([base::NULL]), logical (`logical(0)`), integer (`integer(0)`), double
-#' (`numeric(0)`), complex (`complex(0)`), character (`character(0)`), and list
-#' ([base::list()] and `data.frame()`). `""` is not a zero-length object: it has
-#' a [width][base::nchar()] of 0 characters but a `length` of one.
+#' Zero-[length()] objects can have different [types][typeof()]: NULL ([NULL]),
+#' logical (`logical(0)`), integer (`integer(0)`), double (`numeric(0)`),
+#' complex (`complex(0)`), character (`character(0)`), and list ([list()] and
+#' [data.frame()]). `""` is not a zero-length object: it has a [width][nchar()]
+#' of zero characters but a `length` of one.
 #'
-#' Checking equality to zero-length objects should be done using
-#' `isTRUE(all.equal(x, <zero-length object>))` ([base::is.null()] can be used
-#' as well to check if an object is `NULL`). Using [==][base::Comparison] to
-#' check equality to zero-length objects leads to `logical(0)`, which gives an
-#' error when used as complete [conditional statement][base::Control].
+#' [is.null()] should be used to check if an object is `NULL` and, more
+#' generally, `isTRUE(all.equal(x, <zero-length object>))` should be used to
+#' check equality to a zero-length object. Testing equality should *not* be done
+#' by using [==][Comparison] because that leads to `logical(0)` if any of the
+#' sides contains a zero-length object, which gives an error when used as
+#' complete [conditional statement][Control].
 #'
 #' `all(logical(0))`, and hence `all(numeric(0))` and `all(character(0))` that
-#' get coerced to type `logical`, returns `TRUE`, see the `Note` in [base::all()].
+#' get coerced to type `logical`, returns `TRUE`, see the `Note` in [all()].
 #'
 #' Although zero-length objects are discarded when combined into a vector with
 #' other values, their types are taken into account for type coercion, see the

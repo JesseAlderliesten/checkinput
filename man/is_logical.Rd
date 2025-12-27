@@ -30,9 +30,9 @@ values.
 \note{
 \code{is_logical()} is mainly used for argument checking and therefore by
 default return \code{FALSE} for zero-length logical strings and \code{NA}. In contrast,
-\code{\link[base:logical]{base::is.logical()}} returns \code{TRUE} for these inputs, which can be achieved
-with \code{is_logical()} by setting arguments \code{allow_zero} or \code{allow_NA} to
-\code{TRUE}, respectively.
+\code{\link[=is.logical]{is.logical()}} returns \code{TRUE} for these inputs, which can be achieved with
+\code{is_logical()} by setting arguments \code{allow_zero} or \code{allow_NA} to \code{TRUE},
+respectively.
 }
 \section{Programming note}{
  This implementation differs from the legacy-code:
