@@ -66,9 +66,8 @@ Therefore `all_characters(unlist(z))` does *not* check if all elements of list
 `z` are character, but rather if any element of `z` is character *and* none of
 the elements of `z` is of a higher type. The correct way to check if all
 elements in list `z` are character is to use
-`all(unlist(lapply(X = z, FUN = all_characters, ...)))`,
-where `...` indicates where to place arguments that have to be passed to
-`all_characters()`.
+`all(unlist(lapply(X = z, FUN = all_characters, ...)))`, where `...` indicates
+the position of arguments that have to be passed to `all_characters()`.
 
 ```{r Use of all_characters() on unlisted lists}
 z <- list("a", 2, "c")
