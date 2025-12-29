@@ -18,10 +18,6 @@ if(requireNamespace("remotes")) {
   install.packages("remotes")
   remotes::install_github("JesseAlderliesten/checkinput")
 }
-#> Loading required namespace: remotes
-#> Using GitHub PAT from the git credential store.
-#> Skipping install of 'checkinput' from a github remote, the SHA1 (1ca21c41) has not changed since last install.
-#>   Use `force = TRUE` to force installation
 ```
 
 ## Example
