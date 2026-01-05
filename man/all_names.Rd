@@ -46,7 +46,7 @@ was read into \R: column names created by \code{read.csv()} have pattern \code{X
 \code{X.1}, \code{X.2}, \code{...} if \code{header} is \code{TRUE} and pattern \code{V1}, \code{V2}, \code{V3},
 \code{...} if \code{header} is \code{FALSE}.
 \item Names that might have been modified by
-\link[=make.names]{make.names(..., unique = TRUE)} to make duplicated names
+\link[=make.names]{make.names(x, unique = TRUE)} to make duplicated names
 unique: a dot and a number (starting at \code{1} for the first duplicate) is
 added to duplicated names to make them unique. This is also used by
 read.csv().

@@ -30,7 +30,7 @@
 #'   `X.1`, `X.2`, `...` if `header` is `TRUE` and pattern `V1`, `V2`, `V3`,
 #'   `...` if `header` is `FALSE`.
 #' - Names that might have been modified by
-#'   [make.names(..., unique = TRUE)][make.names()] to make duplicated names
+#'   [make.names(x, unique = TRUE)][make.names()] to make duplicated names
 #'   unique: a dot and a number (starting at `1` for the first duplicate) is
 #'   added to duplicated names to make them unique. This is also used by
 #'   read.csv().
@@ -177,7 +177,7 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
     if(any(bool_susp_v2, na.rm = TRUE)) {
       warn_text <- c(
         warn_text,
-        paste0("names that might have been modified by make.names(..., unique = TRUE): '",
+        paste0("names that might have been modified by make.names(x, unique = TRUE): '",
                paste0(x[bool_susp_v2], collapse = "', '"), "'."))
     }
   }
@@ -198,9 +198,12 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
 
   warn_text <- paste0(c(warn_text_p1, warn_text), collapse = " and ")
   if(suggest_make_names) {
-    warn_text <- paste0(warn_text,
-                        ".\nUse 'x <- make.names(x, unique = TRUE)' to create",
-                        " unique, syntactically valid names!")
+      warn_text <- paste0(warn_text,
+                          ".\nUse 'x <- make.names(x, unique = TRUE",
+                          if(!allow_underscores) {", allow_ = FALSE"},
+                          ")' to create unique,\nsyntactically valid names",
+                          if(!allow_underscores) {" without underscores"},
+                          "!")
   }
 
   if(nchar(warn_text) > 0L) {
