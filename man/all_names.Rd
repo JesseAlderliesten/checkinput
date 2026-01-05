@@ -4,7 +4,7 @@
 \alias{all_names}
 \title{Check if \code{x} only contains syntactically valid names}
 \usage{
-all_names(x, allow_dupl = FALSE, allow_susp = FALSE)
+all_names(x, allow_dupl = FALSE, allow_susp = FALSE, allow_underscores = TRUE)
 }
 \arguments{
 \item{x}{Vector of names to test.}
@@ -12,10 +12,13 @@ all_names(x, allow_dupl = FALSE, allow_susp = FALSE)
 \item{allow_dupl}{\code{TRUE} or \code{FALSE}: allow duplicate names?}
 
 \item{allow_susp}{\code{TRUE} or \code{FALSE}: allow suspicious names?}
+
+\item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector that only
-contains unique, syntactically valid names.
+contains syntactically valid names and adhere to the restrictions imposed by
+the other function arguments.
 }
 \description{
 Check if \code{x} is a character vector that only contains unique, syntactically
@@ -25,13 +28,16 @@ valid names that do not suggest they were automatically created or modified.
 \link[=make.names]{Syntactically valid names} are names that (1) only consist of
 letters, numbers, dots and underscores; (2) start with a letter or with a dot
 not followed by a number; (3) are not \link[=Reserved]{reserved words} such as
-\link{for} or any of the \link{NA}s.
+\link{for} or any of the \link{NA}s. The definition of 'letter' depends on the current
+locale, as noted in the section 'Details' in \code{\link[=make.names]{make.names()}}.
 
-Duplicated names, which \emph{are} syntactically valid, are \emph{not} allowed if
-argument \code{allow_dupl} is \code{FALSE}. Suspicious names are not allowed if
-argument \code{allow_susp} is \code{FALSE}. This function distinguishes two kinds of
-suspicious names (see \verb{Programming note 2} for the structure of the regular
-expressions used to identify them):
+Duplicated names, suspicious names, and names containing underscores (\verb{_})
+\emph{are} syntactically valid but are \emph{not} allowed if arguments \code{allow_dupl},
+\code{allow_susp}, or \code{allow_underscores} are \code{FALSE}, respectively.
+
+This function distinguishes two kinds of suspicious names (see the
+\verb{Programming note} for the structure of the regular expressions used to
+identify them):
 \itemize{
 \item Names that might have been created by \code{\link[utils:read.table]{utils::read.csv()}} to name unnamed
 columns, either because a particular column was unnamed or because data was
@@ -46,19 +52,11 @@ added to duplicated names to make them unique. This is also used by
 read.csv().
 }
 
-Invalid names are \emph{not} reported as suspicious names. In addition, duplicated
-names are reported only \emph{once} in warnings emitted by \code{all_names()}.
+Syntactically invalid names are \emph{not} reported as suspicious names. In
+addition, duplicated names are \emph{not} duplicated in warnings emitted by
+\code{all_names()}.
 }
 \section{Programming note}{
- This implementation is based on the legacy-code of
-\code{has_colnames()} and \code{has_names()}, although significant changes have been
-made: \code{x} should be the names themselves, not an object to check the names
-of; \code{NA} is not allowed for arguments other than \code{x}; argument
-\code{allow_duplicated} was shortened to \code{allow_dupl}; arguments \code{check_syntax}
-and \code{silently} were removed.
-}
-
-\section{Programming note 2}{
  The \link[=regex]{regular expressions} that are used
 to identify suspicious names contain the following elements: (1) require a
 pattern to start at the beginning of a string: \code{^}; (2) contain an \code{X} or a
@@ -76,9 +74,19 @@ prevents matching names that start as suspicious names but are not suspicious
 because they have non-digit characters appended, e.g. \code{X.2a}.
 }
 
-\section{Programming note 3}{
- Could add argument 'allow_' and pass that to
-make.names(), to catch names with underscores?
+\section{Programming note 2}{
+ This implementation is based on legacy-code of
+\code{has_colnames()} and \code{has_names()}, with significant changes.
+}
+
+\section{To do}{
+
+\itemize{
+\item Add an explanation and examples showing the problem of using syntactically
+invalid names: see https://stackoverflow.com/questions/54597535/.
+\item See https://github.com/r-lib/testthat/blob/main/R/expect-named.R for code
+to check against allowed names, with or without ordering.
+}
 }
 
 \examples{
@@ -96,8 +104,15 @@ all_names(x = "X.1", allow_susp = TRUE) # TRUE
 all_names(x = "e.1") # FALSE: name modified by make.names()
 all_names(x = "e.1", allow_susp = TRUE) # TRUE
 
+x_underscores <- c("abc_def", "ghi", "jk_l")
+all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
+all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores.
+
 }
 \seealso{
+\code{\link[=all.names]{all.names()}} to find all names in an expression or call; \code{\link[=names]{names()}}
+to get or set the names of an object.
+
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_nonnegative}()},
