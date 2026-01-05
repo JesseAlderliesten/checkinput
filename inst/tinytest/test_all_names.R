@@ -4,8 +4,8 @@ warn_syntax <- "syntactically invalid values: "
 warn_dupl <- "duplicated names: "
 warn_susp_v1 <- "names that might have been created by read.csv: '"
 warn_susp_v2 <- paste0("names that might have been modified by",
-                       " make.names\\(..., unique = TRUE): '")
-use_makenames <- ".\nUse 'x <- make.names"
+                       " make.names\\(x, unique = TRUE): '")
+use_makenames <- ".\nUse 'x <- make.names\\(x, unique = TRUE)"
 
 valid_nonsusp <- c("A", ".a", ".V1", ".V234", "VV1", "VV234", "X.", "X.1.",
                    "X.234.", "V1.", "V234.", "X.1X", "X.234X", "V1V", "V234V",
@@ -170,7 +170,9 @@ expect_silent(expect_true(
 
 expect_warning(expect_false(
   all_names(x = x_underscores, allow_underscores = FALSE)),
-  pattern = "'x' contains values containing underscores: 'abc_def', 'jk_l'",
+  pattern = paste0("'x' contains values containing underscores: 'abc_def', 'jk_l'.",
+                   "\nUse 'x <- make.names(x, unique = TRUE, allow_ = FALSE)'",
+                   " to create unique,\nsyntactically valid names without underscores"),
   strict = TRUE, fixed = TRUE)
 
 # Duplicated valid, suspicious v1
