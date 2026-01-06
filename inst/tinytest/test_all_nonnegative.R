@@ -8,7 +8,7 @@ for(x in list(c(0, 0), c(314, 314), c(Inf, Inf))) {
 }
 
 for(x in list(NULL, FALSE, TRUE, NA, character(0), numeric(0), "",
-              NA_character_, "nco", -Inf -314, c(314, -314))) {
+              NA_character_, NA_complex_, "nco", -Inf -314, c(314, -314))) {
   expect_false(all_nonnegative(x = x))
 }
 
