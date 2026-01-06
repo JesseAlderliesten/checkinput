@@ -14,9 +14,9 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 
 \item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length values in \code{x}?}
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow NAs of the correct type in \code{x}?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector of the
@@ -66,6 +66,7 @@ The vignette about type conversion:
 Other collections of checks on type and length: 
 \code{\link{all_names}()},
 \code{\link{all_nonnegative}()},
+\code{\link{are_NA_numeric}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}
 }
