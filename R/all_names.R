@@ -7,6 +7,8 @@
 #' @param allow_dupl `TRUE` or `FALSE`: allow duplicate names?
 #' @param allow_susp `TRUE` or `FALSE`: allow suspicious names?
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
+#' @param allow_onlydots `TRUE` or `FALSE`: allow names that consist only of
+#' dots?
 #'
 #' @details
 #' [Syntactically valid names][make.names] are names that (1) only consist of
@@ -15,9 +17,10 @@
 #' [for] or any of the [NA]s. The definition of 'letter' depends on the current
 #' locale, as noted in the section 'Details' in [make.names()].
 #'
-#' Duplicated names, suspicious names, and names containing underscores (`_`)
-#' *are* syntactically valid but are *not* allowed if arguments `allow_dupl`,
-#' `allow_susp`, or `allow_underscores` are `FALSE`, respectively.
+#' Duplicated names, suspicious names, names containing underscores (`_`), and
+#' names that consist only of dots *are* syntactically valid but are *not*
+#' allowed if arguments `allow_dupl`, `allow_susp`, `allow_underscores`, or
+#' `allow_alldots` are `FALSE`, respectively.
 #'
 #' This function distinguishes two kinds of suspicious names (see the
 #' `Programming note` for the structure of the regular expressions used to
@@ -27,20 +30,24 @@
 #'   columns, either because a particular column was unnamed or because data was
 #'   inadvertently present in a supposedly empty (and thus unnamed) column that
 #'   was read into \R: column names created by `read.csv()` have pattern `X`,
-#'   `X.1`, `X.2`, `...` if `header` is `TRUE` and pattern `V1`, `V2`, `V3`,
-#'   `...` if `header` is `FALSE`.
+#'   `X.1`, `X.2`, etc. if `header` is `TRUE` and pattern `V1`, `V2`, `V3`, etc.
+#'   if `header` is `FALSE`.
 #' - Names that might have been modified by
 #'   [make.names(x, unique = TRUE)][make.names()] to make duplicated names
-#'   unique: a dot and a number (starting at `1` for the first duplicate) is
-#'   added to duplicated names to make them unique. This is also used by
-#'   read.csv().
+#'   unique: duplicated names get pattern `.1`, `.2`, `.3`, etc. added to them
+#'   to make them unique, starting with adding `.1` to the first duplicate. That
+#'   is also used by read.csv().
 #'
-#' Syntactically invalid names are *not* reported as suspicious names. In
-#' addition, duplicated names are *not* duplicated in warnings emitted by
-#' `all_names()`.
+#' It is *not* checked if a complete sequence of automatically created or
+#' modified names is present in `x`, i.e., `X.2` and `e.2` will be flagged as
+#' suspicious even if `X` and `X.1` or `e` and `e.1` are not present in `x`,
+#' respectively.
+#'
+#' Syntactically invalid names are *not* reported as suspicious names, and
+#' duplicated names are *not* duplicated in warnings.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector that only
-#' contains syntactically valid names and adhere to the restrictions imposed by
+#' contains syntactically valid names that adhere to the restrictions imposed by
 #' the other function arguments.
 #'
 #' @section Programming note: The [regular expressions][regex] that are used
@@ -59,18 +66,11 @@
 #' prevents matching names that start as suspicious names but are not suspicious
 #' because they have non-digit characters appended, e.g. `X.2a`.
 #'
-#' @section Programming note 2: This implementation is based on legacy-code of
-#' `has_colnames()` and `has_names()`, with significant changes.
-#'
-#' @section To do:
-#' - Add an explanation and examples showing the problem of using syntactically
-#'   invalid names: see https://stackoverflow.com/questions/54597535/.
-#' - See https://github.com/r-lib/testthat/blob/main/R/expect-named.R for code
-#'   to check against allowed names, with or without ordering.
-#'
 #' @family collections of checks on type and length
-#' @seealso [all.names()] to find all names in an expression or call; [names()]
-#' to get or set the names of an object.
+#' @seealso `janitor::make_clean_names()` for many more options, such as
+#' adjusting case, transliteration of non-ASCII characters. [names()] to get or
+#' set the names of an object; [all.names()] to find all names in an expression
+#' or call.
 #'
 #' @examples
 #' all_names(x = names(c(a = 1, b = 2))) # TRUE
@@ -81,21 +81,25 @@
 #' all_names(x = c("a", "b", "a")) # FALSE: duplicated name
 #' all_names(x = c("a", "b", "a"), allow_dupl = TRUE) # TRUE
 #'
-#' all_names(x = "X.1") # FALSE: name created by read.csv()
-#' all_names(x = "X.1", allow_susp = TRUE) # TRUE
+#' all_names(x = "X.2") # FALSE: name created by read.csv()
+#' all_names(x = "X.2", allow_susp = TRUE) # TRUE
 #'
-#' all_names(x = "e.1") # FALSE: name modified by make.names()
-#' all_names(x = "e.1", allow_susp = TRUE) # TRUE
+#' all_names(x = "e.2") # FALSE: name modified by make.names()
+#' all_names(x = "e.2", allow_susp = TRUE) # TRUE
 #'
 #' x_underscores <- c("abc_def", "ghi", "jk_l")
 #' all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
 #' all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores.
 #'
+#' x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
+#' all_names(x = x_dots, allow_onlydots = TRUE) # TRUE
+#' all_names(x = x_dots, allow_onlydots = FALSE) # FALSE: onlydots.
+#'
 #' @export
 all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
-                      allow_underscores = TRUE) {
+                      allow_underscores = TRUE, allow_onlydots = FALSE) {
   stopifnot(is.null(dim(x)), is_logical(allow_dupl), is_logical(allow_susp),
-            is_logical(allow_underscores))
+            is_logical(allow_underscores), is_logical(allow_onlydots))
 
   warn_text <- character(0)
   warn_text_dupl <- character(0)
@@ -127,20 +131,31 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
     warn_text_underscores <- character(0)
   }
 
+  # Inspired by vctrs:::two_to_three_dots()
+  warn_text_onlydots <- character(0)
+  if(!allow_onlydots) {
+    bool_onlydots <- grepl(pattern = "^\\.+$", x = x)
+    if(any(bool_onlydots)) {
+      warn_text_onlydots <- paste0(
+        "values that consist only of dots: '",
+        paste0(x[bool_onlydots], collapse = "', '"), "'")
+    }
+  }
+
   # Notes:
+  # - Argument 'unique' of make.names() is 'FALSE' because duplicated names have
+  #   been catched above.
+  # - Argument 'allow_' Using 'TRUE' for  because values in 'x' containing
+  #   underscores have been catched above.
   # - make.names() replaces empty names ('""') with "X", so there is no need to
   #   separately test for these.
-  # - Using 'TRUE' for argument 'allow_' because values in 'x' containing
-  #   underscores have been catched above.
-  # - Although make.names() replaces NAs in 'x' with "NA.", equality tests using
-  #   '==' or '!=' on the NAs in 'x' will still return NA (see 'Details' in
-  #   ?'=='). Therefore argument 'na.rm' in any() is set to TRUE to prevent
-  #   getting NA as condition and '| is.na(x)' is used to catch the NAs.
-  # - Argument 'unique' of make.names() is set to FALSE because duplicated names
-  #   have been catched above.
-  bool_NA <- is.na(x)
   out_make_names <- make.names(x, unique = FALSE, allow_ = TRUE)
   bool_invalid <- x != out_make_names
+  # Although make.names() replaces NAs in 'x' with "NA.", equality tests using
+  # '==' or '!=' on the NAs in 'x' will still return NA (see section 'Details'
+  # in ?'=='). Therefore argument 'na.rm' in any() is set to TRUE to prevent
+  # getting NA as condition and '|| any(bool_NA)' is used to catch the NAs.
+  bool_NA <- is.na(x)
   if(any(bool_invalid, na.rm = TRUE) || any(bool_NA)) {
     bool_zchar_x <- !nzchar(x)
     bool_other_invalid <- bool_NA | (bool_invalid & !bool_zchar_x)
@@ -158,7 +173,8 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
     x <- x[!bool_invalid]
   }
 
-  warn_text <- c(warn_text, warn_text_dupl, warn_text_underscores)
+  warn_text <- c(warn_text, warn_text_dupl, warn_text_underscores,
+                 warn_text_onlydots)
 
   if(!allow_susp) {
     # See the 'Programming note' for an explanation of the regular expressions.

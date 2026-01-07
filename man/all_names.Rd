@@ -4,7 +4,13 @@
 \alias{all_names}
 \title{Check if \code{x} only contains syntactically valid names}
 \usage{
-all_names(x, allow_dupl = FALSE, allow_susp = FALSE, allow_underscores = TRUE)
+all_names(
+  x,
+  allow_dupl = FALSE,
+  allow_susp = FALSE,
+  allow_underscores = TRUE,
+  allow_onlydots = FALSE
+)
 }
 \arguments{
 \item{x}{Vector of names to test.}
@@ -14,10 +20,13 @@ all_names(x, allow_dupl = FALSE, allow_susp = FALSE, allow_underscores = TRUE)
 \item{allow_susp}{\code{TRUE} or \code{FALSE}: allow suspicious names?}
 
 \item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
+
+\item{allow_onlydots}{\code{TRUE} or \code{FALSE}: allow names that consist only of
+dots?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector that only
-contains syntactically valid names and adhere to the restrictions imposed by
+contains syntactically valid names that adhere to the restrictions imposed by
 the other function arguments.
 }
 \description{
@@ -31,9 +40,10 @@ not followed by a number; (3) are not \link[=Reserved]{reserved words} such as
 \link{for} or any of the \link{NA}s. The definition of 'letter' depends on the current
 locale, as noted in the section 'Details' in \code{\link[=make.names]{make.names()}}.
 
-Duplicated names, suspicious names, and names containing underscores (\verb{_})
-\emph{are} syntactically valid but are \emph{not} allowed if arguments \code{allow_dupl},
-\code{allow_susp}, or \code{allow_underscores} are \code{FALSE}, respectively.
+Duplicated names, suspicious names, names containing underscores (\verb{_}), and
+names that consist only of dots \emph{are} syntactically valid but are \emph{not}
+allowed if arguments \code{allow_dupl}, \code{allow_susp}, \code{allow_underscores}, or
+\code{allow_alldots} are \code{FALSE}, respectively.
 
 This function distinguishes two kinds of suspicious names (see the
 \verb{Programming note} for the structure of the regular expressions used to
@@ -43,18 +53,22 @@ identify them):
 columns, either because a particular column was unnamed or because data was
 inadvertently present in a supposedly empty (and thus unnamed) column that
 was read into \R: column names created by \code{read.csv()} have pattern \code{X},
-\code{X.1}, \code{X.2}, \code{...} if \code{header} is \code{TRUE} and pattern \code{V1}, \code{V2}, \code{V3},
-\code{...} if \code{header} is \code{FALSE}.
+\code{X.1}, \code{X.2}, etc. if \code{header} is \code{TRUE} and pattern \code{V1}, \code{V2}, \code{V3}, etc.
+if \code{header} is \code{FALSE}.
 \item Names that might have been modified by
 \link[=make.names]{make.names(x, unique = TRUE)} to make duplicated names
-unique: a dot and a number (starting at \code{1} for the first duplicate) is
-added to duplicated names to make them unique. This is also used by
-read.csv().
+unique: duplicated names get pattern \code{.1}, \code{.2}, \code{.3}, etc. added to them
+to make them unique, starting with adding \code{.1} to the first duplicate. That
+is also used by read.csv().
 }
 
-Syntactically invalid names are \emph{not} reported as suspicious names. In
-addition, duplicated names are \emph{not} duplicated in warnings emitted by
-\code{all_names()}.
+It is \emph{not} checked if a complete sequence of automatically created or
+modified names is present in \code{x}, i.e., \code{X.2} and \code{e.2} will be flagged as
+suspicious even if \code{X} and \code{X.1} or \code{e} and \code{e.1} are not present in \code{x},
+respectively.
+
+Syntactically invalid names are \emph{not} reported as suspicious names, and
+duplicated names are \emph{not} duplicated in warnings.
 }
 \section{Programming note}{
  The \link[=regex]{regular expressions} that are used
@@ -74,21 +88,6 @@ prevents matching names that start as suspicious names but are not suspicious
 because they have non-digit characters appended, e.g. \code{X.2a}.
 }
 
-\section{Programming note 2}{
- This implementation is based on legacy-code of
-\code{has_colnames()} and \code{has_names()}, with significant changes.
-}
-
-\section{To do}{
-
-\itemize{
-\item Add an explanation and examples showing the problem of using syntactically
-invalid names: see https://stackoverflow.com/questions/54597535/.
-\item See https://github.com/r-lib/testthat/blob/main/R/expect-named.R for code
-to check against allowed names, with or without ordering.
-}
-}
-
 \examples{
 all_names(x = names(c(a = 1, b = 2))) # TRUE
 
@@ -98,20 +97,26 @@ all_names(x = NULL) # FALSE: NULL
 all_names(x = c("a", "b", "a")) # FALSE: duplicated name
 all_names(x = c("a", "b", "a"), allow_dupl = TRUE) # TRUE
 
-all_names(x = "X.1") # FALSE: name created by read.csv()
-all_names(x = "X.1", allow_susp = TRUE) # TRUE
+all_names(x = "X.2") # FALSE: name created by read.csv()
+all_names(x = "X.2", allow_susp = TRUE) # TRUE
 
-all_names(x = "e.1") # FALSE: name modified by make.names()
-all_names(x = "e.1", allow_susp = TRUE) # TRUE
+all_names(x = "e.2") # FALSE: name modified by make.names()
+all_names(x = "e.2", allow_susp = TRUE) # TRUE
 
 x_underscores <- c("abc_def", "ghi", "jk_l")
 all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
 all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores.
 
+x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
+all_names(x = x_dots, allow_onlydots = TRUE) # TRUE
+all_names(x = x_dots, allow_onlydots = FALSE) # FALSE: onlydots.
+
 }
 \seealso{
-\code{\link[=all.names]{all.names()}} to find all names in an expression or call; \code{\link[=names]{names()}}
-to get or set the names of an object.
+\code{janitor::make_clean_names()} for many more options, such as
+adjusting case, transliteration of non-ASCII characters. \code{\link[=names]{names()}} to get or
+set the names of an object; \code{\link[=all.names]{all.names()}} to find all names in an expression
+or call.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
