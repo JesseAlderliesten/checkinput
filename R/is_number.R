@@ -1,14 +1,18 @@
 #' Check if `x` is numeric
 #'
-#' Checks if `x` is a numeric vector of the correct length with numbers of the
+#' Check if `x` is a numeric vector of the correct length with numbers of the
 #' correct sign.
 #'
 #' @inheritParams is_logical
 #'
-#' @details The correct length of `x` is larger than zero for `all_numbers()`
+#' @details
+#' The correct length of `x` is larger than zero for `all_numbers()`
 #' and one for `is_number()`.
 #'
-#' `is_number()` and `all_numbers()` return `TRUE` for `Inf`, `NA_real_`,
+#' `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`, whereas
+#' `is_positive()` returns `FALSE` for `0`.
+#'
+#' `all_numbers()` and `is_number()` return `TRUE` for `Inf`, `NA_real_`,
 #' `NA_integer_`, and `NaN` because their `mode` is `numeric`.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a numeric vector of the
@@ -52,9 +56,9 @@
 #' all_nonnegative(c(3, 0)) # TRUE
 #' is_positive(3) # TRUE
 #' is_positive(0) # FALSE
-#' all_positive(c(3, 0)) # FALSE
 #'
 #' @export
 is_number <- function(x) {
+  # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && length(x) == 1L && is.null(dim(x))
 }
