@@ -28,7 +28,7 @@ for(x in list(NULL, numeric(0), character(0), data.frame(), matrix(numeric(0)),
               test_mat_num[, numeric(0), drop = FALSE],
               test_mat_num[numeric(0), , drop = FALSE],
               test_list_num[numeric(0)])) {
-  expect_true(is_zerolength(x = x))
+  expect_silent(expect_true(is_zerolength(x = x)))
 }
 
 for(x in list(FALSE, TRUE, NA, -Inf, -314, 0, 314, Inf, NaN, NA_character_, "",
@@ -36,7 +36,7 @@ for(x in list(FALSE, TRUE, NA, -Inf, -314, 0, 314, Inf, NaN, NA_character_, "",
               test_df_num, test_mat_num, test_list_num,
               test_df_char, test_mat_char, test_list_char,
               test_df_num[numeric(0), , drop = FALSE])) {
-  expect_false(is_zerolength(x = x))
+  expect_silent(expect_false(is_zerolength(x = x)))
 }
 
 

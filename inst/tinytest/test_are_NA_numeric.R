@@ -32,21 +32,25 @@ expect_identical(is.nan(numeric(0)), logical(0))
 
 
 #### Tests ####
-expect_identical(are_NA_numeric(x = c(-Inf, -314, 0, 314, Inf), allow_NaN = FALSE),
-                 rep(FALSE, 5L))
+expect_silent(expect_identical(
+  are_NA_numeric(x = c(-Inf, -314, 0, 314, Inf), allow_NaN = FALSE),
+  rep(FALSE, 5L)))
 
-expect_identical(are_NA_numeric(x = c(-Inf, -314, 0, 314, Inf), allow_NaN = TRUE),
-                 rep(FALSE, 5L))
+expect_silent(expect_identical(
+  are_NA_numeric(x = c(-Inf, -314, 0, 314, Inf), allow_NaN = TRUE),
+  rep(FALSE, 5L)))
 
-expect_identical(are_NA_numeric(x = NA_NaN_num, allow_NaN = FALSE),
-                 c(TRUE, TRUE, FALSE))
+expect_silent(expect_identical(
+  are_NA_numeric(x = NA_NaN_num, allow_NaN = FALSE),
+  c(TRUE, TRUE, FALSE)))
 
-expect_identical(are_NA_numeric(x = NA_NaN_num, allow_NaN = TRUE),
-                 rep(TRUE, 3L))
+expect_silent(expect_identical(
+  are_NA_numeric(x = NA_NaN_num, allow_NaN = TRUE),
+  rep(TRUE, 3L)))
 
 for(x in list(NULL, FALSE, TRUE, NA, logical(0), numeric(0), "nco",
               character(0), "", NA_character_, NA_complex_, list(314))) {
-  expect_false(are_NA_numeric(x = x, allow_NaN = TRUE))
+  expect_silent(expect_false(are_NA_numeric(x = x, allow_NaN = TRUE)))
 }
 
 for(x in list(data.frame(a = 314), matrix(314))) {
