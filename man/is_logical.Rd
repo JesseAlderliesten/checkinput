@@ -50,9 +50,6 @@ is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignette about type conversion:
-\code{vignette("Type_Coercion", package = "checkinput")}.
-
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_names}()},

@@ -25,8 +25,6 @@
 #' `is_logical()` by setting arguments `allow_zero` or `allow_NA` to `TRUE`,
 #' respectively.
 #'
-#' @seealso The vignette about type conversion:
-#' `vignette("Type_Coercion", package = "checkinput")`.
 #' @family collections of checks on type and length
 #'
 #' @examples
