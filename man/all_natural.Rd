@@ -21,11 +21,11 @@ natural numbers.}
 numbers.
 }
 \description{
-Check if \code{x} is a vector with natural numbers (i.e., positive or non-negative
-integers), allowing for small numerical errors.
+Check if \code{x} is a vector with natural numbers, allowing for small numerical
+errors.
 }
 \details{
-The positive integers (\code{1}, \code{2}, \code{3}, etc.) are natural numbers. Zero is
+Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). Zero is
 considered a natural number if argument \code{strict} is \code{FALSE}. \code{Inf} is \emph{never}
 considered to be a natural number in this implementation.
 
@@ -33,10 +33,10 @@ considered to be a natural number in this implementation.
 and \link{NaN} are never allowed.
 
 \code{all_natural()} allows for small numeric differences from the intended
-natural number, e.g., because of rounding or representation error. That is
-\emph{not} the case for \code{x == round(x)} which tests exact equality. For background
-see e.g.,
-\href{https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
+natural number, e.g., because of rounding or representation error. As the
+\code{Note} at \code{\link{==}} warns, that is \emph{not} the case for \code{x == round(x)} which
+tests exact equality. For background see e.g.,
+\href{https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}.
 }
 \note{
 The code of \code{all_natural()} is partly based on the example \code{is.wholenumber()}
@@ -44,9 +44,9 @@ in \code{\link[=is.integer]{is.integer()}}.
 }
 \section{Programming note}{
 
-\code{\link[=is.integer]{is.integer()}} does \emph{not} check that \code{x} is a natural number (or even if \code{x}
-is a whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see
-the \code{Note} in \code{\link[=is.integer]{is.integer()}}).
+\code{\link[=is.integer]{is.integer()}} does \emph{not} check that \code{x} is a natural number (nor if \code{x} is a
+whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see the
+\code{Note} in \code{\link[=is.integer]{is.integer()}}).
 
 Argument \code{strict} should \emph{not} be renamed to \code{allow_zero} because in other
 functions, e.g., \code{\link[=is_logical]{is_logical()}}, \code{allow_zero} is used to allow for
@@ -55,11 +55,12 @@ zero-\emph{length} value of \code{x}.
 
 \examples{
 all_natural(x = c(3, 5 + 1e-10)) # TRUE
-all_natural(x = c(1e-10, 3, 5)) # FALSE
+# Zero is not considered a natural number if 'strict' is TRUE:
+all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
-all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE
-all_natural(x = c(3, 5, Inf)) # FALSE
+all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
 all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
+all_natural(x = "a") # FALSE
 
 # Allowing for small numerical errors is important
 x <- sqrt(2)^2
@@ -69,9 +70,11 @@ x - 2 # about 4.44e-16
 
 }
 \seealso{
-\code{\link[=all.equal]{all.equal()}} to check equality more generally. \code{\link[=identical]{identical()}} to
-check exact equality. The vignette about type conversion:
-\code{vignette("Type_Coercion", package = "checkinput")}.
+\code{progutils::are_equal()} to check for element-wise near-equality of numbers;
+\code{\link[=all.equal]{all.equal()}} to check more generally for near-equality; \code{\link[=identical]{identical()}} to
+check for exact equality; \link{Comparison} to compare two vectors using binary
+operators; \code{\link[=match]{match()}} to compare character vectors. The vignette about type
+coercion: \code{vignette("Type_Coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
