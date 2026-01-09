@@ -37,8 +37,11 @@ valid names that do not suggest they were automatically created or modified.
 \link[=make.names]{Syntactically valid names} are names that (1) only consist of
 letters, numbers, dots and underscores; (2) start with a letter or with a dot
 not followed by a number; (3) are not \link[=Reserved]{reserved words} such as
-\link{for} or any of the \link{NA}s. The definition of 'letter' depends on the current
-locale, as noted in the section 'Details' in \code{\link[=make.names]{make.names()}}.
+\link{for} or any of the \link{NA}s.
+
+The definition of 'letter', and thus what are syntactically valid names,
+depends on the current \link[=locales]{locale} (as noted in the section 'Details'
+in \code{\link[=make.names]{make.names()}}). See the \code{Wishlist} for suggestions to address that.
 
 Duplicated names, suspicious names, names containing underscores (\verb{_}), and
 names that consist only of dots \emph{are} syntactically valid but are \emph{not}
@@ -70,6 +73,10 @@ respectively.
 Syntactically invalid names are \emph{not} reported as suspicious names, and
 duplicated names are \emph{not} duplicated in warnings.
 }
+\note{
+To get a named boolean vector indicating for each element of vector \code{x} if it
+is a name, use \code{vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)}.
+}
 \section{Programming note}{
  The \link[=regex]{regular expressions} that are used
 to identify suspicious names contain the following elements: (1) require a
@@ -86,6 +93,35 @@ followed by one or more digits until the end of the string: \verb{^V[[:digit:]]+
 end of the string: \verb{\\\\.[[:digit:]]+$}. Indicating the end of the string
 prevents matching names that start as suspicious names but are not suspicious
 because they have non-digit characters appended, e.g. \code{X.2a}.
+}
+
+\section{To do}{
+
+Add an explanation and examples showing the problem of using syntactically
+invalid names: see https://stackoverflow.com/questions/54597535/.
+
+See the stub 'progutils::all_present()' to require all names in 'vals' to be
+present, and optionally not allow other values.
+}
+
+\section{Wishlist}{
+
+Ensure \code{x} can be represented in different \link{locales} by checking the
+\link[=Encoding]{encoding} of \code{x} and only allow
+\href{https://en.wikipedia.org/wiki/ASCII}{ASCII} characters (where umlauts are
+not recognized) or \href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8} characters
+where umlauts are recognized? Can use "Grüße" (i.e., the German word for
+'greetings' containing an ümlaut and Eszett; Grusse) as test string for
+development (but should \emph{not} test it in unit-tests).
+
+See \link{Encoding}, \code{\link[=iconv]{iconv()}}, \code{\link[tools:showNonASCII]{tools::showNonASCII()}},
+\href{https://github.com/gagolews/stringi}{stringi::stri_enc_toascii}
+(\code{janitor::make_clean_names()} suggests using
+\code{stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")}),
+\href{https://github.com/yihui/xfun}{xfun::is_ascii}, \code{\link[=utf8ToInt]{utf8ToInt()}}, \code{\link[=validUTF8]{validUTF8()}}
+vignette \href{http://127.0.0.1:30940/library/utf8/doc/utf8.html}{utf8::utf8}, section
+\href{https://r4ds.hadley.nz/strings.html#sec-other-languages}{Non-English text},
+and maybe \link{.Platform}.
 }
 
 \examples{
@@ -113,13 +149,13 @@ all_names(x = x_dots, allow_onlydots = FALSE) # FALSE: onlydots.
 
 }
 \seealso{
-\code{janitor::make_clean_names()} for many more options, such as
-adjusting case, transliteration of non-ASCII characters. \code{\link[=names]{names()}} to get or
-set the names of an object; \code{\link[=all.names]{all.names()}} to find all names in an expression
-or call.
+\code{janitor::make_clean_names()} for more options, such as adjusting
+case and transliterating non-ASCII characters. \code{\link[=names]{names()}} to get or set the
+names of an object; \code{\link[=all.names]{all.names()}} to find all names in an expression or call.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
+\code{\link{all_natural}()},
 \code{\link{all_nonnegative}()},
 \code{\link{are_NA_numeric}()},
 \code{\link{is_logical}()},

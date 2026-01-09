@@ -14,8 +14,11 @@
 #' [Syntactically valid names][make.names] are names that (1) only consist of
 #' letters, numbers, dots and underscores; (2) start with a letter or with a dot
 #' not followed by a number; (3) are not [reserved words][Reserved] such as
-#' [for] or any of the [NA]s. The definition of 'letter' depends on the current
-#' locale, as noted in the section 'Details' in [make.names()].
+#' [for] or any of the [NA]s.
+#'
+#' The definition of 'letter', and thus what are syntactically valid names,
+#' depends on the current [locale][locales] (as noted in the section 'Details'
+#' in [make.names()]). See the `Wishlist` for suggestions to address that.
 #'
 #' Duplicated names, suspicious names, names containing underscores (`_`), and
 #' names that consist only of dots *are* syntactically valid but are *not*
@@ -66,11 +69,39 @@
 #' prevents matching names that start as suspicious names but are not suspicious
 #' because they have non-digit characters appended, e.g. `X.2a`.
 #'
+#' @section To do:
+#' Add an explanation and examples showing the problem of using syntactically
+#' invalid names: see https://stackoverflow.com/questions/54597535/.
+#'
+#' See the stub 'progutils::all_present()' to require all names in 'vals' to be
+#' present, and optionally not allow other values.
+#'
+#' @section Wishlist:
+#' Ensure `x` can be represented in different [locales] by checking the
+#' [encoding][Encoding] of `x` and only allow
+#' [ASCII](https://en.wikipedia.org/wiki/ASCII) characters (where umlauts are
+#' not recognized) or [UTF-8](https://en.wikipedia.org/wiki/UTF-8) characters
+#' where umlauts are recognized? Can use "Grüße" (i.e., the German word for
+#' 'greetings' containing an ümlaut and Eszett; Grusse) as test string for
+#' development (but should *not* test it in unit-tests).
+#'
+#' See [Encoding], [iconv()], [tools::showNonASCII()],
+#' [stringi::stri_enc_toascii](https://github.com/gagolews/stringi)
+#' (`janitor::make_clean_names()` suggests using
+#' `stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`),
+#' [xfun::is_ascii](https://github.com/yihui/xfun), [utf8ToInt()], [validUTF8()]
+#' vignette [utf8::utf8](http://127.0.0.1:30940/library/utf8/doc/utf8.html), section
+#' [Non-English text](https://r4ds.hadley.nz/strings.html#sec-other-languages),
+#' and maybe [.Platform].
+#'
+#' @note
+#' To get a named boolean vector indicating for each element of vector `x` if it
+#' is a name, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`.
+#'
+#' @seealso `janitor::make_clean_names()` for more options, such as adjusting
+#' case and transliterating non-ASCII characters. [names()] to get or set the
+#' names of an object; [all.names()] to find all names in an expression or call.
 #' @family collections of checks on type and length
-#' @seealso `janitor::make_clean_names()` for many more options, such as
-#' adjusting case, transliteration of non-ASCII characters. [names()] to get or
-#' set the names of an object; [all.names()] to find all names in an expression
-#' or call.
 #'
 #' @examples
 #' all_names(x = names(c(a = 1, b = 2))) # TRUE
