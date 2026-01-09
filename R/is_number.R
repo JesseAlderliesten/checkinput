@@ -37,7 +37,7 @@
 #' because `is.na(x)` returns `TRUE` for `NaN` and `is.na(x)` and `is.nan(x)`
 #' return `logical(0)` for zero-length `x`, see [are_NA_numeric()].
 #'
-#' @seealso The vignette about type conversion:
+#' @seealso The vignette about type coercion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
 #' @family collections of checks on type and length
 #'
