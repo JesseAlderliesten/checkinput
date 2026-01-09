@@ -65,7 +65,7 @@ str(c(num, zerochar)) # chr "314", not num 314
 
 }
 \seealso{
-The vignette about type conversion:
+The vignette about type coercion:
 \code{vignette("Type_Coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 

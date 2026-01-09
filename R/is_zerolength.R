@@ -36,7 +36,7 @@
 #' `NULL` < `raw` < `logical` < `integer` < `double` < `complex` < `character` <
 #' `list` < `expression`, see the section `Details` in `help(c)`.
 #'
-#' @seealso The vignette about type conversion:
+#' @seealso The vignette about type coercion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
 #' @family collections of checks on type and length
 #'

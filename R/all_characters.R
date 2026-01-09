@@ -25,7 +25,7 @@
 #' `all_characters()` and `is_character()` by setting arguments `allow_empty`,
 #' `allow_zero`, or `allow_NA` to `TRUE`, respectively.
 #'
-#' @seealso The vignette about type conversion:
+#' @seealso The vignette about type coercion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
 #' @family collections of checks on type and length
 #'

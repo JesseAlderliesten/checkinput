@@ -17,7 +17,7 @@
 #' `is.na(x)` is `TRUE` for all types of `NA` but also for `NaN`, whereas
 #' `is.nan(x)` is  `TRUE` for `NaN` but not for any type of `NA`.
 #'
-#' @seealso The vignette about type conversion:
+#' @seealso The vignette about type coercion:
 #' `vignette("Type_Coercion", package = "checkinput")`. [is.na()] and [is.nan()]
 #' that are used in this function.
 #' @family collections of checks on type and length

@@ -44,7 +44,7 @@ for(x in list(numeric(0), logical(0), character(0))) {
 
 }
 \seealso{
-The vignette about type conversion:
+The vignette about type coercion:
 \code{vignette("Type_Coercion", package = "checkinput")}. \code{\link[=is.na]{is.na()}} and \code{\link[=is.nan]{is.nan()}}
 that are used in this function.
 
