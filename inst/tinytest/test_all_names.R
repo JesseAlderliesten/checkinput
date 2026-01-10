@@ -22,6 +22,9 @@ warn_susp_v2 <- paste0("names that might have been modified by",
                        " make.names(x, unique = TRUE): '")
 warn_syntax <- "syntactically invalid values: "
 x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
+x_nonASCII <- c("Grüße", "\U00B5")
+Encoding(x_nonASCII) <- "UTF-8"
+x_toASCII <- c("Gr\032\032e")
 x_underscores <- c("abc_def", "ghi", "jk_l")
 
 
@@ -246,9 +249,27 @@ expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscores = NA),
 expect_error(all_names(x = names(c(a = 1, b = 2)), allow_onlydots = NA),
              pattern = "is_logical(allow_onlydots) is not TRUE", fixed = TRUE)
 
+expect_warning(expect_false(
+  all_names(x_nonASCII)),
+  # Excluding the non-ASCII characters to keep the test locale-independent
+  pattern = "'x' contains values that contain non-ASCII characters: 'Gr",
+  strict = TRUE, fixed = TRUE)
+
+expect_warning(expect_false(
+  all_names(x_nonASCII)),
+  # Excluding the non-ASCII characters to keep the test locale-independent
+  pattern = "e', '", strict = TRUE, fixed = TRUE)
+
+expect_warning(expect_false(
+  all_names(x_toASCII)),
+  # Excluding the non-ASCII characters to keep the test locale-independent
+  pattern = "'x' contains syntactically invalid values: 'Gr",
+  strict = TRUE, fixed = TRUE)
+
 
 #### Remove objects used in tests ####
 rm(allow_dupl, allow_susp, empty_string_quoted, false_true, invalid,
    invalid_quoted, names_mix, valid_nonsusp, valid_susp1, valid_susp1_quoted,
    valid_susp2, valid_susp2_quoted, use_makenames, warn_dots, warn_dupl,
-   warn_susp_v1, warn_susp_v2, warn_syntax, x_dots, x_underscores)
+   warn_susp_v1, warn_susp_v2, warn_syntax, x_dots, x_nonASCII, x_toASCII,
+   x_underscores)

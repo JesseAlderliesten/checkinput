@@ -9,6 +9,7 @@
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
 #' @param allow_onlydots `TRUE` or `FALSE`: allow names that consist only of
 #' dots?
+#' @param allow_nonASCII: allow non-ASCII characters?
 #'
 #' @details
 #' [Syntactically valid names][make.names] are names that (1) only consist of
@@ -18,12 +19,15 @@
 #'
 #' The definition of 'letter', and thus what are syntactically valid names,
 #' depends on the current [locale][locales] (as noted in the section 'Details'
-#' in [make.names()]). See the `Wishlist` for suggestions to address that.
+#' in [make.names()]). Using `FALSE` for `allow_nonASCII` to only allow
+#' ASCII-characters tries to minimize this problem (see the `See Also` section
+#' for references).
 #'
 #' Duplicated names, suspicious names, names containing underscores (`_`), and
-#' names that consist only of dots *are* syntactically valid but are *not*
-#' allowed if arguments `allow_dupl`, `allow_susp`, `allow_underscores`, or
-#' `allow_alldots` are `FALSE`, respectively.
+#' names names that consist only of dots *are* syntactically valid (and names
+#' that contain non-ASCII characters might be valid as well) but such names are
+#' *not* allowed if arguments `allow_dupl`, `allow_susp`, `allow_underscores`,
+#' `allow_alldots`, or `allow_nonASCII` are `FALSE`, respectively.
 #'
 #' This function distinguishes two kinds of suspicious names (see the
 #' `Programming note` for the structure of the regular expressions used to
@@ -77,22 +81,9 @@
 #' present, and optionally not allow other values.
 #'
 #' @section Wishlist:
-#' Ensure `x` can be represented in different [locales] by checking the
-#' [encoding][Encoding] of `x` and only allow
-#' [ASCII](https://en.wikipedia.org/wiki/ASCII) characters (where umlauts are
-#' not recognized) or [UTF-8](https://en.wikipedia.org/wiki/UTF-8) characters
-#' where umlauts are recognized? Can use "Grüße" (i.e., the German word for
-#' 'greetings' containing an ümlaut and Eszett; Grusse) as test string for
-#' development (but should *not* test it in unit-tests).
-#'
-#' See [Encoding], [iconv()], [tools::showNonASCII()],
-#' [stringi::stri_enc_toascii](https://github.com/gagolews/stringi)
-#' (`janitor::make_clean_names()` suggests using
-#' `stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`),
-#' [xfun::is_ascii](https://github.com/yihui/xfun), [utf8ToInt()], [validUTF8()]
-#' vignette [utf8::utf8](http://127.0.0.1:30940/library/utf8/doc/utf8.html), section
-#' [Non-English text](https://r4ds.hadley.nz/strings.html#sec-other-languages),
-#' and maybe [.Platform].
+#' Implement showing offending non-ASCII characters if `tools` is installed,
+#' using [tools::showNonASCII()]. See
+#' https://r-pkgs.org/dependencies-in-practice.html#sec-dependencies-in-suggests?
 #'
 #' @note
 #' To get a named boolean vector indicating for each element of vector `x` if it
@@ -101,6 +92,19 @@
 #' @seealso `janitor::make_clean_names()` for more options, such as adjusting
 #' case and transliterating non-ASCII characters. [names()] to get or set the
 #' names of an object; [all.names()] to find all names in an expression or call.
+#'
+#' On ASCII, see [Encoding], [iconv()], [locales], [tools::showNonASCII()],
+#' [stringi::stri_enc_toascii](https://github.com/gagolews/stringi)
+#' (`janitor::make_clean_names()` suggests using
+#' `stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`),
+#' the [Wikipedia article about ASCII](https://en.wikipedia.org/wiki/ASCII).
+#'
+#' On UTF-8, see the above, and furthermore [intToUtf8()], [utf8ToInt()],
+#' [validUTF8()],
+#' vignette [utf8::utf8](https://CRAN.R-project.org/package=utf8/vignettes/utf8.html),
+#' the section [Non-English text](https://r4ds.hadley.nz/strings.html#sec-other-languages),
+#' and the [Wikipedia article about UTF-8](https://en.wikipedia.org/wiki/UTF-8).
+#'
 #' @family collections of checks on type and length
 #'
 #' @examples
@@ -128,13 +132,16 @@
 #'
 #' @export
 all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
-                      allow_underscores = TRUE, allow_onlydots = FALSE) {
+                      allow_underscores = TRUE, allow_onlydots = FALSE,
+                      allow_nonASCII = FALSE) {
   stopifnot(is.null(dim(x)), is_logical(allow_dupl), is_logical(allow_susp),
-            is_logical(allow_underscores), is_logical(allow_onlydots))
+            is_logical(allow_underscores), is_logical(allow_onlydots),
+            is_logical(allow_nonASCII))
 
   warn_text <- character(0)
   warn_text_dupl <- character(0)
   suggest_make_names <- FALSE
+  suggest_transliterate <- FALSE
   chars_ok <- all_characters(x, allow_empty = FALSE, allow_zero = FALSE,
                              allow_NA = FALSE)
   if(!chars_ok && !is.null(x) && length(x) == 0L) {
@@ -146,7 +153,7 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
     bool_dupl <- duplicated(x)
     if(!allow_dupl) {
       warn_text_dupl <- paste0("duplicated names: '",
-                          paste0(unique(x[bool_dupl]), collapse = "', '"), "'")
+                               paste0(unique(x[bool_dupl]), collapse = "', '"), "'")
       suggest_make_names <- TRUE
     }
     x <- x[!bool_dupl]
@@ -173,6 +180,18 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
     }
   }
 
+  bool_NA <- is.na(x)
+  if(!allow_nonASCII) {
+    x_ASCII <- iconv(x = x, to = "ASCII")
+    bool_nonASCII <- !bool_NA & (x != x_ASCII | is.na(x_ASCII))
+    if(any(bool_nonASCII)) {
+      suggest_transliterate <- TRUE
+      warn_text_onlydots <- paste0(
+        "values that contain non-ASCII characters: '",
+        paste0(x[bool_nonASCII], collapse = "', '"), "'")
+    }
+  }
+
   # Notes:
   # - Argument 'unique' of make.names() is 'FALSE' because duplicated names have
   #   been catched above.
@@ -186,6 +205,8 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
   # '==' or '!=' on the NAs in 'x' will still return NA (see section 'Details'
   # in ?'=='). Therefore argument 'na.rm' in any() is set to TRUE to prevent
   # getting NA as condition and '|| any(bool_NA)' is used to catch the NAs.
+  # 'bool_NA' has been created above so it could also be used inside the
+  # if(!allow_nonASCII) {...} code.
   bool_NA <- is.na(x)
   if(any(bool_invalid, na.rm = TRUE) || any(bool_NA)) {
     bool_zchar_x <- !nzchar(x)
@@ -245,12 +266,25 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
 
   warn_text <- paste0(c(warn_text_p1, warn_text), collapse = " and ")
   if(suggest_make_names) {
-      warn_text <- paste0(warn_text,
-                          ".\nUse 'x <- make.names(x, unique = TRUE",
-                          if(!allow_underscores) {", allow_ = FALSE"},
-                          ")' to create unique,\nsyntactically valid names",
-                          if(!allow_underscores) {" without underscores"},
-                          "!")
+    warn_text <- paste0(warn_text,
+                        ".\nUse 'x <- make.names(x, unique = TRUE",
+                        if(!allow_underscores) {", allow_ = FALSE"},
+                        ")' to create unique,\nsyntactically valid names",
+                        if(!allow_underscores) {" without underscores"},
+                        "!")
+  }
+
+  if(suggest_transliterate) {
+    warn_text <- paste0(
+      warn_text,
+      ".\nUse text with valid ASCII (https://en.wikipedia.org/wiki/ASCII),",
+      " e.g., by using the 'stringi' package",
+      " (https://CRAN.R-project.org/package=stringi) ",
+      if(requireNamespace("stringi")) {
+        "which is already installed"} else {"after installing it"},
+      ": 'make.names(names = stringi::stri_enc_toascii(str = x),",
+      " unique = TRUE, allow_ = ", allow_underscores,
+      ")'. Alternatively, set 'allow_nonASCII' to 'TRUE'.")
   }
 
   if(nchar(warn_text) > 0L) {
