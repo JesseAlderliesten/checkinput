@@ -2,7 +2,7 @@
 % Please edit documentation in R/all_natural.R
 \name{all_natural}
 \alias{all_natural}
-\title{Check if \code{x} is natural}
+\title{Check that x is nearly equal to natural numbers}
 \usage{
 all_natural(x, strict = TRUE, allow_NA = FALSE, tol = .Machine$double.eps^0.5)
 }
@@ -13,30 +13,29 @@ all_natural(x, strict = TRUE, allow_NA = FALSE, tol = .Machine$double.eps^0.5)
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 
-\item{tol}{Positive number indicating the maximum difference in value from
-natural numbers.}
+\item{tol}{A small \link[=is_positive]{positive} number. Numbers that differ less
+in value than \code{tol} are considered to be equal.}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a vector with only natural
 numbers.
 }
 \description{
-Check if \code{x} is a vector with natural numbers, allowing for small numerical
-errors.
+Test element-wise near-equality to the natural numbers while allowing for
+small numeric errors.
 }
 \details{
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). Zero is
 considered a natural number if argument \code{strict} is \code{FALSE}. \code{Inf} is \emph{never}
 considered to be a natural number in this implementation.
 
-\code{NA_integer_} and \code{NA_real_} are allowed if \code{allow_NA} is \code{TRUE}. Other \link{NA}s
-and \link{NaN} are never allowed.
+\code{all_natural()} allows for small numeric errors when comparing numbers. Such
+numeric errors can arise because of rounding or representation error. As the
+\code{Note} at \code{\link{==}} warns, \code{x == round(x)} does \emph{not} allow for such errors but
+tests exact equality.
 
-\code{all_natural()} allows for small numeric differences from the intended
-natural number, e.g., because of rounding or representation error. As the
-\code{Note} at \code{\link{==}} warns, that is \emph{not} the case for \code{x == round(x)} which
-tests exact equality. For background see e.g.,
-\href{https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}.
+If \code{allow_NA} is \code{TRUE}, \code{all_natural()} returns \code{TRUE} for \code{NA_integer_} and
+\code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
 }
 \note{
 The code of \code{all_natural()} is partly based on the example \code{is.wholenumber()}
@@ -60,9 +59,9 @@ all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
 all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
 all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
-all_natural(x = "a") # FALSE
+all_natural(x = "a") # Error
 
-# Allowing for small numerical errors is important
+# Allowing for small numeric errors is important
 x <- sqrt(2)^2
 all_natural(x = x) # TRUE
 x == 2 # FALSE!
@@ -73,14 +72,16 @@ x - 2 # about 4.44e-16
 \code{progutils::are_equal()} to check for element-wise near-equality of numbers;
 \code{\link[=all.equal]{all.equal()}} to check more generally for near-equality; \code{\link[=identical]{identical()}} to
 check for exact equality; \link{Comparison} to compare two vectors using binary
-operators; \code{\link[=match]{match()}} to compare character vectors. The vignette about type
-coercion: \code{vignette("Type_Coercion", package = "checkinput")}.
+operators; \code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors;
+\href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
+for background on numerical equality; the vignette about type coercion:
+\code{vignette("Type_Coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_names}()},
 \code{\link{all_nonnegative}()},
-\code{\link{are_NA_numeric}()},
+\code{\link{are_numerish}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}
 }

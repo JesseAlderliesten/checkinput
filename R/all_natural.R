@@ -1,27 +1,25 @@
-#' Check if `x` is natural
+#' Check that x is nearly equal to natural numbers
 #'
-#' Check if `x` is a vector with natural numbers, allowing for small numerical
-#' errors.
+#' Test element-wise near-equality to the natural numbers while allowing for
+#' small numeric errors.
 #'
 #' @inheritParams is_logical
 #' @param strict Exclude zero from the natural numbers?
-#' @param tol Positive number indicating the maximum difference in value from
-#' natural numbers.
+#' @param tol A small [positive][is_positive()] number. Numbers that differ less
+#' in value than `tol` are considered to be equal.
 #'
 #' @details
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
 #' considered a natural number if argument `strict` is `FALSE`. `Inf` is *never*
 #' considered to be a natural number in this implementation.
 #'
-#' `NA_integer_` and `NA_real_` are allowed if `allow_NA` is `TRUE`. Other [NA]s
-#' and [NaN] are never allowed.
+#' `all_natural()` allows for small numeric errors when comparing numbers. Such
+#' numeric errors can arise because of rounding or representation error. As the
+#' `Note` at [`==`] warns, `x == round(x)` does *not* allow for such errors but
+#' tests exact equality.
 #'
-#' `all_natural()` allows for small numeric differences from the intended
-#' natural number, e.g., because of rounding or representation error. As the
-#' `Note` at [`==`] warns, that is *not* the case for `x == round(x)` which
-#' tests exact equality. For background see e.g.,
-#' [\R FAQ 7.31](
-#' https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f).
+#' If `allow_NA` is `TRUE`, `all_natural()` returns `TRUE` for `NA_integer_` and
+#' `NA_real_` but not for the other [NA]s or [NaN].
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a vector with only natural
 #' numbers.
@@ -43,8 +41,11 @@
 #' `progutils::are_equal()` to check for element-wise near-equality of numbers;
 #' [all.equal()] to check more generally for near-equality; [identical()] to
 #' check for exact equality; [Comparison] to compare two vectors using binary
-#' operators; [match()] to compare character vectors. The vignette about type
-#' coercion: `vignette("Type_Coercion", package = "checkinput")`.
+#' operators; [match()] and `progutils::not_in()` to compare character vectors;
+#' [\R FAQ 7.31](
+#' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
+#' for background on numerical equality; the vignette about type coercion:
+#' `vignette("Type_Coercion", package = "checkinput")`.
 #' @family collections of checks on type and length
 #'
 #' @examples
@@ -56,7 +57,7 @@
 #' all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
 #' all_natural(x = "a") # FALSE
 #'
-#' # Allowing for small numerical errors is important
+#' # Allowing for small numeric errors is important
 #' x <- sqrt(2)^2
 #' all_natural(x = x) # TRUE
 #' x == 2 # FALSE!
@@ -65,10 +66,9 @@
 #' @export
 all_natural <- function(x, strict = TRUE, allow_NA = FALSE,
                         tol = .Machine$double.eps^0.5) {
-  stopifnot(is.null(dim(x)), is_logical(strict), is_logical(allow_NA),
-            is_positive(tol))
+  stopifnot(is_logical(strict), is_logical(allow_NA), is_positive(tol))
 
-  if(!is.numeric(x)) {
+  if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
     return(FALSE)
   }
 
