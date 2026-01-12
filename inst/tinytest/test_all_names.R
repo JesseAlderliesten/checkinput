@@ -15,12 +15,11 @@ valid_susp1_quoted <- paste(valid_susp1, collapse = "', '")
 valid_susp2 <- c("e.3", ".X.3", ".X.234", "XX.3", "XX.234", "X..3", "XX.2",
                  "X.X.2", "X..2", "Xa.2", "A.X.2")
 valid_susp2_quoted <- paste(valid_susp2, collapse = "', '")
-warn_dots <- "values that consist only of dots: '.'"
-warn_dupl <- "duplicated names: "
-warn_susp_v1 <- "names that might have been created by read.csv: '"
-warn_susp_v2 <- paste0("names that might have been modified by",
-                       " make.names(x, unique = TRUE): '")
-warn_syntax <- "syntactically invalid values: "
+warn_dots <- "consist only of dots: '.'"
+warn_dupl <- "are duplicated: "
+warn_susp_v1 <- "might have been created by read.csv: '"
+warn_susp_v2 <- "might have been modified by make.names(x, unique = TRUE): '"
+warn_syntax <- "are syntactically invalid: "
 x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
 x_nonASCII <- c("Grüße", "\U00B5")
 Encoding(x_nonASCII) <- "UTF-8"
@@ -56,13 +55,13 @@ expect_silent(expect_true(all_names(x = x_underscores, allow_underscores = TRUE)
 
 expect_warning(expect_false(
   all_names(x = x_underscores, allow_underscores = FALSE)),
-  pattern = "'x' contains values containing underscores: 'abc_def', 'jk_l'",
+  pattern = "Names contain underscores: 'abc_def', 'jk_l'",
   strict = TRUE, fixed = TRUE)
 
 expect_silent(expect_true(all_names(x = x_dots, allow_onlydots = TRUE)))
 expect_warning(expect_false(
   all_names(x = x_dots, allow_onlydots = FALSE)),
-  pattern = paste0("'x' contains values that consist only of dots: '.', '..',",
+  pattern = paste0("Names consist only of dots: '.', '..',",
                    " '...', '....'"),
   strict = TRUE, fixed = TRUE)
 
@@ -87,7 +86,7 @@ expect_warning(expect_false(
 
 expect_warning(expect_false(
   all_names(x = character(0), allow_susp = TRUE)),
-  pattern = "zero-length values", strict = TRUE, fixed = TRUE)
+  pattern = "x has length zero but is not NULL", strict = TRUE, fixed = TRUE)
 
 # Unique valid, not suspicious
 expect_silent(expect_true(
@@ -121,10 +120,9 @@ for(allow_susp in false_true) {
     pattern = paste0(warn_syntax, "'NA'", use_makenames), strict = TRUE,
     fixed = TRUE)
 
-  expect_warning(expect_false(
-    all_names(x = NA, allow_susp = allow_susp)),
-    pattern = paste0(warn_syntax, "'NA'", use_makenames), strict = TRUE,
-    fixed = TRUE)
+  expect_warning(
+    all_names(x = NA, allow_susp = allow_susp),
+    pattern = "'x' is not a character vector!", strict = TRUE, fixed = TRUE)
 
   # Unique valid, suspicious v1
   if(allow_susp) {
@@ -157,11 +155,10 @@ expect_warning(expect_false(
 
 expect_warning(expect_false(
   all_names(x = c(invalid, invalid[2]), allow_dupl = FALSE)),
-  pattern = paste0(warn_syntax, invalid_quoted, "; and ", warn_dupl,
-                   "'", invalid[2], "'", use_makenames), strict = TRUE,
+  pattern = paste0(warn_dupl, "'", invalid[2], "'; and ", warn_syntax,
+                   invalid_quoted, use_makenames), strict = TRUE,
   fixed = TRUE)
 
-warning("To do: remove extraneous dot in warnings from 'all_names()'")
 for(allow_dupl in false_true) {
   for(allow_susp in false_true) {
     # Mix
@@ -175,8 +172,8 @@ for(allow_dupl in false_true) {
     expect_warning(expect_false(
       all_names(names_mix, allow_susp = FALSE)),
       pattern = paste0(warn_syntax, invalid_quoted, "; and ", warn_susp_v1,
-                       valid_susp1_quoted, "'.; and ", warn_susp_v2, # TO DO: remove extraneous dot.
-                       valid_susp2_quoted, "'.", use_makenames), # TO DO: remove extraneous dot.
+                       valid_susp1_quoted, "'; and ", warn_susp_v2,
+                       valid_susp2_quoted, "'", use_makenames),
       strict = TRUE, fixed = TRUE)
   }
 }
@@ -187,9 +184,9 @@ expect_silent(expect_true(
 expect_warning(expect_false(
   all_names(x = x_underscores, allow_underscores = FALSE)),
   pattern = paste0(
-    "'x' contains values containing underscores: 'abc_def', 'jk_l'.",
-    "\nUse 'x <- make.names(x, unique = TRUE, allow_ = FALSE)'",
-    " to create unique,\nsyntactically valid names without underscores"),
+    "Names contain underscores: 'abc_def', 'jk_l'.\nUse 'x <-",
+    " make.names(x, unique = TRUE, allow_ = FALSE)' to\ncreate unique,",
+    " syntactically valid names without underscores"),
   strict = TRUE, fixed = TRUE)
 
 # Duplicated valid, suspicious v1
@@ -224,7 +221,7 @@ warning("Create tests for input values of type 'Duplicated valid, suspicious v2'
 # only dots
 expect_warning(expect_false(
   all_names(c(".", ".a.", "..a..", "...", "b."))),
-  pattern = paste0("'x' contains ", warn_dots, ", '...'"), strict = TRUE,
+  pattern = paste0("Names ", warn_dots, ", '...'"), strict = TRUE,
   fixed = TRUE)
 
 expect_warning(expect_false(
@@ -249,10 +246,12 @@ expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscores = NA),
 expect_error(all_names(x = names(c(a = 1, b = 2)), allow_onlydots = NA),
              pattern = "is_logical(allow_onlydots) is not TRUE", fixed = TRUE)
 
+expect_silent(expect_true(all_names(x = x_nonASCII, allow_nonASCII = TRUE)))
+
 expect_warning(expect_false(
   all_names(x_nonASCII)),
   # Excluding the non-ASCII characters to keep the test locale-independent
-  pattern = "'x' contains values that contain non-ASCII characters: 'Gr",
+  pattern = "Names contain non-ASCII characters: 'Gr",
   strict = TRUE, fixed = TRUE)
 
 expect_warning(expect_false(
@@ -263,7 +262,7 @@ expect_warning(expect_false(
 expect_warning(expect_false(
   all_names(x_toASCII)),
   # Excluding the non-ASCII characters to keep the test locale-independent
-  pattern = "'x' contains syntactically invalid values: 'Gr",
+  pattern = "Names are syntactically invalid: 'Gr",
   strict = TRUE, fixed = TRUE)
 
 

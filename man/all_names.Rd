@@ -2,14 +2,15 @@
 % Please edit documentation in R/all_names.R
 \name{all_names}
 \alias{all_names}
-\title{Check if \code{x} only contains syntactically valid names}
+\title{Check that x only contains syntactically valid names}
 \usage{
 all_names(
   x,
   allow_dupl = FALSE,
   allow_susp = FALSE,
   allow_underscores = TRUE,
-  allow_onlydots = FALSE
+  allow_onlydots = FALSE,
+  allow_nonASCII = FALSE
 )
 }
 \arguments{
@@ -23,30 +24,40 @@ all_names(
 
 \item{allow_onlydots}{\code{TRUE} or \code{FALSE}: allow names that consist only of
 dots?}
+
+\item{allow_nonASCII:}{allow non-ASCII characters?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector that only
-contains syntactically valid names that adhere to the restrictions imposed by
+contains syntactically valid names that satisfy the restrictions imposed by
 the other function arguments.
+
+To get a named boolean vector indicating for each element of \code{x} if it is a
+valid name, use \code{vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)}
+instead of \code{all_names(x, ...)}.
 }
 \description{
-Check if \code{x} is a character vector that only contains unique, syntactically
-valid names that do not suggest they were automatically created or modified.
+Check that \code{x} is a character vector with length larger than zero that only
+contains syntactically valid names that are unique, do not suggest they were
+automatically created or modified, and do not contain non-ASCII characters.
 }
 \details{
-\link[=make.names]{Syntactically valid names} are names that (1) only consist of
-letters, numbers, dots and underscores; (2) start with a letter or with a dot
-not followed by a number; (3) are not \link[=Reserved]{reserved words} such as
-\link{for} or any of the \link{NA}s.
+\link[=make.names]{Syntactically valid} names (\href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{R FAQ})
+are names that (1) only consist of letters, numbers, dots and underscores;
+(2) start with a letter or with a dot not followed by a number; (3) are not
+\link[=Reserved]{reserved words} such as \link{for} or any of the \link{NA}s.
 
 The definition of 'letter', and thus what are syntactically valid names,
 depends on the current \link[=locales]{locale} (as noted in the section 'Details'
-in \code{\link[=make.names]{make.names()}}). See the \code{Wishlist} for suggestions to address that.
+in \code{\link[=make.names]{make.names()}}). Using \code{FALSE} for \code{allow_nonASCII} to only allow
+ASCII-characters tries to minimize this problem. See the references in the
+\verb{See Also} section for background.
 
 Duplicated names, suspicious names, names containing underscores (\verb{_}), and
-names that consist only of dots \emph{are} syntactically valid but are \emph{not}
-allowed if arguments \code{allow_dupl}, \code{allow_susp}, \code{allow_underscores}, or
-\code{allow_alldots} are \code{FALSE}, respectively.
+names names that consist only of dots \emph{are} syntactically valid (and names
+that contain non-ASCII characters might be valid as well) but such names are
+\emph{not} allowed if arguments \code{allow_dupl}, \code{allow_susp}, \code{allow_underscores},
+\code{allow_alldots}, or \code{allow_nonASCII} are \code{FALSE}, respectively.
 
 This function distinguishes two kinds of suspicious names (see the
 \verb{Programming note} for the structure of the regular expressions used to
@@ -73,10 +84,6 @@ respectively.
 Syntactically invalid names are \emph{not} reported as suspicious names, and
 duplicated names are \emph{not} duplicated in warnings.
 }
-\note{
-To get a named boolean vector indicating for each element of vector \code{x} if it
-is a name, use \code{vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)}.
-}
 \section{Programming note}{
  The \link[=regex]{regular expressions} that are used
 to identify suspicious names contain the following elements: (1) require a
@@ -99,35 +106,12 @@ because they have non-digit characters appended, e.g. \code{X.2a}.
 
 Add an explanation and examples showing the problem of using syntactically
 invalid names: see https://stackoverflow.com/questions/54597535/.
-
-See the stub 'progutils::all_present()' to require all names in 'vals' to be
-present, and optionally not allow other values.
-}
-
-\section{Wishlist}{
-
-Ensure \code{x} can be represented in different \link{locales} by checking the
-\link[=Encoding]{encoding} of \code{x} and only allow
-\href{https://en.wikipedia.org/wiki/ASCII}{ASCII} characters (where umlauts are
-not recognized) or \href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8} characters
-where umlauts are recognized? Can use "Grüße" (i.e., the German word for
-'greetings' containing an ümlaut and Eszett; Grusse) as test string for
-development (but should \emph{not} test it in unit-tests).
-
-See \link{Encoding}, \code{\link[=iconv]{iconv()}}, \code{\link[tools:showNonASCII]{tools::showNonASCII()}},
-\href{https://github.com/gagolews/stringi}{stringi::stri_enc_toascii}
-(\code{janitor::make_clean_names()} suggests using
-\code{stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")}),
-\href{https://github.com/yihui/xfun}{xfun::is_ascii}, \code{\link[=utf8ToInt]{utf8ToInt()}}, \code{\link[=validUTF8]{validUTF8()}}
-vignette \href{http://127.0.0.1:30940/library/utf8/doc/utf8.html}{utf8::utf8}, section
-\href{https://r4ds.hadley.nz/strings.html#sec-other-languages}{Non-English text},
-and maybe \link{.Platform}.
 }
 
 \examples{
 all_names(x = names(c(a = 1, b = 2))) # TRUE
 
-all_names(x = names(c(a = 1, 2))) # FALSE: empty name.
+all_names(x = names(c(a = 1, 2))) # FALSE: empty name
 all_names(x = NULL) # FALSE: NULL
 
 all_names(x = c("a", "b", "a")) # FALSE: duplicated name
@@ -141,23 +125,36 @@ all_names(x = "e.2", allow_susp = TRUE) # TRUE
 
 x_underscores <- c("abc_def", "ghi", "jk_l")
 all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
-all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores.
+all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores
 
 x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
 all_names(x = x_dots, allow_onlydots = TRUE) # TRUE
-all_names(x = x_dots, allow_onlydots = FALSE) # FALSE: onlydots.
+all_names(x = x_dots, allow_onlydots = FALSE) # FALSE: onlydots
+
+x_nonASCII <- c("Grüße", "\U00B5")
+Encoding(x_nonASCII) <- "UTF-8"
+all_names(x = x_nonASCII, allow_nonASCII = FALSE) # FALSE: non-ASCII
+all_names(x = x_nonASCII, allow_nonASCII = TRUE) # TRUE
 
 }
 \seealso{
-\code{janitor::make_clean_names()} for more options, such as adjusting
-case and transliterating non-ASCII characters. \code{\link[=names]{names()}} to get or set the
-names of an object; \code{\link[=all.names]{all.names()}} to find all names in an expression or call.
+\code{janitor::make_clean_names()} for more options to create 'allowed'
+names, such as adjusting case and transliterating non-ASCII characters;
+\code{\link[=names]{names()}} to get or set the names of an object; \code{\link[=all.names]{all.names()}} to find all
+names in an expression or call; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{\R FAQ 7.14}
+for some ways 'name' is used in \R, with remarks about the validity of names.
+
+\link{Encoding}, \link{locales}, \code{\link[=validUTF8]{validUTF8()}}, and the Wikipedia articles about
+\href{https://en.wikipedia.org/wiki/ASCII}{ASCII} and
+\href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8} for background on encodings and
+character sets; \code{\link[=iconv]{iconv()}} (used by \code{all_names()}) on conversions between
+encodings; \code{tools::showNonASCII()} to show the non-ASCII bytes.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_natural}()},
 \code{\link{all_nonnegative}()},
-\code{\link{are_NA_numeric}()},
+\code{\link{are_numerish}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}
 }

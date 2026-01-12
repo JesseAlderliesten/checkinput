@@ -1,7 +1,8 @@
-#' Check if `x` only contains syntactically valid names
+#' Check that x only contains syntactically valid names
 #'
-#' Check if `x` is a character vector that only contains unique, syntactically
-#' valid names that do not suggest they were automatically created or modified.
+#' Check that `x` is a character vector with length larger than zero that only
+#' contains syntactically valid names that are unique, do not suggest they were
+#' automatically created or modified, and do not contain non-ASCII characters.
 #'
 #' @param x Vector of names to test.
 #' @param allow_dupl `TRUE` or `FALSE`: allow duplicate names?
@@ -12,16 +13,17 @@
 #' @param allow_nonASCII: allow non-ASCII characters?
 #'
 #' @details
-#' [Syntactically valid names][make.names] are names that (1) only consist of
-#' letters, numbers, dots and underscores; (2) start with a letter or with a dot
-#' not followed by a number; (3) are not [reserved words][Reserved] such as
-#' [for] or any of the [NA]s.
+#' [Syntactically valid][make.names] names ([R FAQ](
+#' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f))
+#' are names that (1) only consist of letters, numbers, dots and underscores;
+#' (2) start with a letter or with a dot not followed by a number; (3) are not
+#' [reserved words][Reserved] such as [for] or any of the [NA]s.
 #'
 #' The definition of 'letter', and thus what are syntactically valid names,
 #' depends on the current [locale][locales] (as noted in the section 'Details'
 #' in [make.names()]). Using `FALSE` for `allow_nonASCII` to only allow
-#' ASCII-characters tries to minimize this problem (see the `See Also` section
-#' for references).
+#' ASCII-characters tries to minimize this problem. See the references in the
+#' `See Also` section for background.
 #'
 #' Duplicated names, suspicious names, names containing underscores (`_`), and
 #' names names that consist only of dots *are* syntactically valid (and names
@@ -54,8 +56,12 @@
 #' duplicated names are *not* duplicated in warnings.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector that only
-#' contains syntactically valid names that adhere to the restrictions imposed by
+#' contains syntactically valid names that satisfy the restrictions imposed by
 #' the other function arguments.
+#'
+#' To get a named boolean vector indicating for each element of `x` if it is a
+#' valid name, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`
+#' instead of `all_names(x, ...)`.
 #'
 #' @section Programming note: The [regular expressions][regex] that are used
 #' to identify suspicious names contain the following elements: (1) require a
@@ -77,40 +83,25 @@
 #' Add an explanation and examples showing the problem of using syntactically
 #' invalid names: see https://stackoverflow.com/questions/54597535/.
 #'
-#' See the stub 'progutils::all_present()' to require all names in 'vals' to be
-#' present, and optionally not allow other values.
+#' @seealso `janitor::make_clean_names()` for more options to create 'allowed'
+#' names, such as adjusting case and transliterating non-ASCII characters;
+#' [names()] to get or set the names of an object; [all.names()] to find all
+#' names in an expression or call; [\R FAQ 7.14](
+#' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f)
+#' for some ways 'name' is used in \R, with remarks about the validity of names.
 #'
-#' @section Wishlist:
-#' Implement showing offending non-ASCII characters if `tools` is installed,
-#' using [tools::showNonASCII()]. See
-#' https://r-pkgs.org/dependencies-in-practice.html#sec-dependencies-in-suggests?
-#'
-#' @note
-#' To get a named boolean vector indicating for each element of vector `x` if it
-#' is a name, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`.
-#'
-#' @seealso `janitor::make_clean_names()` for more options, such as adjusting
-#' case and transliterating non-ASCII characters. [names()] to get or set the
-#' names of an object; [all.names()] to find all names in an expression or call.
-#'
-#' On ASCII, see [Encoding], [iconv()], [locales], [tools::showNonASCII()],
-#' [stringi::stri_enc_toascii](https://github.com/gagolews/stringi)
-#' (`janitor::make_clean_names()` suggests using
-#' `stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`),
-#' the [Wikipedia article about ASCII](https://en.wikipedia.org/wiki/ASCII).
-#'
-#' On UTF-8, see the above, and furthermore [intToUtf8()], [utf8ToInt()],
-#' [validUTF8()],
-#' vignette [utf8::utf8](https://CRAN.R-project.org/package=utf8/vignettes/utf8.html),
-#' the section [Non-English text](https://r4ds.hadley.nz/strings.html#sec-other-languages),
-#' and the [Wikipedia article about UTF-8](https://en.wikipedia.org/wiki/UTF-8).
+#' [Encoding], [locales], [validUTF8()], and the Wikipedia articles about
+#' [ASCII](https://en.wikipedia.org/wiki/ASCII) and
+#' [UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on encodings and
+#' character sets; [iconv()] (used by `all_names()`) on conversions between
+#' encodings; `tools::showNonASCII()` to show the non-ASCII bytes.
 #'
 #' @family collections of checks on type and length
 #'
 #' @examples
 #' all_names(x = names(c(a = 1, b = 2))) # TRUE
 #'
-#' all_names(x = names(c(a = 1, 2))) # FALSE: empty name.
+#' all_names(x = names(c(a = 1, 2))) # FALSE: empty name
 #' all_names(x = NULL) # FALSE: NULL
 #'
 #' all_names(x = c("a", "b", "a")) # FALSE: duplicated name
@@ -124,78 +115,98 @@
 #'
 #' x_underscores <- c("abc_def", "ghi", "jk_l")
 #' all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
-#' all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores.
+#' all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores
 #'
 #' x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
 #' all_names(x = x_dots, allow_onlydots = TRUE) # TRUE
-#' all_names(x = x_dots, allow_onlydots = FALSE) # FALSE: onlydots.
+#' all_names(x = x_dots, allow_onlydots = FALSE) # FALSE: onlydots
+#'
+#' x_nonASCII <- c("Grüße", "\U00B5")
+#' Encoding(x_nonASCII) <- "UTF-8"
+#' all_names(x = x_nonASCII, allow_nonASCII = FALSE) # FALSE: non-ASCII
+#' all_names(x = x_nonASCII, allow_nonASCII = TRUE) # TRUE
 #'
 #' @export
 all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
                       allow_underscores = TRUE, allow_onlydots = FALSE,
                       allow_nonASCII = FALSE) {
-  stopifnot(is.null(dim(x)), is_logical(allow_dupl), is_logical(allow_susp),
+  stopifnot(is_logical(allow_dupl), is_logical(allow_susp),
             is_logical(allow_underscores), is_logical(allow_onlydots),
             is_logical(allow_nonASCII))
 
-  warn_text <- character(0)
-  warn_text_dupl <- character(0)
-  suggest_make_names <- FALSE
-  suggest_transliterate <- FALSE
-  chars_ok <- all_characters(x, allow_empty = FALSE, allow_zero = FALSE,
-                             allow_NA = FALSE)
-  if(!chars_ok && !is.null(x) && length(x) == 0L) {
-    warn_text <- c(warn_text, "zero-length values")
-    suggest_make_names <- TRUE
+  # 'NULL' is catched later on with an informative message
+  if(!is.null(x) && (!is.atomic(x) || !is.null(dim(x)) || !is.character(x))) {
+    warning("'x' is not a character vector!")
+    return(FALSE)
   }
+
+  warn_text <- character(0)
+  suggest_make_names <- FALSE
+  suggest_ASCII <- FALSE
 
   if(anyDuplicated(x) != 0L) {
     bool_dupl <- duplicated(x)
     if(!allow_dupl) {
-      warn_text_dupl <- paste0("duplicated names: '",
-                               paste0(unique(x[bool_dupl]), collapse = "', '"), "'")
+      warn_text <- c(warn_text,
+                     paste0("are duplicated: '",
+                            paste0(unique(x[bool_dupl]), collapse = "', '"), "'"))
       suggest_make_names <- TRUE
     }
     x <- x[!bool_dupl]
   }
 
+  warn_text_underscores <- character(0)
   bool_underscores <- grepl(pattern = "_", x = x, fixed = TRUE)
   if(!allow_underscores && any(bool_underscores)) {
     warn_text_underscores <- paste0(
-      "values containing underscores: '",
+      "contain underscores: '",
       paste0(x[bool_underscores], collapse = "', '"), "'")
     suggest_make_names <- TRUE
-  } else {
-    warn_text_underscores <- character(0)
   }
 
-  # Inspired by vctrs:::two_to_three_dots()
+  # Idea for the test inspired by vctrs:::two_to_three_dots()
   warn_text_onlydots <- character(0)
   if(!allow_onlydots) {
     bool_onlydots <- grepl(pattern = "^\\.+$", x = x)
     if(any(bool_onlydots)) {
       warn_text_onlydots <- paste0(
-        "values that consist only of dots: '",
+        "consist only of dots: '",
         paste0(x[bool_onlydots], collapse = "', '"), "'")
     }
   }
 
   bool_NA <- is.na(x)
+  warn_text_nonASCII <- character(0)
   if(!allow_nonASCII) {
     x_ASCII <- iconv(x = x, to = "ASCII")
     bool_nonASCII <- !bool_NA & (x != x_ASCII | is.na(x_ASCII))
     if(any(bool_nonASCII)) {
-      suggest_transliterate <- TRUE
-      warn_text_onlydots <- paste0(
-        "values that contain non-ASCII characters: '",
+      suggest_ASCII <- TRUE
+      warn_text_nonASCII <- paste0(
+        "contain non-ASCII characters: '",
         paste0(x[bool_nonASCII], collapse = "', '"), "'")
+    }
+  }
+
+  # Notes:
+  # - Checking for zero-length 'x' should be done before removing syntactically
+  #   invalid names because that can also lead to zero-length 'x'.
+  warn_text_zerolength <- character(0)
+  if(length(x) == 0L) {
+    if(is.null(x)) {
+      warn_text_zerolength <- paste0(
+        "'x' is NULL: did you use names(x) on an object without names,\nor",
+        " colnames(x) on an object without column names?")
+    } else {
+      warn_text_zerolength <- "x has length zero but is not NULL"
+      suggest_make_names <- TRUE
     }
   }
 
   # Notes:
   # - Argument 'unique' of make.names() is 'FALSE' because duplicated names have
   #   been catched above.
-  # - Argument 'allow_' Using 'TRUE' for  because values in 'x' containing
+  # - Argument 'allow_' of make.names() is 'TRUE' because names containing
   #   underscores have been catched above.
   # - make.names() replaces empty names ('""') with "X", so there is no need to
   #   separately test for these.
@@ -207,7 +218,6 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
   # getting NA as condition and '|| any(bool_NA)' is used to catch the NAs.
   # 'bool_NA' has been created above so it could also be used inside the
   # if(!allow_nonASCII) {...} code.
-  bool_NA <- is.na(x)
   if(any(bool_invalid, na.rm = TRUE) || any(bool_NA)) {
     bool_zchar_x <- !nzchar(x)
     bool_other_invalid <- bool_NA | (bool_invalid & !bool_zchar_x)
@@ -220,13 +230,13 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
       invalid <- paste0(c(invalid, "'\"\"' (i.e., an empty string)"),
                         collapse = ", ")
     }
-    warn_text <- c(warn_text, paste0("syntactically invalid values: ", invalid))
+    warn_text <- c(warn_text, paste0("are syntactically invalid: ", invalid))
     suggest_make_names <- TRUE
     x <- x[!bool_invalid]
   }
 
-  warn_text <- c(warn_text, warn_text_dupl, warn_text_underscores,
-                 warn_text_onlydots)
+  warn_text <- c(warn_text, warn_text_underscores,
+                 warn_text_onlydots, warn_text_nonASCII)
 
   if(!allow_susp) {
     # See the 'Programming note' for an explanation of the regular expressions.
@@ -236,8 +246,8 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
     if(any(bool_susp_v1, na.rm = TRUE)) {
       warn_text <- c(
         warn_text,
-        paste0("names that might have been created by read.csv: '",
-               paste0(x[bool_susp_v1], collapse = "', '"), "'."))
+        paste0("might have been created by read.csv: '",
+               paste0(x[bool_susp_v1], collapse = "', '"), "'"))
       x <- x[!bool_susp_v1]
     }
 
@@ -245,51 +255,42 @@ all_names <- function(x, allow_dupl = FALSE, allow_susp = FALSE,
     if(any(bool_susp_v2, na.rm = TRUE)) {
       warn_text <- c(
         warn_text,
-        paste0("names that might have been modified by make.names(x, unique = TRUE): '",
-               paste0(x[bool_susp_v2], collapse = "', '"), "'."))
+        paste0("might have been modified by make.names(x, unique = TRUE): '",
+               paste0(x[bool_susp_v2], collapse = "', '"), "'"))
     }
   }
 
   if(length(warn_text) > 0L) {
-    chars_ok <- FALSE
-    warn_text <- paste0("'x' contains ", paste0(warn_text, collapse = "; and "))
+    warn_text <- paste0("Names ", paste0(warn_text, collapse = "; and "))
   }
 
-  if(is.null(x)) {
-    chars_ok <- FALSE
-    warn_text_p1 <- paste0("'x' is NULL: did you use names(x) on an object",
-                           " without names,\nor colnames(x) on an object",
-                           " without column names?")
-  } else {
-    warn_text_p1 <- character(0)
-  }
+  warn_text <- paste0(c(warn_text_zerolength, warn_text), collapse = " and ")
 
-  warn_text <- paste0(c(warn_text_p1, warn_text), collapse = " and ")
   if(suggest_make_names) {
-    warn_text <- paste0(warn_text,
-                        ".\nUse 'x <- make.names(x, unique = TRUE",
-                        if(!allow_underscores) {", allow_ = FALSE"},
-                        ")' to create unique,\nsyntactically valid names",
-                        if(!allow_underscores) {" without underscores"},
-                        "!")
+    warn_text <- paste0(
+      warn_text, ".\nUse 'x <- make.names(x, unique = TRUE",
+      if(!allow_underscores) {", allow_ = FALSE"},
+      ")' to\ncreate unique, syntactically valid names",
+      if(!allow_underscores) {" without underscores"},
+      "!")
   }
 
-  if(suggest_transliterate) {
+  if(suggest_ASCII) {
     warn_text <- paste0(
       warn_text,
-      ".\nUse text with valid ASCII (https://en.wikipedia.org/wiki/ASCII),",
-      " e.g., by using the 'stringi' package",
-      " (https://CRAN.R-project.org/package=stringi) ",
-      if(requireNamespace("stringi")) {
-        "which is already installed"} else {"after installing it"},
-      ": 'make.names(names = stringi::stri_enc_toascii(str = x),",
-      " unique = TRUE, allow_ = ", allow_underscores,
-      ")'. Alternatively, set 'allow_nonASCII' to 'TRUE'.")
+      ".\nUse valid ASCII (i.e., mostly the Latin letters without accents and",
+      " the ten\ndigits, see https://en.wikipedia.org/wiki/ASCII for details)",
+      " to ensure the\ndefinition of 'letter', and thus what are syntactically",
+      " valid names, is\nlocale-independent. Alternatively, set",
+      " 'allow_nonASCII' to 'TRUE'.\nSee 'help(all_names)' for details.")
   }
 
-  if(nchar(warn_text) > 0L) {
+  # Another early return occurs if 'x' is not a character vector and not NULL.
+  if(length(warn_text) > 1L || nchar(warn_text) > 0L) {
+    chars_ok <- FALSE
     warning(x = warn_text)
+    return(FALSE)
   }
 
-  chars_ok
+  TRUE
 }
