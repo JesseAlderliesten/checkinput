@@ -4,21 +4,20 @@ false_true <- list(FALSE, TRUE)
 # Although invalid could be suspicious, (e.g., "3X.3", "3X.234") invalid names
 # will not have been created by make.names()!
 invalid <- c("", ".3a", "for", "NA", "a/b", "a-b", "3a", "3X.3", "3X.234")
-invalid_quoted <- paste0("'", paste0(invalid[-1], collapse = "', '"),
-                         "', ", empty_string_quoted)
+invalid_quoted <- paste0(paste_quoted(invalid[-1]), ", ", empty_string_quoted)
 use_makenames <- ".\nUse 'x <- make.names(x, unique = TRUE)"
 valid_nonsusp <- c("A", ".a", ".V1", ".V234", "VV1", "VV234", "X.", "X.3.",
                    "X.234.", "V1.", "V234.", "X.3X", "X.234X", "V1V", "V234V",
                    "X.a2", "X..", "X..X", "X.2X", "X.X", "X.X.X", "X.A", "A.X.A")
 valid_susp1 <- c("X", "X.3", "X.2", "X.234", "V1", "V234")
-valid_susp1_quoted <- paste(valid_susp1, collapse = "', '")
+valid_susp1_quoted <- paste_quoted(valid_susp1)
 valid_susp2 <- c("e.3", ".X.3", ".X.234", "XX.3", "XX.234", "X..3", "XX.2",
                  "X.X.2", "X..2", "Xa.2", "A.X.2")
-valid_susp2_quoted <- paste(valid_susp2, collapse = "', '")
+valid_susp2_quoted <- paste_quoted(valid_susp2)
 warn_dots <- "consist only of dots: '.'"
 warn_dupl <- "are duplicated: "
-warn_susp_v1 <- "might have been created by read.csv: '"
-warn_susp_v2 <- "might have been modified by make.names(x, unique = TRUE): '"
+warn_susp_v1 <- "might have been created by read.csv: "
+warn_susp_v2 <- "might have been modified by make.names(x, unique = TRUE): "
 warn_syntax <- "are syntactically invalid: "
 x_underscores <- c("abc_def", "ghi", "jk_l")
 
@@ -38,12 +37,12 @@ expect_warning(expect_false(
 
 expect_warning(expect_false(
   all_names(x = "X.3", allow_susp = FALSE)),
-  pattern = paste0(warn_susp_v1, "X.3'"), strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_susp_v1, "'X.3'"), strict = TRUE, fixed = TRUE)
 expect_true(all_names(x = "X.3", allow_susp = TRUE))
 
 expect_warning(expect_false(
   all_names(x = "e.3", allow_susp = FALSE)),
-  pattern = paste0(warn_susp_v2, "e.3'"), strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_susp_v2, "'e.3'"), strict = TRUE, fixed = TRUE)
 expect_true(all_names(x = "e.3", allow_susp = TRUE))
 
 expect_silent(expect_true(all_names(x = x_underscores, allow_underscores = TRUE)))
@@ -55,8 +54,7 @@ expect_warning(expect_false(
 
 expect_warning(expect_false(
   all_names(x = c("abc.def", "..abc..def..", ".", "..", "...", "...."))),
-  pattern = paste0("Names consist only of dots: '.', '..',",
-                   " '...', '....'"),
+  pattern ="Names consist only of dots: '.', '..', '...', '....'",
   strict = TRUE, fixed = TRUE)
 
 
@@ -89,8 +87,7 @@ expect_silent(expect_true(
 # Duplicated valid, not suspicious
 expect_warning(expect_false(
   all_names(x = c(valid_nonsusp, valid_nonsusp[c(2, 5)]), allow_susp = FALSE)),
-  pattern = paste0(warn_dupl, "'",
-                   paste0(valid_nonsusp[c(2, 5)], collapse = "', '"), "'"),
+  pattern = paste0(warn_dupl, paste_quoted(valid_nonsusp[c(2, 5)])),
   strict = TRUE, fixed = TRUE)
 
 for(allow_susp in false_true) {
@@ -120,7 +117,7 @@ for(allow_susp in false_true) {
   } else {
     expect_warning(expect_false(
       all_names(x = valid_susp1, allow_susp = allow_susp)),
-      pattern = paste0(warn_susp_v1, valid_susp1_quoted, "'"), strict = TRUE,
+      pattern = paste0(warn_susp_v1, valid_susp1_quoted), strict = TRUE,
       fixed = TRUE)
   }
 
@@ -131,7 +128,7 @@ for(allow_susp in false_true) {
   } else {
     expect_warning(expect_false(
       all_names(x = valid_susp2, allow_susp = allow_susp)),
-      pattern = paste0(warn_susp_v2, valid_susp2_quoted, "'"),
+      pattern = paste0(warn_susp_v2, valid_susp2_quoted),
       strict = TRUE, fixed = TRUE)
   }
 }
@@ -155,8 +152,8 @@ for(allow_susp in false_true) {
   expect_warning(expect_false(
     all_names(names_mix, allow_susp = FALSE)),
     pattern = paste0(warn_syntax, invalid_quoted, "; and ", warn_susp_v1,
-                     valid_susp1_quoted, "'; and ", warn_susp_v2,
-                     valid_susp2_quoted, "'", use_makenames),
+                     valid_susp1_quoted, "; and ", warn_susp_v2,
+                     valid_susp2_quoted, use_makenames),
     strict = TRUE, fixed = TRUE)
 }
 
@@ -174,13 +171,13 @@ expect_warning(expect_false(
 # Duplicated valid, suspicious v1
 expect_warning(expect_false(
   all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_susp = TRUE)),
-  pattern = paste0(warn_dupl, "'", paste0(valid_susp1[c(2, 4)], collapse = "', '"),
-                   "'", use_makenames), strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_dupl, paste_quoted(valid_susp1[c(2, 4)]), use_makenames),
+  strict = TRUE, fixed = TRUE)
 
 expect_warning(expect_false(
   all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_susp = FALSE)),
-  pattern = paste0(warn_dupl, "'", paste0(valid_susp1[c(2, 4)], collapse = "', '"),
-                   "'; and ", warn_susp_v1, valid_susp1_quoted, "'"),
+  pattern = paste0(warn_dupl, paste_quoted(valid_susp1[c(2, 4)]),
+                   "; and ", warn_susp_v1, valid_susp1_quoted),
   strict = TRUE, fixed = TRUE)
 
 
@@ -191,18 +188,17 @@ warning("Create tests for input values of type 'Duplicated valid, suspicious v2'
 # only dots
 expect_warning(expect_false(
   all_names(c(".", ".a.", "..a..", "...", "b."))),
-  pattern = paste0("Names ", warn_dots, ", '...'"), strict = TRUE,
-  fixed = TRUE)
+  pattern = paste0("Names ", warn_dots, ", '...'"), strict = TRUE, fixed = TRUE)
 
 expect_warning(expect_false(
   all_names(c(".", ".a.", ".", "..a..", "...", "b.", "..."))),
-  pattern = paste0(warn_dupl, "'.', '...'; and ",
-                   warn_dots, ", '...'"), strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_dupl, "'.', '...'; and ", warn_dots, ", '...'"),
+  strict = TRUE, fixed = TRUE)
 
 expect_warning(expect_false(
   all_names(c(".", "."))),
-  pattern = paste0(warn_dupl, "'.'; and ",
-                   warn_dots), strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_dupl, "'.'; and ", warn_dots), strict = TRUE,
+  fixed = TRUE)
 
 
 expect_error(all_names(),

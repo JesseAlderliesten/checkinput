@@ -131,8 +131,7 @@ all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
   if(anyDuplicated(x) != 0L) {
     bool_dupl <- duplicated(x)
     warn_text <- c(warn_text,
-                   paste0("are duplicated: '",
-                          paste0(unique(x[bool_dupl]), collapse = "', '"), "'"))
+                   paste0("are duplicated: ", paste_quoted(unique(x[bool_dupl]))))
     suggest_make_names <- TRUE
     x <- x[!bool_dupl]
   }
@@ -142,8 +141,7 @@ all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
   bool_onlydots <- grepl(pattern = "^\\.+$", x = x)
   if(any(bool_onlydots)) {
     warn_text_onlydots <- paste0(
-      "consist only of dots: '",
-      paste0(x[bool_onlydots], collapse = "', '"), "'")
+      "consist only of dots: ", paste_quoted(x[bool_onlydots]))
   }
 
   warn_text_underscores <- character(0)
@@ -151,8 +149,7 @@ all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
     bool_underscores <- grepl(pattern = "_", x = x, fixed = TRUE)
     if(any(bool_underscores)) {
       warn_text_underscores <- paste0(
-        "contain underscores: '",
-        paste0(x[bool_underscores], collapse = "', '"), "'")
+        "contain underscores: ", paste_quoted(x[bool_underscores]))
       suggest_make_names <- TRUE
     }
   }
@@ -190,12 +187,10 @@ all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
     bool_other_invalid <- bool_NA | (bool_invalid & !bool_zchar_x)
     invalid <- character(0)
     if(any(bool_other_invalid)) {
-      invalid <- paste0(invalid, "'", paste0(x[bool_other_invalid],
-                                             collapse = "', '"), "'")
+      invalid <- paste0(invalid, paste_quoted(x[bool_other_invalid]))
     }
     if(any(bool_zchar_x)) {
-      invalid <- paste0(c(invalid, "'\"\"' (i.e., an empty string)"),
-                        collapse = ", ")
+      invalid <- toString(c(invalid, "'\"\"' (i.e., an empty string)"))
     }
     warn_text <- c(warn_text, paste0("are syntactically invalid: ", invalid))
     suggest_make_names <- TRUE
@@ -212,8 +207,8 @@ all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
     if(any(bool_susp_v1, na.rm = TRUE)) {
       warn_text <- c(
         warn_text,
-        paste0("might have been created by read.csv: '",
-               paste0(x[bool_susp_v1], collapse = "', '"), "'"))
+        paste0("might have been created by read.csv: ",
+               paste_quoted(x[bool_susp_v1])))
       x <- x[!bool_susp_v1]
     }
 
@@ -221,8 +216,8 @@ all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
     if(any(bool_susp_v2, na.rm = TRUE)) {
       warn_text <- c(
         warn_text,
-        paste0("might have been modified by make.names(x, unique = TRUE): '",
-               paste0(x[bool_susp_v2], collapse = "', '"), "'"))
+        paste0("might have been modified by make.names(x, unique = TRUE): ",
+               paste_quoted(x[bool_susp_v2])))
     }
   }
 
