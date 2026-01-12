@@ -59,7 +59,7 @@ all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
 all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
 all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
-all_natural(x = "a") # Error
+all_natural(x = "a") # FALSE
 
 # Allowing for small numeric errors is important
 x <- sqrt(2)^2
@@ -81,7 +81,6 @@ Other collections of checks on type and length:
 \code{\link{all_characters}()},
 \code{\link{all_names}()},
 \code{\link{all_nonnegative}()},
-\code{\link{are_numerish}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}
 }
