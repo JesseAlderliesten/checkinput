@@ -20,10 +20,6 @@ warn_dupl <- "are duplicated: "
 warn_susp_v1 <- "might have been created by read.csv: '"
 warn_susp_v2 <- "might have been modified by make.names(x, unique = TRUE): '"
 warn_syntax <- "are syntactically invalid: "
-x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
-x_nonASCII <- c("Grüße", "\U00B5")
-Encoding(x_nonASCII) <- "UTF-8"
-x_toASCII <- c("Gr\032\032e")
 x_underscores <- c("abc_def", "ghi", "jk_l")
 
 
@@ -39,7 +35,6 @@ expect_warning(expect_false(
 expect_warning(expect_false(
   all_names(x = c("a", "b", "a"))),
   pattern = paste0(warn_dupl, "'a'"), strict = TRUE, fixed = TRUE)
-expect_true(all_names(x = c("a", "b", "a"), allow_dupl = TRUE))
 
 expect_warning(expect_false(
   all_names(x = "X.3", allow_susp = FALSE)),
@@ -58,9 +53,8 @@ expect_warning(expect_false(
   pattern = "Names contain underscores: 'abc_def', 'jk_l'",
   strict = TRUE, fixed = TRUE)
 
-expect_silent(expect_true(all_names(x = x_dots, allow_onlydots = TRUE)))
 expect_warning(expect_false(
-  all_names(x = x_dots, allow_onlydots = FALSE)),
+  all_names(x = c("abc.def", "..abc..def..", ".", "..", "...", "...."))),
   pattern = paste0("Names consist only of dots: '.', '..',",
                    " '...', '....'"),
   strict = TRUE, fixed = TRUE)
@@ -93,13 +87,8 @@ expect_silent(expect_true(
   all_names(x = valid_nonsusp, allow_susp = TRUE)))
 
 # Duplicated valid, not suspicious
-expect_true(
-  all_names(x = c(valid_nonsusp, valid_nonsusp[c(2, 5)]),
-            allow_dupl = TRUE, allow_susp = FALSE))
-
 expect_warning(expect_false(
-  all_names(x = c(valid_nonsusp, valid_nonsusp[c(2, 5)]),
-            allow_dupl = FALSE, allow_susp = FALSE)),
+  all_names(x = c(valid_nonsusp, valid_nonsusp[c(2, 5)]), allow_susp = FALSE)),
   pattern = paste0(warn_dupl, "'",
                    paste0(valid_nonsusp[c(2, 5)], collapse = "', '"), "'"),
   strict = TRUE, fixed = TRUE)
@@ -149,33 +138,26 @@ for(allow_susp in false_true) {
 
 # Duplicated invalid, not suspicious
 expect_warning(expect_false(
-  all_names(x = c(invalid, invalid[2]), allow_dupl = TRUE)),
-  pattern = paste0(warn_syntax, invalid_quoted, use_makenames),
-  strict = TRUE, fixed = TRUE)
-
-expect_warning(expect_false(
-  all_names(x = c(invalid, invalid[2]), allow_dupl = FALSE)),
+  all_names(x = c(invalid, invalid[2]))),
   pattern = paste0(warn_dupl, "'", invalid[2], "'; and ", warn_syntax,
                    invalid_quoted, use_makenames), strict = TRUE,
   fixed = TRUE)
 
-for(allow_dupl in false_true) {
-  for(allow_susp in false_true) {
-    # Mix
-    names_mix <- c(valid_nonsusp, valid_susp1, valid_susp2, invalid)
+for(allow_susp in false_true) {
+  # Mix
+  names_mix <- c(valid_nonsusp, valid_susp1, valid_susp2, invalid)
 
-    expect_warning(expect_false(
-      all_names(names_mix, allow_susp = TRUE)),
-      pattern = paste0(warn_syntax, invalid_quoted, use_makenames),
-      strict = TRUE, fixed = TRUE)
+  expect_warning(expect_false(
+    all_names(names_mix, allow_susp = TRUE)),
+    pattern = paste0(warn_syntax, invalid_quoted, use_makenames),
+    strict = TRUE, fixed = TRUE)
 
-    expect_warning(expect_false(
-      all_names(names_mix, allow_susp = FALSE)),
-      pattern = paste0(warn_syntax, invalid_quoted, "; and ", warn_susp_v1,
-                       valid_susp1_quoted, "'; and ", warn_susp_v2,
-                       valid_susp2_quoted, "'", use_makenames),
-      strict = TRUE, fixed = TRUE)
-  }
+  expect_warning(expect_false(
+    all_names(names_mix, allow_susp = FALSE)),
+    pattern = paste0(warn_syntax, invalid_quoted, "; and ", warn_susp_v1,
+                     valid_susp1_quoted, "'; and ", warn_susp_v2,
+                     valid_susp2_quoted, "'", use_makenames),
+    strict = TRUE, fixed = TRUE)
 }
 
 expect_silent(expect_true(
@@ -191,27 +173,15 @@ expect_warning(expect_false(
 
 # Duplicated valid, suspicious v1
 expect_warning(expect_false(
-  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_dupl = FALSE,
-            allow_susp = TRUE)),
+  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_susp = TRUE)),
   pattern = paste0(warn_dupl, "'", paste0(valid_susp1[c(2, 4)], collapse = "', '"),
                    "'", use_makenames), strict = TRUE, fixed = TRUE)
 
-expect_true(
-  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_dupl = TRUE,
-            allow_susp = TRUE))
-
 expect_warning(expect_false(
-  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_dupl = FALSE,
-            allow_susp = FALSE)),
+  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_susp = FALSE)),
   pattern = paste0(warn_dupl, "'", paste0(valid_susp1[c(2, 4)], collapse = "', '"),
                    "'; and ", warn_susp_v1, valid_susp1_quoted, "'"),
   strict = TRUE, fixed = TRUE)
-
-expect_warning(expect_false(
-  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_dupl = TRUE,
-            allow_susp = FALSE)),
-  pattern = paste0(warn_susp_v1, valid_susp1_quoted, "'"), strict = TRUE,
-  fixed = TRUE)
 
 
 # Duplicated valid, suspicious v2
@@ -237,38 +207,14 @@ expect_warning(expect_false(
 
 expect_error(all_names(),
              pattern = "argument \"x\" is missing, with no default", fixed = TRUE)
-expect_error(all_names(x = names(c(a = 1, b = 2)), allow_dupl = NA),
-             pattern = "is_logical(allow_dupl) is not TRUE", fixed = TRUE)
 expect_error(all_names(x = names(c(a = 1, b = 2)), allow_susp = NA),
              pattern = "is_logical(allow_susp) is not TRUE", fixed = TRUE)
 expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscores = NA),
              pattern = "is_logical(allow_underscores) is not TRUE", fixed = TRUE)
-expect_error(all_names(x = names(c(a = 1, b = 2)), allow_onlydots = NA),
-             pattern = "is_logical(allow_onlydots) is not TRUE", fixed = TRUE)
-
-expect_silent(expect_true(all_names(x = x_nonASCII, allow_nonASCII = TRUE)))
-
-expect_warning(expect_false(
-  all_names(x_nonASCII)),
-  # Excluding the non-ASCII characters to keep the test locale-independent
-  pattern = "Names contain non-ASCII characters: 'Gr",
-  strict = TRUE, fixed = TRUE)
-
-expect_warning(expect_false(
-  all_names(x_nonASCII)),
-  # Excluding the non-ASCII characters to keep the test locale-independent
-  pattern = "e', '", strict = TRUE, fixed = TRUE)
-
-expect_warning(expect_false(
-  all_names(x_toASCII)),
-  # Excluding the non-ASCII characters to keep the test locale-independent
-  pattern = "Names are syntactically invalid: 'Gr",
-  strict = TRUE, fixed = TRUE)
 
 
 #### Remove objects used in tests ####
-rm(allow_dupl, allow_susp, empty_string_quoted, false_true, invalid,
+rm(allow_susp, empty_string_quoted, false_true, invalid,
    invalid_quoted, names_mix, valid_nonsusp, valid_susp1, valid_susp1_quoted,
    valid_susp2, valid_susp2_quoted, use_makenames, warn_dots, warn_dupl,
-   warn_susp_v1, warn_susp_v2, warn_syntax, x_dots, x_nonASCII, x_toASCII,
-   x_underscores)
+   warn_susp_v1, warn_susp_v2, warn_syntax, x_underscores)
