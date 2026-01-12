@@ -1,6 +1,6 @@
-#' Check if `x` is numeric
+#' Check that `x` is numeric
 #'
-#' Check if `x` is a numeric vector of the correct length with numbers of the
+#' Check that `x` is a numeric vector of the correct length with numbers of the
 #' correct sign.
 #'
 #' @inheritParams is_logical
@@ -35,7 +35,7 @@
 #' values but using them in conditional statements leads to `logical(0)` and
 #' thus to an error. However, implementing those arguments is complicated
 #' because `is.na(x)` returns `TRUE` for `NaN` and `is.na(x)` and `is.nan(x)`
-#' return `logical(0)` for zero-length `x`, see [are_NA_numeric()].
+#' return `logical(0)` for zero-length `x`.
 #'
 #' @seealso The vignette about type coercion:
 #' `vignette("Type_Coercion", package = "checkinput")`.
@@ -60,5 +60,5 @@
 #' @export
 is_number <- function(x) {
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
-  is.numeric(x) && length(x) == 1L && is.null(dim(x))
+  is.numeric(x) && is.atomic(x) && is.null(dim(x)) && length(x) == 1L
 }

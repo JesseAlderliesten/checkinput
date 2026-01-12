@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_logical.R
 \name{is_logical}
 \alias{is_logical}
-\title{Check if \code{x} is logical}
+\title{Check that \code{x} is logical}
 \usage{
 is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 }
@@ -18,7 +18,7 @@ is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 and contains only allowed logical values.
 }
 \description{
-Check if \code{x} is a length-one logical vector with only allowed logical values.
+Check that \code{x} is a length-one logical vector with only allowed logical values.
 }
 \details{
 The correct length of \code{x} is one if argument \code{allow_zero} is \code{FALSE}
@@ -55,7 +55,7 @@ Other collections of checks on type and length:
 \code{\link{all_names}()},
 \code{\link{all_natural}()},
 \code{\link{all_nonnegative}()},
-\code{\link{are_NA_numeric}()},
+\code{\link{are_numerish}()},
 \code{\link{is_zerolength}()}
 }
 \concept{collections of checks on type and length}

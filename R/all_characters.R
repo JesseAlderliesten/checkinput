@@ -1,6 +1,6 @@
-#' Check if `x` is character
+#' Check that `x` is character
 #'
-#' Checks if `x` is a character vector of the correct length with only allowed
+#' Check that `x` is a character vector of the correct length with only allowed
 #' character values.
 #'
 #' @inheritParams is_logical
@@ -42,7 +42,7 @@
 all_characters <- function(x, allow_empty = FALSE, allow_zero = FALSE,
                            allow_NA = FALSE) {
   stopifnot(is_logical(allow_empty), is_logical(allow_zero), is_logical(allow_NA))
-  is.character(x) && is.null(dim(x)) &&
+  is.character(x) && is.atomic(x) && is.null(dim(x)) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
     (allow_zero || length(x) > 0) &&
     (allow_NA || !anyNA(x))

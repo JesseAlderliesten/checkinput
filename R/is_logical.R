@@ -1,6 +1,6 @@
-#' Check if `x` is logical
+#' Check that `x` is logical
 #'
-#' Check if `x` is a length-one logical vector with only allowed logical values.
+#' Check that `x` is a length-one logical vector with only allowed logical values.
 #'
 #' @param x object to test.
 #' @param allow_zero `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
@@ -39,7 +39,7 @@
 is_logical <- function(x, allow_zero = FALSE, allow_NA = FALSE) {
   stopifnot(is.logical(allow_zero), length(allow_zero) == 1L, !is.na(allow_zero),
             is.logical(allow_NA), length(allow_NA) == 1L, !is.na(allow_NA))
-  is.logical(x) && is.null(dim(x)) &&
+  is.logical(x) && is.atomic(x) && is.null(dim(x)) &&
     (length(x) == 1L || (allow_zero && length(x) == 0L)) &&
     (allow_NA || !anyNA(x))
 }

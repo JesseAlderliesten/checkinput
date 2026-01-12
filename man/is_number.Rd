@@ -7,7 +7,7 @@
 \alias{is_nonnegative}
 \alias{is_number}
 \alias{is_positive}
-\title{Check if \code{x} is numeric}
+\title{Check that \code{x} is numeric}
 \usage{
 all_nonnegative(x)
 
@@ -27,7 +27,7 @@ is_positive(x)
 correct length with numbers of the correct sign.
 }
 \description{
-Check if \code{x} is a numeric vector of the correct length with numbers of the
+Check that \code{x} is a numeric vector of the correct length with numbers of the
 correct sign.
 }
 \details{
@@ -60,7 +60,7 @@ contradiction that using \code{is_number()} currently returns \code{TRUE} for th
 values but using them in conditional statements leads to \code{logical(0)} and
 thus to an error. However, implementing those arguments is complicated
 because \code{is.na(x)} returns \code{TRUE} for \code{NaN} and \code{is.na(x)} and \code{is.nan(x)}
-return \code{logical(0)} for zero-length \code{x}, see \code{\link[=are_NA_numeric]{are_NA_numeric()}}.
+return \code{logical(0)} for zero-length \code{x}.
 }
 
 \examples{
@@ -88,7 +88,7 @@ Other collections of checks on type and length:
 \code{\link{all_characters}()},
 \code{\link{all_names}()},
 \code{\link{all_natural}()},
-\code{\link{are_NA_numeric}()},
+\code{\link{are_numerish}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}
 }

@@ -3,7 +3,7 @@
 \name{all_characters}
 \alias{all_characters}
 \alias{is_character}
-\title{Check if \code{x} is character}
+\title{Check that \code{x} is character}
 \usage{
 all_characters(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 
@@ -23,7 +23,7 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 correct length with only allowed character values.
 }
 \description{
-Checks if \code{x} is a character vector of the correct length with only allowed
+Check that \code{x} is a character vector of the correct length with only allowed
 character values.
 }
 \details{
@@ -67,7 +67,7 @@ Other collections of checks on type and length:
 \code{\link{all_names}()},
 \code{\link{all_natural}()},
 \code{\link{all_nonnegative}()},
-\code{\link{are_NA_numeric}()},
+\code{\link{are_numerish}()},
 \code{\link{is_logical}()},
 \code{\link{is_zerolength}()}
 }
