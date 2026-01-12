@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_zerolength.R
 \name{is_zerolength}
 \alias{is_zerolength}
-\title{Check if \code{x} is a zero-length object}
+\title{Check that x is zero-length}
 \usage{
 is_zerolength(x)
 }
@@ -13,7 +13,7 @@ is_zerolength(x)
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a zero-length object.
 }
 \description{
-Check if \code{x} is a zero-length object
+Check that x is zero-length
 }
 \details{
 No check is performed on dimensions, such that a \code{\link[=matrix]{matrix()}}
@@ -27,7 +27,7 @@ complex (\code{complex(0)}), character (\code{character(0)}), and list (\code{\l
 \code{\link[=data.frame]{data.frame()}}). \code{""} is not a zero-length object: it has a \link[=nchar]{width}
 of zero characters but a \code{length} of one.
 
-\code{\link[=is.null]{is.null()}} should be used to check if an object is \code{NULL} and, more
+\code{\link[=is.null]{is.null()}} should be used to check that an object is \code{NULL} and, more
 generally, \verb{isTRUE(all.equal(x, <zero-length object>))} should be used to
 check equality to a zero-length object. Testing equality should \emph{not} be done
 by using \link[=Comparison]{==} because that leads to \code{logical(0)} if any of the
@@ -73,7 +73,6 @@ Other collections of checks on type and length:
 \code{\link{all_names}()},
 \code{\link{all_natural}()},
 \code{\link{all_nonnegative}()},
-\code{\link{are_NA_numeric}()},
 \code{\link{is_logical}()}
 }
 \concept{collections of checks on type and length}
