@@ -1,4 +1,4 @@
-#' Check if `x` is a zero-length object
+#' Check that x is zero-length
 #'
 #' @param x object to test.
 #'
@@ -15,7 +15,7 @@
 #' [data.frame()]). `""` is not a zero-length object: it has a [width][nchar()]
 #' of zero characters but a `length` of one.
 #'
-#' [is.null()] should be used to check if an object is `NULL` and, more
+#' [is.null()] should be used to check that an object is `NULL` and, more
 #' generally, `isTRUE(all.equal(x, <zero-length object>))` should be used to
 #' check equality to a zero-length object. Testing equality should *not* be done
 #' by using [==][Comparison] because that leads to `logical(0)` if any of the
