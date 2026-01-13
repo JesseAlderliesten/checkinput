@@ -15,32 +15,33 @@ list_output_zerolength <- list("'NULL'", "'character(0)'", "'numeric(0)'",
 
 #### Tests ####
 for(index in seq_along(list_input)) {
-  expect_identical(paste_quoted(x = list_input[[index]]), list_output[[index]])
+  expect_identical(checkinput:::paste_quoted(x = list_input[[index]]),
+                   list_output[[index]])
 }
 
 expect_error(
-  paste_quoted(3, 4),
+  checkinput:::paste_quoted(3, 4),
   pattern = "unused argument (4)", fixed = TRUE)
 
 expect_error(
-  paste_quoted(c(3, 4), 5:6),
+  checkinput:::paste_quoted(c(3, 4), 5:6),
   pattern = "unused argument (5:6)", fixed = TRUE)
 
 expect_error(
-  paste_quoted(c(3, 4), 5:6, 7),
+  checkinput:::paste_quoted(c(3, 4), 5:6, 7),
   pattern = "unused arguments (5:6, 7)", fixed = TRUE)
 
 expect_error(
-  paste_quoted(c(3, 4), h = 5, 7),
+  checkinput:::paste_quoted(c(3, 4), h = 5, 7),
   pattern = "unused arguments (h = 5, 7)", fixed = TRUE)
 
-expect_identical(paste_quoted(c(3, 4)), "'3', '4'")
-expect_identical(paste_quoted(c(a = 3, b = 4)), "'3', '4'")
-expect_identical(paste_quoted(NULL), "'NULL'")
+expect_identical(checkinput:::paste_quoted(c(3, 4)), "'3', '4'")
+expect_identical(checkinput:::paste_quoted(c(a = 3, b = 4)), "'3', '4'")
+expect_identical(checkinput:::paste_quoted(NULL), "'NULL'")
 
 for(index_NULL in seq_along(list_input_zerolength)) {
   expect_silent(expect_identical(
-    paste_quoted(list_input_zerolength[[index_NULL]]),
+    checkinput:::paste_quoted(list_input_zerolength[[index_NULL]]),
     list_output_zerolength[[index_NULL]]))
 }
 
