@@ -13,22 +13,20 @@ knitr::opts_chunk$set(
 # checkinput
 
 With `checkinput`, you can write concise checks which can be tailored to the
-need of the specific function for which the input is checked.
+need of the specific function for which the input is checked. The package also
+contains vignette `Type_Coercion`
+(`vignette("Type_Coercion", package = "checkinput")`) on type coercion.
 
 ## Installation
 
-You can install the development version of `checkinput` from
+You can install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) with:
 
-```{r installing checkinput, eval = FALSE}
-# You can add argument 'lib' to specify the location where the packages should
-# be installed.
-if(requireNamespace("remotes")) {
-  remotes::install_github("JesseAlderliesten/checkinput")
-} else {
+```{r, eval = FALSE}
+if(!requireNamespace("remotes")) {
   install.packages("remotes")
-  remotes::install_github("JesseAlderliesten/checkinput")
 }
+remotes::install_github("JesseAlderliesten/checkinput")
 ```
 
 ## Example
@@ -37,7 +35,7 @@ Say you want to collect information on hobbies of people through a function in
 which it is optional for them to provide their name. With `checkinput`, you
 could write a function like `list_hobbies()`:
 
-```{r using checkinput}
+```{r}
 list_hobbies <- function(name, age, hobbies) {
   stopifnot(is_character(name, allow_empty = TRUE, allow_NA = TRUE),
             is_nonnegative(age), all_characters(hobbies))
@@ -54,7 +52,7 @@ and does not contain any empty strings or `NA`s.
 The base-R equivalent of `list_hobbies()` would require much more code to check
 the input:
 
-```{r using base R}
+```{r}
 list_hobbies_base <- function(name, age, hobbies) {
   stopifnot(is.null(dim(name)), length(name) > 0L, length(name) < 2L,
             is.character(name), is.numeric(age), length(age) == 1L,
@@ -67,7 +65,7 @@ list_hobbies_base <- function(name, age, hobbies) {
 
 If the input passes all checks, both functions produce the same output:
 
-```{r comparing output}
+```{r}
 library(checkinput)
 John_checkinput <- list_hobbies(name = "John", age = 25,
                                 hobbies = c("books", "construction sets"))
@@ -81,9 +79,9 @@ baby_base <- list_hobbies_base(name = "", age = 0, hobbies = c("drinking"))
 identical(baby_checkinput, baby_base)
 ```
 
-Error messages when a check fails can be more-informative when using `checkinput`:
+When a check fails, error messages can be more-informative when using `checkinput`:
 
-```{r comparing errors}
+```{r}
 try(list_hobbies(name = "John", age = 25,
                  hobbies = c("books", "", "construction sets")))
 try(list_hobbies_base(name = "John", age = 25,
@@ -100,3 +98,21 @@ non-negative is incorrectly implemented. This shows another advantage of being
 able to specify constraints on the input through arguments of the
 check-functions instead of having to spell out each condition: there is less
 need to adjust variable names, which reduces the chance of coding errors.
+
+# Similar packages
+Functions of `checkinput` use arguments to determine which special values should
+be allowed, which makes them more flexible than functions in similar packages.
+Nevertheless, the following similar packages are worth looking into:
+
+- [arkhe](https://CRAN.R-project.org/package=arkhe): tools for cleaning
+  rectangular data.
+- [assertable](https://CRAN.R-project.org/package=assertable): verbose
+  assertions for tabular data (data.frames and data.tables).
+- [assertthat](https://CRAN.R-project.org/package=assertthat): easy pre and post
+  assertions.
+- [checkmate](https://CRAN.R-project.org/package=checkmate): fast and versatile
+  argument checks
+- [chk](https://CRAN.R-project.org/package=chk): check user-supplied function
+  arguments
+- [erify](https://CRAN.R-project.org/package=erify): check arguments and
+  generate readable error messages

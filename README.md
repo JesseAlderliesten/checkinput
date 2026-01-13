@@ -2,22 +2,20 @@
 # checkinput
 
 With `checkinput`, you can write concise checks which can be tailored to
-the need of the specific function for which the input is checked.
+the need of the specific function for which the input is checked. The
+package also contains vignette `Type_Coercion`
+(`vignette("Type_Coercion", package = "checkinput")`) on type coercion.
 
 ## Installation
 
-You can install the development version of `checkinput` from
+You can install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) with:
 
 ``` r
-# You can add argument 'lib' to specify the location where the packages should
-# be installed.
-if(requireNamespace("remotes")) {
-  remotes::install_github("JesseAlderliesten/checkinput")
-} else {
+if(!requireNamespace("remotes")) {
   install.packages("remotes")
-  remotes::install_github("JesseAlderliesten/checkinput")
 }
+remotes::install_github("JesseAlderliesten/checkinput")
 ```
 
 ## Example
@@ -72,7 +70,7 @@ identical(baby_checkinput, baby_base)
 #> [1] TRUE
 ```
 
-Error messages when a check fails can be more-informative when using
+When a check fails, error messages can be more-informative when using
 `checkinput`:
 
 ``` r
@@ -107,3 +105,23 @@ another advantage of being able to specify constraints on the input
 through arguments of the check-functions instead of having to spell out
 each condition: there is less need to adjust variable names, which
 reduces the chance of coding errors.
+
+# Similar packages
+
+Functions of `checkinput` use arguments to determine which special
+values should be allowed, which makes them more flexible than functions
+in similar packages. Nevertheless, the following similar packages are
+worth looking into:
+
+- [arkhe](https://CRAN.R-project.org/package=arkhe): tools for cleaning
+  rectangular data.
+- [assertable](https://CRAN.R-project.org/package=assertable): verbose
+  assertions for tabular data (data.frames and data.tables).
+- [assertthat](https://CRAN.R-project.org/package=assertthat): easy pre
+  and post assertions.
+- [checkmate](https://CRAN.R-project.org/package=checkmate): fast and
+  versatile argument checks
+- [chk](https://CRAN.R-project.org/package=chk): check user-supplied
+  function arguments
+- [erify](https://CRAN.R-project.org/package=erify): check arguments and
+  generate readable error messages
