@@ -11,14 +11,22 @@ knitr::opts_chunk$set(
 ```
 
 # checkinput
-
 With `checkinput`, you can write concise checks which can be tailored to the
-need of the specific function for which the input is checked. The package also
-contains vignette `Type_Coercion`
-(`vignette("Type_Coercion", package = "checkinput")`) on type coercion.
+need of the specific function for which the input is checked.
+
+The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` always
+return either `TRUE` or `FALSE` and never throw an error: throwing an error is
+deferred to `stopifnot(...)` in which calls to `is_<funcname>` are typically
+wrapped when they are used inside other functions. Details are given in the
+vignette about design choices:
+`vignette("design_choices_input", package = "checkinput")`.
+
+The package also contains a vignette about type coercion in vectors, which
+discusses some important aspects regarding testing of vectors:
+`vignette("Type_Coercion", package = "checkinput")`.
+
 
 ## Installation
-
 You can install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) with:
 
@@ -30,7 +38,6 @@ remotes::install_github("JesseAlderliesten/checkinput")
 ```
 
 ## Example
-
 Say you want to collect information on hobbies of people through a function in
 which it is optional for them to provide their name. With `checkinput`, you
 could write a function like `list_hobbies()`:
