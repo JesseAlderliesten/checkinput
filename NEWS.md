@@ -9,6 +9,26 @@ released versions.
   https://github.com/dmurdoch/rgl/commit/bbc84447c2a6efed42907fbac176e9569b868d8f
   and https://stackoverflow.com/questions/34946219/linking-r-package-vignettes.
 
+### Breaking changes
+- None.
+
+### Bug fixes
+- None.
+
+### Added functions
+- None.
+
+### Minor improvements
+- None.
+
+### Updated documentation
+- None.
+
+### Updated tests
+- None.
+
+
+# checkinput 0.0.5
 This update has many changes on documentation.
 
 ### Breaking changes
