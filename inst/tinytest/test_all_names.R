@@ -107,9 +107,12 @@ for(allow_susp in false_true) {
     pattern = paste0(warn_syntax, "'NA'", use_makenames), strict = TRUE,
     fixed = TRUE)
 
-  expect_warning(
-    all_names(x = NA, allow_susp = allow_susp),
-    pattern = "'x' is not a character vector!", strict = TRUE, fixed = TRUE)
+  for(x in list(NA, data.frame(a = "nco"), as.matrix(data.frame(a = "nco")),
+                list())) {
+    expect_warning(
+      all_names(x = x, allow_susp = allow_susp),
+      pattern = "'x' is not a character vector!", strict = TRUE, fixed = TRUE)
+  }
 
   # Unique valid, suspicious v1
   if(allow_susp) {
@@ -184,7 +187,7 @@ expect_warning(expect_false(
 
 
 # Duplicated valid, suspicious v2
-warning("Create tests for input values of type 'Duplicated valid, suspicious v2'!")
+# Not yet created tests for input values of type 'Duplicated valid, suspicious v2'!
 
 
 # only dots
@@ -215,4 +218,4 @@ expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscores = NA),
 rm(allow_susp, empty_string_quoted, false_true, invalid,
    invalid_quoted, names_mix, valid_nonsusp, valid_susp1, valid_susp1_quoted,
    valid_susp2, valid_susp2_quoted, use_makenames, warn_dots, warn_dupl,
-   warn_susp_v1, warn_susp_v2, warn_syntax, x_underscores)
+   warn_susp_v1, warn_susp_v2, warn_syntax, x, x_underscores)

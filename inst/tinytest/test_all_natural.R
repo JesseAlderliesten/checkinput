@@ -41,6 +41,10 @@ for(allow_NA in c(FALSE, TRUE)) {
   }
 }
 
+for(x in list(data.frame(a = "nco"), as.matrix(data.frame(a = "nco")))) {
+  expect_silent(expect_false(all_natural(x = x)))
+}
+
 expect_error(all_natural(x = c(3, 5 + 1e-10), strict = NA),
              pattern = "is_logical(strict) is not TRUE", fixed = TRUE)
 expect_error(all_natural(x = c(3, 5 + 1e-10), allow_NA = NA),
@@ -49,3 +53,7 @@ expect_error(all_natural(x = c(3, 5 + 1e-10), tol = -3),
              pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
 expect_error(all_natural(x = c(3, 5 + 1e-10), tol = 0),
              pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
+
+
+#### Remove objects used in tests ####
+rm(allow_NA, x)

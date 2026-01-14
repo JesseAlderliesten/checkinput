@@ -74,14 +74,15 @@ x - 2 # about 4.44e-16
 check for exact equality; \link{Comparison} to compare two vectors using binary
 operators; \code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors;
 \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
-for background on numerical equality; the vignette about type coercion:
-\code{vignette("Type_Coercion", package = "checkinput")}.
+for background on numerical equality;
+\code{vignette("design_choices", package = "checkinput")} and
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_names}()},
-\code{\link{all_nonnegative}()},
 \code{\link{is_logical}()},
+\code{\link{is_number}()},
 \code{\link{is_zerolength}()}
 }
 \concept{collections of checks on type and length}

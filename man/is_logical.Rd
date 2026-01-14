@@ -20,26 +20,6 @@ and contains only allowed logical values.
 \description{
 Check that \code{x} is a length-one logical vector with only allowed logical values.
 }
-\details{
-The correct length of \code{x} is one if argument \code{allow_zero} is \code{FALSE}
-and zero or one if argument \code{allow_zero} is \code{TRUE}. Argument \code{allow_zero}
-only has an effect if \code{logical(0)} is the only value in \code{x}, because
-\code{logical(0)} is discarded when it is put in a vector together with other
-values.
-}
-\note{
-\code{is_logical()} is mainly used for argument checking and therefore by
-default return \code{FALSE} for zero-length logical strings and \code{NA}. In contrast,
-\code{\link[=is.logical]{is.logical()}} returns \code{TRUE} for these inputs, which can be achieved with
-\code{is_logical()} by setting arguments \code{allow_zero} or \code{allow_NA} to \code{TRUE},
-respectively.
-}
-\section{Programming note}{
- This implementation differs from the legacy-code:
-\code{NA} is not allowed for arguments \code{allow_empty}, \code{allow_zero}, and
-\code{allow_NA}, such that the return will never be \code{NA}.
-}
-
 \examples{
 is_logical(TRUE) # TRUE
 is_logical(c(TRUE, TRUE)) # FALSE: incorrect length
@@ -50,11 +30,13 @@ is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
+The \href{../doc/design_choices.html}{vignette about design choices}.
+
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_names}()},
 \code{\link{all_natural}()},
-\code{\link{all_nonnegative}()},
+\code{\link{is_number}()},
 \code{\link{is_zerolength}()}
 }
 \concept{collections of checks on type and length}

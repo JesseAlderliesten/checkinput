@@ -26,3 +26,7 @@ for(x in list(NULL, FALSE, TRUE, NA, numeric(0), c(NA_real_, NA_real_),
               "", "nco", data.frame(a = 314), matrix(314), list(314))) {
   expect_silent(expect_false(is_number(x = x)))
 }
+
+
+#### Remove objects used in tests ####
+rm(x)

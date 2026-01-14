@@ -17,10 +17,6 @@ all_names(x, allow_underscores = TRUE, allow_susp = FALSE)
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector that only
 contains syntactically valid names that satisfy the restrictions imposed by
 the other function arguments.
-
-To get a named boolean vector indicating for each element of \code{x} if it is a
-valid name, use \code{vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)}
-instead of \code{all_names(x, ...)}.
 }
 \description{
 Check that \code{x} is a character vector with length larger than zero that
@@ -36,8 +32,8 @@ are names that (1) only consist of letters, numbers, dots and underscores;
 The definition of \emph{letter}, and thus what are syntactically valid names,
 depends on the current \link[=locales]{locale} (see the references in the
 \verb{See Also} section). A conservative approach to prevent this from causing
-problems is to only use digits and unaccented Latin letters, but that is
-\emph{not} enforced by \code{all_names()}.
+problems would be to only use digits and unaccented Latin letters, but that
+is \emph{not} enforced by \code{all_names()}.
 
 Duplicated names and names that consist of only dots are \emph{not} allowed by
 \code{all_names()}, even though they \emph{are} syntactically valid. Use
@@ -49,9 +45,7 @@ Names containing underscores (\verb{_}) and suspicious names are \emph{not} allo
 \code{all_names()} if arguments \code{allow_underscores} or \code{allow_susp} are \code{FALSE},
 respectively, even though such names \emph{are} syntactically valid.
 
-This function distinguishes two kinds of suspicious names (see the
-\verb{Programming note} for the structure of the regular expressions used to
-identify them):
+This function distinguishes two kinds of suspicious names:
 \itemize{
 \item Names that might have been created by \code{\link[utils:read.table]{utils::read.csv()}} to name unnamed
 columns, either because a particular column was unnamed or because data was
@@ -60,16 +54,18 @@ was read into \R: column names created by \code{read.csv()} have pattern \code{X
 \code{X.1}, \code{X.2}, etc. if \code{header} is \code{TRUE} and pattern \code{V1}, \code{V2}, \code{V3}, etc.
 if \code{header} is \code{FALSE}.
 \item Names that might have been modified by
-\link[=make.names]{make.names(x, unique = TRUE)} to make duplicated names
-unique: duplicated names get pattern \code{.1}, \code{.2}, \code{.3}, etc. added to them
-to make them unique, starting with adding \code{.1} to the first duplicate. That
-is also used by read.csv().
+\link[=make.names]{make.names(x, unique = TRUE)} (which is called by
+\code{\link[utils:read.table]{utils::read.csv()}} and by \code{\link[=data.frame]{data.frame()}}) to make duplicated names unique:
+duplicated names get pattern \code{.1}, \code{.2}, \code{.3}, etc. added to them to make
+them unique, starting with adding \code{.1} to the first duplicate.
 }
 
 It is \emph{not} checked if a complete sequence of automatically created or
 modified names is present in \code{x}, i.e., \code{X.2} will be flagged as suspicious
 even if \code{X} and \code{X.1} are not present in \code{x}, and \code{e.2}  will be flagged as
-suspicious even if \code{e} and \code{e.1} are not present in \code{x}.
+suspicious even if \code{e} and \code{e.1} are not present in \code{x}. See the
+\verb{Programming note} for the structure of the regular expressions used to
+identify suspicious names.
 }
 \section{Programming note}{
  The \link[=regex]{regular expressions} that are used
@@ -86,12 +82,6 @@ string: \verb{^X\\\\.[[:digit:]]+$}; (2) names that start with a \code{V} follow
 or more digits until the end of the string: \verb{^V[[:digit:]]+$}; (3) names that
 contain a dot followed by one or more digits until the end of the string:
 \verb{\\\\.[[:digit:]]+$}.
-}
-
-\section{To do}{
-
-Add an explanation and examples showing the problem of using syntactically
-invalid names: see https://stackoverflow.com/questions/54597535/.
 }
 
 \examples{
@@ -129,11 +119,14 @@ The section 'Details' of \code{\link[=make.names]{make.names()}} notes that the 
 and character sets; \code{\link[=iconv]{iconv()}} on conversions between encodings;
 \code{tools::showNonASCII()} to show the non-ASCII bytes.
 
+The \href{../doc/design_choices.html}{vignette about design choices} and the
+\href{../doc/type_coercion.html}{vignette about type coercion}.
+
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_natural}()},
-\code{\link{all_nonnegative}()},
 \code{\link{is_logical}()},
+\code{\link{is_number}()},
 \code{\link{is_zerolength}()}
 }
 \concept{collections of checks on type and length}

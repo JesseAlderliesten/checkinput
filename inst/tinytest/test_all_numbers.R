@@ -12,3 +12,7 @@ for(x in list(NULL, FALSE, TRUE, NA, numeric(0), "nco", character(0), "",
               list(314))) {
   expect_silent(expect_false(all_numbers(x = x)))
 }
+
+
+#### Remove objects used in tests ####
+rm(x)

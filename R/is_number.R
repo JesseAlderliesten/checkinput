@@ -18,10 +18,6 @@
 #' @returns `TRUE` or `FALSE` indicating if `x` is a numeric vector of the
 #' correct length with numbers of the correct sign.
 #'
-#' @section Wishlist:
-#' Add argument `allow_zero` to optionally allow for zero-length numerics, see
-#' the code of [is_logical()].
-#'
 #' @section Programming note:
 #' [is.numeric()] tests the [mode()] of `x`, which is `numeric` for
 #' floating-point numbers such as 3.2 and integers such as 3L. In contrast,
@@ -37,9 +33,12 @@
 #' because `is.na(x)` returns `TRUE` for `NaN` and `is.na(x)` and `is.nan(x)`
 #' return `logical(0)` for zero-length `x`.
 #'
-#' @seealso The vignette about type coercion:
-#' `vignette("Type_Coercion", package = "checkinput")`.
-#' @family collections of checks on type and length
+#' @family
+#' collections of checks on type and length
+#'
+#' @seealso
+#' The [vignette about design choices](../doc/design_choices.html) and the
+#' [vignette about type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' is_number(1) # TRUE
@@ -61,4 +60,28 @@
 is_number <- function(x) {
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) && length(x) == 1L
+}
+
+#' @rdname is_number
+#' @export
+all_numbers <- function(x) {
+  is.numeric(x) && is.atomic(x) && is.null(dim(x)) && length(x) > 0
+}
+
+#' @rdname is_number
+#' @export
+is_nonnegative <- function(x) {
+  is_number(x) && x >= 0
+}
+
+#' @rdname is_number
+#' @export
+all_nonnegative <- function(x) {
+  all_numbers(x) && all(x >= 0)
+}
+
+#' @rdname is_number
+#' @export
+is_positive <- function(x) {
+  is_number(x) && x > 0
 }

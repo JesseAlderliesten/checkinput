@@ -2,9 +2,18 @@
 # checkinput
 
 With `checkinput`, you can write concise checks which can be tailored to
-the need of the specific function for which the input is checked. The
-package also contains vignette `Type_Coercion`
-(`vignette("Type_Coercion", package = "checkinput")`) on type coercion.
+the need of the specific function for which the input is checked.
+
+The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput`
+always return either `TRUE` or `FALSE` and never throw an error. See the
+vignette about design choices
+`vignette("design_choices", package = "checkinput")` for details and for
+a way to get a named boolean vector indicating for each element of `x`
+if it `TRUE` or `FALSE` according to `all_<func>(x)`.
+
+The package also contains a vignette about type coercion in vectors,
+which discusses some important aspects regarding testing of vectors:
+`vignette("type_coercion", package = "checkinput")`.
 
 ## Installation
 

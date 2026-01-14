@@ -1,8 +1,8 @@
 ---
-title: "Type Coercion"
+title: "Type coercion in vectors"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Type Coercion}
+  %\VignetteIndexEntry{type_coercion}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup}
-library(checkinput)
 ```
 
 When testing vector input of length larger than one, it should be kept in mind
@@ -62,6 +58,8 @@ Using `unlist()` on a list creates a vector, such that
 character.
 
 ```{r}
+library(checkinput)
+
 x <- 1:3
 all_characters(x) # FALSE
 

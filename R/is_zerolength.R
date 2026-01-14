@@ -13,7 +13,8 @@
 #' logical (`logical(0)`), integer (`integer(0)`), double (`numeric(0)`),
 #' complex (`complex(0)`), character (`character(0)`), and list ([list()] and
 #' [data.frame()]). `""` is not a zero-length object: it has a [width][nchar()]
-#' of zero characters but a `length` of one.
+#' of zero characters but a `length` of one. A dataframe with zero rows is *not*
+#' a zero-length object: it has `length` equal to the number of columns.
 #'
 #' [is.null()] should be used to check that an object is `NULL` and, more
 #' generally, `isTRUE(all.equal(x, <zero-length object>))` should be used to
@@ -36,9 +37,12 @@
 #' `NULL` < `raw` < `logical` < `integer` < `double` < `complex` < `character` <
 #' `list` < `expression`, see the section `Details` in `help(c)`.
 #'
-#' @seealso The vignette about type coercion:
-#' `vignette("Type_Coercion", package = "checkinput")`.
-#' @family collections of checks on type and length
+#' @family
+#' collections of checks on type and length
+#'
+#' @seealso
+#' The [vignette about design choices](../doc/design_choices.html) and the
+#' [vignette about type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' is_zerolength(x = character(0)) # TRUE

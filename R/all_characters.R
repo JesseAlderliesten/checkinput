@@ -6,28 +6,19 @@
 #' @inheritParams is_logical
 #' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
 #'
-#' @details The correct length of `x` for `all_character()` is one or larger if
-#' argument `allow_zero` is `FALSE` and zero or larger if argument `allow_zero`
-#' is `TRUE`. The correct length of `x` for `is_character()` is one if argument
-#' `allow_zero` is `FALSE` and zero or one if argument `allow_zero` is `TRUE`.
-#' Argument `allow_zero` only has an effect if `character(0)` is the only value
-#' in `x`, because `character(0)` is discarded when it is put in a vector
-#' together with other values.
-#'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
 #' correct length with only allowed character values.
 #'
-#' @inheritSection is_logical Programming note
-#' @note `all_characters()` and `is_character()` are mainly used for argument
-#' checking and therefore by default return `FALSE` for empty strings,
-#' zero-length character strings, and `NA_character_`. In contrast,
-#' [is.character()] returns `TRUE` for these inputs, which can be achieved with
-#' `all_characters()` and `is_character()` by setting arguments `allow_empty`,
-#' `allow_zero`, or `allow_NA` to `TRUE`, respectively.
+#' @note
+#' `all_characters()` and `is_character()` by default return `FALSE` for empty
+#' strings.
 #'
-#' @seealso The vignette about type coercion:
-#' `vignette("Type_Coercion", package = "checkinput")`.
-#' @family collections of checks on type and length
+#' @family
+#' collections of checks on type and length
+#'
+#' @seealso
+#' The [vignette about design choices](../doc/design_choices.html) and the
+#' [vignette about type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' is_character("a") # TRUE
@@ -46,4 +37,14 @@ all_characters <- function(x, allow_empty = FALSE, allow_zero = FALSE,
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
     (allow_zero || length(x) > 0) &&
     (allow_NA || !anyNA(x))
+}
+
+#' @rdname all_characters
+#' @export
+is_character <- function(x, allow_empty = FALSE, allow_zero = FALSE,
+                         allow_NA = FALSE) {
+  # Argument checking is deferred to all_characters().
+  length(x) < 2L &&
+    all_characters(x, allow_empty = allow_empty, allow_zero = allow_zero,
+                   allow_NA = allow_NA)
 }

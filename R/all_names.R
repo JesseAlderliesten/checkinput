@@ -18,8 +18,8 @@
 #' The definition of *letter*, and thus what are syntactically valid names,
 #' depends on the current [locale][locales] (see the references in the
 #' `See Also` section). A conservative approach to prevent this from causing
-#' problems is to only use digits and unaccented Latin letters, but that is
-#' *not* enforced by `all_names()`.
+#' problems would be to only use digits and unaccented Latin letters, but that
+#' is *not* enforced by `all_names()`.
 #'
 #' Duplicated names and names that consist of only dots are *not* allowed by
 #' `all_names()`, even though they *are* syntactically valid. Use
@@ -31,9 +31,7 @@
 #' `all_names()` if arguments `allow_underscores` or `allow_susp` are `FALSE`,
 #' respectively, even though such names *are* syntactically valid.
 #'
-#' This function distinguishes two kinds of suspicious names (see the
-#' `Programming note` for the structure of the regular expressions used to
-#' identify them):
+#' This function distinguishes two kinds of suspicious names:
 #'
 #' - Names that might have been created by [utils::read.csv()] to name unnamed
 #'   columns, either because a particular column was unnamed or because data was
@@ -42,23 +40,21 @@
 #'   `X.1`, `X.2`, etc. if `header` is `TRUE` and pattern `V1`, `V2`, `V3`, etc.
 #'   if `header` is `FALSE`.
 #' - Names that might have been modified by
-#'   [make.names(x, unique = TRUE)][make.names()] to make duplicated names
-#'   unique: duplicated names get pattern `.1`, `.2`, `.3`, etc. added to them
-#'   to make them unique, starting with adding `.1` to the first duplicate. That
-#'   is also used by read.csv().
+#'   [make.names(x, unique = TRUE)][make.names()] (which is called by
+#'   [utils::read.csv()] and by [data.frame()]) to make duplicated names unique:
+#'   duplicated names get pattern `.1`, `.2`, `.3`, etc. added to them to make
+#'   them unique, starting with adding `.1` to the first duplicate.
 #'
 #' It is *not* checked if a complete sequence of automatically created or
 #' modified names is present in `x`, i.e., `X.2` will be flagged as suspicious
 #' even if `X` and `X.1` are not present in `x`, and `e.2`  will be flagged as
-#' suspicious even if `e` and `e.1` are not present in `x`.
+#' suspicious even if `e` and `e.1` are not present in `x`. See the
+#' `Programming note` for the structure of the regular expressions used to
+#' identify suspicious names.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector that only
 #' contains syntactically valid names that satisfy the restrictions imposed by
 #' the other function arguments.
-#'
-#' To get a named boolean vector indicating for each element of `x` if it is a
-#' valid name, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`
-#' instead of `all_names(x, ...)`.
 #'
 #' @section Programming note: The [regular expressions][regex] that are used
 #' to identify suspicious names contain the following elements: (1) require a
@@ -75,10 +71,6 @@
 #' contain a dot followed by one or more digits until the end of the string:
 #' `\\.[[:digit:]]+$`.
 #'
-#' @section To do:
-#' Add an explanation and examples showing the problem of using syntactically
-#' invalid names: see https://stackoverflow.com/questions/54597535/.
-#'
 #' @seealso `janitor::make_clean_names()` for options to *change* names, such as
 #' adjusting case and transliterating non-ASCII characters; [names()] to get or
 #' set the names of an object; [all.names()] to find all names in an expression
@@ -92,7 +84,12 @@
 #' and character sets; [iconv()] on conversions between encodings;
 #' `tools::showNonASCII()` to show the non-ASCII bytes.
 #'
-#' @family collections of checks on type and length
+#' @family
+#' collections of checks on type and length
+#'
+#' @seealso
+#' The [vignette about design choices](../doc/design_choices.html) and the
+#' [vignette about type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' all_names(x = names(c(a = 1, b = 2))) # TRUE

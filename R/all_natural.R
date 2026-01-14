@@ -37,6 +37,9 @@
 #' functions, e.g., [is_logical()], `allow_zero` is used to allow for
 #' zero-*length* value of `x`.
 #'
+#' @family
+#' collections of checks on type and length
+#'
 #' @seealso
 #' `progutils::are_equal()` to check for element-wise near-equality of numbers;
 #' [all.equal()] to check more generally for near-equality; [identical()] to
@@ -44,9 +47,9 @@
 #' operators; [match()] and `progutils::not_in()` to compare character vectors;
 #' [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-#' for background on numerical equality; the vignette about type coercion:
-#' `vignette("Type_Coercion", package = "checkinput")`.
-#' @family collections of checks on type and length
+#' for background on numerical equality;
+#' `vignette("design_choices", package = "checkinput")` and
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' all_natural(x = c(3, 5 + 1e-10)) # TRUE
