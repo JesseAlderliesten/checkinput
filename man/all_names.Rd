@@ -17,10 +17,6 @@ all_names(x, allow_underscores = TRUE, allow_susp = FALSE)
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector that only
 contains syntactically valid names that satisfy the restrictions imposed by
 the other function arguments.
-
-To get a named boolean vector indicating for each element of \code{x} if it is a
-valid name, use \code{vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)}
-instead of \code{all_names(x, ...)}.
 }
 \description{
 Check that \code{x} is a character vector with length larger than zero that

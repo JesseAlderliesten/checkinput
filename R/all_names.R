@@ -56,10 +56,6 @@
 #' contains syntactically valid names that satisfy the restrictions imposed by
 #' the other function arguments.
 #'
-#' To get a named boolean vector indicating for each element of `x` if it is a
-#' valid name, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`
-#' instead of `all_names(x, ...)`.
-#'
 #' @section Programming note: The [regular expressions][regex] that are used
 #' to identify suspicious names contain the following elements: (1) require a
 #' pattern to start at the beginning of a string: `^`; (2) contain an `X` or a
