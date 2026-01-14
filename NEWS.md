@@ -2,12 +2,6 @@
 Changes to the development-branch of `checkinput`: this branch is *Work in progress*.
 
 ## To do
-- Standardize the `Note` about the intended behaviour across functions, and add
-  it to the `README`: "These functions are intended to always return `TRUE` or
-  `FALSE`, never return `NA`, never error (throwing an error is deferred to
-  `stopifnot(...)` in which calls to `is_<funcname>` etc. are wrapped)." See
-  sections `Details` and `Note` in `all_characters()` and `is_logical()` for
-  good texts.
 - Standardize the `Note` about getting a named boolean vector as output across
   functions, and add it to the `README`: "To get a named boolean vector
   indicating for each element of `x` if it is a valid name, use
@@ -15,6 +9,8 @@ Changes to the development-branch of `checkinput`: this branch is *Work in progr
   `all_names(x, ...)`." See section `Note` in `all_names()` for good text.
 - Put code of `is_positive()`, `is_nonnegative()`, etc. in a single file.
 - Cross-reference on `all_numbers()` or `is_number()` instead of on `all_nonnegative()`.
+- Change `all_names()` (BACK?) to `are_names()`, returning a boolean vector?
+  Error on non-character-vector input.
 
 ## Breaking changes
 - `paste_quoted()` (an internal function) now throws an error if `x` has dimensions.
@@ -29,8 +25,11 @@ Changes to the development-branch of `checkinput`: this branch is *Work in progr
 - None.
 
 ## Updated documentation
+- Updated `README` to mention vignettes and introduce design choices.
 - Removed `Note` about legacy-code.
 - Moved `To do` points and `Wishlist` to GitHub issues.
+- Moved information about correct input to a vignette that is mentioned in the
+  `See also` sections of the relevant functions.
 - all_names(): `data.frame()` also calls `make.names()`.
 - is_zerolength(): document that zero-row data.frame is not a zero-length object.
 
