@@ -10,7 +10,7 @@ released versions.
   and https://stackoverflow.com/questions/34946219/linking-r-package-vignettes.
 
 ### Breaking changes
-- None.
+- `is_number()` and derived functions gained argument `allow_zero`.
 
 ### Bug fixes
 - None.
@@ -22,10 +22,10 @@ released versions.
 - None.
 
 ### Updated documentation
-- None.
+- `is_number()` and derived functions gained argument `allow_zero`.
 
 ### Updated tests
-- None.
+- `is_number()` and derived functions gained argument `allow_zero`.
 
 
 # checkinput 0.0.5

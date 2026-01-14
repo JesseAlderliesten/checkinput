@@ -1,3 +1,7 @@
+#### Create objects to use in tests ####
+false_true <- list(FALSE, TRUE)
+
+
 #### Test section 'Programming note' ####
 expect_identical(mode(3.2), "numeric")
 expect_identical(mode(3L), "numeric")
@@ -14,19 +18,28 @@ for(x in list(c(1, 2), "a", numeric(0), NA_character_)) {
   expect_false(is_number(x = x))
 }
 
+expect_true(is_number(numeric(0), allow_zero = TRUE))
+
 
 #### Tests ####
 # NaN is also considered a number.
-for(x in list(-Inf, -314, 0, 314, Inf, NaN)) {
-  expect_silent(expect_true(is_number(x = x)))
+for(allow_zero in false_true) {
+  for(x in list(-Inf, -314, 0, 314, Inf, NaN)) {
+    expect_silent(expect_true(is_number(x = x, allow_zero = allow_zero)))
+  }
 }
 
-for(x in list(NULL, FALSE, TRUE, NA, numeric(0), c(NA_real_, NA_real_),
-              c(NaN, NaN), c(314, 314), character(0), NA_character_, NA_complex_,
-              "", "nco", data.frame(a = 314), matrix(314), list(314))) {
-  expect_silent(expect_false(is_number(x = x)))
+expect_silent(expect_true(is_number(x = numeric(0), allow_zero = TRUE)))
+expect_silent(expect_false(is_number(x = numeric(0), allow_zero = FALSE)))
+
+for(allow_zero in false_true) {
+  for(x in list(NULL, FALSE, TRUE, NA, c(NA_real_, NA_real_),
+                c(NaN, NaN), c(314, 314), character(0), NA_character_, NA_complex_,
+                "", "nco", data.frame(a = 314), matrix(314), list(314))) {
+    expect_silent(expect_false(is_number(x = x, allow_zero = allow_zero)))
+  }
 }
 
 
 #### Remove objects used in tests ####
-rm(x)
+rm(allow_zero, false_true, x)
