@@ -8,18 +8,20 @@
 \alias{is_positive}
 \title{Check that \code{x} is numeric}
 \usage{
-is_number(x)
+is_number(x, allow_zero = FALSE)
 
-all_numbers(x)
+all_numbers(x, allow_zero = FALSE)
 
-is_nonnegative(x)
+is_nonnegative(x, allow_zero = FALSE)
 
-all_nonnegative(x)
+all_nonnegative(x, allow_zero = FALSE)
 
-is_positive(x)
+is_positive(x, allow_zero = FALSE)
 }
 \arguments{
 \item{x}{object to test.}
+
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a numeric vector of the
@@ -62,6 +64,7 @@ is_number(c(1, 2)) # FALSE: incorrect length
 all_numbers(c(1, 2)) # TRUE
 is_number("a") # FALSE: incorrect type
 is_number(numeric(0)) # FALSE: incorrect length
+is_number(numeric(0), allow_zero = TRUE) # TRUE
 is_number(NA_real_) # TRUE: 'allow_NA' has not been implemented
 is_number(NA_character_) # FALSE: incorrect type
 is_number(NaN) # TRUE (!)
