@@ -2,7 +2,7 @@
 title: "Design choices regarding function input"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{design_choices_input}
+  %\VignetteIndexEntry{design_choices}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -31,7 +31,7 @@ the obvious exception of `is_zerolength`) and `all_<function>(x)` only returns
 `TRUE` for `x` of length larger than zero. Set argument `allow_zero` to `TRUE`
 to allow is_zerolength `x` of the correct type. See
 `help(checkinput::is_zerolength)` and
-`vignette("Type_Coercion", package = "checkinput")` for a discussion of some
+`vignette("type_coercion", package = "checkinput")` for a discussion of some
 issues with zero-length input.
 
 ## NAs in x
