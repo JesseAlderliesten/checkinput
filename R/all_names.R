@@ -75,13 +75,6 @@
 #' contain a dot followed by one or more digits until the end of the string:
 #' `\\.[[:digit:]]+$`.
 #'
-#' @section To do:
-#' Add an explanation and examples showing the problem of using syntactically
-#' invalid names: see https://stackoverflow.com/questions/54597535/.
-#'
-#' Add check for automated column names created by [data.frame()] for unnamed
-#' columns if `fix.empty.names` is `TRUE`.
-#'
 #' @seealso `janitor::make_clean_names()` for options to *change* names, such as
 #' adjusting case and transliterating non-ASCII characters; [names()] to get or
 #' set the names of an object; [all.names()] to find all names in an expression

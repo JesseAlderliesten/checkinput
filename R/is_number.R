@@ -18,10 +18,6 @@
 #' @returns `TRUE` or `FALSE` indicating if `x` is a numeric vector of the
 #' correct length with numbers of the correct sign.
 #'
-#' @section Wishlist:
-#' Add argument `allow_zero` to optionally allow for zero-length numerics, see
-#' the code of [is_logical()].
-#'
 #' @section Programming note:
 #' [is.numeric()] tests the [mode()] of `x`, which is `numeric` for
 #' floating-point numbers such as 3.2 and integers such as 3L. In contrast,

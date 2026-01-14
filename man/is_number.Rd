@@ -40,12 +40,6 @@ and one for \code{is_number()}.
 \code{all_numbers()} and \code{is_number()} return \code{TRUE} for \code{Inf}, \code{NA_real_},
 \code{NA_integer_}, and \code{NaN} because their \code{mode} is \code{numeric}.
 }
-\section{Wishlist}{
-
-Add argument \code{allow_zero} to optionally allow for zero-length numerics, see
-the code of \code{\link[=is_logical]{is_logical()}}.
-}
-
 \section{Programming note}{
 
 \code{\link[=is.numeric]{is.numeric()}} tests the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for

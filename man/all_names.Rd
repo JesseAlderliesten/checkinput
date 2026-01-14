@@ -88,15 +88,6 @@ contain a dot followed by one or more digits until the end of the string:
 \verb{\\\\.[[:digit:]]+$}.
 }
 
-\section{To do}{
-
-Add an explanation and examples showing the problem of using syntactically
-invalid names: see https://stackoverflow.com/questions/54597535/.
-
-Add check for automated column names created by \code{\link[=data.frame]{data.frame()}} for unnamed
-columns if \code{fix.empty.names} is \code{TRUE}.
-}
-
 \examples{
 all_names(x = names(c(a = 1, b = 2))) # TRUE
 
