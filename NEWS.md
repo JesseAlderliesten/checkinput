@@ -11,6 +11,9 @@ Changes to the development-branch of `checkinput`: this branch is *Work in progr
 - Cross-reference on `all_numbers()` or `is_number()` instead of on `all_nonnegative()`.
 - Change `all_names()` (BACK?) to `are_names()`, returning a boolean vector?
   Error on non-character-vector input.
+- Link from help-pages to vignettes and vice versa? Is difficult, but see
+  https://github.com/dmurdoch/rgl/commit/bbc84447c2a6efed42907fbac176e9569b868d8f
+  and https://stackoverflow.com/questions/34946219/linking-r-package-vignettes.
 
 ## Breaking changes
 - `paste_quoted()` (an internal function) now throws an error if `x` has dimensions.
@@ -31,7 +34,7 @@ Changes to the development-branch of `checkinput`: this branch is *Work in progr
 - Moved information about correct input to a vignette that is mentioned in the
   `See also` sections of the relevant functions.
 - all_names(): `data.frame()` also calls `make.names()`.
-- is_zerolength(): document that zero-row data.frame is not a zero-length object.
+- is_zerolength(): document that a zero-row data.frame is not a zero-length object.
 
 ## Updated tests
 - Added tests for normal and zero-row/zero-column matrices and dataframes.
