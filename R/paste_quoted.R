@@ -5,6 +5,8 @@
 #'
 #' @noRd
 paste_quoted <- function(x) {
+  stopifnot(is.null(dim(x)))
+
   if(is.null(x)) {
     x <- "NULL"
   }
