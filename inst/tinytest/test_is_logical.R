@@ -64,4 +64,4 @@ for(allow_zero in false_true) {
 
 
 #### Remove objects used in tests ####
-rm(allow_zero, allow_NA, false_true)
+rm(allow_NA, allow_zero, false_true, x)

@@ -16,3 +16,7 @@ for(x in list(NULL, FALSE, TRUE, NA, numeric(0), c(NaN, NaN), c(NaN, NA_real_),
 for(x in list(NaN, NA_real_)) {
   expect_silent(expect_true(is.na(is_nonnegative(x = x))))
 }
+
+
+#### Remove objects used in tests ####
+rm(x)
