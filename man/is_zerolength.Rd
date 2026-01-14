@@ -73,7 +73,7 @@ Other collections of checks on type and length:
 \code{\link{all_characters}()},
 \code{\link{all_names}()},
 \code{\link{all_natural}()},
-\code{\link{all_nonnegative}()},
-\code{\link{is_logical}()}
+\code{\link{is_logical}()},
+\code{\link{is_number}()}
 }
 \concept{collections of checks on type and length}

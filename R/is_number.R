@@ -61,3 +61,27 @@ is_number <- function(x) {
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) && length(x) == 1L
 }
+
+#' @rdname is_number
+#' @export
+all_numbers <- function(x) {
+  is.numeric(x) && is.atomic(x) && is.null(dim(x)) && length(x) > 0
+}
+
+#' @rdname is_number
+#' @export
+is_nonnegative <- function(x) {
+  is_number(x) && x >= 0
+}
+
+#' @rdname is_number
+#' @export
+all_nonnegative <- function(x) {
+  all_numbers(x) && all(x >= 0)
+}
+
+#' @rdname is_number
+#' @export
+is_positive <- function(x) {
+  is_number(x) && x > 0
+}

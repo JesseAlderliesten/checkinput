@@ -129,8 +129,8 @@ and character sets; \code{\link[=iconv]{iconv()}} on conversions between encodin
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_natural}()},
-\code{\link{all_nonnegative}()},
 \code{\link{is_logical}()},
+\code{\link{is_number}()},
 \code{\link{is_zerolength}()}
 }
 \concept{collections of checks on type and length}
