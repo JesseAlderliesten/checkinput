@@ -9,11 +9,11 @@ always return either `TRUE` or `FALSE` and never throw an error:
 throwing an error is deferred to `stopifnot(...)` in which calls to
 `is_<funcname>` are typically wrapped when they are used inside other
 functions. Details are given in the vignette about design choices:
-`vignette("design_choices_input", package = "checkinput")`.
+`vignette("design_choices", package = "checkinput")`.
 
 The package also contains a vignette about type coercion in vectors,
 which discusses some important aspects regarding testing of vectors:
-`vignette("Type_Coercion", package = "checkinput")`.
+`vignette("type_coercion", package = "checkinput")`.
 
 ## Installation
 

@@ -123,8 +123,8 @@ The section 'Details' of \code{\link[=make.names]{make.names()}} notes that the 
 and character sets; \code{\link[=iconv]{iconv()}} on conversions between encodings;
 \code{tools::showNonASCII()} to show the non-ASCII bytes.
 
-\code{vignette("design_choices_input", package = "checkinput")} and
-\code{vignette("Type_Coercion", package = "checkinput")}.
+\code{vignette("design_choices", package = "checkinput")} and
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},

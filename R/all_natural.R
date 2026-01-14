@@ -48,8 +48,8 @@
 #' [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality;
-#' `vignette("design_choices_input", package = "checkinput")` and
-#' `vignette("Type_Coercion", package = "checkinput")`.
+#' `vignette("design_choices", package = "checkinput")` and
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' all_natural(x = c(3, 5 + 1e-10)) # TRUE

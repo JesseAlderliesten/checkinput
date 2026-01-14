@@ -37,8 +37,8 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' `vignette("design_choices_input", package = "checkinput")` and
-#' `vignette("Type_Coercion", package = "checkinput")`.
+#' `vignette("design_choices", package = "checkinput")` and
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_number(1) # TRUE
