@@ -39,3 +39,13 @@ By default, functions only return `TRUE` for `x` without `NA`s. Set argument
 `allow_NA` to `TRUE` to allow for `NA`s of the correct type.
 **NB.** This is **not yet** the case for `checkinput::is_number()` and derived
 functions!
+
+## Return
+The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` always
+return either `TRUE` or `FALSE`. To get a named boolean vector indicating for
+each element of `x` if it `TRUE` or `FALSE` according to `all_<func>(x)`, use
+`vapply(X = x, FUN.VALUE = logical(1), FUN = all_<func>, ...)`
+instead of `all_<func>(x, ...)`. For example, to check which elements of `x` are
+valid names, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`
+instead of `all_names(x, ...)`. The dots (`...`) indicate where to place other
+function arguments, e.g., `allow_zero = TRUE`.
