@@ -26,22 +26,9 @@ correct length with only allowed character values.
 Check that \code{x} is a character vector of the correct length with only allowed
 character values.
 }
-\details{
-The correct length of \code{x} for \code{all_character()} is one or larger if
-argument \code{allow_zero} is \code{FALSE} and zero or larger if argument \code{allow_zero}
-is \code{TRUE}. The correct length of \code{x} for \code{is_character()} is one if argument
-\code{allow_zero} is \code{FALSE} and zero or one if argument \code{allow_zero} is \code{TRUE}.
-Argument \code{allow_zero} only has an effect if \code{character(0)} is the only value
-in \code{x}, because \code{character(0)} is discarded when it is put in a vector
-together with other values.
-}
 \note{
-\code{all_characters()} and \code{is_character()} are mainly used for argument
-checking and therefore by default return \code{FALSE} for empty strings,
-zero-length character strings, and \code{NA_character_}. In contrast,
-\code{\link[=is.character]{is.character()}} returns \code{TRUE} for these inputs, which can be achieved with
-\code{all_characters()} and \code{is_character()} by setting arguments \code{allow_empty},
-\code{allow_zero}, or \code{allow_NA} to \code{TRUE}, respectively.
+\code{all_characters()} and \code{is_character()} by default return \code{FALSE} for empty
+strings.
 }
 \examples{
 is_character("a") # TRUE
@@ -54,7 +41,7 @@ is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignette about type coercion:
+\code{vignette("design_choices_input", package = "checkinput")} and
 \code{vignette("Type_Coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 

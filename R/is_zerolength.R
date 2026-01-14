@@ -37,9 +37,12 @@
 #' `NULL` < `raw` < `logical` < `integer` < `double` < `complex` < `character` <
 #' `list` < `expression`, see the section `Details` in `help(c)`.
 #'
-#' @seealso The vignette about type coercion:
+#' @family
+#' collections of checks on type and length
+#'
+#' @seealso
+#' `vignette("design_choices_input", package = "checkinput")` and
 #' `vignette("Type_Coercion", package = "checkinput")`.
-#' @family collections of checks on type and length
 #'
 #' @examples
 #' is_zerolength(x = character(0)) # TRUE

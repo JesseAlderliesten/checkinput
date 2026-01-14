@@ -6,22 +6,14 @@
 #' @param allow_zero `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
 #' @param allow_NA `TRUE` or `FALSE`: allow `NA`s of the correct type in `x`?
 #'
-#' @details The correct length of `x` is one if argument `allow_zero` is `FALSE`
-#' and zero or one if argument `allow_zero` is `TRUE`. Argument `allow_zero`
-#' only has an effect if `logical(0)` is the only value in `x`, because
-#' `logical(0)` is discarded when it is put in a vector together with other
-#' values.
-#'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
 #' and contains only allowed logical values.
 #'
-#' @note `is_logical()` is mainly used for argument checking and therefore by
-#' default return `FALSE` for zero-length logical strings and `NA`. In contrast,
-#' [is.logical()] returns `TRUE` for these inputs, which can be achieved with
-#' `is_logical()` by setting arguments `allow_zero` or `allow_NA` to `TRUE`,
-#' respectively.
+#' @family
+#' collections of checks on type and length
 #'
-#' @family collections of checks on type and length
+#' @seealso
+#' `vignette("design_choices_input", package = "checkinput")`.
 #'
 #' @examples
 #' is_logical(TRUE) # TRUE

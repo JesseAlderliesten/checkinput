@@ -74,7 +74,8 @@ x - 2 # about 4.44e-16
 check for exact equality; \link{Comparison} to compare two vectors using binary
 operators; \code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors;
 \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
-for background on numerical equality; the vignette about type coercion:
+for background on numerical equality;
+\code{vignette("design_choices_input", package = "checkinput")} and
 \code{vignette("Type_Coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 

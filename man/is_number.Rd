@@ -75,7 +75,7 @@ is_positive(0) # FALSE
 
 }
 \seealso{
-The vignette about type coercion:
+\code{vignette("design_choices_input", package = "checkinput")} and
 \code{vignette("Type_Coercion", package = "checkinput")}.
 
 Other collections of checks on type and length: 

@@ -33,9 +33,12 @@
 #' because `is.na(x)` returns `TRUE` for `NaN` and `is.na(x)` and `is.nan(x)`
 #' return `logical(0)` for zero-length `x`.
 #'
-#' @seealso The vignette about type coercion:
+#' @family
+#' collections of checks on type and length
+#'
+#' @seealso
+#' `vignette("design_choices_input", package = "checkinput")` and
 #' `vignette("Type_Coercion", package = "checkinput")`.
-#' @family collections of checks on type and length
 #'
 #' @examples
 #' is_number(1) # TRUE

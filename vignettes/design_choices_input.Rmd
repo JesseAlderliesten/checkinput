@@ -1,0 +1,41 @@
+---
+title: "Design choices regarding function input"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{design_choices_input}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` always
+return either `TRUE` or `FALSE` and never throw an error: throwing an error is
+deferred to `stopifnot(...)` in which calls to `is_<funcname>` are typically
+wrapped when they are used inside other functions.
+
+The default arguments for functions of `checkinput` make them more restrictive
+than functions in base-\R (e.g., `checkinput::is_logical()` vs.
+`base::is.logical()`), reflecting that the functions of `checkinput` are
+intended for argument checking, where, for example, zero-length `x` is unwanted.
+
+## Length of x
+By default, `is_<function>(x)` only returns `TRUE` for `x` of length one (with
+the obvious exception of `is_zerolength`) and `all_<function>(x)` only returns
+`TRUE` for `x` of length larger than zero. Set argument `allow_zero` to `TRUE`
+to allow is_zerolength `x` of the correct type. See
+`help(checkinput::is_zerolength)` and
+`vignette("Type_Coercion", package = "checkinput")` for a discussion of some
+issues with zero-length input.
+
+## NAs in x
+By default, functions only return `TRUE` for `x` without `NA`s. Set argument
+`allow_NA` to `TRUE` to allow for `NA`s of the correct type.
+**NB.** This is **not yet** the case for `checkinput::is_number()` and derived
+functions!
