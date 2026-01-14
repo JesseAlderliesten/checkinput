@@ -17,7 +17,6 @@
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
 #' correct length with only allowed character values.
 #'
-#' @inheritSection is_logical Programming note
 #' @note `all_characters()` and `is_character()` are mainly used for argument
 #' checking and therefore by default return `FALSE` for empty strings,
 #' zero-length character strings, and `NA_character_`. In contrast,
