@@ -20,7 +20,8 @@ for(x in list("nco", c("nco", "ibf"))) {
 }
 
 for(x in list(NULL, FALSE, TRUE, NA, -Inf, -314, 0, 314, Inf, numeric(0), NaN,
-              NA_real_, NaN)) {
+              NA_real_, NaN, data.frame(a = 314), as.matrix(data.frame(a = 314)),
+              list())) {
   for(allow_empty in false_true) {
     for(allow_zero in false_true) {
       for(allow_NA in false_true) {
@@ -100,4 +101,4 @@ for(allow_empty in false_true) {
 
 
 #### Remove objects used in tests ####
-rm(allow_empty, allow_zero, allow_NA, false_true)
+rm(allow_empty, allow_zero, allow_NA, false_true, x)
