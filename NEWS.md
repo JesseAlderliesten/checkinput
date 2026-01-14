@@ -3,11 +3,6 @@ The development-branch of `checkinput` is *work in progress*: see below for the
 released versions.
 
 ### To do
-- Standardize the `Note` about getting a named boolean vector as output across
-  functions, and add it to the `README`: "To get a named boolean vector
-  indicating for each element of `x` if it is a valid name, use
-  `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)` instead of
-  `all_names(x, ...)`." See section `Note` in `all_names()` for good text.
 - Change `all_names()` (BACK?) to `are_names()`, returning a boolean vector?
   Error on non-character-vector input.
 - Link from vignettes to help-pages? See
@@ -38,9 +33,12 @@ This update has many changes on documentation.
 - Cross-reference on `is_number()` instead of on `all_nonnegative()`.
 - Removed `Note`s about legacy-code.
 - Moved `To do` points and `Wishlist` to GitHub issues.
-- Moved information about correct input to a vignette that is linked in the
-  `See also` sections of the relevant functions.
-- all_names(): `data.frame()` also calls `make.names()`.
+- Moved information about correct input to the vignette `design_choices` that is
+  linked in the `See also` sections of the relevant functions. The vignette also
+  contains a section about getting a named boolean vector as output. Both
+  sections are also mentioned in the `README`.
+- all_names(): `data.frame()` also calls `make.names()`. Moved section on how to
+  get a boolean vector to the vignette on design choices.
 - is_zerolength(): document that a zero-row data.frame is not a zero-length
   object.
 
