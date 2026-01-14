@@ -13,7 +13,8 @@
 #' logical (`logical(0)`), integer (`integer(0)`), double (`numeric(0)`),
 #' complex (`complex(0)`), character (`character(0)`), and list ([list()] and
 #' [data.frame()]). `""` is not a zero-length object: it has a [width][nchar()]
-#' of zero characters but a `length` of one.
+#' of zero characters but a `length` of one. A dataframe with zero rows is *not*
+#' a zero-length object: it has `length` equal to the number of columns.
 #'
 #' [is.null()] should be used to check that an object is `NULL` and, more
 #' generally, `isTRUE(all.equal(x, <zero-length object>))` should be used to

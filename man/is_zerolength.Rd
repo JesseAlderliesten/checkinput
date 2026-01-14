@@ -25,7 +25,8 @@ Zero-\code{\link[=length]{length()}} objects can have different \link[=typeof]{t
 logical (\code{logical(0)}), integer (\code{integer(0)}), double (\code{numeric(0)}),
 complex (\code{complex(0)}), character (\code{character(0)}), and list (\code{\link[=list]{list()}} and
 \code{\link[=data.frame]{data.frame()}}). \code{""} is not a zero-length object: it has a \link[=nchar]{width}
-of zero characters but a \code{length} of one.
+of zero characters but a \code{length} of one. A dataframe with zero rows is \emph{not}
+a zero-length object: it has \code{length} equal to the number of columns.
 
 \code{\link[=is.null]{is.null()}} should be used to check that an object is \code{NULL} and, more
 generally, \verb{isTRUE(all.equal(x, <zero-length object>))} should be used to
