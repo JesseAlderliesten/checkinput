@@ -1,5 +1,5 @@
 ---
-title: "Type Coercion"
+title: "Type coercion in vectors"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Type Coercion}
