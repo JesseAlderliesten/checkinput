@@ -15,10 +15,6 @@
 #' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
 #' and contains only allowed logical values.
 #'
-#' @section Programming note: This implementation differs from the legacy-code:
-#' `NA` is not allowed for arguments `allow_empty`, `allow_zero`, and
-#' `allow_NA`, such that the return will never be `NA`.
-#'
 #' @note `is_logical()` is mainly used for argument checking and therefore by
 #' default return `FALSE` for zero-length logical strings and `NA`. In contrast,
 #' [is.logical()] returns `TRUE` for these inputs, which can be achieved with

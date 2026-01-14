@@ -43,12 +43,6 @@ zero-length character strings, and \code{NA_character_}. In contrast,
 \code{all_characters()} and \code{is_character()} by setting arguments \code{allow_empty},
 \code{allow_zero}, or \code{allow_NA} to \code{TRUE}, respectively.
 }
-\section{Programming note}{
- This implementation differs from the legacy-code:
-\code{NA} is not allowed for arguments \code{allow_empty}, \code{allow_zero}, and
-\code{allow_NA}, such that the return will never be \code{NA}.
-}
-
 \examples{
 is_character("a") # TRUE
 is_character(c("a", "b")) # FALSE: incorrect length

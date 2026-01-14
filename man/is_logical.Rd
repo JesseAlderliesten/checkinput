@@ -34,12 +34,6 @@ default return \code{FALSE} for zero-length logical strings and \code{NA}. In co
 \code{is_logical()} by setting arguments \code{allow_zero} or \code{allow_NA} to \code{TRUE},
 respectively.
 }
-\section{Programming note}{
- This implementation differs from the legacy-code:
-\code{NA} is not allowed for arguments \code{allow_empty}, \code{allow_zero}, and
-\code{allow_NA}, such that the return will never be \code{NA}.
-}
-
 \examples{
 is_logical(TRUE) # TRUE
 is_logical(c(TRUE, TRUE)) # FALSE: incorrect length
