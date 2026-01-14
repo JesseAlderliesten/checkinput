@@ -187,7 +187,7 @@ expect_warning(expect_false(
 
 
 # Duplicated valid, suspicious v2
-warning("Create tests for input values of type 'Duplicated valid, suspicious v2'!")
+# Not yet created tests for input values of type 'Duplicated valid, suspicious v2'!
 
 
 # only dots
