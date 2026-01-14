@@ -92,8 +92,8 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' `vignette("design_choices", package = "checkinput")` and
-#' `vignette("type_coercion", package = "checkinput")`.
+#' The [vignette about design choices](../doc/design_choices.html) and the
+#' [vignette about type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' all_names(x = names(c(a = 1, b = 2))) # TRUE

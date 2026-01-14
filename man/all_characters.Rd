@@ -41,8 +41,8 @@ is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-\code{vignette("design_choices", package = "checkinput")} and
-\code{vignette("type_coercion", package = "checkinput")}.
+The \href{../doc/design_choices.html}{vignette about design choices} and the
+\href{../doc/type_coercion.html}{vignette about type coercion}.
 
 Other collections of checks on type and length: 
 \code{\link{all_names}()},

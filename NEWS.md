@@ -10,9 +10,11 @@ released versions.
   `all_names(x, ...)`." See section `Note` in `all_names()` for good text.
 - Change `all_names()` (BACK?) to `are_names()`, returning a boolean vector?
   Error on non-character-vector input.
-- Link from help-pages to vignettes and vice versa? Is difficult, but see
+- Link from vignettes to help-pages? See
   https://github.com/dmurdoch/rgl/commit/bbc84447c2a6efed42907fbac176e9569b868d8f
   and https://stackoverflow.com/questions/34946219/linking-r-package-vignettes.
+
+This update has many changes on documentation.
 
 ### Breaking changes
 - `paste_quoted()` (an internal function) now throws an error if `x` has
@@ -36,7 +38,7 @@ released versions.
 - Cross-reference on `is_number()` instead of on `all_nonnegative()`.
 - Removed `Note`s about legacy-code.
 - Moved `To do` points and `Wishlist` to GitHub issues.
-- Moved information about correct input to a vignette that is mentioned in the
+- Moved information about correct input to a vignette that is linked in the
   `See also` sections of the relevant functions.
 - all_names(): `data.frame()` also calls `make.names()`.
 - is_zerolength(): document that a zero-row data.frame is not a zero-length

@@ -13,7 +13,7 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' `vignette("design_choices", package = "checkinput")`.
+#' The [vignette about design choices](../doc/design_choices.html).
 #'
 #' @examples
 #' is_logical(TRUE) # TRUE

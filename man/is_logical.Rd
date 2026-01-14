@@ -30,7 +30,7 @@ is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-\code{vignette("design_choices", package = "checkinput")}.
+The \href{../doc/design_choices.html}{vignette about design choices}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
