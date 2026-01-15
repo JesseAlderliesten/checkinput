@@ -72,6 +72,7 @@ is_number(Inf) # TRUE
 is_nonnegative(3) # TRUE
 is_nonnegative(0) # TRUE
 all_nonnegative(c(3, 0)) # TRUE
+all_nonnegative(numeric(0), allow_zero = TRUE) # TRUE
 is_positive(3) # TRUE
 is_positive(0) # FALSE
 
