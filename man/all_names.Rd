@@ -4,14 +4,14 @@
 \alias{all_names}
 \title{Check that x contains syntactically valid names}
 \usage{
-all_names(x, allow_underscores = TRUE, allow_susp = FALSE)
+all_names(x, allow_suspicious = FALSE, allow_underscores = TRUE)
 }
 \arguments{
 \item{x}{Vector of names to test.}
 
-\item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
+\item{allow_suspicious}{\code{TRUE} or \code{FALSE}: allow suspicious names?}
 
-\item{allow_susp}{\code{TRUE} or \code{FALSE}: allow suspicious names?}
+\item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector that only
@@ -49,11 +49,12 @@ Names that consist of only dots are \emph{not} allowed by \code{all_names()}, ev
 though they \emph{are} syntactically valid, because such names are not informative
 and probably arose because names were modified, see the next paragraph.
 
-Suspicious names are \emph{not} allowed by \code{all_names()} if argument \code{allow_susp}
-is \code{FALSE}. This is intended to warn about syntactically invalid names that
-have been silently changed to syntactically valid names when data was read
-into \R. The warning emitted if a suspicious name is found distinguishes
-several kinds of suspicious names, see the \verb{Programming note} for details.
+Suspicious names are \emph{not} allowed by \code{all_names()} if argument
+\code{allow_suspicious} is \code{FALSE}. This is intended to warn about syntactically
+invalid names that have been silently changed to syntactically valid names
+when data was read into \R. The warning emitted if a suspicious name is found
+distinguishes several kinds of suspicious names, see the \verb{Programming note}
+for details.
 
 Names containing underscores (\verb{_}) are \emph{not} allowed by \code{all_names()} if
 argument \code{allow_underscores} is \code{FALSE} (which is \emph{not} the default), even
@@ -105,10 +106,10 @@ all_names(x = NULL) # FALSE: NULL
 all_names(x = c("a", "b", "a")) # FALSE: duplicated name
 
 all_names(x = "X.2") # FALSE: name created by read.csv()
-all_names(x = "X.2", allow_susp = TRUE) # TRUE
+all_names(x = "X.2", allow_suspicious = TRUE) # TRUE
 
 all_names(x = "e.2") # FALSE: name modified by make.names()
-all_names(x = "e.2", allow_susp = TRUE) # TRUE
+all_names(x = "e.2", allow_suspicious = TRUE) # TRUE
 
 x_underscores <- c("abc_def", "ghi", "jk_l")
 all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
@@ -117,7 +118,8 @@ all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores
 all_names(x = c(".", "..", "...", "....")) # FALSE: consist of only dots
 all_names(x = c("abc.def", "abc..def..")) # TRUE
 
-all_names(x = "..abc..def..") # FALSE: might have been modified by vctrs::vec_as_names(x)
+# FALSE: might have been modified by vctrs::vec_as_names(x):
+all_names(x = "..abc..def..")
 
 }
 \seealso{

@@ -5,8 +5,8 @@
 #' automatically created or modified when data was read into \R.
 #'
 #' @param x Vector of names to test.
+#' @param allow_suspicious `TRUE` or `FALSE`: allow suspicious names?
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
-#' @param allow_susp `TRUE` or `FALSE`: allow suspicious names?
 #'
 #' @details
 #' Only syntactically valid names should be used in data analyses because \R
@@ -34,11 +34,12 @@
 #' though they *are* syntactically valid, because such names are not informative
 #' and probably arose because names were modified, see the next paragraph.
 #'
-#' Suspicious names are *not* allowed by `all_names()` if argument `allow_susp`
-#' is `FALSE`. This is intended to warn about syntactically invalid names that
-#' have been silently changed to syntactically valid names when data was read
-#' into \R. The warning emitted if a suspicious name is found distinguishes
-#' several kinds of suspicious names, see the `Programming note` for details.
+#' Suspicious names are *not* allowed by `all_names()` if argument
+#' `allow_suspicious` is `FALSE`. This is intended to warn about syntactically
+#' invalid names that have been silently changed to syntactically valid names
+#' when data was read into \R. The warning emitted if a suspicious name is found
+#' distinguishes several kinds of suspicious names, see the `Programming note`
+#' for details.
 #'
 #' Names containing underscores (`_`) are *not* allowed by `all_names()` if
 #' argument `allow_underscores` is `FALSE` (which is *not* the default), even
@@ -112,10 +113,10 @@
 #' all_names(x = c("a", "b", "a")) # FALSE: duplicated name
 #'
 #' all_names(x = "X.2") # FALSE: name created by read.csv()
-#' all_names(x = "X.2", allow_susp = TRUE) # TRUE
+#' all_names(x = "X.2", allow_suspicious = TRUE) # TRUE
 #'
 #' all_names(x = "e.2") # FALSE: name modified by make.names()
-#' all_names(x = "e.2", allow_susp = TRUE) # TRUE
+#' all_names(x = "e.2", allow_suspicious = TRUE) # TRUE
 #'
 #' x_underscores <- c("abc_def", "ghi", "jk_l")
 #' all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
@@ -124,11 +125,12 @@
 #' all_names(x = c(".", "..", "...", "....")) # FALSE: consist of only dots
 #' all_names(x = c("abc.def", "abc..def..")) # TRUE
 #'
-#' all_names(x = "..abc..def..") # FALSE: might have been modified by vctrs::vec_as_names(x)
+#' # FALSE: might have been modified by vctrs::vec_as_names(x):
+#' all_names(x = "..abc..def..")
 #'
 #' @export
-all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
-  stopifnot(is_logical(allow_underscores), is_logical(allow_susp))
+all_names <- function(x, allow_suspicious = FALSE, allow_underscores = TRUE) {
+  stopifnot(is_logical(allow_suspicious), is_logical(allow_underscores))
 
   # 'NULL' is catched later on with an informative message
   if(!is.null(x) && (!is.atomic(x) || !is.null(dim(x)) || !is.character(x))) {
@@ -211,7 +213,7 @@ all_names <- function(x, allow_underscores = TRUE, allow_susp = FALSE) {
 
   warn_text <- c(warn_text, warn_text_underscores, warn_text_onlydots)
 
-  if(!allow_susp) {
+  if(!allow_suspicious) {
     # See the 'Programming note' for an explanation of the regular expressions.
     bool_susp_readcsv <- (x == "X" |
                             grepl(pattern = "^X\\.[[:digit:]]+$", x = x) |
