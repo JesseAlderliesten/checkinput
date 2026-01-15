@@ -15,73 +15,85 @@ all_names(x, allow_underscores = TRUE, allow_susp = FALSE)
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector that only
-contains syntactically valid names that satisfy the restrictions imposed by
-the other function arguments.
+contains unique, syntactically valid names that do not consist of only dots
+and do not suggest they were automatically created or modified when data was
+read into \R.
 }
 \description{
-Check that \code{x} is a character vector with length larger than zero that
-contains unique, syntactically valid names that do not consist of only dots
-and do not suggest they were automatically created or modified.
+Check that \code{x} is a character vector that only consists of unique, syntactically
+valid names that do not only consists of dots and do not suggest they were
+automatically created or modified when data was read into \R.
 }
 \details{
-\link[=make.names]{Syntactically valid} names (\href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{R FAQ})
-are names that (1) only consist of letters, numbers, dots and underscores;
-(2) start with a letter or with a dot not followed by a number; (3) are not
-\link[=Reserved]{reserved words} such as \link{for} or any of the \link{NA}s.
+Only syntactically valid names should be used in data analyses because \R
+functions might handle invalid names incorrectly.
+\link[=make.names]{Syntactically valid} names (\href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{\R FAQ}):
+(1) only consist of letters, numbers, dots and underscores;
+(2) start with a letter, or with a dot not followed by a number;
+(3) are not \link[=Reserved]{reserved words} such as \link{for} or any of the \link{NA}s.
 
 The definition of \emph{letter}, and thus what are syntactically valid names,
 depends on the current \link[=locales]{locale} (see the references in the
-\verb{See Also} section). A conservative approach to prevent this from causing
-problems would be to only use digits and unaccented Latin letters, but that
-is \emph{not} enforced by \code{all_names()}.
+\verb{See Also} section). A conservative approach to ensure syntactically valid
+names on one system are also syntactically valid on another system would be
+to only use digits and unaccented Latin letters, but that is \emph{not} enforced
+by \code{all_names()}.
 
-Duplicated names and names that consist of only dots are \emph{not} allowed by
-\code{all_names()}, even though they \emph{are} syntactically valid. Use
-\code{all_names(x = unique(x), ...)} instead of \code{all_names(x = x, ...)} to allow
-for duplicated names in checks. Duplicated names are \emph{not} duplicated in
-warnings.
+Duplicated names are \emph{not} allowed by \code{all_names()}, even if they \emph{are}
+syntactically valid, because not all \R functions will handle duplicated
+names as 'expected'. For example, not all operations on data frames will
+preserve duplicated column names (as documented in \code{\link[=data.frame]{data.frame()}}).
+Duplicated names are \emph{not} duplicated in warnings.
 
-Names containing underscores (\verb{_}) and suspicious names are \emph{not} allowed by
-\code{all_names()} if arguments \code{allow_underscores} or \code{allow_susp} are \code{FALSE},
-respectively, even though such names \emph{are} syntactically valid.
+Names that consist of only dots are \emph{not} allowed by \code{all_names()}, even
+though they \emph{are} syntactically valid, because such names are not informative
+and probably arose because names were modified, see the next paragraph.
 
-This function distinguishes two kinds of suspicious names:
+Suspicious names are \emph{not} allowed by \code{all_names()} if argument \code{allow_susp}
+is \code{FALSE}. This is intended to warn about syntactically invalid names that
+have been silently changed to syntactically valid names when data was read
+into \R. The warning emitted if a suspicious name is found distinguishes
+several kinds of suspicious names, see the \verb{Programming note} for details.
+
+Names containing underscores (\verb{_}) are \emph{not} allowed by \code{all_names()} if
+argument \code{allow_underscores} is \code{FALSE} (which is \emph{not} the default), even
+though they \emph{are} syntactically valid. This is useful to check names that
+will be concatenated by underscores later on, for example to create an ID-tag.
+}
+\section{Programming note}{
+
+The \link[=regex]{regular expressions} that are used to identify suspicious names
+can:
 \itemize{
-\item Names that might have been created by \code{\link[utils:read.table]{utils::read.csv()}} to name unnamed
-columns, either because a particular column was unnamed or because data was
-inadvertently present in a supposedly empty (and thus unnamed) column that
-was read into \R: column names created by \code{read.csv()} have pattern \code{X},
-\code{X.1}, \code{X.2}, etc. if \code{header} is \code{TRUE} and pattern \code{V1}, \code{V2}, \code{V3}, etc.
-if \code{header} is \code{FALSE}.
-\item Names that might have been modified by
-\link[=make.names]{make.names(x, unique = TRUE)} (which is called by
-\code{\link[utils:read.table]{utils::read.csv()}} and by \code{\link[=data.frame]{data.frame()}}) to make duplicated names unique:
-duplicated names get pattern \code{.1}, \code{.2}, \code{.3}, etc. added to them to make
-them unique, starting with adding \code{.1} to the first duplicate.
+\item require a pattern to start at the beginning of a string: \code{^};
+\item contain \code{X}, \code{V}, or a dot: \code{X}, \code{V}, or \verb{\\\\.}, respectively;
+\item contain one or more digits: \verb{[[:digit:]]+};
+\item require a pattern to reach the end of the string: \code{$}.
+}
+
+These elements are used to identify the following types of suspicious names:
+\itemize{
+\item names that start with \code{X.} or \code{V}, followed by one or more digits until the
+end of the string: \verb{^X\\\\.[[:digit:]]+$} or \verb{^V[[:digit:]]+$}: such names
+are created by \code{\link[utils:read.table]{utils::read.csv()}} to name unnamed columns if argument
+\code{header} is \code{TRUE} or \code{FALSE}, respectively;
+\item names that contain one dot followed by one or more digits until the end of
+the string: \verb{\\\\.[[:digit:]]+$}: such names are created by
+\link[=make.names]{make.names(x, unique = TRUE)} (which is used by
+\code{\link[utils:read.table]{utils::read.csv()}} and by \code{\link[=data.frame]{data.frame()}}) to make duplicated names unique
+by adding \code{.1}, \code{.2}, \code{.3}, etc., starting with adding \code{.1} to the first
+duplicate;
+\item names that contain two dots followed by one or more digits until the end of
+the string: \verb{\\\\.\\\\.[[:digit:]]+$}: such names are created by
+\code{vctrs::vec_as_names(x)} to make duplicated names unique;
+\item names that start with one or more dots: \verb{^\\\\.+}: such names are created by
+\code{vctrs::vec_as_names(x)}. Names that only consist of dots are not allowed
+by \code{all_names()} are thus considered invalid instead of suspicious).
 }
 
 It is \emph{not} checked if a complete sequence of automatically created or
 modified names is present in \code{x}, i.e., \code{X.2} will be flagged as suspicious
-even if \code{X} and \code{X.1} are not present in \code{x}, and \code{e.2}  will be flagged as
-suspicious even if \code{e} and \code{e.1} are not present in \code{x}. See the
-\verb{Programming note} for the structure of the regular expressions used to
-identify suspicious names.
-}
-\section{Programming note}{
- The \link[=regex]{regular expressions} that are used
-to identify suspicious names contain the following elements: (1) require a
-pattern to start at the beginning of a string: \code{^}; (2) contain an \code{X} or a
-\code{V} followed by a literal dot: \verb{X\\\\.} or \verb{V\\\\.}; (3) contain one or more
-digits: \verb{[[:digit:]]+}; (4) require a pattern to reach the end of the string:
-\code{$}, to prevent matching names that start as suspicious but are not
-suspicious because they have non-digit characters appended, e.g. \code{X.2a}.
-
-These elements are used to identify suspicious names as: (1) names that start
-with an \code{X} followed by a dot and one or more digits until the end of the
-string: \verb{^X\\\\.[[:digit:]]+$}; (2) names that start with a \code{V} followed by one
-or more digits until the end of the string: \verb{^V[[:digit:]]+$}; (3) names that
-contain a dot followed by one or more digits until the end of the string:
-\verb{\\\\.[[:digit:]]+$}.
+even if \code{X} and \code{X.1} are not present in \code{x}.
 }
 
 \examples{
@@ -102,8 +114,10 @@ x_underscores <- c("abc_def", "ghi", "jk_l")
 all_names(x = x_underscores, allow_underscores = TRUE) # TRUE
 all_names(x = x_underscores, allow_underscores = FALSE) # FALSE: underscores
 
-x_dots <- c("abc.def", "..abc..def..", ".", "..", "...", "....")
-all_names(x = x_dots) # FALSE: names that consist of only dots
+all_names(x = c(".", "..", "...", "....")) # FALSE: consist of only dots
+all_names(x = c("abc.def", "abc..def..")) # TRUE
+
+all_names(x = "..abc..def..") # FALSE: might have been modified by vctrs::vec_as_names(x)
 
 }
 \seealso{
@@ -113,11 +127,14 @@ set the names of an object; \code{\link[=all.names]{all.names()}} to find all na
 or call; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{\R FAQ 7.14}
 for some ways 'name' is used in \R, with remarks about the validity of names.
 
-The section 'Details' of \code{\link[=make.names]{make.names()}} notes that the definition of a
-\emph{letter}, and thus what are syntactically valid names, depends on the current
-\link[=locales]{locale}: see \link{Encoding}, \code{\link[=validUTF8]{validUTF8()}} for background on encodings
-and character sets; \code{\link[=iconv]{iconv()}} on conversions between encodings;
-\code{tools::showNonASCII()} to show the non-ASCII bytes.
+The section 'Details' of \code{\link[=make.names]{make.names()}} and the section \verb{Names and Identifiers}
+in \link{Quotes} note that the definition of a \emph{letter}, and thus what are
+syntactically valid names, depends on the current \link[=locales]{locale}: see
+\link{Encoding}, \code{\link[=validUTF8]{validUTF8()}} for background on encodings and character sets;
+\code{\link[=iconv]{iconv()}} on conversions between encodings; \code{tools::showNonASCII()} to show
+the non-ASCII bytes; and package
+\href{https://CRAN.R-project.org/package=stringi}{stringi} that provides
+facilities to process character strings.
 
 The \href{../doc/design_choices.html}{vignette about design choices} and the
 \href{../doc/type_coercion.html}{vignette about type coercion}.

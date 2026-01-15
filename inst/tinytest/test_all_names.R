@@ -7,20 +7,27 @@ invalid <- c("", ".3a", "for", "NA", "a/b", "a-b", "3a", "3X.3", "3X.234")
 invalid_quoted <- paste0(checkinput:::paste_quoted(invalid[-1]), ", ",
                          empty_string_quoted)
 use_makenames <- ".\nUse 'x <- make.names(x, unique = TRUE)"
-valid_nonsusp <- c("A", ".a", ".V1", ".V234", "VV1", "VV234", "X.", "X.3.",
-                   "X.234.", "V1.", "V234.", "X.3X", "X.234X", "V1V", "V234V",
-                   "X.a2", "X..", "X..X", "X.2X", "X.X", "X.X.X", "X.A", "A.X.A")
-valid_susp1 <- c("X", "X.3", "X.2", "X.234", "V1", "V234")
-valid_susp1_quoted <- checkinput:::paste_quoted(valid_susp1)
-valid_susp2 <- c("e.3", ".X.3", ".X.234", "XX.3", "XX.234", "X..3", "XX.2",
-                 "X.X.2", "X..2", "Xa.2", "A.X.2")
-valid_susp2_quoted <- checkinput:::paste_quoted(valid_susp2)
-warn_dots <- "consist only of dots: '.'"
-warn_dupl <- "are duplicated: "
-warn_susp_v1 <- "might have been created by read.csv: "
-warn_susp_v2 <- "might have been modified by make.names(x, unique = TRUE): "
-warn_syntax <- "are syntactically invalid: "
+valid <- c("A", ".a", ".V1", ".V234", "VV1", "VV234", "X.", "X.3.", "X.234.",
+           "V1.", "V234.", "X.3X", "X.234X", "V1V", "V234V", "X.a2", "X..",
+           "X..X", "X.2X", "X.X", "X.X.X", "X.A", "A.X.A")
 x_underscores <- c("abc_def", "ghi", "jk_l")
+
+susp_both <- c(".X.3", "X..3", ".X.234", "X..2")
+susp_both_quoted <- checkinput:::paste_quoted(susp_both)
+susp_makenames <- c("e.3", "XX.3", "XX.234", "XX.2", "X.X.2", "Xa.2", "A.X.2")
+susp_makenames_quoted <- checkinput:::paste_quoted(susp_makenames)
+susp_readcsv <- c("X", "X.3", "X.2", "X.234", "V1", "V234")
+susp_readcsv_quoted <- checkinput:::paste_quoted(susp_readcsv)
+susp_vecasnames <- c(".a", ".V1", ".V234", "..abc..def..")
+susp_vecasnames_quoted <- checkinput:::paste_quoted(susp_vecasnames)
+
+warn_dots <- "only consist of dots: '.'"
+warn_dupl <- "are duplicated: "
+warn_susp_both <- "modified by make.names(x, unique = TRUE) or by vctrs::vec_as_names(x): "
+warn_susp_makenames <- "might have been modified by make.names(x, unique = TRUE): "
+warn_susp_readcsv <- "might have been created by read.csv: "
+warn_susp_vecasnames <- "might have been modified by vctrs::vec_as_names(x): "
+warn_syntax <- "are syntactically invalid: "
 
 
 #### Test the examples ####
@@ -38,12 +45,12 @@ expect_warning(expect_false(
 
 expect_warning(expect_false(
   all_names(x = "X.3", allow_susp = FALSE)),
-  pattern = paste0(warn_susp_v1, "'X.3'"), strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_susp_readcsv, "'X.3'"), strict = TRUE, fixed = TRUE)
 expect_true(all_names(x = "X.3", allow_susp = TRUE))
 
 expect_warning(expect_false(
   all_names(x = "e.3", allow_susp = FALSE)),
-  pattern = paste0(warn_susp_v2, "'e.3'"), strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_susp_makenames, "'e.3'"), strict = TRUE, fixed = TRUE)
 expect_true(all_names(x = "e.3", allow_susp = TRUE))
 
 expect_silent(expect_true(all_names(x = x_underscores, allow_underscores = TRUE)))
@@ -54,9 +61,14 @@ expect_warning(expect_false(
   strict = TRUE, fixed = TRUE)
 
 expect_warning(expect_false(
-  all_names(x = c("abc.def", "..abc..def..", ".", "..", "...", "...."))),
-  pattern ="Names consist only of dots: '.', '..', '...', '....'",
-  strict = TRUE, fixed = TRUE)
+  all_names(x = c(".", "..", "...", "...."))),
+  pattern = paste0(warn_dots, ", '..', '...', '....'"), strict = TRUE, fixed = TRUE)
+
+expect_silent(expect_true(all_names(x = c("abc.def", "abc..def.."))))
+
+expect_warning(expect_false(all_names(x = "..abc..def..")),
+               pattern = paste0(warn_susp_vecasnames, "'..abc..def..'"),
+               strict = TRUE, fixed = TRUE)
 
 
 #### Test section 'Details' ####
@@ -83,12 +95,12 @@ expect_warning(expect_false(
 
 # Unique valid, not suspicious
 expect_silent(expect_true(
-  all_names(x = valid_nonsusp, allow_susp = TRUE)))
+  all_names(x = valid, allow_susp = TRUE)))
 
 # Duplicated valid, not suspicious
 expect_warning(expect_false(
-  all_names(x = c(valid_nonsusp, valid_nonsusp[c(2, 5)]), allow_susp = FALSE)),
-  pattern = paste0(warn_dupl, checkinput:::paste_quoted(valid_nonsusp[c(2, 5)])),
+  all_names(x = c(valid, valid[c(2, 5)]), allow_susp = FALSE)),
+  pattern = paste0(warn_dupl, checkinput:::paste_quoted(valid[c(2, 5)])),
   strict = TRUE, fixed = TRUE)
 
 for(allow_susp in false_true) {
@@ -113,29 +125,32 @@ for(allow_susp in false_true) {
       all_names(x = x, allow_susp = allow_susp),
       pattern = "'x' is not a character vector!", strict = TRUE, fixed = TRUE)
   }
-
-  # Unique valid, suspicious v1
-  if(allow_susp) {
-    expect_true(
-      all_names(x = valid_susp1, allow_susp = allow_susp))
-  } else {
-    expect_warning(expect_false(
-      all_names(x = valid_susp1, allow_susp = allow_susp)),
-      pattern = paste0(warn_susp_v1, valid_susp1_quoted), strict = TRUE,
-      fixed = TRUE)
-  }
-
-  # Unique valid, suspicious v2
-  if(allow_susp) {
-    expect_true(
-      all_names(x = valid_susp2, allow_susp = allow_susp))
-  } else {
-    expect_warning(expect_false(
-      all_names(x = valid_susp2, allow_susp = allow_susp)),
-      pattern = paste0(warn_susp_v2, valid_susp2_quoted),
-      strict = TRUE, fixed = TRUE)
-  }
 }
+
+expect_true(all_names(x = susp_readcsv, allow_susp = TRUE))
+expect_warning(expect_false(
+  all_names(x = susp_readcsv, allow_susp = FALSE)),
+  pattern = paste0(warn_susp_readcsv, susp_readcsv_quoted),
+  strict = TRUE, fixed = TRUE)
+
+expect_true(all_names(x = susp_makenames, allow_susp = TRUE))
+expect_warning(expect_false(
+  all_names(x = susp_makenames, allow_susp = FALSE)),
+  pattern = paste0(warn_susp_makenames, susp_makenames_quoted),
+  strict = TRUE, fixed = TRUE)
+
+expect_true(all_names(x = susp_both, allow_susp = TRUE))
+expect_warning(expect_false(
+  all_names(x = susp_both, allow_susp = FALSE)),
+  pattern = paste0(warn_susp_both, susp_both_quoted),
+  strict = TRUE, fixed = TRUE)
+
+expect_true(all_names(x = susp_vecasnames, allow_susp = TRUE))
+expect_warning(expect_false(
+  all_names(x = susp_vecasnames, allow_susp = FALSE)),
+  pattern = paste0(warn_susp_vecasnames, susp_vecasnames_quoted),
+  strict = TRUE, fixed = TRUE)
+
 
 # Duplicated invalid, not suspicious
 expect_warning(expect_false(
@@ -144,22 +159,18 @@ expect_warning(expect_false(
                    invalid_quoted, use_makenames), strict = TRUE,
   fixed = TRUE)
 
-for(allow_susp in false_true) {
-  # Mix
-  names_mix <- c(valid_nonsusp, valid_susp1, valid_susp2, invalid)
-
-  expect_warning(expect_false(
-    all_names(names_mix, allow_susp = TRUE)),
-    pattern = paste0(warn_syntax, invalid_quoted, use_makenames),
-    strict = TRUE, fixed = TRUE)
-
-  expect_warning(expect_false(
-    all_names(names_mix, allow_susp = FALSE)),
-    pattern = paste0(warn_syntax, invalid_quoted, "; and ", warn_susp_v1,
-                     valid_susp1_quoted, "; and ", warn_susp_v2,
-                     valid_susp2_quoted, use_makenames),
-    strict = TRUE, fixed = TRUE)
-}
+# Mix
+expect_warning(expect_false(
+  all_names(c(valid, susp_readcsv, susp_makenames, susp_vecasnames, invalid), allow_susp = TRUE)),
+  pattern = paste0(warn_syntax, invalid_quoted, use_makenames),
+  strict = TRUE, fixed = TRUE)
+expect_warning(expect_false(
+  all_names(c(valid, susp_readcsv, susp_makenames, susp_vecasnames, invalid), allow_susp = FALSE)),
+  pattern = paste0(warn_syntax, invalid_quoted, "; and ", warn_susp_readcsv,
+                   susp_readcsv_quoted, "; and ", warn_susp_makenames,
+                   susp_makenames_quoted, "; and ", warn_susp_vecasnames,
+                   susp_vecasnames_quoted, use_makenames),
+  strict = TRUE, fixed = TRUE)
 
 expect_silent(expect_true(
   all_names(x = x_underscores, allow_underscores = TRUE)))
@@ -174,15 +185,15 @@ expect_warning(expect_false(
 
 # Duplicated valid, suspicious v1
 expect_warning(expect_false(
-  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_susp = TRUE)),
-  pattern = paste0(warn_dupl, checkinput:::paste_quoted(valid_susp1[c(2, 4)]),
+  all_names(x = c(susp_readcsv, susp_readcsv[c(2, 4)]), allow_susp = TRUE)),
+  pattern = paste0(warn_dupl, checkinput:::paste_quoted(susp_readcsv[c(2, 4)]),
                    use_makenames),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(expect_false(
-  all_names(x = c(valid_susp1, valid_susp1[c(2, 4)]), allow_susp = FALSE)),
-  pattern = paste0(warn_dupl, checkinput:::paste_quoted(valid_susp1[c(2, 4)]),
-                   "; and ", warn_susp_v1, valid_susp1_quoted),
+  all_names(x = c(susp_readcsv, susp_readcsv[c(2, 4)]), allow_susp = FALSE)),
+  pattern = paste0(warn_dupl, checkinput:::paste_quoted(susp_readcsv[c(2, 4)]),
+                   "; and ", warn_susp_readcsv, susp_readcsv_quoted),
   strict = TRUE, fixed = TRUE)
 
 
@@ -215,7 +226,9 @@ expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscores = NA),
 
 
 #### Remove objects used in tests ####
-rm(allow_susp, empty_string_quoted, false_true, invalid,
-   invalid_quoted, names_mix, valid_nonsusp, valid_susp1, valid_susp1_quoted,
-   valid_susp2, valid_susp2_quoted, use_makenames, warn_dots, warn_dupl,
-   warn_susp_v1, warn_susp_v2, warn_syntax, x, x_underscores)
+rm(allow_susp, empty_string_quoted, false_true, invalid, invalid_quoted,
+   susp_both, susp_both_quoted, susp_makenames, susp_makenames_quoted,
+   susp_readcsv, susp_readcsv_quoted, susp_vecasnames, susp_vecasnames_quoted,
+   use_makenames, valid, warn_dots, warn_dupl, warn_susp_both,
+   warn_susp_makenames, warn_susp_readcsv, warn_susp_vecasnames, warn_syntax, x,
+   x_underscores)
