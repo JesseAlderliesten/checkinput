@@ -11,6 +11,9 @@ released versions.
 
 ### Breaking changes
 - `is_number()` and derived functions gained argument `allow_zero`.
+- `all_names()`: argument `allow_susp` renamed to `allow_suspicious`; argument
+  order changed; added checks for suspicious names that might have been created
+  by `vctrs::vec_as_names()`.
 
 ### Bug fixes
 - None.
@@ -23,10 +26,13 @@ released versions.
 
 ### Updated documentation
 - `is_number()` and derived functions gained argument `allow_zero`.
+- Renamed `Type_Coercion.Rmd` to `type_coercion.Rmd`.
+- Major restructuring of documentation for `all_names()`.
 
 ### Updated tests
 - `is_number()` and derived functions gained argument `allow_zero`.
-
+- `all_names()`: updated and added tests to reflect added checks for suspicious
+  names that might have been created by `vctrs::vec_as_names()`.
 
 # checkinput 0.0.5
 This update has many changes on documentation.
