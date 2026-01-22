@@ -8,38 +8,50 @@
 \alias{is_positive}
 \title{Check that \code{x} is numeric}
 \usage{
-is_number(x, allow_zero = FALSE)
+is_number(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-all_numbers(x, allow_zero = FALSE)
+all_numbers(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-is_nonnegative(x, allow_zero = FALSE)
+is_nonnegative(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-all_nonnegative(x, allow_zero = FALSE)
+all_nonnegative(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-is_positive(x, allow_zero = FALSE)
+is_positive(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 }
 \arguments{
 \item{x}{object to test.}
 
 \item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow numeric \link{NA}s (i.e., \code{NA_integer_}
+and \code{NA_real_})?}
+
+\item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \link{NaN}s?}
 }
 \value{
-\code{TRUE} or \code{FALSE} indicating if \code{x} is a numeric vector of the
-correct length with numbers of the correct sign.
+\code{TRUE} or \code{FALSE} indicating if \code{x} is a numeric vector of the correct length
+with numbers of the correct sign that adheres to the limitations set by the
+other arguments.
 }
 \description{
 Check that \code{x} is a numeric vector of the correct length with numbers of the
 correct sign.
 }
 \details{
-The correct length of \code{x} is larger than zero for \code{all_numbers()}
-and one for \code{is_number()}.
+The correct length of \code{x} is larger than zero for \code{all_...()} and one for
+\code{is_...()}, unless \code{allow_zero} is \code{TRUE}: then numeric-type zero-length \code{x}
+is also allowed for both types of functions.
 
 \code{all_nonnegative()} and \code{is_nonnegative()} return \code{TRUE} for \code{0}, whereas
 \code{is_positive()} returns \code{FALSE} for \code{0}.
 
-\code{all_numbers()} and \code{is_number()} return \code{TRUE} for \code{Inf}, \code{NA_real_},
-\code{NA_integer_}, and \code{NaN} because their \code{mode} is \code{numeric}.
+\code{all_...()} and \code{is_...()} return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the
+correct sign.
+
+\code{all_...()} and \code{is_...()} return \code{FALSE} for \code{NA_complex_}, even if
+\code{allow_NA} is \code{TRUE}, because its mode is \code{complex} instead of \code{numeric}.
+
+\code{NaN} has mode \code{numeric}, despite its meaning 'not a number'.
 }
 \section{Programming note}{
 
@@ -49,32 +61,30 @@ floating-point numbers such as 3.2 and integers such as 3L. In contrast,
 for floating-point numbers but \code{integer} for integers (see the \verb{Note on names}
 in \code{\link[=is.numeric]{is.numeric()}}).
 
-Adding arguments \code{allow_NA} and \code{allow_NaN} to optionally allow \code{NA_real_},
-\code{NA_integer_}, or \code{NaN} (which all have \code{mode} \code{numeric}) would solve the
-contradiction that using \code{is_number()} currently returns \code{TRUE} for these
-values but using them in conditional statements leads to \code{logical(0)} and
-thus to an error. However, implementing those arguments is complicated
-because \code{is.na(x)} returns \code{TRUE} for \code{NaN} and \code{is.na(x)} and \code{is.nan(x)}
-return \code{logical(0)} for zero-length \code{x}.
+The functions duplicate code instead of calling \code{is_number()} or
+\code{all_numbers()}, to prevent performing checks twice.
 }
 
 \examples{
-is_number(1) # TRUE
-is_number(c(1, 2)) # FALSE: incorrect length
-all_numbers(c(1, 2)) # TRUE
-is_number("a") # FALSE: incorrect type
-is_number(numeric(0)) # FALSE: incorrect length
-is_number(numeric(0), allow_zero = TRUE) # TRUE
-is_number(NA_real_) # TRUE: 'allow_NA' has not been implemented
-is_number(NA_character_) # FALSE: incorrect type
-is_number(NaN) # TRUE (!)
-is_number(Inf) # TRUE
-is_nonnegative(3) # TRUE
-is_nonnegative(0) # TRUE
-all_nonnegative(c(3, 0)) # TRUE
-all_nonnegative(numeric(0), allow_zero = TRUE) # TRUE
-is_positive(3) # TRUE
-is_positive(0) # FALSE
+is_number(x = 1) # TRUE
+is_number(x = 3.14) # TRUE
+is_number(x = c(1, 2)) # FALSE: incorrect length
+all_numbers(x = c(1, 2)) # TRUE
+is_number(x = "a") # FALSE: incorrect type
+is_number(x = numeric(0)) # FALSE: incorrect length
+is_number(x = numeric(0), allow_zero = TRUE) # TRUE
+is_number(x = NA_real_) # FALSE
+is_number(x = NA_real_, allow_NA = TRUE) # TRUE
+is_number(x = NA_character_, allow_NA = TRUE) # FALSE: incorrect type
+is_number(x = NaN, allow_NA = TRUE) # FALSE, need allow_NaN = TRUE to allow NaN
+is_number(x = NaN, allow_NaN = TRUE) # TRUE
+is_number(x = Inf) # TRUE
+is_nonnegative(x = 3) # TRUE
+is_nonnegative(x = 0) # TRUE
+all_nonnegative(x = c(3, 0)) # TRUE
+all_nonnegative(x = numeric(0), allow_zero = TRUE) # TRUE
+is_positive(x = 3) # TRUE
+is_positive(x = 0) # FALSE
 
 }
 \seealso{
