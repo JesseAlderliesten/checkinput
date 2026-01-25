@@ -10,10 +10,19 @@ released versions.
   and https://stackoverflow.com/questions/34946219/linking-r-package-vignettes.
 
 ### Breaking changes
-- `is_number()` and derived functions gained argument `allow_zero`.
-- `all_names()`: argument `allow_susp` renamed to `allow_suspicious`; argument
-  order changed; added checks for suspicious names that might have been created
-  by `vctrs::vec_as_names()`.
+- `is_number()` and derived functions gained arguments `allow_zero`, `allow_NA`
+  and `allow_NaN` (with default `FALSE`, which previously implicitly was `TRUE`),
+  to solve the contradiction that using `is_number()` returned `TRUE` for these
+  values but using them in conditional statements led to `logical(0)` and thus
+  to an error.
+- `all_names()`: major overhaul. Renamed argument `allow_susp` to
+  `allow_suspicious`, changed order of the arguments; also check for suspicious
+  names that might have been created by `data.frame()` or `vctrs::vec_as_names()`;
+  made existing checks more specific: check that names which apparently have
+  been made valid indeed contain an invalid part, and the first digit of numbers
+  added to duplicated names is nonzero; differentiate between changes by
+  `make.names(x, unique = FALSE)` or by `make.names(x, unique = TRUE)`; functions
+  that might have changed a name are now grouped together in the warnings.
 
 ### Bug fixes
 - None.
@@ -25,14 +34,17 @@ released versions.
 - None.
 
 ### Updated documentation
-- `is_number()` and derived functions gained argument `allow_zero`.
 - Renamed `Type_Coercion.Rmd` to `type_coercion.Rmd`.
-- Major restructuring of documentation for `all_names()`.
+- Major updates to, and restructuring of, documentation for `all_names()`. Also
+  updated and added examples.
+- In the vignette about design choices, clarify that functions *do* throw errors
+  about invalid input to arguments other than `x`.
 
 ### Updated tests
-- `is_number()` and derived functions gained argument `allow_zero`.
 - `all_names()`: updated and added tests to reflect added checks for suspicious
-  names that might have been created by `vctrs::vec_as_names()`.
+  names that might have been created by `vctrs::vec_as_names()`. Order of the
+  tests now matches order of checks in `all_names()`.
+
 
 # checkinput 0.0.5
 This update has many changes on documentation.
