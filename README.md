@@ -27,6 +27,10 @@ if(!requireNamespace("remotes")) {
 remotes::install_github("JesseAlderliesten/checkinput")
 ```
 
+For information about installing and configuring R and RStudio, or about
+setting up and using Git and GitHub, see my [repository
+‘InstallPkgs’](https://github.com/JesseAlderliesten/InstallPkgs).
+
 ## Example
 
 Say you want to collect information on hobbies of people through a
