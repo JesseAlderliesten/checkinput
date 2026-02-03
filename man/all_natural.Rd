@@ -32,7 +32,10 @@ considered to be a natural number in this implementation.
 \code{all_natural()} allows for small numeric errors when comparing numbers. Such
 numeric errors can arise because of rounding or representation error. As the
 \code{Note} at \code{\link{==}} warns, \code{x == round(x)} does \emph{not} allow for such errors but
-tests exact equality.
+tests exact equality. Functions from other packages with names like
+\code{integerish} frequently do \emph{not} allow for small numeric errors but are
+instead intended to allow values that are stored as doubles (e.g., \code{3}) in
+addition to integer-type values (e.g., \code{3L}).
 
 If \code{allow_NA} is \code{TRUE}, \code{all_natural()} returns \code{TRUE} for \code{NA_integer_} and
 \code{NA_real_} but not for the other \link{NA}s or \link{NaN}.

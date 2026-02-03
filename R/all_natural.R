@@ -16,7 +16,10 @@
 #' `all_natural()` allows for small numeric errors when comparing numbers. Such
 #' numeric errors can arise because of rounding or representation error. As the
 #' `Note` at [`==`] warns, `x == round(x)` does *not* allow for such errors but
-#' tests exact equality.
+#' tests exact equality. Functions from other packages with names like
+#' `integerish` frequently do *not* allow for small numeric errors but are
+#' instead intended to allow values that are stored as doubles (e.g., `3`) in
+#' addition to integer-type values (e.g., `3L`).
 #'
 #' If `allow_NA` is `TRUE`, `all_natural()` returns `TRUE` for `NA_integer_` and
 #' `NA_real_` but not for the other [NA]s or [NaN].
