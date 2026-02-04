@@ -15,14 +15,15 @@ released versions.
   to solve the contradiction that using `is_number()` returned `TRUE` for these
   values but using them in conditional statements led to `logical(0)` and thus
   to an error.
-- `all_names()`: major overhaul. Renamed argument `allow_susp` to
-  `allow_suspicious`, changed order of the arguments; also check for suspicious
-  names that might have been created by `data.frame()` or `vctrs::vec_as_names()`;
-  made existing checks more specific: check that names which apparently have
-  been made valid indeed contain an invalid part, and the first digit of numbers
-  added to duplicated names is nonzero; differentiate between changes by
-  `make.names(x, unique = FALSE)` or by `make.names(x, unique = TRUE)`; functions
-  that might have changed a name are now grouped together in the warnings.
+- `all_names()`: major overhaul. Removed argument `allow_susp`: `make.names()`
+  should be used to check only for syntactically invalid names; also check for
+  suspicious names that might have been created by `data.frame()` or
+  `vctrs::vec_as_names()`; made existing checks more specific: check that names
+  which apparently have been made valid indeed contain an invalid part, and the
+  first digit of numbers added to duplicated names is nonzero; differentiate
+  between changes by `make.names(x, unique = FALSE)` or by
+  `make.names(x, unique = TRUE)`; functions that might have changed a name are
+  now grouped together in the warnings.
 
 ### Bug fixes
 - None.
@@ -39,6 +40,8 @@ released versions.
   updated and added examples.
 - In the vignette about design choices, clarify that functions *do* throw errors
   about invalid input to arguments other than `x`.
+- `README`: added a reference to my repository `InstallPkgs`.
+- `all_natural()`: added a note about functions named `integerish`.
 
 ### Updated tests
 - `all_names()`: updated and added tests to reflect added checks for suspicious
