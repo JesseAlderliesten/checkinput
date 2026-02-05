@@ -5,8 +5,10 @@ With `checkinput`, you can write concise checks which can be tailored to
 the need of the specific function for which the input is checked.
 
 The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput`
-always return either `TRUE` or `FALSE` and never throw an error. See the
-vignette about design choices
+return either `TRUE` or `FALSE` and do not throw errors caused by input
+to `x`. Errors *are* thrown about invalid input to arguments other than
+`x`, e.g., providing values other than `TRUE` or `FALSE` to
+`allow_zero`. See the vignette about design choices
 `vignette("design_choices", package = "checkinput")` for details and for
 a way to get a named boolean vector indicating for each element of `x`
 if it `TRUE` or `FALSE` according to `all_<func>(x)`.
@@ -26,6 +28,10 @@ if(!requireNamespace("remotes")) {
 }
 remotes::install_github("JesseAlderliesten/checkinput")
 ```
+
+For information about installing and configuring R and RStudio, or about
+setting up and using Git and GitHub, see my [repository
+‘InstallPkgs’](https://github.com/JesseAlderliesten/InstallPkgs).
 
 ## Example
 

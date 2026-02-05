@@ -14,7 +14,7 @@ all_natural(x, strict = TRUE, allow_NA = FALSE, tol = .Machine$double.eps^0.5)
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 
 \item{tol}{A small \link[=is_positive]{positive} number. Numbers that differ less
-in value than \code{tol} are considered to be equal.}
+in value than \code{tol} are considered equal.}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a vector with only natural
@@ -27,21 +27,26 @@ small numeric errors.
 \details{
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). Zero is
 considered a natural number if argument \code{strict} is \code{FALSE}. \code{Inf} is \emph{never}
-considered to be a natural number in this implementation.
+considered a natural number in this implementation.
 
 \code{all_natural()} allows for small numeric errors when comparing numbers. Such
 numeric errors can arise because of rounding or representation error. As the
 \code{Note} at \code{\link{==}} warns, \code{x == round(x)} does \emph{not} allow for such errors but
-tests exact equality.
+tests exact equality. Functions from other packages with names like
+\code{integerish} frequently do \emph{not} allow for small numeric errors but are
+instead intended to allow values that are stored as doubles (e.g., \code{3}) in
+addition to integer-type values (e.g., \code{3L}).
 
 If \code{allow_NA} is \code{TRUE}, \code{all_natural()} returns \code{TRUE} for \code{NA_integer_} and
 \code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
 }
-\note{
+\section{Notes}{
+
 The code of \code{all_natural()} is partly based on the example \code{is.wholenumber()}
 in \code{\link[=is.integer]{is.integer()}}.
 }
-\section{Programming note}{
+
+\section{Programming notes}{
 
 \code{\link[=is.integer]{is.integer()}} does \emph{not} check that \code{x} is a natural number (nor if \code{x} is a
 whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see the
@@ -74,9 +79,10 @@ x - 2 # about 4.44e-16
 check for exact equality; \link{Comparison} to compare two vectors using binary
 operators; \code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors;
 \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
-for background on numerical equality;
-\code{vignette("design_choices", package = "checkinput")} and
-\code{vignette("type_coercion", package = "checkinput")}.
+for background on numerical equality.
+
+The vignettes about \href{../doc/design_choices.html}{design choices} and about
+\href{../doc/type_coercion.html}{type coercion}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},

@@ -8,7 +8,7 @@
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a zero-length object.
 #'
-#' @note
+#' @section Notes:
 #' Zero-[length()] objects can have different [types][typeof()]: NULL ([NULL]),
 #' logical (`logical(0)`), integer (`integer(0)`), double (`numeric(0)`),
 #' complex (`complex(0)`), character (`character(0)`), and list ([list()] and
@@ -41,8 +41,8 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The [vignette about design choices](../doc/design_choices.html) and the
-#' [vignette about type coercion](../doc/type_coercion.html).
+#' The vignettes about [design choices](../doc/design_choices.html) and about
+#' [type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' is_zerolength(x = character(0)) # TRUE

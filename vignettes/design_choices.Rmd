@@ -15,10 +15,12 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` always
-return either `TRUE` or `FALSE` and never throw an error: throwing an error is
-deferred to `stopifnot(...)` in which calls to `is_<funcname>` are typically
-wrapped when they are used inside other functions.
+The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` return
+either `TRUE` or `FALSE` and do not throw errors caused by input to `x`:
+throwing an error about `x` is deferred to `stopifnot(...)` in which calls to
+`is_<funcname>` are typically wrapped when they are used inside other functions.
+Errors *are* thrown about invalid input to arguments other than `x`, e.g.,
+providing values other than `TRUE` or `FALSE` to `allow_zero`.
 
 The default arguments for functions of `checkinput` make them more restrictive
 than functions in base-\R (e.g., `checkinput::is_logical()` vs.
