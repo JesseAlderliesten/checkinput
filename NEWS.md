@@ -1,29 +1,9 @@
-# checkinput (development version)
+# checkinput 0.0.7_devel (development version)
 The development-branch of `checkinput` is *work in progress*: see below for the
 released versions.
 
-### To do
-- Change `all_names()` (BACK?) to `are_names()`, returning a boolean vector?
-  Error on non-character-vector input.
-- Link from vignettes to help-pages? See
-  https://github.com/dmurdoch/rgl/commit/bbc84447c2a6efed42907fbac176e9569b868d8f
-  and https://stackoverflow.com/questions/34946219/linking-r-package-vignettes.
-
 ### Breaking changes
-- `is_number()` and derived functions gained arguments `allow_zero`, `allow_NA`
-  and `allow_NaN` (with default `FALSE`, which previously implicitly was `TRUE`),
-  to solve the contradiction that using `is_number()` returned `TRUE` for these
-  values but using them in conditional statements led to `logical(0)` and thus
-  to an error.
-- `all_names()`: major overhaul. Removed argument `allow_susp`: `make.names()`
-  should be used to check only for syntactically invalid names; also check for
-  suspicious names that might have been created by `data.frame()` or
-  `vctrs::vec_as_names()`; made existing checks more specific: check that names
-  which apparently have been made valid indeed contain an invalid part, and the
-  first digit of numbers added to duplicated names is nonzero; differentiate
-  between changes by `make.names(x, unique = FALSE)` or by
-  `make.names(x, unique = TRUE)`; functions that might have changed a name are
-  now grouped together in the warnings.
+- None.
 
 ### Bug fixes
 - None.
@@ -35,18 +15,40 @@ released versions.
 - None.
 
 ### Updated documentation
-- Renamed `Type_Coercion.Rmd` to `type_coercion.Rmd`.
-- Major updates to, and restructuring of, documentation for `all_names()`. Also
-  updated and added examples.
-- In the vignette about design choices, clarify that functions *do* throw errors
-  about invalid input to arguments other than `x`.
-- `README`: added a reference to my repository `InstallPkgs`.
-- `all_natural()`: added a note about functions named `integerish`.
+- None.
 
-### Updated tests
-- `all_names()`: updated and added tests to reflect added checks for suspicious
-  names that might have been created by `vctrs::vec_as_names()`. Order of the
-  tests now matches order of checks in `all_names()`.
+
+# checkinput 0.0.6
+This update has large changes to `is_number()` and related functions, and to
+`all_names()`.
+
+### Breaking changes
+- `is_number()` and derived functions gained arguments `allow_zero`, `allow_NA`
+  and `allow_NaN` (with default `FALSE`, which previously implicitly was `TRUE`),
+  to resolve the contradiction that using `is_number()` returned `TRUE` for
+  these values but using them in conditional statements led to `logical(0)` and
+  thus to an error.
+- `all_names()`: major overhaul. Removed argument `allow_susp`: `make.names()`
+  should be used to check only for syntactically invalid names; do not try to
+  identify which functions might have changed a name; also check for suspicious
+  names that might have been created by `data.frame()` or `vctrs::vec_as_names()`;
+  made existing checks more specific: check that names which apparently have
+  been made valid indeed contain an invalid part, and the first digit of numbers
+  added to duplicated names is nonzero; differentiate between changes by
+  `make.names(x, unique = FALSE)` or by `make.names(x, unique = TRUE)`; consider
+  the reserved words `...` and `..1` as invalid but, when appropriate, note that
+  `make.names()` does not adjust them.
+
+### Updated documentation
+- `README`: added a reference to my repository `InstallPkgs`. Clarify that
+  functions *do* throw errors about invalid input to arguments other than `x`.
+- Vignette `design_choices.Rmd`: clarify that functions *do* throw errors about
+  invalid input to arguments other than `x`.
+- Vignette `Type_Coercion.Rmd`: renamed to `type_coercion.Rmd`.
+- `all_names()`: major updates and restructuring. Also updated and added examples.
+- `all_natural()`: added a note about functions named `integerish`.
+- Replace section title `Note` (created through `@Note`) by section title `Notes`
+  (created through `@section Notes:`). Idem for `Programming note`.
 
 
 # checkinput 0.0.5
