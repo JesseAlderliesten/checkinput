@@ -26,10 +26,12 @@ correct length with only allowed character values.
 Check that \code{x} is a character vector of the correct length with only allowed
 character values.
 }
-\note{
+\section{Notes}{
+
 \code{all_characters()} and \code{is_character()} by default return \code{FALSE} for empty
 strings.
 }
+
 \examples{
 is_character("a") # TRUE
 is_character(c("a", "b")) # FALSE: incorrect length
@@ -41,8 +43,8 @@ is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The \href{../doc/design_choices.html}{vignette about design choices} and the
-\href{../doc/type_coercion.html}{vignette about type coercion}.
+The vignettes about \href{../doc/design_choices.html}{design choices} and about
+\href{../doc/type_coercion.html}{type coercion}.
 
 Other collections of checks on type and length: 
 \code{\link{all_names}()},
