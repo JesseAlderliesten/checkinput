@@ -2,7 +2,7 @@
 % Please edit documentation in R/all_names.R
 \name{all_names}
 \alias{all_names}
-\title{Check that names are syntactically valid and unmodified}
+\title{Check that names are syntactically valid and unadjusted}
 \usage{
 all_names(x, allow_underscores = TRUE)
 }
@@ -14,13 +14,13 @@ all_names(x, allow_underscores = TRUE)
 \value{
 \code{TRUE} or \code{FALSE}, indicating if \code{x} is a character vector that consists of
 unique, syntactically valid names that do not consist of only dots or of two
-dots followed by a number, and do not suggest they were modified or
+dots followed by a number, and do not suggest they were adjusted or
 automatically created.
 }
 \description{
-Check that \code{x} is a character vector that consists of unique, syntactically
-valid names that do not consist of only dots or of two dots followed by a
-number, and do not suggest they were modified or automatically created.
+Check that \code{x} is a character vector with unique, syntactically valid names
+that do not consist of only dots or of two dots followed by a number, and do
+not suggest they were adjusted or automatically created.
 }
 \details{
 \link[=duplicated]{Duplicated} or syntactically invalid names are not allowed by
@@ -44,51 +44,49 @@ syntactically invalid by \code{\link[=make.names]{make.names()}}.
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name contains
 a pattern that suggests it originally was syntactically invalid and has been
-\emph{modified} into a syntactically valid name, or was modified to make names
-\link[=make.unique]{unique}. Such changes usually occur silently, for example
+\emph{adjusted} into a syntactically valid name, or has been adjusted to make names
+\link[=make.unique]{unique}. Such adjustments usually occur silently, for example
 when data is read into \R, which is problematic because it cannot reliably be
 assumed the original column names are present. The identification of
 suspicious names is partly based on the assumption that names originally did
 not contain dots, see the first item in the list below.
 
-\code{all_names()} \emph{tries} to recognise modifications made by \code{\link[=make.names]{make.names()}},
-which is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.table]{read.csv()}, and
-\code{data.table::fread(x, header = TRUE, check.names = TRUE)}; and modifications
+\code{all_names()} \emph{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}}, which
+is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.table]{read.csv()}, and
+\code{data.table::fread(x, header = TRUE, check.names = TRUE)}; and adjustments
 made by \code{vctrs::vec_as_names(x, repair = "universal")}, which is used
 throughout the \href{https://tidyverse.org/}{tidyverse}:
 \itemize{
-\item modifications to replace invalid characters (i.e., characters that are not
-a letter, number, dot or underscore): \code{make.names()} and
+\item adjustments to replace invalid characters (i.e., characters that are not a
+letter, number, dot or underscore): \code{make.names()} and
 \code{vctrs::vec_as_names(x, repair = "universal")} replace such characters with
 a dot. Their identification is based on the assumption that names
-originally did \emph{not} contain dots, which is good practice (base-\R
-unfortunately violates that practice, e.g., in \code{\link[=data.frame]{data.frame()}}) preventing
-names containing a dot from being confused with \link[=UseMethod]{methods} used
-on \link[=is.object]{classed objects}.
-\item modifications to make duplicated names unique: \code{make.names(x, unique = TRUE)}
+originally did \emph{not} contain dots, which is good practice (unfortunately
+not strictly followed in base-\R, e.g., in \code{\link[=data.frame]{data.frame()}}) preventing names
+containing a dot from being confused with \link[=UseMethod]{methods} used on
+\link[=is.object]{classed objects}.
+\item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
 appends a dot followed by a number;
 \code{vctrs::vec_as_names(x, repair = "universal")} appends three dots followed
 by a number. It is \emph{not} checked if a complete sequence of suspicious names
 is present, e.g., \code{a.2} will be flagged as suspicious even if \code{a} and \code{a.1}
 are absent.
-\item modifications to make \link{reserved} words valid: \code{make.names()} appends a dot;
+\item adjustments to make \link{reserved} words valid: \code{make.names()} appends a dot;
 \code{vctrs::vec_as_names(x, repair = "universal")} prepends a dot.
-\item modifications to make names that did not start with a letter, nor with a dot
+\item adjustments to make names that did not start with a letter, nor with a dot
 not followed by a number, syntactically valid: \code{make.names()} prepends \code{X};
 \code{vctrs::vec_as_names(x, repair = "universal")} prepends one or more dots.
-\item modifications to name unnamed columns: \code{data.frame()} and
-\code{read.csv(..., header = FALSE)} use pattern \code{V1}, \code{V2}, \code{V3} if a matrix
-without column names is converted to a data.frame or data without column
-names is read into \R, respectively; \code{read.csv(..., header = TRUE)} uses
-pattern \code{X}, \code{X.1}, \code{X.2};
+\item adjustments to name unnamed columns: \code{data.frame()} uses pattern \code{V1},
+\code{V2}, \code{V3} if a matrix without column names is converted to a data.frame,
+and \code{read.csv(..., header = FALSE)} uses the same pattern for data without
+column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}.
 }
 
-Names containing underscores (\verb{_}) \emph{are} by default allowed by \code{all_names()}:
-\code{allow_underscores} by default is \code{TRUE} because names containing underscores
-are not syntactically invalid. However, setting \code{allow_underscores} to \code{FALSE}
-is useful to check that names do not contain underscores, for example if
-several names will be concatenated separated by underscores to create an
-ID-tag.
+Names containing underscores (\verb{_}) are by default \emph{allowed} by \code{all_names()}
+because names containing underscores are not syntactically invalid. However,
+setting \code{allow_underscores} to \code{FALSE} to not allow such names is useful to
+check that names do not contain underscores, for example if several names
+will be concatenated separated by underscores to create an ID-tag.
 }
 \section{Programming note}{
 
@@ -97,9 +95,9 @@ The patterns used to identify suspicious names are created using
 \itemize{
 \item require a pattern to start at the beginning of a string (\code{^}) or reach the
 end of a string (\code{$});
-\item specify characters that should be present: a dot (\verb{\\\\.}, \verb{[.]}, or, if
-\code{fixed} is \code{TRUE}, \code{.}), an underscore (\verb{_}), any digit (\verb{[0-9]}), digits
-one to nine (\verb{[1-9]}), characters \code{V} or \code{X});
+\item specify characters that should be present: a dot (\verb{\\\\.} or, if \code{fixed} is
+\code{TRUE}, \code{.}), an underscore (\verb{_}), any digit (\verb{[0-9]}), digits one to nine
+(\verb{[1-9]}), characters \code{V} or \code{X});
 \item indicate presence: present zero or more times (\code{*}); present one or more
 times (\code{+}).
 }
@@ -112,21 +110,24 @@ Multiple patterns can be combined using \code{|}, the normal operator indicating
 all_names(x = c("a", "b1a")) # TRUE
 all_names(x = c("a", "b1a", "a")) # FALSE: duplicated name
 
-# Syntactically invalid names: the character '#' makes names invalid, '""' is
-# an empty name, 'for' is a reserved word, '..' consists of only dots, and
-# '..23' consists of two dots followed by a number, which is a reserved
-# pattern.
-all_names(x = c("a", "ab#cd", "", "for", "..", "..23")) # FALSE
+invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
+# Syntactically invalid names: the character '#' makes names invalid,
+# '""' is an empty name, 'for', '..', and '..23' are reserved words.
+all_names(x = invalid_names) # FALSE
+
+# Names that have been made valid are suspicious
+# (make.names() does not adjust ".." or "..23"):
+all_names(x = make.names(invalid_names)) # FALSE
 
 # FALSE: suspicious names
-all_names(x = c("e.2", ".TRUE", "..22c", "a...2",
+all_names(x = c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
                 "V3", "X.2", "X0...11", "X0.3", "X3"))
 
 all_names(x = "abc_def", allow_underscores = FALSE) # FALSE: underscores
-all_names(x = "abc_def", allow_underscores = TRUE) # TRUE (is the default)
+all_names(x = "abc_def", allow_underscores = TRUE) # TRUE
 
-# pass names() or colnames() used on an object without (column) names to
-# all_names()
+# pass names() or colnames() used on an object
+# without (column) names to all_names():
 all_names(x = names(1:3)) # FALSE
 
 all_names(13) # FALSE: 'x' is not a character vector
@@ -137,15 +138,8 @@ Section \code{Details} of \code{\link[=make.names]{make.names()}}, section \verb
 \link{Quotes}, and the \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{\R FAQ about valid names}
 on the syntactical validity of names.
 
-\link{locales} and \link{Encoding} on encodings and character sets; \code{\link[=validUTF8]{validUTF8()}} to
-check for valid encodings; \code{\link[=iconv]{iconv()}} to convert between encodings;
-\code{tools::showNonASCII()} to show the non-ASCII bytes of strings; package
-\href{https://CRAN.R-project.org/package=stringi}{stringi} that provides
-facilities to process character strings.
-
-\code{janitor::make_clean_names()} to \emph{modify} names, e.g., through adjusting case
-and transliterating non-ASCII characters; \code{\link[=names]{names()}} to get or set the names
-of an object.
+\code{\link[=names]{names()}} to get or set object names; \code{janitor::make_clean_names()} to adjust
+names, e.g., through adjusting case and transliterating non-ASCII characters.
 
 The vignettes about \href{../doc/design_choices.html}{design choices} and about
 \href{../doc/type_coercion.html}{type coercion}.

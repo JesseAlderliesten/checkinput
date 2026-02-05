@@ -1,8 +1,8 @@
-#' Check that names are syntactically valid and unmodified
+#' Check that names are syntactically valid and unadjusted
 #'
-#' Check that `x` is a character vector that consists of unique, syntactically
-#' valid names that do not consist of only dots or of two dots followed by a
-#' number, and do not suggest they were modified or automatically created.
+#' Check that `x` is a character vector with unique, syntactically valid names
+#' that do not consist of only dots or of two dots followed by a number, and do
+#' not suggest they were adjusted or automatically created.
 #'
 #' @param x Vector of names to test.
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
@@ -29,64 +29,62 @@
 #'
 #' Suspicious names are not allowed by `all_names()`. A suspicious name contains
 #' a pattern that suggests it originally was syntactically invalid and has been
-#' *modified* into a syntactically valid name, or was modified to make names
-#' [unique][make.unique()]. Such changes usually occur silently, for example
+#' *adjusted* into a syntactically valid name, or has been adjusted to make names
+#' [unique][make.unique()]. Such adjustments usually occur silently, for example
 #' when data is read into \R, which is problematic because it cannot reliably be
 #' assumed the original column names are present. The identification of
 #' suspicious names is partly based on the assumption that names originally did
 #' not contain dots, see the first item in the list below.
 #'
-#' `all_names()` *tries* to recognise modifications made by [make.names()],
-#' which is used by [data.frame()], [read.csv()][utils::read.csv()], and
-#' `data.table::fread(x, header = TRUE, check.names = TRUE)`; and modifications
+#' `all_names()` *tries* to recognise adjustments made by [make.names()], which
+#' is used by [data.frame()], [read.csv()][utils::read.csv()], and
+#' `data.table::fread(x, header = TRUE, check.names = TRUE)`; and adjustments
 #' made by `vctrs::vec_as_names(x, repair = "universal")`, which is used
 #' throughout the [tidyverse](https://tidyverse.org/):
-#' - modifications to replace invalid characters (i.e., characters that are not
-#'   a letter, number, dot or underscore): `make.names()` and
+#' - adjustments to replace invalid characters (i.e., characters that are not a
+#'   letter, number, dot or underscore): `make.names()` and
 #'   `vctrs::vec_as_names(x, repair = "universal")` replace such characters with
 #'   a dot. Their identification is based on the assumption that names
-#'   originally did *not* contain dots, which is good practice (base-\R
-#'   unfortunately violates that practice, e.g., in [data.frame()]) preventing
-#'   names containing a dot from being confused with [methods][UseMethod] used
-#'   on [classed objects][is.object].
-#' - modifications to make duplicated names unique: `make.names(x, unique = TRUE)`
+#'   originally did *not* contain dots, which is good practice (unfortunately
+#'   not strictly followed in base-\R, e.g., in [data.frame()]) preventing names
+#'   containing a dot from being confused with [methods][UseMethod] used on
+#'   [classed objects][is.object].
+#' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
 #'   appends a dot followed by a number;
 #'   `vctrs::vec_as_names(x, repair = "universal")` appends three dots followed
 #'   by a number. It is *not* checked if a complete sequence of suspicious names
 #'   is present, e.g., `a.2` will be flagged as suspicious even if `a` and `a.1`
 #'   are absent.
-#' - modifications to make [reserved] words valid: `make.names()` appends a dot;
+#' - adjustments to make [reserved] words valid: `make.names()` appends a dot;
 #'   `vctrs::vec_as_names(x, repair = "universal")` prepends a dot.
-#' - modifications to make names that did not start with a letter, nor with a dot
+#' - adjustments to make names that did not start with a letter, nor with a dot
 #'   not followed by a number, syntactically valid: `make.names()` prepends `X`;
 #'   `vctrs::vec_as_names(x, repair = "universal")` prepends one or more dots.
-#' - modifications to name unnamed columns: `data.frame()` and
-#'   `read.csv(..., header = FALSE)` use pattern `V1`, `V2`, `V3` if a matrix
-#'   without column names is converted to a data.frame or data without column
-#'   names is read into \R, respectively; `read.csv(..., header = TRUE)` uses
-#'   pattern `X`, `X.1`, `X.2`;
+#' - adjustments to name unnamed columns: `data.frame()` uses pattern `V1`,
+#'   `V2`, `V3` if a matrix without column names is converted to a data.frame,
+#'   and `read.csv(..., header = FALSE)` uses the same pattern for data without
+#'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
 #'
-#' Names containing underscores (`_`) *are* by default allowed by `all_names()`:
-#' `allow_underscores` by default is `TRUE` because names containing underscores
-#' are not syntactically invalid. However, setting `allow_underscores` to `FALSE`
-#' is useful to check that names do not contain underscores, for example if
-#' several names will be concatenated separated by underscores to create an
-#' ID-tag.
+#' Names containing underscores (`_`) are by default *allowed* by `all_names()`
+#' because names containing underscores are not syntactically invalid. However,
+#' setting `allow_underscores` to `FALSE` to not allow such names is useful to
+#' check that names do not contain underscores, for example if several names
+#' will be concatenated separated by underscores to create an ID-tag.
 #'
 #' @returns
 #' `TRUE` or `FALSE`, indicating if `x` is a character vector that consists of
 #' unique, syntactically valid names that do not consist of only dots or of two
-#' dots followed by a number, and do not suggest they were modified or
+#' dots followed by a number, and do not suggest they were adjusted or
 #' automatically created.
 #'
-#' @section Programming note:
+#' @section Programming notes:
 #' The patterns used to identify suspicious names are created using
 #' [regular expressions][base::regex] with the following elements:
 #' - require a pattern to start at the beginning of a string (`^`) or reach the
 #'   end of a string (`$`);
-#' - specify characters that should be present: a dot (`\\.`, `[.]`, or, if
-#'   `fixed` is `TRUE`, `.`), an underscore (`_`), any digit (`[0-9]`), digits
-#'   one to nine (`[1-9]`), characters `V` or `X`);
+#' - specify characters that should be present: a dot (`\\.` or, if `fixed` is
+#'   `TRUE`, `.`), an underscore (`_`), any digit (`[0-9]`), digits one to nine
+#'   (`[1-9]`), characters `V` or `X`);
 #' - indicate presence: present zero or more times (`*`); present one or more
 #'   times (`+`).
 #'
@@ -99,15 +97,8 @@
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f)
 #' on the syntactical validity of names.
 #'
-#' [locales] and [Encoding] on encodings and character sets; [validUTF8()] to
-#' check for valid encodings; [iconv()] to convert between encodings;
-#' `tools::showNonASCII()` to show the non-ASCII bytes of strings; package
-#' [stringi](https://CRAN.R-project.org/package=stringi) that provides
-#' facilities to process character strings.
-#'
-#' `janitor::make_clean_names()` to *modify* names, e.g., through adjusting case
-#' and transliterating non-ASCII characters; [names()] to get or set the names
-#' of an object.
+#' [names()] to get or set object names; `janitor::make_clean_names()` to adjust
+#' names, e.g., through adjusting case and transliterating non-ASCII characters.
 #'
 #' The vignettes about [design choices](../doc/design_choices.html) and about
 #' [type coercion](../doc/type_coercion.html).
@@ -119,21 +110,24 @@
 #' all_names(x = c("a", "b1a")) # TRUE
 #' all_names(x = c("a", "b1a", "a")) # FALSE: duplicated name
 #'
-#' # Syntactically invalid names: the character '#' makes names invalid, '""' is
-#' # an empty name, 'for' is a reserved word, '..' consists of only dots, and
-#' # '..23' consists of two dots followed by a number, which is a reserved
-#' # pattern.
-#' all_names(x = c("a", "ab#cd", "", "for", "..", "..23")) # FALSE
+#' invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
+#' # Syntactically invalid names: the character '#' makes names invalid,
+#' # '""' is an empty name, 'for', '..', and '..23' are reserved words.
+#' all_names(x = invalid_names) # FALSE
+#'
+#' # Names that have been made valid are suspicious
+#' # (make.names() does not adjust ".." or "..23"):
+#' all_names(x = make.names(invalid_names)) # FALSE
 #'
 #' # FALSE: suspicious names
-#' all_names(x = c("e.2", ".TRUE", "..22c", "a...2",
+#' all_names(x = c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
 #'                 "V3", "X.2", "X0...11", "X0.3", "X3"))
 #'
 #' all_names(x = "abc_def", allow_underscores = FALSE) # FALSE: underscores
-#' all_names(x = "abc_def", allow_underscores = TRUE) # TRUE (is the default)
+#' all_names(x = "abc_def", allow_underscores = TRUE) # TRUE
 #'
-#' # pass names() or colnames() used on an object without (column) names to
-#' # all_names()
+#' # pass names() or colnames() used on an object
+#' # without (column) names to all_names():
 #' all_names(x = names(1:3)) # FALSE
 #'
 #' all_names(13) # FALSE: 'x' is not a character vector
@@ -152,8 +146,8 @@ all_names <- function(x, allow_underscores = TRUE) {
   suggest_make_names <- FALSE
 
   # Notes:
-  # - Checking for zero-length 'x' should be done before removing any invalid
-  #   or suspicious names because that can also lead to zero-length 'x'.
+  # - Checking for zero-length 'x' should be done before removing any invalid or
+  #   suspicious names because that can also lead to zero-length 'x'.
   warn_text_zerolength <- character(0)
   if(length(x) == 0L) {
     if(is.null(x)) {
@@ -204,15 +198,14 @@ all_names <- function(x, allow_underscores = TRUE) {
   }
 
   # Names that consist of only dots, or consist of two dots followed by only
-  # digits (i.e., pattern '..1', '..2', '..3' etc), are reserved words. They are
-  # considered invalid by vctrs::vec_as_names(x, repair = "universal") but not
-  # by make.names().
+  # digits (i.e., pattern '..1', '..2', '..3' etc), are reserved words (see
+  # help(Reserved)). They are considered invalid by vctrs::vec_as_names(x,
+  # repair = "universal") but not by make.names().
   warn_text_dots <- character(0)
   bool_onlydots <- grepl(pattern = "^\\.+$", x = x)
   if(any(bool_onlydots)) {
-    warn_text_dots <- paste0(
-      "consist of only dots (but make.names() will not fix that): ",
-      paste_quoted(x[bool_onlydots]))
+    warn_text_dots <- paste0("consist of only dots, which is a reserved word: ",
+                             paste_quoted(x[bool_onlydots]))
     x <- x[!bool_onlydots]
   }
 
@@ -221,8 +214,7 @@ all_names <- function(x, allow_underscores = TRUE) {
   if(any(bool_patterndots)) {
     warn_text_dots <- c(
       warn_text_dots,
-      paste0("consist of two dots followed by digits, which is a reserved",
-             " pattern (but make.names() will not fix that): ",
+      paste0("consist of two dots followed by digits, which is a reserved word: ",
              paste_quoted(x[bool_patterndots])))
     x <- x[!bool_patterndots]
   }
@@ -232,7 +224,8 @@ all_names <- function(x, allow_underscores = TRUE) {
     bool_underscores <- grepl(pattern = "_", x = x, fixed = TRUE)
     if(any(bool_underscores)) {
       warn_text_underscores <- paste0(
-        "contain underscores: ", paste_quoted(x[bool_underscores]))
+        "contain underscores (which are not allowed if 'allow_underscores' is",
+        " FALSE): ", paste_quoted(x[bool_underscores]))
       suggest_make_names <- TRUE
       # Removing names that contain underscores because they are invalid, and
       # thus not suspicious, if 'allow_underscores' is FALSE.
@@ -267,14 +260,24 @@ all_names <- function(x, allow_underscores = TRUE) {
   warn_text <- paste0(c(warn_text_zerolength, warn_text), collapse = " and ")
 
   if(suggest_make_names) {
+    note_dots <- paste(c("only dots", "two dots followed by digits")[
+      c(any(bool_onlydots), any(bool_patterndots))], collapse = ", or ")
+    # note_dots will be '""' which has length 1 if none is TRUE
+    if(nchar(note_dots) > 0L) {
+      note_dots <- paste0(" (it does not recognise names that consist of ",
+                          note_dots, ")")
+    }
+
     if(allow_underscores) {
       warn_text <- paste0(
         warn_text, ".\nUse 'x <- make.names(x, unique = TRUE)' to create",
-        " unique, syntactically valid names!")
+        " unique, syntactically valid names",
+        if(length(warn_text_dots) > 0L) {note_dots}, "!")
     } else {
       warn_text <- paste0(
         warn_text, ".\nUse 'x <- make.names(x, unique = TRUE, allow_ = FALSE)'",
-        " to create unique,\nsyntactically valid names without underscores!")
+        " to create unique,\nsyntactically valid names without underscores",
+        if(length(warn_text_dots) > 0L) {note_dots}, "!")
     }
   }
 
