@@ -6,12 +6,12 @@
 #' @inheritParams is_logical
 #' @param strict Exclude zero from the natural numbers?
 #' @param tol A small [positive][is_positive()] number. Numbers that differ less
-#' in value than `tol` are considered to be equal.
+#' in value than `tol` are considered equal.
 #'
 #' @details
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
 #' considered a natural number if argument `strict` is `FALSE`. `Inf` is *never*
-#' considered to be a natural number in this implementation.
+#' considered a natural number in this implementation.
 #'
 #' `all_natural()` allows for small numeric errors when comparing numbers. Such
 #' numeric errors can arise because of rounding or representation error. As the
@@ -27,11 +27,11 @@
 #' @returns `TRUE` or `FALSE` indicating if `x` is a vector with only natural
 #' numbers.
 #'
-#' @note
+#' @section Notes:
 #' The code of `all_natural()` is partly based on the example `is.wholenumber()`
 #' in [is.integer()].
 #'
-#' @section Programming note:
+#' @section Programming notes:
 #' [is.integer()] does *not* check that `x` is a natural number (nor if `x` is a
 #' whole number) but rather that `x` is of [type][typeof()] integer (see the
 #' `Note` in [is.integer()]).
@@ -50,9 +50,10 @@
 #' operators; [match()] and `progutils::not_in()` to compare character vectors;
 #' [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-#' for background on numerical equality;
-#' `vignette("design_choices", package = "checkinput")` and
-#' `vignette("type_coercion", package = "checkinput")`.
+#' for background on numerical equality.
+#'
+#' The vignettes about [design choices](../doc/design_choices.html) and about
+#' [type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' all_natural(x = c(3, 5 + 1e-10)) # TRUE

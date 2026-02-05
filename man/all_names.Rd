@@ -88,7 +88,7 @@ setting \code{allow_underscores} to \code{FALSE} to not allow such names is usef
 check that names do not contain underscores, for example if several names
 will be concatenated separated by underscores to create an ID-tag.
 }
-\section{Programming note}{
+\section{Programming notes}{
 
 The patterns used to identify suspicious names are created using
 \link[base:regex]{regular expressions} with the following elements:

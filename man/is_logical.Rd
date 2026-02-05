@@ -15,7 +15,7 @@ is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a length-one logical vector
-and contains only allowed logical values.
+only containing allowed logical values.
 }
 \description{
 Check that \code{x} is a length-one logical vector with only allowed logical values.
@@ -30,7 +30,7 @@ is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The \href{../doc/design_choices.html}{vignette about design choices}.
+The vignette about \href{../doc/design_choices.html}{design choices}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},

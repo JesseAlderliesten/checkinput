@@ -38,8 +38,8 @@ Check that \code{x} is a numeric vector of the correct length with numbers of th
 correct sign.
 }
 \details{
-The correct length of \code{x} is larger than zero for \code{all_...()} and one for
-\code{is_...()}, unless \code{allow_zero} is \code{TRUE}: then numeric-type zero-length \code{x}
+The correct length of \code{x} is one for \code{is_...()} and larger than zero for
+\code{all_...()}, unless \code{allow_zero} is \code{TRUE}: then numeric-type zero-length \code{x}
 is also allowed for both types of functions.
 
 \code{all_nonnegative()} and \code{is_nonnegative()} return \code{TRUE} for \code{0}, whereas
@@ -51,9 +51,9 @@ correct sign.
 \code{all_...()} and \code{is_...()} return \code{FALSE} for \code{NA_complex_}, even if
 \code{allow_NA} is \code{TRUE}, because its mode is \code{complex} instead of \code{numeric}.
 
-\code{NaN} has mode \code{numeric}, despite its meaning 'not a number'.
+\link{NaN} has \link{mode} \code{numeric}, despite meaning 'not a number'.
 }
-\section{Programming note}{
+\section{Programming notes}{
 
 \code{\link[=is.numeric]{is.numeric()}} tests the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for
 floating-point numbers such as 3.2 and integers such as 3L. In contrast,
@@ -88,8 +88,8 @@ is_positive(x = 0) # FALSE
 
 }
 \seealso{
-The \href{../doc/design_choices.html}{vignette about design choices} and the
-\href{../doc/type_coercion.html}{vignette about type coercion}.
+The vignettes about \href{../doc/design_choices.html}{design choices} and about
+\href{../doc/type_coercion.html}{type coercion}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},

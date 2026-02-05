@@ -7,13 +7,13 @@
 #' @param allow_NA `TRUE` or `FALSE`: allow `NA`s of the correct type in `x`?
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
-#' and contains only allowed logical values.
+#' only containing allowed logical values.
 #'
 #' @family
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The [vignette about design choices](../doc/design_choices.html).
+#' The vignette about [design choices](../doc/design_choices.html).
 #'
 #' @examples
 #' is_logical(TRUE) # TRUE

@@ -20,7 +20,8 @@ No check is performed on dimensions, such that a \code{\link[=matrix]{matrix()}}
 with zero rows is a zero-length object whereas a \code{\link[=data.frame]{data.frame()}} with
 zero rows is \emph{not} (see the \code{Examples}).
 }
-\note{
+\section{Notes}{
+
 Zero-\code{\link[=length]{length()}} objects can have different \link[=typeof]{types}: NULL (\link{NULL}),
 logical (\code{logical(0)}), integer (\code{integer(0)}), double (\code{numeric(0)}),
 complex (\code{complex(0)}), character (\code{character(0)}), and list (\code{\link[=list]{list()}} and
@@ -49,6 +50,7 @@ the type of the vector is the highest type of the components in the hierarchy
 \code{NULL} < \code{raw} < \code{logical} < \code{integer} < \code{double} < \code{complex} < \code{character} <
 \code{list} < \code{expression}, see the section \code{Details} in \code{help(c)}.
 }
+
 \examples{
 is_zerolength(x = character(0)) # TRUE
 is_zerolength(x = 0) # FALSE
@@ -66,8 +68,8 @@ str(c(num, zerochar)) # chr "314", not num 314
 
 }
 \seealso{
-The \href{../doc/design_choices.html}{vignette about design choices} and the
-\href{../doc/type_coercion.html}{vignette about type coercion}.
+The vignettes about \href{../doc/design_choices.html}{design choices} and about
+\href{../doc/type_coercion.html}{type coercion}.
 
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},

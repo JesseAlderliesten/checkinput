@@ -9,8 +9,8 @@
 #' @param allow_NaN `TRUE` or `FALSE`: allow [NaN]s?
 #'
 #' @details
-#' The correct length of `x` is larger than zero for `all_...()` and one for
-#' `is_...()`, unless `allow_zero` is `TRUE`: then numeric-type zero-length `x`
+#' The correct length of `x` is one for `is_...()` and larger than zero for
+#' `all_...()`, unless `allow_zero` is `TRUE`: then numeric-type zero-length `x`
 #' is also allowed for both types of functions.
 #'
 #' `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`, whereas
@@ -22,14 +22,14 @@
 #' `all_...()` and `is_...()` return `FALSE` for `NA_complex_`, even if
 #' `allow_NA` is `TRUE`, because its mode is `complex` instead of `numeric`.
 #'
-#' `NaN` has mode `numeric`, despite its meaning 'not a number'.
+#' [NaN] has [mode] `numeric`, despite meaning 'not a number'.
 #'
 #' @returns
 #' `TRUE` or `FALSE` indicating if `x` is a numeric vector of the correct length
 #' with numbers of the correct sign that adheres to the limitations set by the
 #' other arguments.
 #'
-#' @section Programming note:
+#' @section Programming notes:
 #' [is.numeric()] tests the [mode()] of `x`, which is `numeric` for
 #' floating-point numbers such as 3.2 and integers such as 3L. In contrast,
 #' `class(x) == "numeric"` would test the [class()] of `x` which is `numeric`
@@ -43,8 +43,8 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The [vignette about design choices](../doc/design_choices.html) and the
-#' [vignette about type coercion](../doc/type_coercion.html).
+#' The vignettes about [design choices](../doc/design_choices.html) and about
+#' [type coercion](../doc/type_coercion.html).
 #'
 #' @examples
 #' is_number(x = 1) # TRUE
