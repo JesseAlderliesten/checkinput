@@ -1,6 +1,9 @@
 ---
 title: "Type coercion in vectors"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{type_coercion}
   %\VignetteEncoding{UTF-8}
@@ -16,6 +19,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+## Introduction
 When testing vector input of length larger than one, it should be kept in mind
 that objects are converted ('coerced') to a common type when combined in a
 vector. The type of the vector, and thus of all its components, will be the
@@ -42,6 +47,8 @@ str(logiNA_char[1])
 logiNA_char[1]
 ```
 
+
+## Consequences for checks
 Type coercion in a vector has as consequence that code like
 `all_characters(c(x, y))` does *not* check if all elements in `x` and `y` are
 character: `x` and `y` will be coerced to the highest of their types before the
@@ -76,6 +83,8 @@ all_characters(unlist(z)) # TRUE, even though the second element of 'z' is numer
 all(unlist(lapply(X = z, FUN = all_characters))) # FALSE
 ```
 
+
+## Zero-length values
 Although zero-length objects (see `?is_zerolength()`) are discarded when
 combined into a vector with other values, their types are taken into account for
 type coercion. For example, numeric `314` will be coerced to character `"314"`
