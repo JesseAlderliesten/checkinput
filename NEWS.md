@@ -15,8 +15,9 @@ released versions.
 - None.
 
 ### Updated documentation
-- None.
-
+- Vignette about design choices: Add a table of contents. Remove obsolete note
+  about `allow_NA` being absent from `is_number()` and derived functions.
+- Vignette about type coercion: add section labels and a table of contents.
 
 # checkinput 0.0.6
 This update has large changes to `is_number()` and related functions, and to
