@@ -1,6 +1,9 @@
 ---
 title: "Design choices regarding function input"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{design_choices}
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,8 +25,8 @@ throwing an error about `x` is deferred to `stopifnot(...)` in which calls to
 Errors *are* thrown about invalid input to arguments other than `x`, e.g.,
 providing values other than `TRUE` or `FALSE` to `allow_zero`.
 
-The default arguments for functions of `checkinput` make them more restrictive
-than functions in base-\R (e.g., `checkinput::is_logical()` vs.
+The default arguments make functions of `checkinput` more restrictive than
+the equivalent functions in base R (e.g., `checkinput::is_logical()` versus
 `base::is.logical()`), reflecting that the functions of `checkinput` are
 intended for argument checking, where, for example, zero-length `x` is unwanted.
 
@@ -39,8 +42,6 @@ issues with zero-length input.
 ## NAs in x
 By default, functions only return `TRUE` for `x` without `NA`s. Set argument
 `allow_NA` to `TRUE` to allow for `NA`s of the correct type.
-**NB.** This is **not yet** the case for `checkinput::is_number()` and derived
-functions!
 
 ## Return
 The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` always
