@@ -15,6 +15,8 @@ released versions.
 - None.
 
 ### Updated documentation
+- Add 'vctrs' as dependency (Suggests), as it is used in documentation of
+  `all_names()`.
 - Vignette about design choices: Add a table of contents. Remove obsolete note
   about `allow_NA` being absent from `is_number()` and derived functions.
 - Vignette about type coercion: add section labels and a table of contents.
