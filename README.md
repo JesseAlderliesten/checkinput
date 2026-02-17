@@ -17,23 +17,26 @@ The package also contains a vignette about type coercion in vectors,
 which discusses some important aspects regarding testing of vectors:
 `vignette("type_coercion", package = "checkinput")`.
 
-## Installation
+# Installation
 
 You can install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) with:
 
 ``` r
-if(!requireNamespace("remotes")) {
-  install.packages("remotes")
+if(!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages(pkgs = "remotes", quiet = FALSE)
 }
-remotes::install_github("JesseAlderliesten/checkinput")
+remotes::install_github(repo = "JesseAlderliesten/checkinput",
+                        dependencies = NA, upgrade = FALSE, force = FALSE,
+                        quiet = FALSE, build_vignettes = TRUE, lib = .libPaths(),
+                        verbose = getOption("verbose"))
 ```
 
-For information about installing and configuring R and RStudio, or about
-setting up and using Git and GitHub, see my [repository
-‘InstallPkgs’](https://github.com/JesseAlderliesten/InstallPkgs).
+For information about installing and configuring R and RStudio, see my
+[repository
+‘checkrpkgs’](https://github.com/JesseAlderliesten/checkrpkgs).
 
-## Example
+# Example
 
 Say you want to collect information on hobbies of people through a
 function in which it is optional for them to provide their name. With
