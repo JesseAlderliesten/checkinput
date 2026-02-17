@@ -1,7 +1,8 @@
 #' Internal function to concatenate a vector to a single string of quoted
 #' elements, representing `NULL` as `"'NULL'"` and other zero-length objects as
 #' `"'<class>(0)'"`, e.g., `"'logical(0)'"`. A fuller, exported version of this
-#' function is present in package `progutils`.
+#' function is present in package
+#' [progutils](https://github.com/JesseAlderliesten/progutils).
 #'
 #' @noRd
 paste_quoted <- function(x) {
