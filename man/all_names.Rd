@@ -116,7 +116,7 @@ invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
 all_names(x = invalid_names) # FALSE
 
 # Names that have been made valid are suspicious
-# (make.names() does not adjust ".." or "..23"):
+# (but make.names() does not adjust ".." or "..23"):
 all_names(x = make.names(invalid_names)) # FALSE
 
 # FALSE: suspicious names
