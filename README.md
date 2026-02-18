@@ -1,4 +1,6 @@
 
+![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput)
+
 # checkinput
 
 With `checkinput`, you can write concise checks which can be tailored to

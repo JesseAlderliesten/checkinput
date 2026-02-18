@@ -10,6 +10,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput)
+
 # checkinput
 With `checkinput`, you can write concise checks which can be tailored to the
 need of the specific function for which the input is checked.
