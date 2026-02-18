@@ -116,7 +116,7 @@
 #' all_names(x = invalid_names) # FALSE
 #'
 #' # Names that have been made valid are suspicious
-#' # (make.names() does not adjust ".." or "..23"):
+#' # (but make.names() does not adjust ".." or "..23"):
 #' all_names(x = make.names(invalid_names)) # FALSE
 #'
 #' # FALSE: suspicious names
@@ -264,7 +264,7 @@ all_names <- function(x, allow_underscores = TRUE) {
       c(any(bool_onlydots), any(bool_patterndots))], collapse = ", or ")
     # note_dots will be '""' which has length 1 if none is TRUE
     if(nchar(note_dots) > 0L) {
-      note_dots <- paste0(" (it does not recognise names that consist of ",
+      note_dots <- paste0("\n(it does not recognise names that consist of ",
                           note_dots, ")")
     }
 

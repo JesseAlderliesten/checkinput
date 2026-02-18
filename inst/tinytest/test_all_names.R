@@ -79,7 +79,7 @@ warn_suspicious <- "Names are suspicious: "
 warn_syntax <- "are syntactically invalid: "
 warn_undersc <- paste0("contain underscores (which are not allowed if",
                        " 'allow_underscores' is FALSE): ")
-note_mknm_dots <- paste0("(it does not recognise names that consist of only",
+note_mknm_dots <- paste0("\n(it does not recognise names that consist of only",
                          " dots, or two dots followed by digits)")
 
 
@@ -95,7 +95,7 @@ expect_warning(
   pattern = paste0(
     "Names are syntactically invalid: 'ab#cd', 'for', ", x_invld_empty_q,
     "; and ", warn_dots, "'..'; and ", warn_dots_pattern, "'..23'", use_mknm,
-    "' to create unique, syntactically valid names ", note_mknm_dots),
+    "' to create unique, syntactically valid names", note_mknm_dots),
   strict = FALSE, fixed = TRUE)
 
 expect_warning(
