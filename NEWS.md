@@ -1,56 +1,38 @@
-# checkinput 0.0.7_devel (development version)
-The development-branch of `checkinput` is *work in progress*: see below for the
-released versions.
-
-### Breaking changes
-- None.
-
-### Bug fixes
-- None.
-
-### Added functions
-- None.
-
-### Minor improvements
-- None.
-
-### Updated documentation
-- Add 'vctrs' as dependency (Suggests), as it is used in documentation of
-  `all_names()`.
-- Vignette about design choices: Add a table of contents. Remove obsolete note
-  about `allow_NA` being absent from `is_number()` and derived functions.
-- Vignette about type coercion: add section labels and a table of contents.
-
 # checkinput 0.0.6
 This update has large changes to `is_number()` and related functions, and to
 `all_names()`.
 
 ### Breaking changes
+- `all_names()`: removed argument `allow_susp` and never allows suspicious names
+  because allowing them amounts to only checking for syntactically invalid names,
+  for which `make.names()` can be used directly; not trying anymore to identify
+  which functions might have changed a name because that is very ambiguous; also
+  check for suspicious names that might have been created by `data.frame()` or
+  `vctrs::vec_as_names()`; consider the reserved words `...` and `..1` invalid
+  and, when appropriate, note that `make.names()` does not adjust them; existing
+  checks are now more specific: they check that names which apparently have been
+  made valid indeed contain an invalid part, and that the first digit of numbers
+  added to duplicated names is non-zero.
 - `is_number()` and derived functions gained arguments `allow_zero`, `allow_NA`
-  and `allow_NaN` (with default `FALSE`, which previously implicitly was `TRUE`),
-  to resolve the contradiction that using `is_number()` returned `TRUE` for
-  these values but using them in conditional statements led to `logical(0)` and
-  thus to an error.
-- `all_names()`: major overhaul. Removed argument `allow_susp`: `make.names()`
-  should be used to check only for syntactically invalid names; do not try to
-  identify which functions might have changed a name; also check for suspicious
-  names that might have been created by `data.frame()` or `vctrs::vec_as_names()`;
-  made existing checks more specific: check that names which apparently have
-  been made valid indeed contain an invalid part, and the first digit of numbers
-  added to duplicated names is nonzero; differentiate between changes by
-  `make.names(x, unique = FALSE)` or by `make.names(x, unique = TRUE)`; consider
-  the reserved words `...` and `..1` as invalid but, when appropriate, note that
-  `make.names()` does not adjust them.
+  and `allow_NaN` (with default `FALSE` in contrast to the previously implicit
+  `TRUE`), to resolve the contradiction that using `is_number()` returned `TRUE`
+  for these values but using them in conditional statements led to `logical(0)`
+  and thus to an error.
 
 ### Updated documentation
-- `README`: added a reference to my repository `InstallPkgs`. Clarify that
-  functions *do* throw errors about invalid input to arguments other than `x`.
-- Vignette `design_choices.Rmd`: clarify that functions *do* throw errors about
-  invalid input to arguments other than `x`.
-- Vignette `Type_Coercion.Rmd`: renamed to `type_coercion.Rmd`.
+- Added `vctrs` as dependency in `Suggests` because it is used in documentation
+  of `all_names()`.
 - `all_names()`: major updates and restructuring. Also updated and added examples.
 - `all_natural()`: added a note about functions named `integerish`.
-- Replace section title `Note` (created through `@Note`) by section title `Notes`
+- `README`: added a reference to my repository `checkrpkgs`. Clarified that
+  functions *do* throw errors about invalid input to arguments other than `x`.
+- Vignette `design_choices.Rmd`: clarified that functions *do* throw errors about
+  invalid input to arguments other than `x`. Added a table of contents. Removed
+  obsolete note about `allow_NA` being absent from `is_number()` and derived
+  functions.
+- Vignette `Type_Coercion.Rmd`: renamed to `type_coercion.Rmd`. Added section
+  labels and a table of contents.
+- Replaced section title `Note` (created through `@Note`) by section title `Notes`
   (created through `@section Notes:`). Idem for `Programming note`.
 
 
@@ -65,47 +47,34 @@ This update has many changes on documentation.
 - `paste_quoted()` (an internal function) now throws an error if `x` has
   dimensions.
 
-### Added functions
-- None.
-
 ### Minor improvements
-- Put code of `is_character.R` in `all_characters.R`, and put code of
-  `is_positive.R`, `is_nonnegative.R`, etc. in `is.number.R`. That is, copy code
-  from files that used `@rdname <func>` to copy the documentation of `<func>` to
-  the relevant files.
+- Moved code of `is_character.R` to `all_characters.R`, and code of
+  `is_positive.R`, `is_nonnegative.R`, etc. to `is.number.R`.
 
 ### Updated documentation
 - Updated `README` to mention vignettes and introduce design choices.
 - Cross-reference on `is_number()` instead of on `all_nonnegative()`.
-- Removed `Note`s about legacy-code.
+- Removed `Note`s about legacy code.
 - Moved `To do` points and `Wishlist` to GitHub issues.
 - Moved information about correct input to the vignette `design_choices` that is
   linked in the `See also` sections of the relevant functions. The vignette also
   contains a section about getting a named boolean vector as output. Both
   sections are also mentioned in the `README`.
-- all_names(): `data.frame()` also calls `make.names()`. Moved section on how to
-  get a boolean vector to the vignette on design choices.
-- is_zerolength(): document that a zero-row data.frame is not a zero-length
+- `all_names()`: `data.frame()` also calls `make.names()`. Moved section on how
+  to get a boolean vector to the vignette on design choices.
+- `is_zerolength()`: document that a zero-row `data.frame` is not a zero-length
   object.
-
-### Updated tests
-- Added tests for normal and zero-row/zero-column matrices and dataframes.
-- Clean up after tests.
-- all_names(): changed warning about missing tests to a comment and created a
-  GitHub issue.
-- is_zerolength(): test that zero-row data.frame is not a zero-length object.
-- paste_quoted(): also test factor input and `x` with dimensions.
 
 
 # checkinput 0.0.4
 
 ### Breaking changes
-- Functions allow objects with dimensions as input to `x` but return `FALSE` for
-  them, as well as for non-atomic input.
+- Functions now allow objects with dimensions as input to `x` but return `FALSE`
+  for them, as well as for non-atomic input.
 - Simplified `all_names()` by removing checking for non-ASCII characters and
   never allow names that are duplicated or consist only of dots.
 
 
 # checkinput 0.0.3
 
-NEWS for this and earlier versions has not been tracked.
+`NEWS` for this and earlier versions has not been tracked.
