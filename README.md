@@ -1,5 +1,5 @@
 
-![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput)
+![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput?color=blue)
 
 # checkinput
 

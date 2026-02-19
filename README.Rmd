@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput)
+![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput?color=blue)
 
 # checkinput
 With `checkinput`, you can write concise checks which can be tailored to the
