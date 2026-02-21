@@ -1,3 +1,15 @@
+# checkinput 0.1.0
+
+### Updated documentation
+- Vignettes: add hyperlinks from the vignettes to the help-pages of functions.
+  No need to put output in comments because the output is automatically shown
+  together with the code. Use `<funcname>` instead of `<func>` or `<function>`
+  to align with usage in the vignettes of `checkrpkgs`. 
+- README: use `<funcname>` instead of `<func>` or `<function>` to align with
+  usage in the vignettes of `checkrpkgs`. Define variables to write more
+  succinct code.
+
+
 # checkinput 0.0.6
 This update has large changes to `is_number()` and related functions, and to
 `all_names()`.
