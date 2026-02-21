@@ -18,37 +18,41 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` return
-either `TRUE` or `FALSE` and do not throw errors caused by input to `x`:
-throwing an error about `x` is deferred to `stopifnot(...)` in which calls to
-`is_<funcname>` are typically wrapped when they are used inside other functions.
-Errors *are* thrown about invalid input to arguments other than `x`, e.g.,
-providing values other than `TRUE` or `FALSE` to `allow_zero`.
+The `is_<funcname>(x, ...)` and `all_<funcname>(x, ...)` functions of
+`checkinput` return either `TRUE` or `FALSE` and do not throw errors for any
+input to `x`: throwing an error about `x` is deferred to
+[stopifnot](../help/stopifnot) in which calls to functions from `checkinput` are
+typically wrapped when they are used inside other functions. Errors *are* thrown
+about invalid input to arguments other than `x`, e.g., providing values other
+than `TRUE` or `FALSE` to `allow_zero`.
 
-The default arguments make functions of `checkinput` more restrictive than
-the equivalent functions in base R (e.g., `checkinput::is_logical()` versus
-`base::is.logical()`), reflecting that the functions of `checkinput` are
-intended for argument checking, where, for example, zero-length `x` is unwanted.
+The default arguments make functions of `checkinput` more restrictive than the
+equivalent functions in base R (e.g.,
+[checkinput::is_logical()](../help/is_logical) versus
+[base::is.logical()](../help/is.logical)), reflecting that the functions of
+`checkinput` are intended for argument checking, where, for example, zero-length
+`x` is unwanted.
 
 ## Length of x
-By default, `is_<function>(x)` only returns `TRUE` for `x` of length one (with
-the obvious exception of `is_zerolength`) and `all_<function>(x)` only returns
-`TRUE` for `x` of length larger than zero. Set argument `allow_zero` to `TRUE`
-to allow is_zerolength `x` of the correct type. See
-`help(checkinput::is_zerolength)` and
+By default, `is_<funcname>(x)` only returns `TRUE` for `x` of length one (with
+the obvious exception of [is_zerolength(x)](../help/is_zerolength)) and
+`all_<funcname>(x)` only returns `TRUE` for `x` of length larger than zero. Set
+argument `allow_zero` to `TRUE` to also return `TRUE` for zero-length `x` of the
+correct type. See [is_zerolength()](../help/is_zerolength) and
 `vignette("type_coercion", package = "checkinput")` for a discussion of some
 issues with zero-length input.
 
 ## NAs in x
-By default, functions only return `TRUE` for `x` without `NA`s. Set argument
-`allow_NA` to `TRUE` to allow for `NA`s of the correct type.
+By default, functions only return `TRUE` for `x` without [NA](../help/NA)s. Set
+argument `allow_NA` to `TRUE` to also return `TRUE` for `x` containing `NA`s of
+the correct type.
 
 ## Return
-The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput` always
+The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput` always
 return either `TRUE` or `FALSE`. To get a named boolean vector indicating for
-each element of `x` if it `TRUE` or `FALSE` according to `all_<func>(x)`, use
-`vapply(X = x, FUN.VALUE = logical(1), FUN = all_<func>, ...)`
-instead of `all_<func>(x, ...)`. For example, to check which elements of `x` are
-valid names, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`
-instead of `all_names(x, ...)`. The dots (`...`) indicate where to place other
-function arguments, e.g., `allow_zero = TRUE`.
+each element of `x` if it `TRUE` or `FALSE` according to `all_<funcname>(x)`, use
+[vapply](../help/vapply)`(X = x, FUN.VALUE = logical(1), FUN = all_<funcname>, ...)`
+instead of `all_<funcname>(x, ...)`. For example, to check which elements of `x`
+are valid names, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)`
+instead of [all_names](../help/all_names)`(x, ...)`. The dots (`...`) indicate
+where to place other function arguments, e.g., `allow_underscores = FALSE`.
