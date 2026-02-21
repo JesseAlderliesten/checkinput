@@ -1,17 +1,17 @@
 
 # checkinput
 
-With `checkinput`, you can write concise checks which can be tailored to
+With `checkinput`, you can write concise checks that can be tailored to
 the need of the specific function for which the input is checked.
 
-The `is_<function>(x)` and `all_<function>(x)` functions of `checkinput`
+The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput`
 return either `TRUE` or `FALSE` and do not throw errors caused by input
 to `x`. Errors *are* thrown about invalid input to arguments other than
 `x`, e.g., providing values other than `TRUE` or `FALSE` to
 `allow_zero`. See the vignette about design choices
 `vignette("design_choices", package = "checkinput")` for details and for
 a way to get a named boolean vector indicating for each element of `x`
-if it `TRUE` or `FALSE` according to `all_<func>(x)`.
+if it `TRUE` or `FALSE` according to `all_<funcname>(x)`.
 
 The package also contains a vignette about type coercion in vectors,
 which discusses some important aspects regarding testing of vectors:
@@ -33,12 +33,12 @@ remotes::install_github(repo = "JesseAlderliesten/checkinput",
 ```
 
 For information about installing and configuring R and RStudio, see my
-[repository
-‘checkrpkgs’](https://github.com/JesseAlderliesten/checkrpkgs).
+repository
+[‘checkrpkgs’](https://github.com/JesseAlderliesten/checkrpkgs).
 
 # Example
 
-Say you want to collect information on hobbies of people through a
+Say you want to collect information on people’s hobbies through a
 function in which it is optional for them to provide their name. With
 `checkinput`, you could write a function like `list_hobbies()`:
 
@@ -51,7 +51,7 @@ list_hobbies <- function(name, age, hobbies) {
 ```
 
 The checks inside `stopifnot()` ensure that (1) `name` contains a single
-character string that might be empty (`""`) or the character-type `NA`
+character string that might be empty (`""`) or character-type `NA`
 (`NA_character_`) if people do not want to give their name; (2) `age`
 contains a single non-negative number; (3) `hobbies` contains at least
 one character string and does not contain any empty strings or `NA`s.
@@ -74,16 +74,15 @@ If the input passes all checks, both functions produce the same output:
 
 ``` r
 library(checkinput)
-John_checkinput <- list_hobbies(name = "John", age = 25,
-                                hobbies = c("books", "construction sets"))
-John_base <- list_hobbies_base(name = "John", age = 25,
-                               hobbies = c("books", "construction sets"))
+hobbies_John <- c("books", "construction sets")
+John_checkinput <- list_hobbies(name = "John", age = 25, hobbies = hobbies_John)
+John_base <- list_hobbies_base(name = "John", age = 25, hobbies = hobbies_John)
 identical(John_checkinput, John_base)
 #> [1] TRUE
 
-baby_checkinput <- list_hobbies(name = "", age = 0, hobbies = c("drinking"))
-
-baby_base <- list_hobbies_base(name = "", age = 0, hobbies = c("drinking"))
+hobbies_baby <- "drinking milk"
+baby_checkinput <- list_hobbies(name = "", age = 0, hobbies = hobbies_baby)
+baby_base <- list_hobbies_base(name = "", age = 0, hobbies = hobbies_baby)
 identical(baby_checkinput, baby_base)
 #> [1] TRUE
 ```
@@ -92,19 +91,17 @@ When a check fails, error messages can be more-informative when using
 `checkinput`:
 
 ``` r
-try(list_hobbies(name = "John", age = 25,
-                 hobbies = c("books", "", "construction sets")))
-#> Error in list_hobbies(name = "John", age = 25, hobbies = c("books", "",  : 
+try(list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John, "")))
+#> Error in list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John,  : 
 #>   all_characters(hobbies) is not TRUE
-try(list_hobbies_base(name = "John", age = 25,
-                      hobbies = c("books", "", "construction sets")))
-#> Error in list_hobbies_base(name = "John", age = 25, hobbies = c("books",  : 
+try(list_hobbies_base(name = "John", age = 25, hobbies = c(hobbies_John, "")))
+#> Error in list_hobbies_base(name = "John", age = 25, hobbies = c(hobbies_John,  : 
 #>   all(nzchar(hobbies, keepNA = FALSE)) is not TRUE
 
-try(list_hobbies(name = "", age = -1, hobbies = c("drinking")))
-#> Error in list_hobbies(name = "", age = -1, hobbies = c("drinking")) : 
+try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
+#> Error in list_hobbies(name = "", age = -1, hobbies = hobbies_baby) : 
 #>   is_nonnegative(age) is not TRUE
-try(list_hobbies_base(name = "", age = -1, hobbies = c("drinking")))
+try(list_hobbies_base(name = "", age = -1, hobbies = hobbies_baby))
 #> $name
 #> [1] ""
 #> 
@@ -112,7 +109,7 @@ try(list_hobbies_base(name = "", age = -1, hobbies = c("drinking")))
 #> [1] -1
 #> 
 #> $hobbies
-#> [1] "drinking"
+#> [1] "drinking milk"
 ```
 
 In the last example, `list_hobbies_base()` does not throw an error if a
