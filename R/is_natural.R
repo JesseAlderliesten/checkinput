@@ -13,7 +13,7 @@
 #' considered a natural number if argument `strict` is `FALSE`. `Inf` is *never*
 #' considered a natural number in this implementation.
 #'
-#' `all_natural()` allows for small numeric errors when comparing numbers. Such
+#' `is_natural()` and `all_natural()` allow for small numeric errors when comparing numbers. Such
 #' numeric errors can arise because of rounding or representation error. As the
 #' `Note` at [`==`] warns, `x == round(x)` does *not* allow for such errors but
 #' tests exact equality. Functions from other packages with names like
@@ -21,14 +21,14 @@
 #' instead intended to allow values that are stored as doubles (e.g., `3`) in
 #' addition to integer-type values (e.g., `3L`).
 #'
-#' If `allow_NA` is `TRUE`, `all_natural()` returns `TRUE` for `NA_integer_` and
+#' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for `NA_integer_` and
 #' `NA_real_` but not for the other [NA]s or [NaN].
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a vector with only natural
 #' numbers.
 #'
 #' @section Notes:
-#' The code of `all_natural()` is partly based on the example `is.wholenumber()`
+#' The code of `is_natural()` and `all_natural()` is partly based on the example `is.wholenumber()`
 #' in [is.integer()].
 #'
 #' @section Programming notes:
@@ -59,6 +59,21 @@
 #' [type coercion](../doc/type_coercion.html).
 #'
 #' @examples
+#' is_natural(x = 5 + 1e-10) # TRUE
+#' # Zero is not considered a natural number if 'strict' is TRUE:
+#' is_natural(x = 1e-10, strict = TRUE) # FALSE
+#' is_natural(x = 1e-10, strict = FALSE) # TRUE
+#' is_natural(x = -1e-10, strict = FALSE) # FALSE: wrong sign
+#' is_natural(x = Inf, strict = FALSE) # FALSE
+#' is_natural(x = "a") # FALSE
+#' is_natural(x = 1:2) # FALSE: wrong length
+#'
+#' # Allowing for small numeric errors is important
+#' x <- sqrt(2)^2
+#' is_natural(x = x) # TRUE
+#' x == 2 # FALSE!
+#' x - 2 # about 4.44e-16
+#'
 #' all_natural(x = c(3, 5 + 1e-10)) # TRUE
 #' # Zero is not considered a natural number if 'strict' is TRUE:
 #' all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
@@ -66,26 +81,40 @@
 #' all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
 #' all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
 #' all_natural(x = "a") # FALSE
+#' all_natural(x = 1:2) # TRUE
 #'
-#' # Allowing for small numeric errors is important
-#' x <- sqrt(2)^2
-#' all_natural(x = x) # TRUE
-#' x == 2 # FALSE!
-#' x - 2 # about 4.44e-16
-#'
+#' @export
+is_natural <- function(x, strict = TRUE, allow_NA = FALSE,
+                       tol = .Machine$double.eps^0.5) {
+  stopifnot(is_logical(strict), is_logical(allow_NA), is_positive(tol),
+            tol < 0.5)
+
+  if(length(x) > 1L) {
+    return(FALSE)
+  }
+
+  all_natural(x = x, strict = strict, allow_NA = allow_NA, tol = tol)
+}
+
+#' @rdname is_natural
 #' @export
 all_natural <- function(x, strict = TRUE, allow_NA = FALSE,
                         tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_NA), is_positive(tol))
+  stopifnot(is_logical(strict), is_logical(allow_NA), is_positive(tol),
+            tol < 0.5)
 
   if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
     return(FALSE)
   }
 
+  # It is not a problem that 'anyNA' also returns TRUE for NaNs: NaNs are never
+  # allowed.
   if(!allow_NA && anyNA(x)) {
     return(FALSE)
   }
 
+  # If 'allow_NA' is FALSE, NaNs have been catched above with the condition
+  # '!allow_NA && anyNA(x)'
   if(any(is.nan(x) | is.infinite(x) | x < 0 | (strict & x < 0.5), na.rm = TRUE)) {
     return(FALSE)
   }

@@ -1,3 +1,12 @@
+# checkinput 0.2.0
+
+### Added functions
+- `is_natural`: as `all_natural` but also tests if `x` is a single number.
+
+### Breaking changes
+- `all_natural`: `tol` should be smaller than `0.5`.
+
+
 # checkinput 0.1.0
 
 ### Updated documentation
