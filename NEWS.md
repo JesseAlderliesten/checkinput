@@ -1,4 +1,4 @@
-# checkinput devel
+# checkinput 0.2.0
 
 ### Added functions
 - `is_natural`: as `all_natural` but also tests if `x` is a single number.
