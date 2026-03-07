@@ -74,8 +74,8 @@ The vignettes about \href{../doc/design_choices.html}{design choices} and about
 Other collections of checks on type and length: 
 \code{\link{all_characters}()},
 \code{\link{all_names}()},
-\code{\link{all_natural}()},
 \code{\link{is_logical}()},
+\code{\link{is_natural}()},
 \code{\link{is_number}()}
 }
 \concept{collections of checks on type and length}
