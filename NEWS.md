@@ -1,10 +1,12 @@
 # checkinput 0.2.0
 
 ### Added functions
-- `is_natural`: as `all_natural` but also tests if `x` is a single number.
+- `is_natural`: as `all_natural` but also tests if `x` has a length of at most
+  one.
 
 ### Breaking changes
-- `all_natural`: `tol` should be smaller than `0.5`.
+- `all_natural`: `tol` should be smaller than `0.5`. Added argument `allow_zero`
+  with default `FALSE`, in contrast to the previous implicit default `TRUE`.
 
 
 # checkinput 0.1.0
