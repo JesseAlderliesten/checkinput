@@ -10,35 +10,38 @@
 #'
 #' @details
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
-#' considered a natural number if argument `strict` is `FALSE`. `Inf` is *never*
-#' considered a natural number in this implementation.
+#' considered a natural number if argument `strict` is `FALSE`. `integer(0)` and
+#' `numeric(0)` are considered natural numbers if argument `allow_zero` is
+#' `TRUE`. Numbers that are [too large][.Machine] to be represented as
+#' [integers][integer], [Inf], [NaN], and [NULL] are *never* considered natural
+#' numbers in this implementation.
 #'
-#' `is_natural()` and `all_natural()` allow for small numeric errors when comparing numbers. Such
-#' numeric errors can arise because of rounding or representation error. As the
-#' `Note` at [`==`] warns, `x == round(x)` does *not* allow for such errors but
-#' tests exact equality. Functions from other packages with names like
-#' `integerish` frequently do *not* allow for small numeric errors but are
-#' instead intended to allow values that are stored as doubles (e.g., `3`) in
-#' addition to integer-type values (e.g., `3L`).
+#' `is_natural()` and `all_natural()` allow for small numeric errors when
+#' comparing numbers. Such numeric errors can arise because of rounding or
+#' representation error. As the `Note` at [`==`] warns, `x == round(x)` does
+#' *not* allow for such errors but tests exact equality. Functions from other
+#' packages with names like `integerish` frequently do *not* allow for small
+#' numeric errors but are instead intended to allow values that are stored as
+#' doubles (e.g., `3`) in addition to integer-type values (e.g., `3L`).
 #'
-#' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for `NA_integer_` and
-#' `NA_real_` but not for the other [NA]s or [NaN].
+#' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for
+#' `NA_integer_` and `NA_real_` but not for the other [NA]s or [NaN].
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a vector with only natural
 #' numbers.
 #'
 #' @section Notes:
-#' The code of `is_natural()` and `all_natural()` is partly based on the example `is.wholenumber()`
-#' in [is.integer()].
+#' The code of `is_natural()` and `all_natural()` is partly based on the example
+#' `is.wholenumber()` in [is.integer()].
 #'
 #' @section Programming notes:
+#' Use of `is_natural(x)` or `all_natural(x)` should be followed by assigning
+#' the rounded value to the argument, e.g., `x <- round(x)` or
+#' `x <- as.integer(round(x))`.
+#'
 #' [is.integer()] does *not* check that `x` is a natural number (nor if `x` is a
 #' whole number) but rather that `x` is of [type][typeof()] integer (see the
 #' `Note` in [is.integer()]).
-#'
-#' Argument `strict` should *not* be renamed to `allow_zero` because in other
-#' functions, e.g., [is_logical()], `allow_zero` is used to allow for
-#' zero-*length* value of `x`.
 #'
 #' @family
 #' collections of checks on type and length
@@ -83,27 +86,42 @@
 #' all_natural(x = "a") # FALSE
 #' all_natural(x = 1:2) # TRUE
 #'
+#' # Illustrate the need to follow use of is_natural(x) or all_natural(x) by
+#' # assigning the rounded value to the argument
+#' toy_fun_erroneous <- function(x) {
+#'   stopifnot(is_natural(x))
+#'   seq_len(x)
+#' }
+#'
+#' toy_fun_correct <- function(x) {
+#'   stopifnot(is_natural(x))
+#'   x <- round(x)
+#'   seq_len(x)
+#' }
+#'
+#' toy_fun_erroneous(x = 5 - 1e-8) # 1:4
+#' toy_fun_correct(x = 5 - 1e-8) # 1:5
+#'
 #' @export
-is_natural <- function(x, strict = TRUE, allow_NA = FALSE,
+is_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
                        tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_NA), is_positive(tol),
-            tol < 0.5)
-
-  if(length(x) > 1L) {
-    return(FALSE)
-  }
-
-  all_natural(x = x, strict = strict, allow_NA = allow_NA, tol = tol)
+  all_natural(x = x, strict = strict, allow_zero = allow_zero,
+              allow_NA = allow_NA, tol = tol) &&
+    length(x) <= 1L
 }
 
 #' @rdname is_natural
 #' @export
-all_natural <- function(x, strict = TRUE, allow_NA = FALSE,
+all_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
                         tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_NA), is_positive(tol),
-            tol < 0.5)
+  stopifnot(is_logical(strict), is_logical(allow_zero), is_logical(allow_NA),
+            is_positive(tol), tol < 0.5)
 
   if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
+    return(FALSE)
+  }
+
+  if(!allow_zero && length(x) == 0L) {
     return(FALSE)
   }
 
@@ -115,7 +133,8 @@ all_natural <- function(x, strict = TRUE, allow_NA = FALSE,
 
   # If 'allow_NA' is FALSE, NaNs have been catched above with the condition
   # '!allow_NA && anyNA(x)'
-  if(any(is.nan(x) | is.infinite(x) | x < 0 | (strict & x < 0.5), na.rm = TRUE)) {
+  if(any(x > .Machine$integer.max | is.nan(x) | is.infinite(x) | x < 0 |
+         (strict & x < 0.5), na.rm = TRUE)) {
     return(FALSE)
   }
 

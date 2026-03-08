@@ -5,14 +5,28 @@
 \alias{all_natural}
 \title{Check that x is nearly equal to natural numbers}
 \usage{
-is_natural(x, strict = TRUE, allow_NA = FALSE, tol = .Machine$double.eps^0.5)
+is_natural(
+  x,
+  strict = TRUE,
+  allow_zero = FALSE,
+  allow_NA = FALSE,
+  tol = .Machine$double.eps^0.5
+)
 
-all_natural(x, strict = TRUE, allow_NA = FALSE, tol = .Machine$double.eps^0.5)
+all_natural(
+  x,
+  strict = TRUE,
+  allow_zero = FALSE,
+  allow_NA = FALSE,
+  tol = .Machine$double.eps^0.5
+)
 }
 \arguments{
 \item{x}{object to test.}
 
 \item{strict}{Exclude zero from the natural numbers?}
+
+\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 
@@ -29,35 +43,38 @@ small numeric errors.
 }
 \details{
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). Zero is
-considered a natural number if argument \code{strict} is \code{FALSE}. \code{Inf} is \emph{never}
-considered a natural number in this implementation.
+considered a natural number if argument \code{strict} is \code{FALSE}. \code{integer(0)} and
+\code{numeric(0)} are considered natural numbers if argument \code{allow_zero} is
+\code{TRUE}. Numbers that are \link[=.Machine]{too large} to be represented as
+\link[=integer]{integers}, \link{Inf}, \link{NaN}, and \link{NULL} are \emph{never} considered natural
+numbers in this implementation.
 
-\code{is_natural()} and \code{all_natural()} allow for small numeric errors when comparing numbers. Such
-numeric errors can arise because of rounding or representation error. As the
-\code{Note} at \code{\link{==}} warns, \code{x == round(x)} does \emph{not} allow for such errors but
-tests exact equality. Functions from other packages with names like
-\code{integerish} frequently do \emph{not} allow for small numeric errors but are
-instead intended to allow values that are stored as doubles (e.g., \code{3}) in
-addition to integer-type values (e.g., \code{3L}).
+\code{is_natural()} and \code{all_natural()} allow for small numeric errors when
+comparing numbers. Such numeric errors can arise because of rounding or
+representation error. As the \code{Note} at \code{\link{==}} warns, \code{x == round(x)} does
+\emph{not} allow for such errors but tests exact equality. Functions from other
+packages with names like \code{integerish} frequently do \emph{not} allow for small
+numeric errors but are instead intended to allow values that are stored as
+doubles (e.g., \code{3}) in addition to integer-type values (e.g., \code{3L}).
 
-If \code{allow_NA} is \code{TRUE}, \code{is_natural()} and \code{all_natural()} return \code{TRUE} for \code{NA_integer_} and
-\code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
+If \code{allow_NA} is \code{TRUE}, \code{is_natural()} and \code{all_natural()} return \code{TRUE} for
+\code{NA_integer_} and \code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
 }
 \section{Notes}{
 
-The code of \code{is_natural()} and \code{all_natural()} is partly based on the example \code{is.wholenumber()}
-in \code{\link[=is.integer]{is.integer()}}.
+The code of \code{is_natural()} and \code{all_natural()} is partly based on the example
+\code{is.wholenumber()} in \code{\link[=is.integer]{is.integer()}}.
 }
 
 \section{Programming notes}{
 
+Use of \code{is_natural(x)} or \code{all_natural(x)} should be followed by assigning
+the rounded value to the argument, e.g., \code{x <- round(x)} or
+\code{x <- as.integer(round(x))}.
+
 \code{\link[=is.integer]{is.integer()}} does \emph{not} check that \code{x} is a natural number (nor if \code{x} is a
 whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see the
 \code{Note} in \code{\link[=is.integer]{is.integer()}}).
-
-Argument \code{strict} should \emph{not} be renamed to \code{allow_zero} because in other
-functions, e.g., \code{\link[=is_logical]{is_logical()}}, \code{allow_zero} is used to allow for
-zero-\emph{length} value of \code{x}.
 }
 
 \examples{
@@ -84,6 +101,22 @@ all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
 all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
 all_natural(x = "a") # FALSE
 all_natural(x = 1:2) # TRUE
+
+# Illustrate the need to follow use of is_natural(x) or all_natural(x) by
+# assigning the rounded value to the argument
+toy_fun_erroneous <- function(x) {
+  stopifnot(is_natural(x))
+  seq_len(x)
+}
+
+toy_fun_correct <- function(x) {
+  stopifnot(is_natural(x))
+  x <- round(x)
+  seq_len(x)
+}
+
+toy_fun_erroneous(x = 5 - 1e-8) # 1:4
+toy_fun_correct(x = 5 - 1e-8) # 1:5
 
 }
 \seealso{
