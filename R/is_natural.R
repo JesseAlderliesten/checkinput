@@ -7,6 +7,7 @@
 #' @param strict Exclude zero from the natural numbers?
 #' @param tol A small [positive][is_positive()] number. Numbers that differ less
 #' in value than `tol` are considered equal.
+#' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
 #'
 #' @details
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
@@ -27,17 +28,23 @@
 #' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for
 #' `NA_integer_` and `NA_real_` but not for the other [NA]s or [NaN].
 #'
-#' @returns `TRUE` or `FALSE` indicating if `x` is a vector with only natural
-#' numbers.
+#' @returns `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
+#' `x` is a vector of the appropriate length with only natural numbers.
+#' `make_natural()`: `x`, [rounded][round] and coerced to [integer].
 #'
 #' @section Notes:
+#' `make_natural(x, all = FALSE)` and `make_natural(x, all = TRUE)` throw an
+#' error if `x` is not natural according to `is_natural(x)` or `all_natural(x)`,
+#' respectively.
+#'
 #' The code of `is_natural()` and `all_natural()` is partly based on the example
 #' `is.wholenumber()` in [is.integer()].
 #'
 #' @section Programming notes:
 #' Use of `is_natural(x)` or `all_natural(x)` should be followed by assigning
-#' the rounded value to the argument, e.g., `x <- round(x)` or
-#' `x <- as.integer(round(x))`.
+#' the rounded value to the argument: `x <- as.integer(round(x))`. Alternatively,
+#' assign the result of `make_natural(x)` to `x` without using `is_natural(x)`
+#' or `all_natural(x)` inside [stopifnot].
 #'
 #' [is.integer()] does *not* check that `x` is a natural number (nor if `x` is a
 #' whole number) but rather that `x` is of [type][typeof()] integer (see the
@@ -65,7 +72,9 @@
 #' is_natural(x = 5 + 1e-10) # TRUE
 #' # Zero is not considered a natural number if 'strict' is TRUE:
 #' is_natural(x = 1e-10, strict = TRUE) # FALSE
+#' try(make_natural(x = 1e-10, strict = TRUE)) # Error
 #' is_natural(x = 1e-10, strict = FALSE) # TRUE
+#' make_natural(x = 1e-10, strict = FALSE) # 0
 #' is_natural(x = -1e-10, strict = FALSE) # FALSE: wrong sign
 #' is_natural(x = Inf, strict = FALSE) # FALSE
 #' is_natural(x = "a") # FALSE
@@ -78,6 +87,7 @@
 #' x - 2 # about 4.44e-16
 #'
 #' all_natural(x = c(3, 5 + 1e-10)) # TRUE
+#' try(make_natural(x = c(3, 5 + 1e-10))) # c(3L, 5L)
 #' # Zero is not considered a natural number if 'strict' is TRUE:
 #' all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 #' all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
@@ -99,8 +109,19 @@
 #'   seq_len(x)
 #' }
 #'
+#' toy_fun_safe <- function(x, all = TRUE) {
+#'   x <- make_natural(x, all = all)
+#'   seq_len(x)
+#' }
+#'
 #' toy_fun_erroneous(x = 5 - 1e-8) # 1:4
 #' toy_fun_correct(x = 5 - 1e-8) # 1:5
+#' toy_fun_safe(x = 5 - 1e-8) # 1:5
+#'
+#' try(toy_fun_erroneous(x = 5.1)) # Error: is_natural(x) is not TRUE
+#' try(toy_fun_correct(x = 5.1)) # Error: is_natural(x) is not TRUE
+#' try(toy_fun_safe(x = 5.1, all = FALSE)) # Error: is_natural(x) is not TRUE
+#' try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 #'
 #' @export
 is_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
@@ -139,4 +160,21 @@ all_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
   }
 
   all(abs(x - round(x)) < tol, na.rm = TRUE)
+}
+
+#' @rdname is_natural
+#' @export
+make_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
+                         all = TRUE, tol = .Machine$double.eps^0.5) {
+  name_x <- deparse1(substitute(x))
+  stopifnot(is_logical(all))
+  if(all && !all_natural(x = x, strict = strict, allow_zero = allow_zero,
+                         allow_NA = allow_NA, tol = tol)) {
+    stop("checkinput::all_natural(", name_x, ") is not TRUE")
+  }
+  if(!all && !is_natural(x = x, strict = strict, allow_zero = allow_zero,
+                         allow_NA = allow_NA, tol = tol)) {
+    stop("checkinput::is_natural(", name_x, ") is not TRUE")
+  }
+  as.integer(round(x))
 }

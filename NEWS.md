@@ -1,12 +1,23 @@
-# checkinput 0.2.0
+# checkinput 0.3.0
+
+### Breaking changes
+- Depend on `R` >= 4.0.0 to be able to use `deparse1()`.
 
 ### Added functions
-- `is_natural`: as `all_natural` but also tests if `x` has a length of at most
-  one.
+- `make_natural`: uses `is_natural` or `all_natural` to round values, while
+  throwing an error if appropriate. Uses deparse(substitute(x)) to get the
+  offending values in error messages instead of `x`.
+
+
+# checkinput 0.2.0
 
 ### Breaking changes
 - `all_natural`: `tol` should be smaller than `0.5`. Added argument `allow_zero`
   with default `FALSE`, in contrast to the previous implicit default `TRUE`.
+
+### Added functions
+- `is_natural`: as `all_natural` but also tests if `x` has a length of at most
+  one.
 
 
 # checkinput 0.1.0

@@ -3,6 +3,7 @@
 \name{is_natural}
 \alias{is_natural}
 \alias{all_natural}
+\alias{make_natural}
 \title{Check that x is nearly equal to natural numbers}
 \usage{
 is_natural(
@@ -20,6 +21,15 @@ all_natural(
   allow_NA = FALSE,
   tol = .Machine$double.eps^0.5
 )
+
+make_natural(
+  x,
+  strict = TRUE,
+  allow_zero = FALSE,
+  allow_NA = FALSE,
+  all = TRUE,
+  tol = .Machine$double.eps^0.5
+)
 }
 \arguments{
 \item{x}{object to test.}
@@ -32,10 +42,13 @@ all_natural(
 
 \item{tol}{A small \link[=is_positive]{positive} number. Numbers that differ less
 in value than \code{tol} are considered equal.}
+
+\item{all}{\code{TRUE} or \code{FALSE}: use \code{all_natural()} instead of \code{is_natural()}?}
 }
 \value{
-\code{TRUE} or \code{FALSE} indicating if \code{x} is a vector with only natural
-numbers.
+\code{is_natural()} and \code{all_natural()}: \code{TRUE} or \code{FALSE} indicating if
+\code{x} is a vector of the appropriate length with only natural numbers.
+\code{make_natural()}: \code{x}, \link[=round]{rounded} and coerced to \link{integer}.
 }
 \description{
 Test element-wise near-equality to the natural numbers while allowing for
@@ -62,6 +75,10 @@ If \code{allow_NA} is \code{TRUE}, \code{is_natural()} and \code{all_natural()} 
 }
 \section{Notes}{
 
+\code{make_natural(x, all = FALSE)} and \code{make_natural(x, all = TRUE)} throw an
+error if \code{x} is not natural according to \code{is_natural(x)} or \code{all_natural(x)},
+respectively.
+
 The code of \code{is_natural()} and \code{all_natural()} is partly based on the example
 \code{is.wholenumber()} in \code{\link[=is.integer]{is.integer()}}.
 }
@@ -69,8 +86,9 @@ The code of \code{is_natural()} and \code{all_natural()} is partly based on the 
 \section{Programming notes}{
 
 Use of \code{is_natural(x)} or \code{all_natural(x)} should be followed by assigning
-the rounded value to the argument, e.g., \code{x <- round(x)} or
-\code{x <- as.integer(round(x))}.
+the rounded value to the argument: \code{x <- as.integer(round(x))}. Alternatively,
+assign the result of \code{make_natural(x)} to \code{x} without using \code{is_natural(x)}
+or \code{all_natural(x)} inside \link{stopifnot}.
 
 \code{\link[=is.integer]{is.integer()}} does \emph{not} check that \code{x} is a natural number (nor if \code{x} is a
 whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see the
@@ -81,7 +99,9 @@ whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see t
 is_natural(x = 5 + 1e-10) # TRUE
 # Zero is not considered a natural number if 'strict' is TRUE:
 is_natural(x = 1e-10, strict = TRUE) # FALSE
+try(make_natural(x = 1e-10, strict = TRUE)) # Error
 is_natural(x = 1e-10, strict = FALSE) # TRUE
+make_natural(x = 1e-10, strict = FALSE) # 0
 is_natural(x = -1e-10, strict = FALSE) # FALSE: wrong sign
 is_natural(x = Inf, strict = FALSE) # FALSE
 is_natural(x = "a") # FALSE
@@ -94,6 +114,7 @@ x == 2 # FALSE!
 x - 2 # about 4.44e-16
 
 all_natural(x = c(3, 5 + 1e-10)) # TRUE
+try(make_natural(x = c(3, 5 + 1e-10))) # c(3L, 5L)
 # Zero is not considered a natural number if 'strict' is TRUE:
 all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
@@ -115,8 +136,19 @@ toy_fun_correct <- function(x) {
   seq_len(x)
 }
 
+toy_fun_safe <- function(x, all = TRUE) {
+  x <- make_natural(x, all = all)
+  seq_len(x)
+}
+
 toy_fun_erroneous(x = 5 - 1e-8) # 1:4
 toy_fun_correct(x = 5 - 1e-8) # 1:5
+toy_fun_safe(x = 5 - 1e-8) # 1:5
+
+try(toy_fun_erroneous(x = 5.1)) # Error: is_natural(x) is not TRUE
+try(toy_fun_correct(x = 5.1)) # Error: is_natural(x) is not TRUE
+try(toy_fun_safe(x = 5.1, all = FALSE)) # Error: is_natural(x) is not TRUE
+try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 
 }
 \seealso{
