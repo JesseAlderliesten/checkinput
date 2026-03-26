@@ -5,8 +5,8 @@
 
 ### Added functions
 - `make_natural`: uses `is_natural` or `all_natural` to round values, while
-  throwing an error if appropriate. Uses deparse(substitute(x)) to get the
-  offending values in error messages instead of `x`.
+  throwing an error if appropriate. Uses `deparse1(substitute(x))` to get the
+  offending values instead of `x` in error messages.
 
 
 # checkinput 0.2.0
