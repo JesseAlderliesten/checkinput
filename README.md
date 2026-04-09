@@ -1,5 +1,9 @@
 
+<!-- badges: start -->
+
 ![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput?color=blue)
+[![R-CMD-check](https://github.com/JesseAlderliesten/checkinput/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 # checkinput
 
