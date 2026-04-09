@@ -1,3 +1,6 @@
+# checkinput 0.3.1
+`checkinput` now uses GitHub action `check-standard` on all branches.
+
 # checkinput 0.3.0
 
 ### Breaking changes
