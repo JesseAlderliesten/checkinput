@@ -138,7 +138,7 @@ all_names <- function(x, allow_underscores = TRUE) {
 
   # 'NULL' is catched later on with an informative message
   if(!is.null(x) && (!is.atomic(x) || !is.null(dim(x)) || !is.character(x))) {
-    warning("'x' is not a character vector!")
+    warning("Input to 'x' is not a character vector: ", deparse1(substitute(x)))
     return(FALSE)
   }
 
@@ -152,8 +152,8 @@ all_names <- function(x, allow_underscores = TRUE) {
   if(length(x) == 0L) {
     if(is.null(x)) {
       warn_text_zerolength <- paste0(
-        "'x' is NULL: did you pass names() or colnames() used on an object",
-        "  without (column) names to all_names()?")
+        "'x' is NULL: did you use names() or colnames() on an object without\n",
+        "(column) names to all_names()?")
     } else {
       warn_text_zerolength <- "x has length zero but is not NULL"
     }
@@ -225,7 +225,7 @@ all_names <- function(x, allow_underscores = TRUE) {
     if(any(bool_underscores)) {
       warn_text_underscores <- paste0(
         "contain underscores (which are not allowed if 'allow_underscores' is",
-        " FALSE): ", paste_quoted(x[bool_underscores]))
+        " FALSE):\n", paste_quoted(x[bool_underscores]))
       suggest_make_names <- TRUE
       # Removing names that contain underscores because they are invalid, and
       # thus not suspicious, if 'allow_underscores' is FALSE.
