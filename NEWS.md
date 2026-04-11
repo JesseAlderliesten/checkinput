@@ -1,5 +1,14 @@
+# devel
+- `all_names()`: wrap text of warnings. Use `deparse1(substitute(x))` to get the
+  offending values instead of `x` in the text of warnings or errors.
+- `is_nonnegative()`, `all_nonnegative()`, `is_positive()`: call `is_number()`
+  or `all_numbers()` followed by `all(x >= 0, na.rm = TRUE)` or
+  `all(x > 0, na.rm = TRUE)` for more succinct and more uniform code.
+  
+
 # checkinput 0.3.1
 `checkinput` now uses GitHub action `check-standard` on all branches.
+
 
 # checkinput 0.3.0
 
