@@ -70,10 +70,11 @@
 #' @export
 is_number <- function(x, allow_zero = FALSE, allow_NA = FALSE,
                       allow_NaN = FALSE) {
+  length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
-    ((allow_zero && length(x) == 0L) ||
-       (length(x) == 1L &&
+    ((allow_zero && length_x == 0L) ||
+       (length_x == 1L &&
           (allow_NA || !any(is.na(x) & !is.nan(x))) &&
           (allow_NaN || !any(is.nan(x)))))
 }
@@ -82,10 +83,11 @@ is_number <- function(x, allow_zero = FALSE, allow_NA = FALSE,
 #' @export
 all_numbers <- function(x, allow_zero = FALSE, allow_NA = FALSE,
                         allow_NaN = FALSE) {
+  length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
-    ((allow_zero && length(x) == 0L) ||
-       (length(x) >= 1L &&
+    ((allow_zero && length_x == 0L) ||
+       (length_x >= 1L &&
           (allow_NA || !any(is.na(x) & !is.nan(x))) &&
           (allow_NaN || !any(is.nan(x)))))
 }
@@ -94,54 +96,25 @@ all_numbers <- function(x, allow_zero = FALSE, allow_NA = FALSE,
 #' @export
 is_nonnegative <- function(x, allow_zero = FALSE, allow_NA = FALSE,
                            allow_NaN = FALSE) {
-  length_x <- length(x)
-  # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
-  ok_p1 <- is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
-    length_x <= 1L && (allow_zero || length_x == 1L)
-
-  if(ok_p1) {
-    if(length_x == 1L) {
-      is_NA_x <- is.na(x)
-      is_NaN_x <- is.nan(x)
-      ok_p2 <- allow_NaN || !is_NaN_x
-      ok_p3 <- allow_NA || !is_NA_x || is_NaN_x
-      ok_p2 && ok_p3 && (is_NA_x || x >= 0)
-    } else {
-      TRUE
-    }
-  } else {
-    FALSE
-  }
+  is_number(x, allow_zero = allow_zero, allow_NA = allow_NA,
+            allow_NaN = allow_NaN) &&
+    all(x >= 0, na.rm = TRUE)
 }
 
 #' @rdname is_number
 #' @export
 all_nonnegative <- function(x, allow_zero = FALSE, allow_NA = FALSE,
                             allow_NaN = FALSE) {
-  # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
-  is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
-    ((allow_zero && length(x) == 0L) ||
-       (length(x) > 0L &&
-          (allow_NA || !any(is.na(x) & !is.nan(x))) &&
-          (allow_NaN || !any(is.nan(x))) &&
-          all(x >= 0, na.rm = TRUE)))
+  all_numbers(x, allow_zero = allow_zero, allow_NA = allow_NA,
+              allow_NaN = allow_NaN) &&
+    all(x >= 0, na.rm = TRUE)
 }
 
 #' @rdname is_number
 #' @export
 is_positive <- function(x, allow_zero = FALSE, allow_NA = FALSE,
                         allow_NaN = FALSE) {
-  length_x <- length(x)
-  # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
-  ok_p1 <- is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
-    length_x <= 1L && (allow_zero || length_x == 1L)
-
-  if(ok_p1) {
-    is_NA_x <- is.na(x)
-    is_NaN_x <- is.nan(x)
-    length_x == 0L || ((allow_NaN || !is_NaN_x) && (allow_NA || !is_NA_x || is_NaN_x) &&
-                         all(x > 0, na.rm = TRUE))
-  } else {
-    FALSE
-  }
+  is_number(x = x, allow_zero = allow_zero, allow_NA = allow_NA,
+            allow_NaN = allow_NaN) &&
+    all(x > 0, na.rm = TRUE)
 }
