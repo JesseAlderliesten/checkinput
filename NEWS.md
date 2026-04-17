@@ -11,9 +11,10 @@
   `all(x > 0, na.rm = TRUE)` for more succinct and more uniform code.
 
 ### Miscellaneous
-- GitHub action `check-standard` now also runs on R 4.0.0, is triggered every
-  Saturday on 04:23 UTC, and can be triggered manually (trigger it once manually
-  on the main branch to be able to trigger it manually on other branches).
+- GitHub action `check-standard` now also runs on R 4.1.0 on macos, windows, and
+  ubuntu, is triggered every Saturday on 04:23 UTC, and can be triggered
+  manually (trigger it once manually on the main branch to be able to trigger it
+  manually on other branches).
 
 
 # checkinput 0.3.1
