@@ -1,4 +1,4 @@
-# devel
+# checkinput 0.4.0
 
 ### Breaking changes
 - Dependency `R` >= 4.0.0 changed to `R` >= 4.1.0, which is required to pass the
