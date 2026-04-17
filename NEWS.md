@@ -1,5 +1,25 @@
+# checkinput 0.4.0
+
+### Breaking changes
+- Dependency `R` >= 4.0.0 changed to `R` >= 4.1.0, which is required to pass the
+  R CMD check on ubuntu-latest: `rmarkdown` > `bslib` > `sass` > `fs` needs
+  `R` >= 4.1 and `rappdirs` needs `R` >= 4.1.
+- `all_names()`: wrap text of warnings. Use `deparse1(substitute(x))` to get the
+  offending values instead of `x` in the text of warnings or errors.
+- `is_nonnegative()`, `all_nonnegative()`, `is_positive()`: call `is_number()`
+  or `all_numbers()` followed by `all(x >= 0, na.rm = TRUE)` or
+  `all(x > 0, na.rm = TRUE)` for more succinct and more uniform code.
+
+### Miscellaneous
+- GitHub action `check-standard` now also runs on R 4.1.0 on macos, windows, and
+  ubuntu, is triggered every Saturday on 04:23 UTC, and can be triggered
+  manually (trigger it once manually on the main branch to be able to trigger it
+  manually on other branches).
+
+
 # checkinput 0.3.1
 `checkinput` now uses GitHub action `check-standard` on all branches.
+
 
 # checkinput 0.3.0
 

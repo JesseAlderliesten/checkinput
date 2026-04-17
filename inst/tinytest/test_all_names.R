@@ -78,7 +78,7 @@ warn_dupl <- "are duplicated: "
 warn_suspicious <- "Names are suspicious: "
 warn_syntax <- "are syntactically invalid: "
 warn_undersc <- paste0("contain underscores (which are not allowed if",
-                       " 'allow_underscores' is FALSE): ")
+                       " 'allow_underscores' is FALSE):\n")
 note_mknm_dots <- paste0("\n(it does not recognise names that consist of only",
                          " dots, or two dots followed by digits)")
 
@@ -124,7 +124,7 @@ expect_warning(
 
 expect_warning(
   expect_false(all_names(13)),
-  pattern = "'x' is not a character vector", strict = TRUE, fixed = TRUE)
+  pattern = "'x' is not a character vector: 13", strict = TRUE, fixed = TRUE)
 
 
 #### Test some sets ####
@@ -161,13 +161,14 @@ for(x in list(NA, data.frame(a = "nco"), as.matrix(data.frame(a = "nco")),
               list(a = 314), list(), 314)) {
   expect_warning(
     expect_false(all_names(x = x)),
-    pattern = "'x' is not a character vector!", strict = TRUE, fixed = TRUE)
+    pattern = "Input to 'x' is not a character vector: x", strict = TRUE, fixed = TRUE)
 }
 
 ##### Zero-length values #####
 expect_warning(
   expect_false(all_names(x = NULL)),
-  pattern = "'x' is NULL", strict = TRUE, fixed = TRUE)
+  pattern = "'x' is NULL: did you use names() or colnames() on an object without",
+  strict = TRUE, fixed = TRUE)
 
 expect_warning(
   expect_false(all_names(x = character(0))),
