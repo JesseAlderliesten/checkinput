@@ -7,8 +7,7 @@
 
 # checkinput
 
-With `checkinput`, you can write concise checks that can be tailored to
-the need of the specific function for which the input is checked.
+With `checkinput`, you can write concise but flexible checks.
 
 The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput`
 return either `TRUE` or `FALSE` and do not throw errors caused by input
@@ -22,6 +21,16 @@ if it `TRUE` or `FALSE` according to `all_<funcname>(x)`.
 The package also contains a vignette about type coercion in vectors,
 which discusses some important aspects regarding testing of vectors:
 `vignette("type_coercion", package = "checkinput")`.
+
+## Folder structure
+
+    ├── .github
+    │   └── workflows: workflows to run tests with GitHub Actions
+    ├── R: functions
+    ├── inst
+    │   └── tinytest: tests
+    ├── man: help-files
+    └── tests: setup to use 'tinytest' for testing
 
 # Installation
 
