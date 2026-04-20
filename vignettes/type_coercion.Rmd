@@ -57,15 +57,17 @@ highest of their types before the check is performed, such that
 `x` or `y` is of a higher type.
 
 To check if all elements in `x` and `y` are character, use
-`all_characters(x) && all_characters(y)` or, to generalise easier to more than
-two objects,
+`all_characters(x) && all_characters(y)` or, to generalise more easily to more
+than two objects,
 [all](../help/all)`(`[unlist](../help/unlist)`(`[lapply](../help/lapply)`(X =  `[list](../help/list)`(x, y), FUN = `[all_characters](../help/all_characters)`, ...)))`,
 where `...` indicates the position of arguments passed to `all_characters()`,
 e.g., `allow_empty = TRUE`.
 
-Using [unlist](../help/unlist) on a list creates a vector, such that
-`all_characters(unlist(z))` does *not* check if all elements of list `z` are
-character.
+Elements of a list can contain objects of different types but using
+[unlist](../help/unlist) on a list creates a vector in which all elements of the
+list are coerced to a single type, such that `all_characters(unlist(z))` does
+*not* check if all elements of list `z` are character but if any element of `z`
+is a character *and* none of the elements of `z` is of a higher type.
 
 ```{r}
 library(checkinput)
@@ -82,6 +84,7 @@ all(unlist(lapply(X = list(x, y), FUN = all_characters)))
 
 z <- list("a", 2, "c")
 z
+lapply(X = z, class)
 all_characters(unlist(z)) # TRUE, even though the second element of 'z' is numeric!
 all(unlist(lapply(X = z, FUN = all_characters)))
 ```
