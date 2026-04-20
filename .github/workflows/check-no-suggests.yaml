@@ -7,6 +7,8 @@
 # dependency.
 
 # Modifications:
+# - allow 'tinytest' instead of 'testthat' because that is the package I use for
+#   the tests.
 # - not run GHA on 'push': it should be sufficient to run R CMD check locally
 #   before pushing and run GHA on pull requests.
 # - run GHA every Saturday on 04:23 UTC: added 'schedule: - cron: "23 4 * * 6"'
@@ -68,7 +70,7 @@ jobs:
           cache: false
           extra-packages: |
             any::rcmdcheck
-            any::testthat
+            any::tinytest
             any::knitr
             any::rmarkdown
           needs: check
