@@ -98,6 +98,9 @@ expect_warning(
     "' to create unique, syntactically valid names", note_mknm_dots),
   strict = FALSE, fixed = TRUE)
 
+# Test will fail: temporarily used to see what happens in GitHub Actions if a test fails.
+expect_true(FALSE)
+
 expect_warning(
   expect_false(all_names(x = make.names(invalid_names))),
   pattern = paste0(warn_dots, "'..'; and ", warn_dots_pattern,
