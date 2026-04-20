@@ -11,8 +11,9 @@ x_invld_empty_q <- "'\"\"' (i.e., an empty string)"
 x_invld_mn_made <- make.names(names = x_invld_caught)
 x_invld_q <- paste0(checkinput:::paste_quoted(x_invld[-1]), ", ",
                     x_invld_empty_q)
-x_invld_vcsnm_repaired <- vctrs::vec_as_names(names = x_invld_caught,
-                                              repair = "universal_quiet")
+# Output of vctrs::vec_as_names(names = x_invld_caught, repair = "universal_quiet")
+x_invld_vcsnm_repaired <- c("..1a", "._0", "._0A", "._A", "._A0", "..1a._",
+                            ".for", ".NA", "a.b", "a1.", "a1._.", "ab.cd", "c.d")
 x_mknm <- c(
   # started with a dot followed by a number: c(X0.3", "X0.33")
   make.names(c(.3, .33)),
