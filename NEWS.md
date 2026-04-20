@@ -1,3 +1,10 @@
+# checkinput 0.5.0
+
+### Breaking changes
+- Remove the dependency on `vctrs` by hardcoding the output of single remaining
+  call to `vctrs::vec_as_names()` in a test for `all_names()`.
+
+
 # checkinput 0.4.0
 
 ### Breaking changes
