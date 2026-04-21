@@ -3,6 +3,8 @@
 ### Breaking changes
 - Remove the dependency on `vctrs` by hardcoding the output of single remaining
   call to `vctrs::vec_as_names()` in a test for `all_names()`.
+- Dependency `tinytest`: declare version `>= 1.4.1` because I use argument
+  `strict` in `expect_message()` and `expect_warning()`.
 
 
 # checkinput 0.4.0
