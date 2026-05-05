@@ -52,7 +52,7 @@ suspicious names is partly based on the assumption that names originally did
 not contain dots, see the first item in the list below.
 
 \code{all_names()} \emph{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}}, which
-is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.table]{read.csv()}, and
+is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.csv]{read.csv()}, and
 \code{data.table::fread(x, header = TRUE, check.names = TRUE)}; and adjustments
 made by \code{vctrs::vec_as_names(x, repair = "universal")}, which is used
 throughout the \href{https://tidyverse.org/}{tidyverse}:
@@ -144,11 +144,11 @@ names, e.g., through adjusting case and transliterating non-ASCII characters.
 The vignettes about \href{../doc/design_choices.html}{design choices} and about
 \href{../doc/type_coercion.html}{type coercion}.
 
-Other collections of checks on type and length: 
-\code{\link{all_characters}()},
-\code{\link{is_logical}()},
-\code{\link{is_natural}()},
-\code{\link{is_number}()},
-\code{\link{is_zerolength}()}
+Other collections of checks on type and length:
+\code{\link[=all_characters]{all_characters()}},
+\code{\link[=is_logical]{is_logical()}},
+\code{\link[=is_natural]{is_natural()}},
+\code{\link[=is_number]{is_number()}},
+\code{\link[=is_zerolength]{is_zerolength()}}
 }
 \concept{collections of checks on type and length}

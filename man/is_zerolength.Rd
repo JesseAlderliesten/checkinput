@@ -71,11 +71,11 @@ str(c(num, zerochar)) # chr "314", not num 314
 The vignettes about \href{../doc/design_choices.html}{design choices} and about
 \href{../doc/type_coercion.html}{type coercion}.
 
-Other collections of checks on type and length: 
-\code{\link{all_characters}()},
-\code{\link{all_names}()},
-\code{\link{is_logical}()},
-\code{\link{is_natural}()},
-\code{\link{is_number}()}
+Other collections of checks on type and length:
+\code{\link[=all_characters]{all_characters()}},
+\code{\link[=all_names]{all_names()}},
+\code{\link[=is_logical]{is_logical()}},
+\code{\link[=is_natural]{is_natural()}},
+\code{\link[=is_number]{is_number()}}
 }
 \concept{collections of checks on type and length}
