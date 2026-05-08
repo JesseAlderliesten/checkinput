@@ -272,12 +272,16 @@ all_names <- function(x, allow_underscores = TRUE) {
       warn_text <- paste0(
         warn_text, ".\nUse 'x <- make.names(x, unique = TRUE)' to create",
         " unique, syntactically valid names",
-        if(length(warn_text_dots) > 0L) {note_dots}, "!")
+        if(length(warn_text_dots) > 0L) {
+          note_dots
+        }, "!")
     } else {
       warn_text <- paste0(
         warn_text, ".\nUse 'x <- make.names(x, unique = TRUE, allow_ = FALSE)'",
         " to create unique,\nsyntactically valid names without underscores",
-        if(length(warn_text_dots) > 0L) {note_dots}, "!")
+        if(length(warn_text_dots) > 0L) {
+          note_dots
+        }, "!")
     }
   }
 

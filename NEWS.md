@@ -1,3 +1,14 @@
+# checkinput 0.6.0
+
+### Breaking changes
+- Use `roxygen2` version 8.0.0.
+- Replace the internal function `paste_quoted()` by the full function from
+  `progutils::paste_quoted()` and export it.
+
+### Miscellaneous
+- Stylistic changes to code and tests prompted by `goodpractice::gp()`.
+
+
 # checkinput 0.5.0
 
 ### Breaking changes
@@ -106,10 +117,6 @@ This update has large changes to `is_number()` and related functions, and to
 This update has many changes on documentation.
 
 ### Breaking changes
-- `paste_quoted()` (an internal function) now throws an error if `x` has
-  dimensions.
-
-### Bug fixes
 - `paste_quoted()` (an internal function) now throws an error if `x` has
   dimensions.
 
