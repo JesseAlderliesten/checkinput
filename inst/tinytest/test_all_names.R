@@ -129,8 +129,7 @@ expect_warning(
 
 
 #### Test some sets ####
-expect_true(identical(c(x_vld, x_vld_undersc),
-                      make.names(c(x_vld, x_vld_undersc))))
+expect_identical(c(x_vld, x_vld_undersc), make.names(c(x_vld, x_vld_undersc)))
 expect_true(all(is.na(x_invld) | (x_invld != make.names(x_invld))))
 
 expect_silent(expect_identical(make.names(x_susp_dot), x_susp_dot))

@@ -5,8 +5,8 @@ false_true <- list(FALSE, TRUE)
 #### Test section 'Programming note' ####
 expect_identical(mode(3.2), "numeric")
 expect_identical(mode(3L), "numeric")
-expect_identical(class(3.2), "numeric")
-expect_identical(class(3L), "integer")
+expect_inherits(3.2, "numeric")
+expect_inherits(3L, "integer")
 
 
 #### Test the examples ####
