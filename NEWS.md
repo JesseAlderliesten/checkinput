@@ -2,11 +2,11 @@
 
 ### Breaking changes
 - Use `roxygen2` version 8.0.0.
-- Stylistic changes to code and tests prompted by `goodpractice::gp()`.
-
-### Miscellaneous
 - Replace the internal function `paste_quoted()` by the full function from
   `progutils::paste_quoted()` and export it.
+
+### Miscellaneous
+- Stylistic changes to code and tests prompted by `goodpractice::gp()`.
 
 
 # checkinput 0.5.0
