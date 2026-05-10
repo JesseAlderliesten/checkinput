@@ -1,0 +1,131 @@
+# Type coercion in vectors
+
+## Introduction
+
+When testing vector input of length larger than one, it should be kept
+in mind that objects are converted (‘coerced’) to a common type when
+combined in a vector. The type of the vector, and thus of all its
+components, will be the highest type of the components in the hierarchy
+`NULL` \< `raw` \< `logical` \< `integer` \< `double` \< `complex` \<
+`character` \< `list` \< `expression`, see the section `Details` in
+[c](https://jessealderliesten.github.io/checkinput/help/c) and
+[typeof](https://jessealderliesten.github.io/checkinput/help/typeof).
+For example, numeric `314` will be coerced to character `"314"` when it
+is combined in a vector with character `"nco"`, such that
+`c(314, "nco")` results in the character vector `c("314", "nco")`. This
+also holds for the logical `NA`, which will be coerced to
+[NA_character\_](https://jessealderliesten.github.io/checkinput/help/NA)
+but still prints as `NA`.
+
+``` r
+
+num <- 314
+str(num)
+#>  num 314
+char <- "nco"
+str(char)
+#>  chr "nco"
+str(c(num, char))
+#>  chr [1:2] "314" "nco"
+
+logiNA <- NA
+str(logiNA)
+#>  logi NA
+logiNA_char <- c(logiNA, char)
+str(logiNA_char)
+#>  chr [1:2] NA "nco"
+str(logiNA_char[1])
+#>  chr NA
+logiNA_char[1]
+#> [1] NA
+```
+
+## Consequences for checks
+
+Type coercion in a vector has as consequence that code like
+[all_characters](https://jessealderliesten.github.io/checkinput/help/all_characters)`(c(x, y))`
+does *not* check if all elements in `x` and `y` are character: `x` and
+`y` will be coerced to the highest of their types before the check is
+performed, such that `all_characters(c(x, y))` tests if any of `x` or
+`y` is character *and* none of `x` or `y` is of a higher type.
+
+To check if all elements in `x` and `y` are character, use
+`all_characters(x) && all_characters(y)` or, to generalise more easily
+to more than two objects,
+[all](https://jessealderliesten.github.io/checkinput/help/all)`(`[unlist](https://jessealderliesten.github.io/checkinput/help/unlist)`(`[lapply](https://jessealderliesten.github.io/checkinput/help/lapply)`(X =`[list](https://jessealderliesten.github.io/checkinput/help/list)`(x, y), FUN =`[all_characters](https://jessealderliesten.github.io/checkinput/help/all_characters)`, ...)))`,
+where `...` indicates the position of arguments passed to
+[`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
+e.g., `allow_empty = TRUE`.
+
+Elements of a list can contain objects of different types but using
+[unlist](https://jessealderliesten.github.io/checkinput/help/unlist) on
+a list creates a vector in which all elements of the list are coerced to
+a single type, such that `all_characters(unlist(z))` does *not* check if
+all elements of list `z` are character but if any element of `z` is a
+character *and* none of the elements of `z` is of a higher type.
+
+``` r
+
+library(checkinput)
+
+x <- 1:3
+all_characters(x)
+#> [1] FALSE
+
+y <- letters[x]
+all_characters(y)
+#> [1] TRUE
+
+all_characters(c(x, y)) # TRUE, even though 'x' is numeric!
+#> [1] TRUE
+all_characters(x) && all_characters(y)
+#> [1] FALSE
+all(unlist(lapply(X = list(x, y), FUN = all_characters)))
+#> [1] FALSE
+
+z <- list("a", 2, "c")
+z
+#> [[1]]
+#> [1] "a"
+#> 
+#> [[2]]
+#> [1] 2
+#> 
+#> [[3]]
+#> [1] "c"
+lapply(X = z, class)
+#> [[1]]
+#> [1] "character"
+#> 
+#> [[2]]
+#> [1] "numeric"
+#> 
+#> [[3]]
+#> [1] "character"
+all_characters(unlist(z)) # TRUE, even though the second element of 'z' is numeric!
+#> [1] TRUE
+all(unlist(lapply(X = z, FUN = all_characters)))
+#> [1] FALSE
+```
+
+## Zero-length values
+
+Although zero-length objects (see
+[is_zerolength()](https://jessealderliesten.github.io/checkinput/help/is_zerolength))
+are discarded when combined into a vector with other values, their types
+are taken into account for type coercion. For example, numeric `314`
+will be coerced to character `"314"` when it is combined into a vector
+with zero-length `character(0)`, such that `c(314, character(0))`
+results in the character string `"314"`, not in the numeric value `314`.
+
+``` r
+
+num <- 314
+str(num)
+#>  num 314
+zerochar <- character(0)
+str(zerochar)
+#>  chr(0)
+str(c(num, zerochar))
+#>  chr "314"
+```

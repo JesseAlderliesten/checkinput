@@ -1,0 +1,159 @@
+# checkinput
+
+With `checkinput`, you can write concise but flexible checks.
+
+The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput`
+return either `TRUE` or `FALSE` and do not throw errors caused by input
+to `x`. Errors *are* thrown about invalid input to arguments other than
+`x`, e.g., providing values other than `TRUE` or `FALSE` to
+`allow_zero`. See the vignette about design choices
+[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
+for details and for a way to get a named boolean vector indicating for
+each element of `x` if it `TRUE` or `FALSE` according to
+`all_<funcname>(x)`.
+
+The package also contains a vignette about type coercion in vectors,
+which discusses some important aspects regarding testing of vectors:
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
+
+## Folder structure
+
+``` R
+├── .github
+│   └── workflows: workflows to run tests with GitHub Actions
+├── R: functions
+├── inst
+│   └── tinytest: tests
+├── man: help-files
+└── tests: setup to use 'tinytest' for testing
+```
+
+# Installation
+
+You can install `checkinput` from
+[GitHub](https://github.com/JesseAlderliesten/checkinput) with:
+
+``` r
+
+if(!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages(pkgs = "remotes", quiet = FALSE)
+}
+remotes::install_github(repo = "JesseAlderliesten/checkinput",
+                        dependencies = NA, upgrade = FALSE, force = FALSE,
+                        quiet = FALSE, build_vignettes = TRUE, lib = NULL,
+                        verbose = getOption("verbose"))
+```
+
+For information about installing and configuring R and RStudio, see my
+repository
+[‘checkrpkgs’](https://github.com/JesseAlderliesten/checkrpkgs).
+
+# Example
+
+Say you want to collect information on people’s hobbies through a
+function in which it is optional for them to provide their name. With
+`checkinput`, you could write a function like `list_hobbies()`:
+
+``` r
+
+list_hobbies <- function(name, age, hobbies) {
+  stopifnot(is_character(name, allow_empty = TRUE, allow_NA = TRUE),
+            is_nonnegative(age), all_characters(hobbies))
+  list(name = name, age = age, hobbies = hobbies)
+}
+```
+
+The checks inside [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html)
+ensure that (1) `name` contains a single character string that might be
+empty (`""`) or character-type `NA` (`NA_character_`) if people do not
+want to give their name; (2) `age` contains a single non-negative
+number; (3) `hobbies` contains at least one character string and does
+not contain any empty strings or `NA`s.
+
+The base-R equivalent of `list_hobbies()` would require much more code
+to check the input:
+
+``` r
+
+list_hobbies_base <- function(name, age, hobbies) {
+  stopifnot(is.null(dim(name)), length(name) > 0L, length(name) < 2L,
+            is.character(name), is.numeric(age), length(age) == 1L,
+            is.null(dim(age)), age >= age, is.null(dim(hobbies)),
+            length(hobbies) > 0L, is.character(hobbies),
+            all(nzchar(hobbies, keepNA = FALSE)), !anyNA(hobbies))
+  list(name = name, age = age, hobbies = hobbies)
+}
+```
+
+If the input passes all checks, both functions produce the same output:
+
+``` r
+
+library(checkinput)
+hobbies_John <- c("books", "construction sets")
+John_checkinput <- list_hobbies(name = "John", age = 25, hobbies = hobbies_John)
+John_base <- list_hobbies_base(name = "John", age = 25, hobbies = hobbies_John)
+identical(John_checkinput, John_base)
+#> [1] TRUE
+
+hobbies_baby <- "drinking milk"
+baby_checkinput <- list_hobbies(name = "", age = 0, hobbies = hobbies_baby)
+baby_base <- list_hobbies_base(name = "", age = 0, hobbies = hobbies_baby)
+identical(baby_checkinput, baby_base)
+#> [1] TRUE
+```
+
+When a check fails, error messages can be more-informative when using
+`checkinput`:
+
+``` r
+
+try(list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John, "")))
+#> Error in list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John,  : 
+#>   all_characters(hobbies) is not TRUE
+try(list_hobbies_base(name = "John", age = 25, hobbies = c(hobbies_John, "")))
+#> Error in list_hobbies_base(name = "John", age = 25, hobbies = c(hobbies_John,  : 
+#>   all(nzchar(hobbies, keepNA = FALSE)) is not TRUE
+
+try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
+#> Error in list_hobbies(name = "", age = -1, hobbies = hobbies_baby) : 
+#>   is_nonnegative(age) is not TRUE
+try(list_hobbies_base(name = "", age = -1, hobbies = hobbies_baby))
+#> $name
+#> [1] ""
+#> 
+#> $age
+#> [1] -1
+#> 
+#> $hobbies
+#> [1] "drinking milk"
+```
+
+In the last example, `list_hobbies_base()` does not throw an error if a
+negative value is entered for the baby’s age: the check was accidentally
+written as `age >= age` instead of `age >= 0`, such that the check that
+`age` should be non-negative is incorrectly implemented. This shows
+another advantage of being able to specify constraints on the input
+through arguments of the check-functions instead of having to spell out
+each condition: there is less need to adjust variable names, which
+reduces the chance of coding errors.
+
+# Similar packages
+
+Functions of `checkinput` use arguments to determine which special
+values should be allowed, which makes them more flexible than functions
+in similar packages. Nevertheless, the following similar packages are
+worth looking into:
+
+- [arkhe](https://CRAN.R-project.org/package=arkhe): tools for cleaning
+  rectangular data.
+- [assertable](https://CRAN.R-project.org/package=assertable): verbose
+  assertions for tabular data (data.frames and data.tables).
+- [assertthat](https://CRAN.R-project.org/package=assertthat): easy pre
+  and post assertions.
+- [checkmate](https://CRAN.R-project.org/package=checkmate): fast and
+  versatile argument checks
+- [chk](https://CRAN.R-project.org/package=chk): check user-supplied
+  function arguments
+- [erify](https://CRAN.R-project.org/package=erify): check arguments and
+  generate readable error messages
