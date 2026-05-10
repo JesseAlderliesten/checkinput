@@ -2,7 +2,7 @@
 <!-- badges: start -->
 
 ![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput?color=blue)
-[![R-CMD-check](https://github.com/JesseAlderliesten/checkinput/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml)
 <!-- badges: end -->
 
 # checkinput
@@ -46,6 +46,9 @@ remotes::install_github(repo = "JesseAlderliesten/checkinput",
                         quiet = FALSE, build_vignettes = TRUE, lib = NULL,
                         verbose = getOption("verbose"))
 ```
+
+You can also visit its
+[website](https://jessealderliesten.github.io/checkinput/).
 
 For information about installing and configuring R and RStudio, see my
 repository
