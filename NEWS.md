@@ -1,3 +1,9 @@
+# checkinput 0.6.1
+
+### Miscellaneous
+- Added pkgdown website: `https://jessealderliesten.github.io/checkinput/`.
+
+
 # checkinput 0.6.0
 
 ### Breaking changes
