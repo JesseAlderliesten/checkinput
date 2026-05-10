@@ -12,6 +12,7 @@ Utility functions to write more-concise checks of function input, with arguments
 Useful links:
 \itemize{
   \item \url{https://github.com/JesseAlderliesten/checkinput}
+  \item \url{https://jessealderliesten.github.io/checkinput/}
   \item Report bugs at \url{https://github.com/JesseAlderliesten/checkinput/issues}
 }
 

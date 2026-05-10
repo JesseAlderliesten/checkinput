@@ -1,6 +1,6 @@
 Package: checkinput
 Title: Check Function Input
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: 
     person("Jesse", "Alderliesten", email = "jessealderliesten@hotmail.com",
     role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1132-4310"))
@@ -13,7 +13,7 @@ Suggests:
     knitr,
     rmarkdown,
     tinytest (>= 1.4.1)
-URL: https://github.com/JesseAlderliesten/checkinput
+URL: https://github.com/JesseAlderliesten/checkinput, https://jessealderliesten.github.io/checkinput/
 BugReports: https://github.com/JesseAlderliesten/checkinput/issues
 VignetteBuilder: knitr
 Depends: 
