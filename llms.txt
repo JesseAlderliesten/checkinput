@@ -44,6 +44,9 @@ remotes::install_github(repo = "JesseAlderliesten/checkinput",
                         verbose = getOption("verbose"))
 ```
 
+You can also visit its
+[website](https://jessealderliesten.github.io/checkinput/).
+
 For information about installing and configuring R and RStudio, see my
 repository
 [‘checkrpkgs’](https://github.com/JesseAlderliesten/checkrpkgs).
