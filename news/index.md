@@ -8,6 +8,9 @@
 - `NEWS`: stylistic update.
 - Vignettes: explain notation. Rely on `pkgdown` to create links to
   functions.
+- `check-no-suggests.yaml`: also mention package `rcmdcheck` as needed
+  package. Order packages alphabetically. Fuller annotation of
+  modifications.
 
 ## checkinput 0.6.1
 
