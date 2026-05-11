@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,13 +84,14 @@ components, will be the highest type of the components in the hierarchy
 <code>NULL</code> &lt; <code>raw</code> &lt; <code>logical</code> &lt;
 <code>integer</code> &lt; <code>double</code> &lt; <code>complex</code>
 &lt; <code>character</code> &lt; <code>list</code> &lt;
-<code>expression</code>, see the section <code>Details</code> in <a href="../help/c">c</a> and <a href="../help/typeof">typeof</a>. For
-example, numeric <code>314</code> will be coerced to character
-<code>"314"</code> when it is combined in a vector with character
-<code>"nco"</code>, such that <code>c(314, "nco")</code> results in the
-character vector <code>c("314", "nco")</code>. This also holds for the
-logical <code>NA</code>, which will be coerced to <a href="../help/NA">NA_character_</a> but still prints as
-<code>NA</code>.</p>
+<code>expression</code>, see the section <code>Details</code> in
+<code><a href="https://rdrr.io/r/base/c.html" class="external-link">help(c)</a></code> and <code><a href="https://rdrr.io/r/base/typeof.html" class="external-link">help(typeof)</a></code>. For example, numeric
+<code>314</code> will be coerced to character <code>"314"</code> when it
+is combined in a vector with character <code>"nco"</code>, such that
+<code>c(314, "nco")</code> results in the character vector
+<code>c("314", "nco")</code>. This also holds for the logical
+<code>NA</code>, which will be coerced to <code>NA_character_</code> but
+still prints as <code>NA</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num</span> <span class="op">&lt;-</span> <span class="fl">314</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">num</span><span class="op">)</span></span>
@@ -115,27 +116,29 @@ logical <code>NA</code>, which will be coerced to <a href="../help/NA">NA_charac
 <div class="section level2">
 <h2 id="consequences-for-checks">Consequences for checks<a class="anchor" aria-label="anchor" href="#consequences-for-checks"></a>
 </h2>
-<p>Type coercion in a vector has as consequence that code like <a href="../help/all_characters">all_characters</a><code>(c(x, y))</code>
-does <em>not</em> check if all elements in <code>x</code> and
-<code>y</code> are character: <code>x</code> and <code>y</code> will be
-coerced to the highest of their types before the check is performed,
-such that <code>all_characters(c(x, y))</code> tests if any of
-<code>x</code> or <code>y</code> is character <em>and</em> none of
-<code>x</code> or <code>y</code> is of a higher type.</p>
+<p>Type coercion in a vector has as consequence that code like
+<code>all_characters(c(x, y))</code> does <strong>not</strong> check if
+all elements in <code>x</code> and <code>y</code> are character:
+<code>x</code> and <code>y</code> will be coerced to the highest of
+their types before the check is performed, such that
+<code>all_characters(c(x, y))</code> tests if any of <code>x</code> or
+<code>y</code> is character <strong>and</strong> none of <code>x</code>
+or <code>y</code> is of a higher type.</p>
 <p>To check if all elements in <code>x</code> and <code>y</code> are
 character, use
 <code>all_characters(x) &amp;&amp; all_characters(y)</code> or, to
-generalise more easily to more than two objects, <a href="../help/all">all</a><code>(</code><a href="../help/unlist">unlist</a><code>(</code><a href="../help/lapply">lapply</a><code>(X =</code><a href="../help/list">list</a><code>(x, y), FUN =</code><a href="../help/all_characters">all_characters</a><code>, ...)))</code>,
+generalise more easily to more than two objects,
+<code>all(unlist(lapply(X = list(x, y), FUN = all_characters, ...)))</code>,
 where <code>...</code> indicates the position of arguments passed to
 <code><a href="../reference/all_characters.html">all_characters()</a></code>, e.g.,
 <code>allow_empty = TRUE</code>.</p>
 <p>Elements of a list can contain objects of different types but using
-<a href="../help/unlist">unlist</a> on a list creates a vector in which
-all elements of the list are coerced to a single type, such that
-<code>all_characters(unlist(z))</code> does <em>not</em> check if all
-elements of list <code>z</code> are character but if any element of
-<code>z</code> is a character <em>and</em> none of the elements of
-<code>z</code> is of a higher type.</p>
+<code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on a list creates a vector in which all elements
+of the list are coerced to a single type, such that
+<code>all_characters(unlist(z))</code> does <strong>not</strong> check
+if all elements of list <code>z</code> are character but if any element
+of <code>z</code> is a character <strong>and</strong> none of the
+elements of <code>z</code> is of a higher type.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">checkinput</a></span><span class="op">)</span></span>
 <span></span>
@@ -181,13 +184,14 @@ elements of list <code>z</code> are character but if any element of
 <div class="section level2">
 <h2 id="zero-length-values">Zero-length values<a class="anchor" aria-label="anchor" href="#zero-length-values"></a>
 </h2>
-<p>Although zero-length objects (see <a href="../help/is_zerolength">is_zerolength()</a>) are discarded when
-combined into a vector with other values, their types are taken into
-account for type coercion. For example, numeric <code>314</code> will be
-coerced to character <code>"314"</code> when it is combined into a
-vector with zero-length <code>character(0)</code>, such that
-<code>c(314, character(0))</code> results in the character string
-<code>"314"</code>, not in the numeric value <code>314</code>.</p>
+<p>Although zero-length objects (see <code><a href="../reference/is_zerolength.html">is_zerolength()</a></code>) are
+discarded when combined into a vector with other values, their types are
+taken into account for type coercion. For example, numeric
+<code>314</code> will be coerced to character <code>"314"</code> when it
+is combined into a vector with zero-length <code>character(0)</code>,
+such that <code>c(314, character(0))</code> results in the character
+string <code>"314"</code>, not in the numeric value
+<code>314</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num</span> <span class="op">&lt;-</span> <span class="fl">314</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">num</span><span class="op">)</span></span>

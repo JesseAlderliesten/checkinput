@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,9 +65,7 @@
 <div class="section level1">
 <div class="page-header"><h1 id="checkinput">checkinput<a class="anchor" aria-label="anchor" href="#checkinput"></a>
 </h1></div>
-<p>With <code>checkinput</code>, you can write concise but flexible checks.</p>
-<p>The <code>is_&lt;funcname&gt;(x)</code> and <code>all_&lt;funcname&gt;(x)</code> functions of <code>checkinput</code> return either <code>TRUE</code> or <code>FALSE</code> and do not throw errors caused by input to <code>x</code>. Errors <em>are</em> thrown about invalid input to arguments other than <code>x</code>, e.g., providing values other than <code>TRUE</code> or <code>FALSE</code> to <code>allow_zero</code>. See the vignette about design choices <code><a href="articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code> for details and for a way to get a named boolean vector indicating for each element of <code>x</code> if it <code>TRUE</code> or <code>FALSE</code> according to <code>all_&lt;funcname&gt;(x)</code>.</p>
-<p>The package also contains a vignette about type coercion in vectors, which discusses some important aspects regarding testing of vectors: <code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
+<p>With <code>checkinput</code>, you can write concise but flexible checks for input to R functions.</p>
 <div class="section level2">
 <h2 id="folder-structure">Folder structure<a class="anchor" aria-label="anchor" href="#folder-structure"></a>
 </h2>
@@ -79,11 +77,10 @@
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>├── man<span class="sc">:</span> help<span class="sc">-</span>files</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>└── tests<span class="sc">:</span> setup to use <span class="st">'tinytest'</span> <span class="cf">for</span> testing</span></code></pre></div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h1>
-<p>You can install <code>checkinput</code> from <a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">GitHub</a> with:</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can visit the <a href="https://jessealderliesten.github.io/checkinput/">checkinput website</a> to explore the package. To use <code>checkinput</code>, you have to install it from <a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">GitHub</a> using the following code in R (you need to run R as administrator):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">"remotes"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -92,12 +89,11 @@
 <span>                        dependencies <span class="op">=</span> <span class="cn">NA</span>, upgrade <span class="op">=</span> <span class="cn">FALSE</span>, force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                        quiet <span class="op">=</span> <span class="cn">FALSE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, lib <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>                        verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"verbose"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>You can also visit its <a href="https://jessealderliesten.github.io/checkinput/">website</a>.</p>
-<p>For information about installing and configuring R and RStudio, see my repository <a href="https://github.com/JesseAlderliesten/checkrpkgs" class="external-link">‘checkrpkgs’</a>.</p>
+<p>For more information about installing and configuring R and RStudio, see my package <a href="https://jessealderliesten.github.io/checkrpkgs/" class="external-link">checkrpkgs</a>.</p>
 </div>
-<div class="section level1">
-<h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h1>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>Say you want to collect information on people’s hobbies through a function in which it is optional for them to provide their name. With <code>checkinput</code>, you could write a function like <code>list_hobbies()</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">list_hobbies</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">age</span>, <span class="va">hobbies</span><span class="op">)</span> <span class="op">{</span></span>
@@ -130,7 +126,7 @@
 <span><span class="va">baby_base</span> <span class="op">&lt;-</span> <span class="fu">list_hobbies_base</span><span class="op">(</span>name <span class="op">=</span> <span class="st">""</span>, age <span class="op">=</span> <span class="fl">0</span>, hobbies <span class="op">=</span> <span class="va">hobbies_baby</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">baby_checkinput</span>, <span class="va">baby_base</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>When a check fails, error messages can be more-informative when using <code>checkinput</code>:</p>
+<p>When a check fails, error messages can be more informative when using <code>checkinput</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">list_hobbies</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"John"</span>, age <span class="op">=</span> <span class="fl">25</span>, hobbies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">hobbies_John</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error in list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John,  : </span></span>
@@ -152,10 +148,16 @@
 <span><span class="co">#&gt; $hobbies</span></span>
 <span><span class="co">#&gt; [1] "drinking milk"</span></span></code></pre></div>
 <p>In the last example, <code>list_hobbies_base()</code> does not throw an error if a negative value is entered for the baby’s age: the check was accidentally written as <code>age &gt;= age</code> instead of <code>age &gt;= 0</code>, such that the check that <code>age</code> should be non-negative is incorrectly implemented. This shows another advantage of being able to specify constraints on the input through arguments of the check-functions instead of having to spell out each condition: there is less need to adjust variable names, which reduces the chance of coding errors.</p>
+<div class="section level3">
+<h3 id="design-choices">Design choices<a class="anchor" aria-label="anchor" href="#design-choices"></a>
+</h3>
+<p>The <code>is_&lt;funcname&gt;(x)</code> and <code>all_&lt;funcname&gt;(x)</code> functions of <code>checkinput</code> return either <code>TRUE</code> or <code>FALSE</code> and do not throw errors caused by input to <code>x</code>. Errors <strong>are</strong> thrown about invalid input to arguments other than <code>x</code>, e.g., providing values other than <code>TRUE</code> or <code>FALSE</code> to <code>allow_zero</code>. This is explained in the <a href="https://jessealderliesten.github.io/checkinput/articles/design_choices.html">vignette about design choices</a>: <code><a href="articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>. That vignette also shows how to get a named boolean vector indicating for each element of <code>x</code> if it is <code>TRUE</code> or <code>FALSE</code> according to <code>all_&lt;funcname&gt;(x)</code>.</p>
+<p><code>checkinput</code> also contains a <a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html">vignette about type coercion</a> in vectors, which discusses some important aspects regarding testing of vectors: <code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
 </div>
-<div class="section level1">
-<h1 id="similar-packages">Similar packages<a class="anchor" aria-label="anchor" href="#similar-packages"></a>
-</h1>
+</div>
+<div class="section level2">
+<h2 id="similar-packages">Similar packages<a class="anchor" aria-label="anchor" href="#similar-packages"></a>
+</h2>
 <p>Functions of <code>checkinput</code> use arguments to determine which special values should be allowed, which makes them more flexible than functions in similar packages. Nevertheless, the following similar packages are worth looking into:</p>
 <ul>
 <li>
@@ -171,6 +173,7 @@
 <li>
 <a href="https://CRAN.R-project.org/package=erify" class="external-link">erify</a>: check arguments and generate readable error messages</li>
 </ul>
+</div>
 </div>
 
   </main><aside class="col-md-3"><div class="links">

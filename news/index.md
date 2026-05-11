@@ -1,10 +1,19 @@
 # Changelog
 
+## checkinput 0.6.2
+
+#### Miscellaneous
+
+- `README`: refer to website when appropriate. Stylistic update.
+- `NEWS`: stylistic update.
+- Vignettes: explain notation. Rely on `pkgdown` to create links to
+  functions.
+
 ## checkinput 0.6.1
 
 #### Miscellaneous
 
-- Added pkgdown website:
+- Add pkgdown website:
   `https://jessealderliesten.github.io/checkinput/`.
 
 ## checkinput 0.6.0
@@ -12,7 +21,7 @@
 #### Breaking changes
 
 - Use `roxygen2` version 8.0.0.
-- Replace the internal function
+- Replace the non-exported function
   [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
   by the full function from `progutils::paste_quoted()` and export it.
 
@@ -24,24 +33,25 @@
 
 #### Breaking changes
 
-- Remove the dependency on `vctrs` by hardcoding the output of single
-  remaining call to
+- Dependency `tinytest`: declare version `>= 1.4.1` because I use
+  argument `strict` in `expect_message()` and `expect_warning()`.
+- Remove the dependency on `vctrs` by hardcoding the output of the
+  single remaining call to
   [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html)
   in a test for
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
-- Dependency `tinytest`: declare version `>= 1.4.1` because I use
-  argument `strict` in `expect_message()` and `expect_warning()`.
 
 ## checkinput 0.4.0
 
 #### Breaking changes
 
-- Dependency `R` \>= 4.0.0 changed to `R` \>= 4.1.0, which is required
+- Dependency `R` \>= 4.0.0 increased to `R` \>= 4.1.0, which is required
   to pass the R CMD check on ubuntu-latest: `rmarkdown` \> `bslib` \>
   `sass` \> `fs` needs `R` \>= 4.1 and `rappdirs` needs `R` \>= 4.1.
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   wrap text of warnings. Use `deparse1(substitute(x))` to get the
-  offending values instead of `x` in the text of warnings or errors.
+  offending values instead of literal `'x'` in the text of warnings or
+  errors.
 - [`is_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
   [`all_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
   [`is_positive()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md):
@@ -50,18 +60,18 @@
   or
   [`all_numbers()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   followed by `all(x >= 0, na.rm = TRUE)` or `all(x > 0, na.rm = TRUE)`
-  for more succinct and more uniform code.
+  for more succinct and uniform code.
 
 #### Miscellaneous
 
-- GitHub action `check-standard` now also runs on R 4.1.0 on macos,
-  windows, and ubuntu, is triggered every Saturday on 04:23 UTC, and can
-  be triggered manually (trigger it once manually on the main branch to
-  be able to trigger it manually on other branches).
+- GitHub action `check-standard` also runs on R 4.1.0 on macOS, Windows,
+  and Ubuntu, is triggered every Saturday on 04:23 UTC, and can be
+  triggered manually (trigger it once manually on the main branch to be
+  able to trigger it manually on other branches).
 
 ## checkinput 0.3.1
 
-`checkinput` now uses GitHub action `check-standard` on all branches.
+`checkinput` uses GitHub action `check-standard` on all branches.
 
 ## checkinput 0.3.0
 
@@ -72,22 +82,28 @@
 
 #### Added functions
 
-- `make_natural`: uses `is_natural` or `all_natural` to round values,
-  while throwing an error if appropriate. Uses `deparse1(substitute(x))`
-  to get the offending values instead of `x` in error messages.
+- [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
+  use
+  [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
+  or
+  [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
+  to round values, while throwing an error if appropriate. Use
+  `deparse1(substitute(x))` to get the offending values instead of
+  literal `'x'` in error messages.
 
 ## checkinput 0.2.0
 
 #### Breaking changes
 
-- `all_natural`: `tol` should be smaller than `0.5`. Added argument
-  `allow_zero` with default `FALSE`, in contrast to the previous
-  implicit default `TRUE`.
+- [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
+  `tol` should be smaller than `0.5`. Add argument `allow_zero` with
+  default `FALSE`, in contrast to the previous implicit default `TRUE`.
 
 #### Added functions
 
-- `is_natural`: as `all_natural` but also tests if `x` has a length of
-  at most one.
+- `is_natural`: as
+  [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
+  but also test if `x` has a length of at most one.
 
 ## checkinput 0.1.0
 
@@ -104,21 +120,16 @@
 
 ## checkinput 0.0.6
 
-This update has large changes to
-[`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
-and related functions, and to
-[`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
-
 #### Breaking changes
 
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  removed argument `allow_susp` and never allows suspicious names
-  because allowing them amounts to only checking for syntactically
-  invalid names, for which
+  remove argument `allow_susp` and never allows suspicious names because
+  allowing them amounts to only checking for syntactically invalid
+  names, for which
   [`make.names()`](https://rdrr.io/r/base/make.names.html) can be used
-  directly; not trying anymore to identify which functions might have
-  changed a name because that is very ambiguous; also check for
-  suspicious names that might have been created by
+  directly; do not try to identify which functions might have changed a
+  name because that is very ambiguous; also check for suspicious names
+  that might have been created by
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) or
   [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html);
   consider the reserved words `...` and `..1` invalid and, when
@@ -144,53 +155,50 @@ and related functions, and to
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   major updates and restructuring. Also updated and added examples.
 - [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
-  added a note about functions named `integerish`.
-- `README`: added a reference to my repository `checkrpkgs`. Clarified
-  that functions *do* throw errors about invalid input to arguments
-  other than `x`.
-- Vignette `design_choices.Rmd`: clarified that functions *do* throw
-  errors about invalid input to arguments other than `x`. Added a table
-  of contents. Removed obsolete note about `allow_NA` being absent from
+  add a note about functions named `integerish`.
+- `README`: add a reference to my repository `checkrpkgs`. Clarify that
+  functions *do* throw errors about invalid input to arguments other
+  than `x`.
+- Vignette `design_choices`: clarified that functions *do* throw errors
+  about invalid input to arguments other than `x`. Added a table of
+  contents. Removed obsolete note about `allow_NA` being absent from
   [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   and derived functions.
-- Vignette `Type_Coercion.Rmd`: renamed to `type_coercion.Rmd`. Added
-  section labels and a table of contents.
-- Replaced section title `Note` (created through `@Note`) by section
+- Vignette `Type_Coercion`: rename to `type_coercion`. Added section
+  labels and a table of contents.
+- Replace section title `Note` (created through `@Note`) by section
   title `Notes` (created through `@section Notes:`). Idem for
   `Programming note`.
 
 ## checkinput 0.0.5
 
-This update has many changes on documentation.
-
 #### Breaking changes
 
 - [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-  (an internal function) now throws an error if `x` has dimensions.
+  (an internal function) throws an error if `x` has dimensions.
 
 #### Minor improvements
 
-- Moved code of `is_character.R` to `all_characters.R`, and code of
+- Move code of `is_character.R` to `all_characters.R`, and code of
   `is_positive.R`, `is_nonnegative.R`, etc. to `is.number.R`.
 
 #### Updated documentation
 
-- Updated `README` to mention vignettes and introduce design choices.
+- Update `README` to mention vignettes and introduce design choices.
 - Cross-reference on
   [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   instead of on
   [`all_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md).
-- Removed `Note`s about legacy code.
-- Moved `To do` points and `Wishlist` to GitHub issues.
-- Moved information about correct input to the vignette `design_choices`
+- Remove `Notes` about legacy code.
+- Move `To do` points and `Wishlist` to GitHub issues.
+- Move information about correct input to the vignette `design_choices`
   that is linked in the `See also` sections of the relevant functions.
   The vignette also contains a section about getting a named boolean
   vector as output. Both sections are also mentioned in the `README`.
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) also calls
-  [`make.names()`](https://rdrr.io/r/base/make.names.html). Moved
-  section on how to get a boolean vector to the vignette on design
-  choices.
+  [`make.names()`](https://rdrr.io/r/base/make.names.html). Move section
+  on how to get a boolean vector to the vignette on design choices.
 - [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md):
   document that a zero-row `data.frame` is not a zero-length object.
 
@@ -200,7 +208,7 @@ This update has many changes on documentation.
 
 - Functions now allow objects with dimensions as input to `x` but return
   `FALSE` for them, as well as for non-atomic input.
-- Simplified
+- Simplify
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md)
   by removing checking for non-ASCII characters and never allow names
   that are duplicated or consist only of dots.

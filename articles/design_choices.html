@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,33 +75,55 @@
     
     
 <div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<h2 id="introduction-and-notation">Introduction and notation<a class="anchor" aria-label="anchor" href="#introduction-and-notation"></a>
+</h2>
+<p>This vignette explains the design choices of <code>checkinput</code>.
+It also shows how to get a named boolean vector indicating for each
+element of <code>x</code> if it is <code>TRUE</code> or
+<code>FALSE</code> according to
+<code>all_&lt;funcname&gt;(x)</code>.</p>
+<p>In this vignette, text between angled brackets
+(<code>&lt;...&gt;</code>) is used to refer to text that should be
+replaced with specific text to get working code. For example,
+<code>is_&lt;funcname&gt;(x)</code> is used as a place holder to refer
+to a function name and should be replaced with
+<code>is_character(x)</code> if you want to consider the function that
+checks if <code>x</code> is a single character string, and with
+<code>is_logical(x)</code> if you want to consider the function that
+checks if <code>x</code> is a single logical value.</p>
+</div>
+<div class="section level2">
+<h2 id="type-of-x">Type of x<a class="anchor" aria-label="anchor" href="#type-of-x"></a>
 </h2>
 <p>The <code>is_&lt;funcname&gt;(x, ...)</code> and
 <code>all_&lt;funcname&gt;(x, ...)</code> functions of
 <code>checkinput</code> return either <code>TRUE</code> or
 <code>FALSE</code> and do not throw errors for any input to
-<code>x</code>: throwing an error about <code>x</code> is deferred to <a href="../help/stopifnot">stopifnot</a> in which calls to functions from
+<code>x</code>: throwing an error about <code>x</code> is deferred to
+<code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">base::stopifnot()</a></code> in which calls to functions from
 <code>checkinput</code> are typically wrapped when they are used inside
 other functions. Errors <em>are</em> thrown about invalid input to
-arguments other than <code>x</code>, e.g., providing values other than
-<code>TRUE</code> or <code>FALSE</code> to <code>allow_zero</code>.</p>
+arguments other than <code>x</code>, e.g., when values other than
+<code>TRUE</code> or <code>FALSE</code> are used for
+<code>allow_zero</code>.</p>
 <p>The default arguments make functions of <code>checkinput</code> more
-restrictive than the equivalent functions in base R (e.g., <a href="../help/is_logical">checkinput::is_logical()</a> versus <a href="../help/is.logical">base::is.logical()</a>), reflecting that the
-functions of <code>checkinput</code> are intended for argument checking,
-where, for example, zero-length <code>x</code> is unwanted.</p>
+restrictive than the equivalent functions in base R (e.g.,
+<code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> versus
+<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code>), reflecting that the functions of
+<code>checkinput</code> are intended for argument checking, where, for
+example, zero-length <code>x</code> is unwanted.</p>
 </div>
 <div class="section level2">
 <h2 id="length-of-x">Length of x<a class="anchor" aria-label="anchor" href="#length-of-x"></a>
 </h2>
 <p>By default, <code>is_&lt;funcname&gt;(x)</code> only returns
 <code>TRUE</code> for <code>x</code> of length one (with the obvious
-exception of <a href="../help/is_zerolength">is_zerolength(x)</a>) and
+exception of <code>is_zerolength(x)</code>) and
 <code>all_&lt;funcname&gt;(x)</code> only returns <code>TRUE</code> for
 <code>x</code> of length larger than zero. Set argument
 <code>allow_zero</code> to <code>TRUE</code> to also return
 <code>TRUE</code> for zero-length <code>x</code> of the correct type.
-See <a href="../help/is_zerolength">is_zerolength()</a> and
+See <code><a href="../reference/is_zerolength.html">is_zerolength()</a></code> and
 <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code> for a
 discussion of some issues with zero-length input.</p>
 </div>
@@ -109,7 +131,7 @@ discussion of some issues with zero-length input.</p>
 <h2 id="nas-in-x">NAs in x<a class="anchor" aria-label="anchor" href="#nas-in-x"></a>
 </h2>
 <p>By default, functions only return <code>TRUE</code> for
-<code>x</code> without <a href="../help/NA">NA</a>s. Set argument
+<code>x</code> without <code>NA</code>s. Set argument
 <code>allow_NA</code> to <code>TRUE</code> to also return
 <code>TRUE</code> for <code>x</code> containing <code>NA</code>s of the
 correct type.</p>
@@ -122,13 +144,14 @@ correct type.</p>
 <code>checkinput</code> always return either <code>TRUE</code> or
 <code>FALSE</code>. To get a named boolean vector indicating for each
 element of <code>x</code> if it <code>TRUE</code> or <code>FALSE</code>
-according to <code>all_&lt;funcname&gt;(x)</code>, use <a href="../help/vapply">vapply</a><code>(X = x, FUN.VALUE = logical(1), FUN = all_&lt;funcname&gt;, ...)</code>
+according to <code>all_&lt;funcname&gt;(x)</code>, use
+<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_&lt;funcname&gt;, ...)</code>
 instead of <code>all_&lt;funcname&gt;(x, ...)</code>. For example, to
 check which elements of <code>x</code> are valid names, use
 <code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)</code>
-instead of <a href="../help/all_names">all_names</a><code>(x, ...)</code>. The dots
-(<code>...</code>) indicate where to place other function arguments,
-e.g., <code>allow_underscores = FALSE</code>.</p>
+instead of <code>all_names(x, ...)</code>. The dots (<code>...</code>)
+indicate where to place other function arguments, e.g.,
+<code>allow_underscores = FALSE</code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

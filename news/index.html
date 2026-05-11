@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,10 +44,21 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.2" id="checkinput-062">checkinput 0.6.2<a class="anchor" aria-label="anchor" href="#checkinput-062"></a></h2>
+<div class="section level4">
+<h4 id="miscellaneous-0-6-2">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-6-2"></a></h4>
+<ul><li>
+<code>README</code>: refer to website when appropriate. Stylistic update.</li>
+<li>
+<code>NEWS</code>: stylistic update.</li>
+<li>Vignettes: explain notation. Rely on <code>pkgdown</code> to create links to functions.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.1" id="checkinput-061">checkinput 0.6.1<a class="anchor" aria-label="anchor" href="#checkinput-061"></a></h2>
 <div class="section level4">
 <h4 id="miscellaneous-0-6-1">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-6-1"></a></h4>
-<ul><li>Added pkgdown website: <code>https://jessealderliesten.github.io/checkinput/</code>.</li>
+<ul><li>Add pkgdown website: <code>https://jessealderliesten.github.io/checkinput/</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -55,7 +66,7 @@
 <div class="section level4">
 <h4 id="breaking-changes-0-6-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-6-0"></a></h4>
 <ul><li>Use <code>roxygen2</code> version 8.0.0.</li>
-<li>Replace the internal function <code><a href="../reference/paste_quoted.html">paste_quoted()</a></code> by the full function from <code>progutils::paste_quoted()</code> and export it.</li>
+<li>Replace the non-exported function <code><a href="../reference/paste_quoted.html">paste_quoted()</a></code> by the full function from <code>progutils::paste_quoted()</code> and export it.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="miscellaneous-0-6-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-6-0"></a></h4>
@@ -66,28 +77,28 @@
 <h2 class="pkg-version" data-toc-text="0.5.0" id="checkinput-050">checkinput 0.5.0<a class="anchor" aria-label="anchor" href="#checkinput-050"></a></h2>
 <div class="section level4">
 <h4 id="breaking-changes-0-5-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-5-0"></a></h4>
-<ul><li>Remove the dependency on <code>vctrs</code> by hardcoding the output of single remaining call to <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code> in a test for <code><a href="../reference/all_names.html">all_names()</a></code>.</li>
-<li>Dependency <code>tinytest</code>: declare version <code>&gt;= 1.4.1</code> because I use argument <code>strict</code> in <code>expect_message()</code> and <code>expect_warning()</code>.</li>
+<ul><li>Dependency <code>tinytest</code>: declare version <code>&gt;= 1.4.1</code> because I use argument <code>strict</code> in <code>expect_message()</code> and <code>expect_warning()</code>.</li>
+<li>Remove the dependency on <code>vctrs</code> by hardcoding the output of the single remaining call to <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code> in a test for <code><a href="../reference/all_names.html">all_names()</a></code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="checkinput-040">checkinput 0.4.0<a class="anchor" aria-label="anchor" href="#checkinput-040"></a></h2>
 <div class="section level4">
 <h4 id="breaking-changes-0-4-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-4-0"></a></h4>
-<ul><li>Dependency <code>R</code> &gt;= 4.0.0 changed to <code>R</code> &gt;= 4.1.0, which is required to pass the R CMD check on ubuntu-latest: <code>rmarkdown</code> &gt; <code>bslib</code> &gt; <code>sass</code> &gt; <code>fs</code> needs <code>R</code> &gt;= 4.1 and <code>rappdirs</code> needs <code>R</code> &gt;= 4.1.</li>
+<ul><li>Dependency <code>R</code> &gt;= 4.0.0 increased to <code>R</code> &gt;= 4.1.0, which is required to pass the R CMD check on ubuntu-latest: <code>rmarkdown</code> &gt; <code>bslib</code> &gt; <code>sass</code> &gt; <code>fs</code> needs <code>R</code> &gt;= 4.1 and <code>rappdirs</code> needs <code>R</code> &gt;= 4.1.</li>
 <li>
-<code><a href="../reference/all_names.html">all_names()</a></code>: wrap text of warnings. Use <code>deparse1(substitute(x))</code> to get the offending values instead of <code>x</code> in the text of warnings or errors.</li>
+<code><a href="../reference/all_names.html">all_names()</a></code>: wrap text of warnings. Use <code>deparse1(substitute(x))</code> to get the offending values instead of literal <code>'x'</code> in the text of warnings or errors.</li>
 <li>
-<code><a href="../reference/is_number.html">is_nonnegative()</a></code>, <code><a href="../reference/is_number.html">all_nonnegative()</a></code>, <code><a href="../reference/is_number.html">is_positive()</a></code>: call <code><a href="../reference/is_number.html">is_number()</a></code> or <code><a href="../reference/is_number.html">all_numbers()</a></code> followed by <code>all(x &gt;= 0, na.rm = TRUE)</code> or <code>all(x &gt; 0, na.rm = TRUE)</code> for more succinct and more uniform code.</li>
+<code><a href="../reference/is_number.html">is_nonnegative()</a></code>, <code><a href="../reference/is_number.html">all_nonnegative()</a></code>, <code><a href="../reference/is_number.html">is_positive()</a></code>: call <code><a href="../reference/is_number.html">is_number()</a></code> or <code><a href="../reference/is_number.html">all_numbers()</a></code> followed by <code>all(x &gt;= 0, na.rm = TRUE)</code> or <code>all(x &gt; 0, na.rm = TRUE)</code> for more succinct and uniform code.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="miscellaneous-0-4-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-4-0"></a></h4>
-<ul><li>GitHub action <code>check-standard</code> now also runs on R 4.1.0 on macos, windows, and ubuntu, is triggered every Saturday on 04:23 UTC, and can be triggered manually (trigger it once manually on the main branch to be able to trigger it manually on other branches).</li>
+<ul><li>GitHub action <code>check-standard</code> also runs on R 4.1.0 on macOS, Windows, and Ubuntu, is triggered every Saturday on 04:23 UTC, and can be triggered manually (trigger it once manually on the main branch to be able to trigger it manually on other branches).</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.1" id="checkinput-031">checkinput 0.3.1<a class="anchor" aria-label="anchor" href="#checkinput-031"></a></h2>
-<p><code>checkinput</code> now uses GitHub action <code>check-standard</code> on all branches.</p>
+<p><code>checkinput</code> uses GitHub action <code>check-standard</code> on all branches.</p>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="checkinput-030">checkinput 0.3.0<a class="anchor" aria-label="anchor" href="#checkinput-030"></a></h2>
@@ -98,7 +109,7 @@
 <div class="section level4">
 <h4 id="added-functions-0-3-0">Added functions<a class="anchor" aria-label="anchor" href="#added-functions-0-3-0"></a></h4>
 <ul><li>
-<code>make_natural</code>: uses <code>is_natural</code> or <code>all_natural</code> to round values, while throwing an error if appropriate. Uses <code>deparse1(substitute(x))</code> to get the offending values instead of <code>x</code> in error messages.</li>
+<code><a href="../reference/is_natural.html">make_natural()</a></code>: use <code><a href="../reference/is_natural.html">is_natural()</a></code> or <code><a href="../reference/is_natural.html">all_natural()</a></code> to round values, while throwing an error if appropriate. Use <code>deparse1(substitute(x))</code> to get the offending values instead of literal <code>'x'</code> in error messages.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -106,12 +117,12 @@
 <div class="section level4">
 <h4 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h4>
 <ul><li>
-<code>all_natural</code>: <code>tol</code> should be smaller than <code>0.5</code>. Added argument <code>allow_zero</code> with default <code>FALSE</code>, in contrast to the previous implicit default <code>TRUE</code>.</li>
+<code><a href="../reference/is_natural.html">all_natural()</a></code>: <code>tol</code> should be smaller than <code>0.5</code>. Add argument <code>allow_zero</code> with default <code>FALSE</code>, in contrast to the previous implicit default <code>TRUE</code>.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="added-functions-0-2-0">Added functions<a class="anchor" aria-label="anchor" href="#added-functions-0-2-0"></a></h4>
 <ul><li>
-<code>is_natural</code>: as <code>all_natural</code> but also tests if <code>x</code> has a length of at most one.</li>
+<code>is_natural</code>: as <code><a href="../reference/is_natural.html">all_natural()</a></code> but also test if <code>x</code> has a length of at most one.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -124,11 +135,10 @@
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.6" id="checkinput-006">checkinput 0.0.6<a class="anchor" aria-label="anchor" href="#checkinput-006"></a></h2>
-<p>This update has large changes to <code><a href="../reference/is_number.html">is_number()</a></code> and related functions, and to <code><a href="../reference/all_names.html">all_names()</a></code>.</p>
 <div class="section level4">
 <h4 id="breaking-changes-0-0-6">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-0-6"></a></h4>
 <ul><li>
-<code><a href="../reference/all_names.html">all_names()</a></code>: removed argument <code>allow_susp</code> and never allows suspicious names because allowing them amounts to only checking for syntactically invalid names, for which <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> can be used directly; not trying anymore to identify which functions might have changed a name because that is very ambiguous; also check for suspicious names that might have been created by <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>; consider the reserved words <code>...</code> and <code>..1</code> invalid and, when appropriate, note that <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> does not adjust them; existing checks are now more specific: they check that names which apparently have been made valid indeed contain an invalid part, and that the first digit of numbers added to duplicated names is non-zero.</li>
+<code><a href="../reference/all_names.html">all_names()</a></code>: remove argument <code>allow_susp</code> and never allows suspicious names because allowing them amounts to only checking for syntactically invalid names, for which <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> can be used directly; do not try to identify which functions might have changed a name because that is very ambiguous; also check for suspicious names that might have been created by <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>; consider the reserved words <code>...</code> and <code>..1</code> invalid and, when appropriate, note that <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> does not adjust them; existing checks are now more specific: they check that names which apparently have been made valid indeed contain an invalid part, and that the first digit of numbers added to duplicated names is non-zero.</li>
 <li>
 <code><a href="../reference/is_number.html">is_number()</a></code> and derived functions gained arguments <code>allow_zero</code>, <code>allow_NA</code> and <code>allow_NaN</code> (with default <code>FALSE</code> in contrast to the previously implicit <code>TRUE</code>), to resolve the contradiction that using <code><a href="../reference/is_number.html">is_number()</a></code> returned <code>TRUE</code> for these values but using them in conditional statements led to <code>logical(0)</code> and thus to an error.</li>
 </ul></div>
@@ -138,35 +148,34 @@
 <li>
 <code><a href="../reference/all_names.html">all_names()</a></code>: major updates and restructuring. Also updated and added examples.</li>
 <li>
-<code><a href="../reference/is_natural.html">all_natural()</a></code>: added a note about functions named <code>integerish</code>.</li>
+<code><a href="../reference/is_natural.html">all_natural()</a></code>: add a note about functions named <code>integerish</code>.</li>
 <li>
-<code>README</code>: added a reference to my repository <code>checkrpkgs</code>. Clarified that functions <em>do</em> throw errors about invalid input to arguments other than <code>x</code>.</li>
-<li>Vignette <code>design_choices.Rmd</code>: clarified that functions <em>do</em> throw errors about invalid input to arguments other than <code>x</code>. Added a table of contents. Removed obsolete note about <code>allow_NA</code> being absent from <code><a href="../reference/is_number.html">is_number()</a></code> and derived functions.</li>
-<li>Vignette <code>Type_Coercion.Rmd</code>: renamed to <code>type_coercion.Rmd</code>. Added section labels and a table of contents.</li>
-<li>Replaced section title <code>Note</code> (created through <code>@Note</code>) by section title <code>Notes</code> (created through <code>@section Notes:</code>). Idem for <code>Programming note</code>.</li>
+<code>README</code>: add a reference to my repository <code>checkrpkgs</code>. Clarify that functions <em>do</em> throw errors about invalid input to arguments other than <code>x</code>.</li>
+<li>Vignette <code>design_choices</code>: clarified that functions <em>do</em> throw errors about invalid input to arguments other than <code>x</code>. Added a table of contents. Removed obsolete note about <code>allow_NA</code> being absent from <code><a href="../reference/is_number.html">is_number()</a></code> and derived functions.</li>
+<li>Vignette <code>Type_Coercion</code>: rename to <code>type_coercion</code>. Added section labels and a table of contents.</li>
+<li>Replace section title <code>Note</code> (created through <code>@Note</code>) by section title <code>Notes</code> (created through <code>@section Notes:</code>). Idem for <code>Programming note</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.5" id="checkinput-005">checkinput 0.0.5<a class="anchor" aria-label="anchor" href="#checkinput-005"></a></h2>
-<p>This update has many changes on documentation.</p>
 <div class="section level4">
 <h4 id="breaking-changes-0-0-5">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-0-5"></a></h4>
 <ul><li>
-<code><a href="../reference/paste_quoted.html">paste_quoted()</a></code> (an internal function) now throws an error if <code>x</code> has dimensions.</li>
+<code><a href="../reference/paste_quoted.html">paste_quoted()</a></code> (an internal function) throws an error if <code>x</code> has dimensions.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="minor-improvements-0-0-5">Minor improvements<a class="anchor" aria-label="anchor" href="#minor-improvements-0-0-5"></a></h4>
-<ul><li>Moved code of <code>is_character.R</code> to <code>all_characters.R</code>, and code of <code>is_positive.R</code>, <code>is_nonnegative.R</code>, etc. to <code>is.number.R</code>.</li>
+<ul><li>Move code of <code>is_character.R</code> to <code>all_characters.R</code>, and code of <code>is_positive.R</code>, <code>is_nonnegative.R</code>, etc. to <code>is.number.R</code>.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="updated-documentation-0-0-5">Updated documentation<a class="anchor" aria-label="anchor" href="#updated-documentation-0-0-5"></a></h4>
-<ul><li>Updated <code>README</code> to mention vignettes and introduce design choices.</li>
+<ul><li>Update <code>README</code> to mention vignettes and introduce design choices.</li>
 <li>Cross-reference on <code><a href="../reference/is_number.html">is_number()</a></code> instead of on <code><a href="../reference/is_number.html">all_nonnegative()</a></code>.</li>
-<li>Removed <code>Note</code>s about legacy code.</li>
-<li>Moved <code>To do</code> points and <code>Wishlist</code> to GitHub issues.</li>
-<li>Moved information about correct input to the vignette <code>design_choices</code> that is linked in the <code>See also</code> sections of the relevant functions. The vignette also contains a section about getting a named boolean vector as output. Both sections are also mentioned in the <code>README</code>.</li>
+<li>Remove <code>Notes</code> about legacy code.</li>
+<li>Move <code>To do</code> points and <code>Wishlist</code> to GitHub issues.</li>
+<li>Move information about correct input to the vignette <code>design_choices</code> that is linked in the <code>See also</code> sections of the relevant functions. The vignette also contains a section about getting a named boolean vector as output. Both sections are also mentioned in the <code>README</code>.</li>
 <li>
-<code><a href="../reference/all_names.html">all_names()</a></code>: <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> also calls <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>. Moved section on how to get a boolean vector to the vignette on design choices.</li>
+<code><a href="../reference/all_names.html">all_names()</a></code>: <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> also calls <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>. Move section on how to get a boolean vector to the vignette on design choices.</li>
 <li>
 <code><a href="../reference/is_zerolength.html">is_zerolength()</a></code>: document that a zero-row <code>data.frame</code> is not a zero-length object.</li>
 </ul></div>
@@ -176,7 +185,7 @@
 <div class="section level4">
 <h4 id="breaking-changes-0-0-4">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-0-4"></a></h4>
 <ul><li>Functions now allow objects with dimensions as input to <code>x</code> but return <code>FALSE</code> for them, as well as for non-atomic input.</li>
-<li>Simplified <code><a href="../reference/all_names.html">all_names()</a></code> by removing checking for non-ASCII characters and never allow names that are duplicated or consist only of dots.</li>
+<li>Simplify <code><a href="../reference/all_names.html">all_names()</a></code> by removing checking for non-ASCII characters and never allow names that are duplicated or consist only of dots.</li>
 </ul></div>
 </div>
     <div class="section level2">

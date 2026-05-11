@@ -8,14 +8,12 @@ combined in a vector. The type of the vector, and thus of all its
 components, will be the highest type of the components in the hierarchy
 `NULL` \< `raw` \< `logical` \< `integer` \< `double` \< `complex` \<
 `character` \< `list` \< `expression`, see the section `Details` in
-[c](https://jessealderliesten.github.io/checkinput/help/c) and
-[typeof](https://jessealderliesten.github.io/checkinput/help/typeof).
-For example, numeric `314` will be coerced to character `"314"` when it
-is combined in a vector with character `"nco"`, such that
-`c(314, "nco")` results in the character vector `c("314", "nco")`. This
-also holds for the logical `NA`, which will be coerced to
-[NA_character\_](https://jessealderliesten.github.io/checkinput/help/NA)
-but still prints as `NA`.
+[`help(c)`](https://rdrr.io/r/base/c.html) and
+[`help(typeof)`](https://rdrr.io/r/base/typeof.html). For example,
+numeric `314` will be coerced to character `"314"` when it is combined
+in a vector with character `"nco"`, such that `c(314, "nco")` results in
+the character vector `c("314", "nco")`. This also holds for the logical
+`NA`, which will be coerced to `NA_character_` but still prints as `NA`.
 
 ``` r
 
@@ -43,26 +41,26 @@ logiNA_char[1]
 ## Consequences for checks
 
 Type coercion in a vector has as consequence that code like
-[all_characters](https://jessealderliesten.github.io/checkinput/help/all_characters)`(c(x, y))`
-does *not* check if all elements in `x` and `y` are character: `x` and
-`y` will be coerced to the highest of their types before the check is
-performed, such that `all_characters(c(x, y))` tests if any of `x` or
-`y` is character *and* none of `x` or `y` is of a higher type.
+`all_characters(c(x, y))` does **not** check if all elements in `x` and
+`y` are character: `x` and `y` will be coerced to the highest of their
+types before the check is performed, such that `all_characters(c(x, y))`
+tests if any of `x` or `y` is character **and** none of `x` or `y` is of
+a higher type.
 
 To check if all elements in `x` and `y` are character, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily
 to more than two objects,
-[all](https://jessealderliesten.github.io/checkinput/help/all)`(`[unlist](https://jessealderliesten.github.io/checkinput/help/unlist)`(`[lapply](https://jessealderliesten.github.io/checkinput/help/lapply)`(X =`[list](https://jessealderliesten.github.io/checkinput/help/list)`(x, y), FUN =`[all_characters](https://jessealderliesten.github.io/checkinput/help/all_characters)`, ...)))`,
-where `...` indicates the position of arguments passed to
+`all(unlist(lapply(X = list(x, y), FUN = all_characters, ...)))`, where
+`...` indicates the position of arguments passed to
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
 e.g., `allow_empty = TRUE`.
 
 Elements of a list can contain objects of different types but using
-[unlist](https://jessealderliesten.github.io/checkinput/help/unlist) on
-a list creates a vector in which all elements of the list are coerced to
-a single type, such that `all_characters(unlist(z))` does *not* check if
-all elements of list `z` are character but if any element of `z` is a
-character *and* none of the elements of `z` is of a higher type.
+[`unlist()`](https://rdrr.io/r/base/unlist.html) on a list creates a
+vector in which all elements of the list are coerced to a single type,
+such that `all_characters(unlist(z))` does **not** check if all elements
+of list `z` are character but if any element of `z` is a character
+**and** none of the elements of `z` is of a higher type.
 
 ``` r
 
@@ -111,7 +109,7 @@ all(unlist(lapply(X = z, FUN = all_characters)))
 ## Zero-length values
 
 Although zero-length objects (see
-[is_zerolength()](https://jessealderliesten.github.io/checkinput/help/is_zerolength))
+[`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md))
 are discarded when combined into a vector with other values, their types
 are taken into account for type coercion. For example, numeric `314`
 will be coerced to character `"314"` when it is combined into a vector
