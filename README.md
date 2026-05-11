@@ -7,20 +7,8 @@
 
 # checkinput
 
-With `checkinput`, you can write concise but flexible checks.
-
-The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput`
-return either `TRUE` or `FALSE` and do not throw errors caused by input
-to `x`. Errors *are* thrown about invalid input to arguments other than
-`x`, e.g., providing values other than `TRUE` or `FALSE` to
-`allow_zero`. See the vignette about design choices
-`vignette("design_choices", package = "checkinput")` for details and for
-a way to get a named boolean vector indicating for each element of `x`
-if it `TRUE` or `FALSE` according to `all_<funcname>(x)`.
-
-The package also contains a vignette about type coercion in vectors,
-which discusses some important aspects regarding testing of vectors:
-`vignette("type_coercion", package = "checkinput")`.
+With `checkinput`, you can write concise but flexible checks for input
+to R functions.
 
 ## Folder structure
 
@@ -32,10 +20,13 @@ which discusses some important aspects regarding testing of vectors:
     ├── man: help-files
     └── tests: setup to use 'tinytest' for testing
 
-# Installation
+## Installation
 
-You can install `checkinput` from
-[GitHub](https://github.com/JesseAlderliesten/checkinput) with:
+You can visit the [checkinput
+website](https://jessealderliesten.github.io/checkinput/) to explore the
+package. To use `checkinput`, you have to install it from
+[GitHub](https://github.com/JesseAlderliesten/checkinput) using the
+following code in R (you need to run R as administrator):
 
 ``` r
 if(!requireNamespace("remotes", quietly = TRUE)) {
@@ -47,14 +38,11 @@ remotes::install_github(repo = "JesseAlderliesten/checkinput",
                         verbose = getOption("verbose"))
 ```
 
-You can also visit its
-[website](https://jessealderliesten.github.io/checkinput/).
+For more information about installing and configuring R and RStudio, see
+my package
+[checkrpkgs](https://jessealderliesten.github.io/checkrpkgs/).
 
-For information about installing and configuring R and RStudio, see my
-repository
-[‘checkrpkgs’](https://github.com/JesseAlderliesten/checkrpkgs).
-
-# Example
+## Example
 
 Say you want to collect information on people’s hobbies through a
 function in which it is optional for them to provide their name. With
@@ -105,7 +93,7 @@ identical(baby_checkinput, baby_base)
 #> [1] TRUE
 ```
 
-When a check fails, error messages can be more-informative when using
+When a check fails, error messages can be more informative when using
 `checkinput`:
 
 ``` r
@@ -139,7 +127,24 @@ through arguments of the check-functions instead of having to spell out
 each condition: there is less need to adjust variable names, which
 reduces the chance of coding errors.
 
-# Similar packages
+### Design choices
+
+The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput`
+return either `TRUE` or `FALSE` and do not throw errors caused by input
+to `x`. Errors **are** thrown about invalid input to arguments other
+than `x`, e.g., providing values other than `TRUE` or `FALSE` to
+`allow_zero`. This is explained in the [vignette about design
+choices](https://jessealderliesten.github.io/checkinput/articles/design_choices.html):
+`vignette("design_choices", package = "checkinput")`. That vignette also
+shows how to get a named boolean vector indicating for each element of
+`x` if it is `TRUE` or `FALSE` according to `all_<funcname>(x)`.
+
+`checkinput` also contains a [vignette about type
+coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
+in vectors, which discusses some important aspects regarding testing of
+vectors: `vignette("type_coercion", package = "checkinput")`.
+
+## Similar packages
 
 Functions of `checkinput` use arguments to determine which special
 values should be allowed, which makes them more flexible than functions
