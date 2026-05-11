@@ -1,7 +1,9 @@
-# checkinput devel
+# checkinput 0.6.2
 
 ### Miscellaneous
 - `README`: refer to website when appropriate. Stylistic update.
+- `NEWS`: stylistic update.
+- Vignettes: explain notation. Rely on `pkgdown` to create links to functions.
 
 
 # checkinput 0.6.1
