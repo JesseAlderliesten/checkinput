@@ -2,3 +2,10 @@ url: https://jessealderliesten.github.io/checkinput/
 template:
   bootstrap: 5
   light-switch: true
+
+toc:
+  depth: 3
+
+home:
+  sidebar:
+    structure: [links, license, community, citation, authors, dev, toc]
