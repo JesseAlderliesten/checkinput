@@ -8,4 +8,4 @@ toc:
 
 home:
   sidebar:
-    structure: [links, license, community, citation, authors, dev, toc]
+    structure: [toc, links, license, community, citation, authors]
