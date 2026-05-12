@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,10 +85,10 @@ components, will be the highest type of the components in the hierarchy
 <code>integer</code> &lt; <code>double</code> &lt; <code>complex</code>
 &lt; <code>character</code> &lt; <code>list</code> &lt;
 <code>expression</code>, see the section <code>Details</code> in
-<code><a href="https://rdrr.io/r/base/c.html" class="external-link">help(c)</a></code> and <code><a href="https://rdrr.io/r/base/typeof.html" class="external-link">help(typeof)</a></code>. For example, numeric
-<code>314</code> will be coerced to character <code>"314"</code> when it
-is combined in a vector with character <code>"nco"</code>, such that
-<code>c(314, "nco")</code> results in the character vector
+<code><a href="https://rdrr.io/r/base/c.html" class="external-link">help("c")</a></code> and <code><a href="https://rdrr.io/r/base/typeof.html" class="external-link">help("typeof")</a></code>. For example,
+numeric <code>314</code> will be coerced to character <code>"314"</code>
+when it is combined in a vector with character <code>"nco"</code>, such
+that <code>c(314, "nco")</code> results in the character vector
 <code>c("314", "nco")</code>. This also holds for the logical
 <code>NA</code>, which will be coerced to <code>NA_character_</code> but
 still prints as <code>NA</code>.</p>

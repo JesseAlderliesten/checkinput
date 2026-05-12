@@ -1,5 +1,11 @@
 # Changelog
 
+## checkinput 0.6.3
+
+#### Miscellaneous
+
+Stylistic updates to vignette and website.
+
 ## checkinput 0.6.2
 
 #### Miscellaneous
