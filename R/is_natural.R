@@ -1,32 +1,32 @@
 #' Check that x is nearly equal to natural numbers
 #'
-#' Test element-wise near-equality to the natural numbers while allowing for
-#' small numeric errors.
+#' Test element-wise near-equality to natural numbers while allowing for small
+#' numeric errors.
 #'
 #' @inheritParams is_logical
 #' @param strict Exclude zero from the natural numbers?
 #' @param tol A small [positive][is_positive()] number. Numbers that differ less
-#' in value than `tol` are considered equal.
+#' than `tol` are considered equal.
 #' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
 #'
 #' @details
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
 #' considered a natural number if argument `strict` is `FALSE`. `integer(0)` and
 #' `numeric(0)` are considered natural numbers if argument `allow_zero` is
-#' `TRUE`. Numbers that are [too large][.Machine] to be represented as
-#' [integers][integer], [Inf], [NaN], and [NULL] are *never* considered natural
+#' `TRUE`. [Inf], [NaN], [NULL], and numbers that are [too large][.Machine] to
+#' be represented as [integers][integer] are **never** considered natural
 #' numbers in this implementation.
+#'
+#' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for
+#' `NA_integer_` and `NA_real_` but not for the other [NA]s or [NaN].
 #'
 #' `is_natural()` and `all_natural()` allow for small numeric errors when
 #' comparing numbers. Such numeric errors can arise because of rounding or
 #' representation error. As the `Note` at [`==`] warns, `x == round(x)` does
-#' *not* allow for such errors but tests exact equality. Functions from other
-#' packages with names like `integerish` frequently do *not* allow for small
+#' **not** allow for such errors but tests exact equality. Functions from other
+#' packages with names like `integerish` frequently do **not** allow for small
 #' numeric errors but are instead intended to allow values that are stored as
 #' doubles (e.g., `3`) in addition to integer-type values (e.g., `3L`).
-#'
-#' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for
-#' `NA_integer_` and `NA_real_` but not for the other [NA]s or [NaN].
 #'
 #' @returns `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
 #' `x` is a vector of the appropriate length with only natural numbers.
@@ -44,10 +44,10 @@
 #' Use of `is_natural(x)` or `all_natural(x)` should be followed by assigning
 #' the rounded value to the argument: `x <- as.integer(round(x))`. Alternatively,
 #' assign the result of `make_natural(x)` to `x` without using `is_natural(x)`
-#' or `all_natural(x)` inside [stopifnot].
+#' or `all_natural(x)` inside [stopifnot()].
 #'
-#' [is.integer()] does *not* check that `x` is a natural number (nor if `x` is a
-#' whole number) but rather that `x` is of [type][typeof()] integer (see the
+#' [is.integer()] does **not** check that `x` is a natural number (nor if `x` is
+#' a whole number) but rather that `x` is of [type][typeof()] integer (see the
 #' `Note` in [is.integer()]).
 #'
 #' @family
@@ -65,8 +65,10 @@
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality.
 #'
-#' The vignettes about [design choices](../doc/design_choices.html) and about
-#' [type coercion](../doc/type_coercion.html).
+#' The vignettes *Design choices regarding function input*:
+#' `vignette("design_choices", package = "checkinput")` and
+#' *Type coercion in vectors*:
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_natural(x = 5 + 1e-10) # TRUE

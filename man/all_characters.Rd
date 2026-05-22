@@ -20,11 +20,11 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector of the
-correct length with only allowed character values.
+correct length with only allowed values.
 }
 \description{
 Check that \code{x} is a character vector of the correct length with only allowed
-character values.
+values.
 }
 \section{Notes}{
 
@@ -43,8 +43,10 @@ is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignettes about \href{../doc/design_choices.html}{design choices} and about
-\href{../doc/type_coercion.html}{type coercion}.
+The vignettes \emph{Design choices regarding function input}:
+\code{vignette("design_choices", package = "checkinput")} and
+\emph{Type coercion in vectors}:
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_names]{all_names()}},

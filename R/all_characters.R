@@ -1,13 +1,13 @@
 #' Check that `x` is character
 #'
 #' Check that `x` is a character vector of the correct length with only allowed
-#' character values.
+#' values.
 #'
 #' @inheritParams is_logical
 #' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
-#' correct length with only allowed character values.
+#' correct length with only allowed values.
 #'
 #' @section Notes:
 #' `all_characters()` and `is_character()` by default return `FALSE` for empty
@@ -17,8 +17,10 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The vignettes about [design choices](../doc/design_choices.html) and about
-#' [type coercion](../doc/type_coercion.html).
+#' The vignettes *Design choices regarding function input*:
+#' `vignette("design_choices", package = "checkinput")` and
+#' *Type coercion in vectors*:
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_character("a") # TRUE

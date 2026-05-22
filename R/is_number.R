@@ -16,25 +16,21 @@
 #' `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`, whereas
 #' `is_positive()` returns `FALSE` for `0`.
 #'
-#' `all_...()` and `is_...()` return `TRUE` for `-Inf` and `Inf` if it has the
-#' correct sign.
-#'
-#' `all_...()` and `is_...()` return `FALSE` for `NA_complex_`, even if
-#' `allow_NA` is `TRUE`, because its mode is `complex` instead of `numeric`.
-#'
-#' [NaN] has [mode] `numeric`, despite meaning 'not a number'.
+#' All functions return `TRUE` for `-Inf` and `Inf` if it has the correct sign;
+#' return `TRUE` for [NaN] (which has [mode] `numeric`, despite meaning 'not a
+#' number') if `allow_NaN` is `TRUE`; and return `FALSE` for `NA_complex_` (even
+#' if `allow_NA` is `TRUE`) because its mode is `complex` instead of `numeric`.
 #'
 #' @returns
 #' `TRUE` or `FALSE` indicating if `x` is a numeric vector of the correct length
-#' with numbers of the correct sign that adheres to the limitations set by the
-#' other arguments.
+#' only containing allowed numbers.
 #'
 #' @section Programming notes:
 #' [is.numeric()] tests the [mode()] of `x`, which is `numeric` for
 #' floating-point numbers such as 3.2 and integers such as 3L. In contrast,
-#' `class(x) == "numeric"` would test the [class()] of `x` which is `numeric`
-#' for floating-point numbers but `integer` for integers (see the `Note on names`
-#' in [is.numeric()]).
+#' `class(x) == "numeric"` (or, more robust, `inherits(x = x, what = "numeric")`)
+#' would test the [class()] of `x` which is `numeric` for floating-point numbers
+#' but `integer` for integers (see the `Note on names` in [is.numeric()]).
 #'
 #' The functions duplicate code instead of calling `is_number()` or
 #' `all_numbers()`, to prevent performing checks twice.
@@ -43,8 +39,10 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The vignettes about [design choices](../doc/design_choices.html) and about
-#' [type coercion](../doc/type_coercion.html).
+#' The vignettes *Design choices regarding function input*:
+#' `vignette("design_choices", package = "checkinput")` and
+#' *Type coercion in vectors*:
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_number(x = 1) # TRUE
