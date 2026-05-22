@@ -19,7 +19,7 @@ automatically created.
 }
 \description{
 Check that \code{x} is a character vector with unique, syntactically valid names
-that do not consist of only dots or of two dots followed by a number, and do
+that do not consist of only dots or of two dots followed by a number and do
 not suggest they were adjusted or automatically created.
 }
 \details{
@@ -32,9 +32,9 @@ invalid names might, by definition, give undocumented results.
 \link[=make.names]{Syntactically valid} names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
 number; and are not \link{reserved} words such as \link{for} or any of the \link{NA}s. The
-definition of \emph{letter} depends on the current \link[=locales]{locale}. A
+definition of \strong{letter} depends on the current \link[=locales]{locale}. A
 conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented Latin letters, but that is \emph{not}
+would only allow digits and unaccented Latin letters, but that is \strong{not}
 enforced by \code{all_names()}.
 
 Names that consist of only dots, or consist of two dots followed by a number,
@@ -44,15 +44,16 @@ syntactically invalid by \code{\link[=make.names]{make.names()}}.
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name contains
 a pattern that suggests it originally was syntactically invalid and has been
-\emph{adjusted} into a syntactically valid name, or has been adjusted to make names
+\strong{adjusted} into a syntactically valid name, or has been adjusted to make names
 \link[=make.unique]{unique}. Such adjustments usually occur silently, for example
 when data is read into \R, which is problematic because it cannot reliably be
-assumed the original column names are present. The identification of
-suspicious names is partly based on the assumption that names originally did
-not contain dots, see the first item in the list below.
+assumed the original (i.e., before being read into \R) column names are
+present. The identification of suspicious names is partly based on the
+assumption that names originally did not contain dots, see the first item in
+the list below.
 
-\code{all_names()} \emph{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}}, which
-is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.csv]{read.csv()}, and
+\code{all_names()} \strong{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}},
+which is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.csv]{read.csv()}, and
 \code{data.table::fread(x, header = TRUE, check.names = TRUE)}; and adjustments
 made by \code{vctrs::vec_as_names(x, repair = "universal")}, which is used
 throughout the \href{https://tidyverse.org/}{tidyverse}:
@@ -61,16 +62,16 @@ throughout the \href{https://tidyverse.org/}{tidyverse}:
 letter, number, dot or underscore): \code{make.names()} and
 \code{vctrs::vec_as_names(x, repair = "universal")} replace such characters with
 a dot. Their identification is based on the assumption that names
-originally did \emph{not} contain dots, which is good practice (unfortunately
+originally did \strong{not} contain dots, which is good practice (unfortunately
 not strictly followed in base-\R, e.g., in \code{\link[=data.frame]{data.frame()}}) preventing names
 containing a dot from being confused with \link[=UseMethod]{methods} used on
 \link[=is.object]{classed objects}.
 \item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
 appends a dot followed by a number;
 \code{vctrs::vec_as_names(x, repair = "universal")} appends three dots followed
-by a number. It is \emph{not} checked if a complete sequence of suspicious names
-is present, e.g., \code{a.2} will be flagged as suspicious even if \code{a} and \code{a.1}
-are absent.
+by a number. It is \strong{not} checked if a complete sequence of suspicious
+names is present, e.g., \code{a.2} will be flagged as suspicious even if \code{a} and
+\code{a.1} are absent.
 \item adjustments to make \link{reserved} words valid: \code{make.names()} appends a dot;
 \code{vctrs::vec_as_names(x, repair = "universal")} prepends a dot.
 \item adjustments to make names that did not start with a letter, nor with a dot
@@ -82,11 +83,11 @@ and \code{read.csv(..., header = FALSE)} uses the same pattern for data without
 column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}.
 }
 
-Names containing underscores (\verb{_}) are by default \emph{allowed} by \code{all_names()}
+Names containing underscores (\verb{_}) are by default \strong{allowed} by \code{all_names()}
 because names containing underscores are not syntactically invalid. However,
 setting \code{allow_underscores} to \code{FALSE} to not allow such names is useful to
 check that names do not contain underscores, for example if several names
-will be concatenated separated by underscores to create an ID-tag.
+will be concatenated to create an ID-tag, separating the parts by underscores.
 }
 \section{Programming notes}{
 
@@ -141,8 +142,10 @@ on the syntactical validity of names.
 \code{\link[=names]{names()}} to get or set object names; \code{janitor::make_clean_names()} to adjust
 names, e.g., through adjusting case and transliterating non-ASCII characters.
 
-The vignettes about \href{../doc/design_choices.html}{design choices} and about
-\href{../doc/type_coercion.html}{type coercion}.
+The vignettes \emph{Design choices regarding function input}:
+\code{vignette("design_choices", package = "checkinput")} and
+\emph{Type coercion in vectors}:
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

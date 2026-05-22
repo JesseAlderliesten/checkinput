@@ -41,7 +41,7 @@ make_natural(
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 
 \item{tol}{A small \link[=is_positive]{positive} number. Numbers that differ less
-in value than \code{tol} are considered equal.}
+than \code{tol} are considered equal.}
 
 \item{all}{\code{TRUE} or \code{FALSE}: use \code{all_natural()} instead of \code{is_natural()}?}
 }
@@ -51,27 +51,27 @@ in value than \code{tol} are considered equal.}
 \code{make_natural()}: \code{x}, \link[=round]{rounded} and coerced to \link{integer}.
 }
 \description{
-Test element-wise near-equality to the natural numbers while allowing for
-small numeric errors.
+Test element-wise near-equality to natural numbers while allowing for small
+numeric errors.
 }
 \details{
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). Zero is
 considered a natural number if argument \code{strict} is \code{FALSE}. \code{integer(0)} and
 \code{numeric(0)} are considered natural numbers if argument \code{allow_zero} is
-\code{TRUE}. Numbers that are \link[=.Machine]{too large} to be represented as
-\link[=integer]{integers}, \link{Inf}, \link{NaN}, and \link{NULL} are \emph{never} considered natural
+\code{TRUE}. \link{Inf}, \link{NaN}, \link{NULL}, and numbers that are \link[=.Machine]{too large} to
+be represented as \link[=integer]{integers} are \strong{never} considered natural
 numbers in this implementation.
+
+If \code{allow_NA} is \code{TRUE}, \code{is_natural()} and \code{all_natural()} return \code{TRUE} for
+\code{NA_integer_} and \code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
 
 \code{is_natural()} and \code{all_natural()} allow for small numeric errors when
 comparing numbers. Such numeric errors can arise because of rounding or
 representation error. As the \code{Note} at \code{\link{==}} warns, \code{x == round(x)} does
-\emph{not} allow for such errors but tests exact equality. Functions from other
-packages with names like \code{integerish} frequently do \emph{not} allow for small
+\strong{not} allow for such errors but tests exact equality. Functions from other
+packages with names like \code{integerish} frequently do \strong{not} allow for small
 numeric errors but are instead intended to allow values that are stored as
 doubles (e.g., \code{3}) in addition to integer-type values (e.g., \code{3L}).
-
-If \code{allow_NA} is \code{TRUE}, \code{is_natural()} and \code{all_natural()} return \code{TRUE} for
-\code{NA_integer_} and \code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
 }
 \section{Notes}{
 
@@ -88,10 +88,10 @@ The code of \code{is_natural()} and \code{all_natural()} is partly based on the 
 Use of \code{is_natural(x)} or \code{all_natural(x)} should be followed by assigning
 the rounded value to the argument: \code{x <- as.integer(round(x))}. Alternatively,
 assign the result of \code{make_natural(x)} to \code{x} without using \code{is_natural(x)}
-or \code{all_natural(x)} inside \link{stopifnot}.
+or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}}.
 
-\code{\link[=is.integer]{is.integer()}} does \emph{not} check that \code{x} is a natural number (nor if \code{x} is a
-whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see the
+\code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor if \code{x} is
+a whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see the
 \code{Note} in \code{\link[=is.integer]{is.integer()}}).
 }
 
@@ -162,8 +162,10 @@ compare character vectors;
 \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality.
 
-The vignettes about \href{../doc/design_choices.html}{design choices} and about
-\href{../doc/type_coercion.html}{type coercion}.
+The vignettes \emph{Design choices regarding function input}:
+\code{vignette("design_choices", package = "checkinput")} and
+\emph{Type coercion in vectors}:
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

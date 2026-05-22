@@ -18,26 +18,28 @@ Check that x is zero-length
 \details{
 No check is performed on dimensions, such that a \code{\link[=matrix]{matrix()}}
 with zero rows is a zero-length object whereas a \code{\link[=data.frame]{data.frame()}} with
-zero rows is \emph{not} (see the \code{Examples}).
+zero rows is \strong{not} (see the \code{Examples}).
 }
 \section{Notes}{
 
-Zero-\code{\link[=length]{length()}} objects can have different \link[=typeof]{types}: NULL (\link{NULL}),
+\link[=length]{Zero-length} objects can have different \link[=typeof]{types}: NULL
+(\link{NULL}),
 logical (\code{logical(0)}), integer (\code{integer(0)}), double (\code{numeric(0)}),
 complex (\code{complex(0)}), character (\code{character(0)}), and list (\code{\link[=list]{list()}} and
-\code{\link[=data.frame]{data.frame()}}). \code{""} is not a zero-length object: it has a \link[=nchar]{width}
-of zero characters but a \code{length} of one. A dataframe with zero rows is \emph{not}
-a zero-length object: it has \code{length} equal to the number of columns.
+\code{\link[=data.frame]{data.frame()}}). \code{""} is not a zero-length object: it has a \code{length} of one
+despite its \link[=nchar]{width} of zero characters. A dataframe with zero rows
+is \emph{not} a zero-length object: it has \code{length} equal to the number of columns.
 
 \code{\link[=is.null]{is.null()}} should be used to check that an object is \code{NULL} and, more
 generally, \verb{isTRUE(all.equal(x, <zero-length object>))} should be used to
-check equality to a zero-length object. Testing equality should \emph{not} be done
-by using \link[=Comparison]{==} because that leads to \code{logical(0)} if any of the
-sides contains a zero-length object, which gives an error when used as
+check equality to a zero-length object. Testing equality should \strong{not} be
+done by using \link[=Comparison]{==} because that leads to \code{logical(0)} if any of
+any sides contains a zero-length object, which gives an error when used as
 complete \link[=Control]{conditional statement}.
 
-\code{all(logical(0))}, and hence \code{all(numeric(0))} and \code{all(character(0))} that
-get coerced to type \code{logical}, returns \code{TRUE}, see the \code{Note} in \code{\link[=all]{all()}}.
+\code{all(logical(0))} returns \code{TRUE}, see the \code{Note} in \code{\link[=all]{all()}}. This is also the
+case for \code{all(numeric(0))} and \code{all(character(0))} that get coerced to type
+\code{logical}.
 
 Although zero-length objects are discarded when combined into a vector with
 other values, their types are taken into account for type coercion, see the
@@ -54,7 +56,7 @@ the type of the vector is the highest type of the components in the hierarchy
 \examples{
 is_zerolength(x = character(0)) # TRUE
 is_zerolength(x = 0) # FALSE
-# A matrix with zero rows is a zero-length object ...
+# A matrix with zero rows *is* a zero-length object ...
 is_zerolength(x = as.matrix(data.frame(a = 314))[numeric(0), , drop = FALSE])
 # ... whereas a dataframe with zero rows is *not* a zero-length object.
 is_zerolength(x = data.frame(a = 314)[numeric(0), , drop = FALSE])
@@ -68,8 +70,10 @@ str(c(num, zerochar)) # chr "314", not num 314
 
 }
 \seealso{
-The vignettes about \href{../doc/design_choices.html}{design choices} and about
-\href{../doc/type_coercion.html}{type coercion}.
+The vignettes \emph{Design choices regarding function input}:
+\code{vignette("design_choices", package = "checkinput")} and
+\emph{Type coercion in vectors}:
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

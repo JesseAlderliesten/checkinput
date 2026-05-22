@@ -30,8 +30,7 @@ and \code{NA_real_})?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a numeric vector of the correct length
-with numbers of the correct sign that adheres to the limitations set by the
-other arguments.
+only containing allowed numbers.
 }
 \description{
 Check that \code{x} is a numeric vector of the correct length with numbers of the
@@ -45,21 +44,18 @@ is also allowed for both types of functions.
 \code{all_nonnegative()} and \code{is_nonnegative()} return \code{TRUE} for \code{0}, whereas
 \code{is_positive()} returns \code{FALSE} for \code{0}.
 
-\code{all_...()} and \code{is_...()} return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the
-correct sign.
-
-\code{all_...()} and \code{is_...()} return \code{FALSE} for \code{NA_complex_}, even if
-\code{allow_NA} is \code{TRUE}, because its mode is \code{complex} instead of \code{numeric}.
-
-\link{NaN} has \link{mode} \code{numeric}, despite meaning 'not a number'.
+All functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct sign;
+return \code{TRUE} for \link{NaN} (which has \link{mode} \code{numeric}, despite meaning 'not a
+number') if \code{allow_NaN} is \code{TRUE}; and return \code{FALSE} for \code{NA_complex_} (even
+if \code{allow_NA} is \code{TRUE}) because its mode is \code{complex} instead of \code{numeric}.
 }
 \section{Programming notes}{
 
 \code{\link[=is.numeric]{is.numeric()}} tests the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for
 floating-point numbers such as 3.2 and integers such as 3L. In contrast,
-\code{class(x) == "numeric"} would test the \code{\link[=class]{class()}} of \code{x} which is \code{numeric}
-for floating-point numbers but \code{integer} for integers (see the \verb{Note on names}
-in \code{\link[=is.numeric]{is.numeric()}}).
+\code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
+would test the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
+but \code{integer} for integers (see the \verb{Note on names} in \code{\link[=is.numeric]{is.numeric()}}).
 
 The functions duplicate code instead of calling \code{is_number()} or
 \code{all_numbers()}, to prevent performing checks twice.
@@ -88,8 +84,10 @@ is_positive(x = 0) # FALSE
 
 }
 \seealso{
-The vignettes about \href{../doc/design_choices.html}{design choices} and about
-\href{../doc/type_coercion.html}{type coercion}.
+The vignettes \emph{Design choices regarding function input}:
+\code{vignette("design_choices", package = "checkinput")} and
+\emph{Type coercion in vectors}:
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

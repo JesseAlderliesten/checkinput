@@ -15,10 +15,10 @@ is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a length-one logical vector
-only containing allowed logical values.
+only containing allowed values.
 }
 \description{
-Check that \code{x} is a length-one logical vector with only allowed logical values.
+Check that \code{x} is a length-one logical vector with only allowed values.
 }
 \examples{
 is_logical(TRUE) # TRUE
@@ -30,7 +30,8 @@ is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignette about \href{../doc/design_choices.html}{design choices}.
+The vignette \emph{Design choices regarding function input}:
+\code{vignette("design_choices", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

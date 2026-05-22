@@ -12,7 +12,7 @@
 #'
 #' @returns
 #' A character string consisting of the elements of `x` surrounded by single
-#' quotes, separated by commas. See `details` on handling of some special values.
+#' quotes, separated by commas. See `Details` on handling of some special values.
 #'
 #' @section Notes:
 #' An error occurs if multiple arguments are provided because then `x` probably
@@ -21,9 +21,9 @@
 #' probably intended call is `paste_quoted(c("a", "b"))`, returning `"'a', 'b'"`.
 #'
 #' @seealso
-#' [toString()] which can be used instead of `paste(x, collapse = ", ")`
-#' [sQuote()] [paste0()]
-#' `progutils::unpaste_unquote()` for the approximate opposite of `paste_quoted()`
+#' [toString()] which can be used instead of `paste(x, collapse = ", ")`,
+#' [sQuote()] to use fancy quotes, [paste0()], `progutils::unpaste_unquote()`
+#' for the approximate opposite of `paste_quoted()`.
 #'
 #' @family functions to modify character vectors
 #'
@@ -40,7 +40,7 @@ paste_quoted <- function(x) {
     warning_text <- "'x' has names, these will be discarded."
     if(is.numeric(x)) {
       warning_text <- paste0(warning_text,
-                             "\nUse progutils::vect_to_char() instead of ",
+                             "\nUse progutils::vect_to_char() instead of",
                              " paste_quoted() to preserve names of numeric 'x'.")
     }
     warning(warning_text)

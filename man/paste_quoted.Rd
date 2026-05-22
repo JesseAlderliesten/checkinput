@@ -11,7 +11,7 @@ paste_quoted(x)
 }
 \value{
 A character string consisting of the elements of \code{x} surrounded by single
-quotes, separated by commas. See \code{details} on handling of some special values.
+quotes, separated by commas. See \code{Details} on handling of some special values.
 }
 \description{
 Concatenate a vector or factor to a string with quoted elements.
@@ -37,8 +37,8 @@ paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 
 }
 \seealso{
-\code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")}
-\code{\link[=sQuote]{sQuote()}} \code{\link[=paste0]{paste0()}}
-\code{progutils::unpaste_unquote()} for the approximate opposite of \code{paste_quoted()}
+\code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")},
+\code{\link[=sQuote]{sQuote()}} to use fancy quotes, \code{\link[=paste0]{paste0()}}, \code{progutils::unpaste_unquote()}
+for the approximate opposite of \code{paste_quoted()}.
 }
 \concept{functions to modify character vectors}
