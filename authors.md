@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/JesseAlderliesten/checkinput/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/JesseAlderliesten/checkinput/blob/main/DESCRIPTION)
 
 Alderliesten J (2026). *checkinput: Check Function Input*. R package
 version 0.6.4, <https://github.com/JesseAlderliesten/checkinput>.
