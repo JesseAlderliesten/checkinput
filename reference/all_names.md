@@ -2,7 +2,7 @@
 
 Check that `x` is a character vector with unique, syntactically valid
 names that do not consist of only dots or of two dots followed by a
-number, and do not suggest they were adjusted or automatically created.
+number and do not suggest they were adjusted or automatically created.
 
 ## Usage
 
@@ -41,11 +41,11 @@ consist of letters, numbers, dots and underscores; start with a letter,
 or with a dot not followed by a number; and are not
 [reserved](https://rdrr.io/r/base/Reserved.html) words such as
 [for](https://rdrr.io/r/base/Control.html) or any of the
-[NA](https://rdrr.io/r/base/NA.html)s. The definition of *letter*
+[NA](https://rdrr.io/r/base/NA.html)s. The definition of **letter**
 depends on the current [locale](https://rdrr.io/r/base/locales.html). A
 conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented Latin letters, but that is *not*
-enforced by `all_names()`.
+would only allow digits and unaccented Latin letters, but that is
+**not** enforced by `all_names()`.
 
 Names that consist of only dots, or consist of two dots followed by a
 number, are not allowed by `all_names()` (nor by
@@ -56,16 +56,16 @@ words even though they are not recognised as syntactically invalid by
 
 Suspicious names are not allowed by `all_names()`. A suspicious name
 contains a pattern that suggests it originally was syntactically invalid
-and has been *adjusted* into a syntactically valid name, or has been
+and has been **adjusted** into a syntactically valid name, or has been
 adjusted to make names
 [unique](https://rdrr.io/r/base/make.unique.html). Such adjustments
 usually occur silently, for example when data is read into R, which is
-problematic because it cannot reliably be assumed the original column
-names are present. The identification of suspicious names is partly
-based on the assumption that names originally did not contain dots, see
-the first item in the list below.
+problematic because it cannot reliably be assumed the original (i.e.,
+before being read into R) column names are present. The identification
+of suspicious names is partly based on the assumption that names
+originally did not contain dots, see the first item in the list below.
 
-`all_names()` *tries* to recognise adjustments made by
+`all_names()` **tries** to recognise adjustments made by
 [`make.names()`](https://rdrr.io/r/base/make.names.html), which is used
 by [`data.frame()`](https://rdrr.io/r/base/data.frame.html),
 [read.csv()](https://rdrr.io/r/utils/read.table.html), and
@@ -78,7 +78,7 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   [`make.names()`](https://rdrr.io/r/base/make.names.html) and
   `vctrs::vec_as_names(x, repair = "universal")` replace such characters
   with a dot. Their identification is based on the assumption that names
-  originally did *not* contain dots, which is good practice
+  originally did **not** contain dots, which is good practice
   (unfortunately not strictly followed in base-R, e.g., in
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html)) preventing
   names containing a dot from being confused with
@@ -88,7 +88,7 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
 - adjustments to make duplicated names unique:
   `make.names(x, unique = TRUE)` appends a dot followed by a number;
   `vctrs::vec_as_names(x, repair = "universal")` appends three dots
-  followed by a number. It is *not* checked if a complete sequence of
+  followed by a number. It is **not** checked if a complete sequence of
   suspicious names is present, e.g., `a.2` will be flagged as suspicious
   even if `a` and `a.1` are absent.
 
@@ -110,12 +110,12 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   for data without column names; `read.csv(..., header = TRUE)` uses
   pattern `X`, `X.1`, `X.2`.
 
-Names containing underscores (`_`) are by default *allowed* by
+Names containing underscores (`_`) are by default **allowed** by
 `all_names()` because names containing underscores are not syntactically
 invalid. However, setting `allow_underscores` to `FALSE` to not allow
 such names is useful to check that names do not contain underscores, for
-example if several names will be concatenated separated by underscores
-to create an ID-tag.
+example if several names will be concatenated to create an ID-tag,
+separating the parts by underscores.
 
 ## Programming notes
 
@@ -149,10 +149,10 @@ on the syntactical validity of names.
 names; `janitor::make_clean_names()` to adjust names, e.g., through
 adjusting case and transliterating non-ASCII characters.
 
-The vignettes about [design
-choices](https://jessealderliesten.github.io/checkinput/doc/design_choices.md)
-and about [type
-coercion](https://jessealderliesten.github.io/checkinput/doc/type_coercion.md).
+The vignettes *Design choices regarding function input*:
+[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
+and *Type coercion in vectors*:
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

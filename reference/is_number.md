@@ -40,8 +40,7 @@ is_positive(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 ## Value
 
 `TRUE` or `FALSE` indicating if `x` is a numeric vector of the correct
-length with numbers of the correct sign that adheres to the limitations
-set by the other arguments.
+length only containing allowed numbers.
 
 ## Details
 
@@ -52,23 +51,20 @@ zero-length `x` is also allowed for both types of functions.
 `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`,
 whereas `is_positive()` returns `FALSE` for `0`.
 
-`all_...()` and `is_...()` return `TRUE` for `-Inf` and `Inf` if it has
-the correct sign.
-
-`all_...()` and `is_...()` return `FALSE` for `NA_complex_`, even if
-`allow_NA` is `TRUE`, because its mode is `complex` instead of
-`numeric`.
-
-[NaN](https://rdrr.io/r/base/is.finite.html) has
-[mode](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning 'not
-a number'.
+All functions return `TRUE` for `-Inf` and `Inf` if it has the correct
+sign; return `TRUE` for [NaN](https://rdrr.io/r/base/is.finite.html)
+(which has [mode](https://rdrr.io/r/base/mode.html) `numeric`, despite
+meaning 'not a number') if `allow_NaN` is `TRUE`; and return `FALSE` for
+`NA_complex_` (even if `allow_NA` is `TRUE`) because its mode is
+`complex` instead of `numeric`.
 
 ## Programming notes
 
 [`is.numeric()`](https://rdrr.io/r/base/numeric.html) tests the
 [`mode()`](https://rdrr.io/r/base/mode.html) of `x`, which is `numeric`
 for floating-point numbers such as 3.2 and integers such as 3L. In
-contrast, `class(x) == "numeric"` would test the
+contrast, `class(x) == "numeric"` (or, more robust,
+`inherits(x = x, what = "numeric")`) would test the
 [`class()`](https://rdrr.io/r/base/class.html) of `x` which is `numeric`
 for floating-point numbers but `integer` for integers (see the
 `Note on names` in
@@ -79,10 +75,10 @@ The functions duplicate code instead of calling `is_number()` or
 
 ## See also
 
-The vignettes about [design
-choices](https://jessealderliesten.github.io/checkinput/doc/design_choices.md)
-and about [type
-coercion](https://jessealderliesten.github.io/checkinput/doc/type_coercion.md).
+The vignettes *Design choices regarding function input*:
+[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
+and *Type coercion in vectors*:
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

@@ -1,10 +1,17 @@
 # Changelog
 
+## checkinput 0.6.4
+
+#### Miscellaneous
+
+- Vignette `design_choices`: shorten name to `Design choices`.
+- Fix links to vignettes. Stylistic updates to function documentation.
+
 ## checkinput 0.6.3
 
 #### Miscellaneous
 
-Stylistic updates to vignette and website.
+- Stylistic updates to vignette and website.
 
 ## checkinput 0.6.2
 

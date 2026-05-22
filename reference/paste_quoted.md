@@ -17,7 +17,7 @@ paste_quoted(x)
 ## Value
 
 A character string consisting of the elements of `x` surrounded by
-single quotes, separated by commas. See `details` on handling of some
+single quotes, separated by commas. See `Details` on handling of some
 special values.
 
 ## Details
@@ -39,11 +39,11 @@ For example, the call `paste_quoted("a", "b")` will return the error
 ## See also
 
 [`toString()`](https://rdrr.io/r/base/toString.html) which can be used
-instead of `paste(x, collapse = ", ")`
-[`sQuote()`](https://rdrr.io/r/base/sQuote.html)
-[`paste0()`](https://rdrr.io/r/base/paste.html)
+instead of `paste(x, collapse = ", ")`,
+[`sQuote()`](https://rdrr.io/r/base/sQuote.html) to use fancy quotes,
+[`paste0()`](https://rdrr.io/r/base/paste.html),
 `progutils::unpaste_unquote()` for the approximate opposite of
-`paste_quoted()`
+`paste_quoted()`.
 
 ## Examples
 
@@ -54,6 +54,6 @@ paste_quoted(NULL) # "'NULL'"
 #> [1] "'NULL'"
 paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 #> Warning: 'x' has names, these will be discarded.
-#> Use progutils::vect_to_char() instead of  paste_quoted() to preserve names of numeric 'x'.
+#> Use progutils::vect_to_char() instead of paste_quoted() to preserve names of numeric 'x'.
 #> [1] "'3', '4'"
 ```

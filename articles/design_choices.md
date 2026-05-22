@@ -1,4 +1,4 @@
-# Design choices regarding function input
+# Design choices
 
 ## Introduction and notation
 
@@ -6,13 +6,13 @@ This vignette explains the design choices of `checkinput`. It also shows
 how to get a named boolean vector indicating for each element of `x` if
 it is `TRUE` or `FALSE` according to `all_<funcname>(x)`.
 
-In this vignette, text between angled brackets (`<...>`) is used to
-refer to text that should be replaced with specific text to get working
-code. For example, `is_<funcname>(x)` is used as a place holder to refer
-to a function name and should be replaced with `is_character(x)` if you
-want to consider the function that checks if `x` is a single character
-string, and with `is_logical(x)` if you want to consider the function
-that checks if `x` is a single logical value.
+Text between angled brackets (`<...>`) is used to refer to text that
+should be replaced with specific text to get working code. For example,
+`is_<funcname>(x)` is used as a place holder to refer to a function name
+and should be replaced with `is_character(x)` if you want to consider
+the function that checks if `x` is a single character string, and with
+`is_logical(x)` if you want to consider the function that checks if `x`
+is a single logical value.
 
 ## Type of x
 

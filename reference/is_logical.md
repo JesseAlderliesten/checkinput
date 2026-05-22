@@ -1,7 +1,6 @@
 # Check that `x` is logical
 
-Check that `x` is a length-one logical vector with only allowed logical
-values.
+Check that `x` is a length-one logical vector with only allowed values.
 
 ## Usage
 
@@ -26,12 +25,12 @@ is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 ## Value
 
 `TRUE` or `FALSE` indicating if `x` is a length-one logical vector only
-containing allowed logical values.
+containing allowed values.
 
 ## See also
 
-The vignette about [design
-choices](https://jessealderliesten.github.io/checkinput/doc/design_choices.md).
+The vignette *Design choices regarding function input*:
+[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

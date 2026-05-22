@@ -24,34 +24,35 @@ No check is performed on dimensions, such that a
 [`matrix()`](https://rdrr.io/r/base/matrix.html) with zero rows is a
 zero-length object whereas a
 [`data.frame()`](https://rdrr.io/r/base/data.frame.html) with zero rows
-is *not* (see the `Examples`).
+is **not** (see the `Examples`).
 
 ## Notes
 
-Zero-[`length()`](https://rdrr.io/r/base/length.html) objects can have
+[Zero-length](https://rdrr.io/r/base/length.html) objects can have
 different [types](https://rdrr.io/r/base/typeof.html): NULL
 ([NULL](https://rdrr.io/r/base/NULL.html)), logical (`logical(0)`),
 integer (`integer(0)`), double (`numeric(0)`), complex (`complex(0)`),
 character (`character(0)`), and list
 ([`list()`](https://rdrr.io/r/base/list.html) and
 [`data.frame()`](https://rdrr.io/r/base/data.frame.html)). `""` is not a
-zero-length object: it has a [width](https://rdrr.io/r/base/nchar.html)
-of zero characters but a `length` of one. A dataframe with zero rows is
-*not* a zero-length object: it has `length` equal to the number of
-columns.
+zero-length object: it has a `length` of one despite its
+[width](https://rdrr.io/r/base/nchar.html) of zero characters. A
+dataframe with zero rows is *not* a zero-length object: it has `length`
+equal to the number of columns.
 
 [`is.null()`](https://rdrr.io/r/base/NULL.html) should be used to check
 that an object is `NULL` and, more generally,
 `isTRUE(all.equal(x, <zero-length object>))` should be used to check
-equality to a zero-length object. Testing equality should *not* be done
-by using [==](https://rdrr.io/r/base/Comparison.html) because that leads
-to `logical(0)` if any of the sides contains a zero-length object, which
-gives an error when used as complete [conditional
+equality to a zero-length object. Testing equality should **not** be
+done by using [==](https://rdrr.io/r/base/Comparison.html) because that
+leads to `logical(0)` if any of any sides contains a zero-length object,
+which gives an error when used as complete [conditional
 statement](https://rdrr.io/r/base/Control.html).
 
-`all(logical(0))`, and hence `all(numeric(0))` and `all(character(0))`
-that get coerced to type `logical`, returns `TRUE`, see the `Note` in
-[`all()`](https://rdrr.io/r/base/all.html).
+`all(logical(0))` returns `TRUE`, see the `Note` in
+[`all()`](https://rdrr.io/r/base/all.html). This is also the case for
+`all(numeric(0))` and `all(character(0))` that get coerced to type
+`logical`.
 
 Although zero-length objects are discarded when combined into a vector
 with other values, their types are taken into account for type coercion,
@@ -68,10 +69,10 @@ highest type of the components in the hierarchy `NULL` \< `raw` \<
 
 ## See also
 
-The vignettes about [design
-choices](https://jessealderliesten.github.io/checkinput/doc/design_choices.md)
-and about [type
-coercion](https://jessealderliesten.github.io/checkinput/doc/type_coercion.md).
+The vignettes *Design choices regarding function input*:
+[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
+and *Type coercion in vectors*:
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
@@ -87,7 +88,7 @@ is_zerolength(x = character(0)) # TRUE
 #> [1] TRUE
 is_zerolength(x = 0) # FALSE
 #> [1] FALSE
-# A matrix with zero rows is a zero-length object ...
+# A matrix with zero rows *is* a zero-length object ...
 is_zerolength(x = as.matrix(data.frame(a = 314))[numeric(0), , drop = FALSE])
 #> [1] TRUE
 # ... whereas a dataframe with zero rows is *not* a zero-length object.

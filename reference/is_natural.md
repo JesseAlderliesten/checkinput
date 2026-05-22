@@ -1,7 +1,7 @@
 # Check that x is nearly equal to natural numbers
 
-Test element-wise near-equality to the natural numbers while allowing
-for small numeric errors.
+Test element-wise near-equality to natural numbers while allowing for
+small numeric errors.
 
 ## Usage
 
@@ -54,8 +54,7 @@ make_natural(
 
   A small
   [positive](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
-  number. Numbers that differ less in value than `tol` are considered
-  equal.
+  number. Numbers that differ less than `tol` are considered equal.
 
 - all:
 
@@ -73,28 +72,27 @@ coerced to [integer](https://rdrr.io/r/base/integer.html).
 Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
 considered a natural number if argument `strict` is `FALSE`.
 `integer(0)` and `numeric(0)` are considered natural numbers if argument
-`allow_zero` is `TRUE`. Numbers that are [too
+`allow_zero` is `TRUE`. [Inf](https://rdrr.io/r/base/is.finite.html),
+[NaN](https://rdrr.io/r/base/is.finite.html),
+[NULL](https://rdrr.io/r/base/NULL.html), and numbers that are [too
 large](https://rdrr.io/r/base/zMachine.html) to be represented as
-[integers](https://rdrr.io/r/base/integer.html),
-[Inf](https://rdrr.io/r/base/is.finite.html),
-[NaN](https://rdrr.io/r/base/is.finite.html), and
-[NULL](https://rdrr.io/r/base/NULL.html) are *never* considered natural
-numbers in this implementation.
-
-`is_natural()` and `all_natural()` allow for small numeric errors when
-comparing numbers. Such numeric errors can arise because of rounding or
-representation error. As the `Note` at
-[`==`](https://rdrr.io/r/base/Comparison.html) warns, `x == round(x)`
-does *not* allow for such errors but tests exact equality. Functions
-from other packages with names like `integerish` frequently do *not*
-allow for small numeric errors but are instead intended to allow values
-that are stored as doubles (e.g., `3`) in addition to integer-type
-values (e.g., `3L`).
+[integers](https://rdrr.io/r/base/integer.html) are **never** considered
+natural numbers in this implementation.
 
 If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return
 `TRUE` for `NA_integer_` and `NA_real_` but not for the other
 [NA](https://rdrr.io/r/base/NA.html)s or
 [NaN](https://rdrr.io/r/base/is.finite.html).
+
+`is_natural()` and `all_natural()` allow for small numeric errors when
+comparing numbers. Such numeric errors can arise because of rounding or
+representation error. As the `Note` at
+[`==`](https://rdrr.io/r/base/Comparison.html) warns, `x == round(x)`
+does **not** allow for such errors but tests exact equality. Functions
+from other packages with names like `integerish` frequently do **not**
+allow for small numeric errors but are instead intended to allow values
+that are stored as doubles (e.g., `3`) in addition to integer-type
+values (e.g., `3L`).
 
 ## Notes
 
@@ -113,9 +111,9 @@ assigning the rounded value to the argument:
 `x <- as.integer(round(x))`. Alternatively, assign the result of
 `make_natural(x)` to `x` without using `is_natural(x)` or
 `all_natural(x)` inside
-[stopifnot](https://rdrr.io/r/base/stopifnot.html).
+[`stopifnot()`](https://rdrr.io/r/base/stopifnot.html).
 
-[`is.integer()`](https://rdrr.io/r/base/integer.html) does *not* check
+[`is.integer()`](https://rdrr.io/r/base/integer.html) does **not** check
 that `x` is a natural number (nor if `x` is a whole number) but rather
 that `x` is of [type](https://rdrr.io/r/base/typeof.html) integer (see
 the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html)).
@@ -135,10 +133,10 @@ compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 for background on numerical equality.
 
-The vignettes about [design
-choices](https://jessealderliesten.github.io/checkinput/doc/design_choices.md)
-and about [type
-coercion](https://jessealderliesten.github.io/checkinput/doc/type_coercion.md).
+The vignettes *Design choices regarding function input*:
+[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
+and *Type coercion in vectors*:
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

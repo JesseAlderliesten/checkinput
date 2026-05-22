@@ -1,7 +1,7 @@
 # Check that `x` is character
 
 Check that `x` is a character vector of the correct length with only
-allowed character values.
+allowed values.
 
 ## Usage
 
@@ -32,7 +32,7 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 ## Value
 
 `TRUE` or `FALSE` indicating if `x` is a character vector of the correct
-length with only allowed character values.
+length with only allowed values.
 
 ## Notes
 
@@ -41,10 +41,10 @@ empty strings.
 
 ## See also
 
-The vignettes about [design
-choices](https://jessealderliesten.github.io/checkinput/doc/design_choices.md)
-and about [type
-coercion](https://jessealderliesten.github.io/checkinput/doc/type_coercion.md).
+The vignettes *Design choices regarding function input*:
+[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
+and *Type coercion in vectors*:
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
 [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),
