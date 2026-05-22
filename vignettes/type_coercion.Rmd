@@ -83,7 +83,8 @@ all(unlist(lapply(X = list(x, y), FUN = all_characters)))
 z <- list("a", 2, "c")
 z
 lapply(X = z, class)
-all_characters(unlist(z)) # TRUE, even though the second element of 'z' is numeric!
+# TRUE, even though the second element of 'z' is numeric!
+all_characters(unlist(z))
 all(unlist(lapply(X = z, FUN = all_characters)))
 ```
 
