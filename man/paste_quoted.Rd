@@ -2,7 +2,7 @@
 % Please edit documentation in R/paste_quoted.R
 \name{paste_quoted}
 \alias{paste_quoted}
-\title{Concatenate x to a string with quoted elements.}
+\title{Quote and concatenate elements to a string.}
 \usage{
 paste_quoted(x)
 }
@@ -14,7 +14,8 @@ A character string consisting of the elements of \code{x} surrounded by single
 quotes, separated by commas. See \code{Details} on handling of some special values.
 }
 \description{
-Concatenate a vector or factor to a string with quoted elements.
+Quote elements of a vector or a factor and concatenate them to a single
+string.
 }
 \details{
 \code{paste_quoted()} returns \code{NULL} as \code{"'NULL'"}, other zero-length objects as
