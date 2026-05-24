@@ -71,7 +71,7 @@ character string that might be empty (`""`) or character-type `NA`
 single non-negative number; (3) `hobbies` contains at least one character string
 and does not contain any empty strings or `NA`s.
 
-The base-R equivalent of `list_hobbies()` would require much more code to check
+The base R equivalent of `list_hobbies()` would require much more code to check
 the input:
 
 ```{r}
@@ -111,22 +111,22 @@ try(list_hobbies_base(name = "", age = -1, hobbies = hobbies_baby))
 ```
 
 In the last example, `list_hobbies_base()` does not throw an error if a negative
-value is entered for the baby's age: the check was accidentally written as
-`age >= age` instead of `age >= 0`, such that the check that `age` should be
-non-negative is incorrectly implemented. This shows another advantage of being
-able to specify constraints on the input through arguments of the
-check-functions instead of having to spell out each condition: there is less
-need to adjust variable names, which reduces the chance of coding errors.
+value is entered for the baby's age: the check that `age` should be non-negative
+was accidentally written as `age >= age` instead of `age >= 0`. This shows
+another advantage of specifying constraints on the input through arguments of
+the check functions instead of spelling out each condition: the reduced need to
+adjust variable names reduces the chance of coding errors.
 
 ### Design choices
-The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput` return
-either `TRUE` or `FALSE` and do not throw errors caused by input to `x`. Errors
-**are** thrown about invalid input to arguments other than `x`, e.g., providing
-values other than `TRUE` or `FALSE` to `allow_zero`. This is explained in the
+The `is_<func>(x, ...)` and `all_<func>(x, ...)` functions of `checkinput`
+return either `TRUE` or `FALSE` and do **not** throw errors for any input to `x`.
+Errors **are** thrown about invalid input to arguments other than `x`, e.g.,
+when values other than `TRUE` or `FALSE` are used for `allow_NA`. This is
+explained in the
 [vignette about design choices](https://jessealderliesten.github.io/checkinput/articles/design_choices.html):
 `vignette("design_choices", package = "checkinput")`. That vignette also shows
 how to get a named boolean vector indicating for each element of `x` if it is
-`TRUE` or `FALSE` according to `all_<funcname>(x)`.
+`TRUE` or `FALSE` according to `all_<func>(x)`.
 
 `checkinput` also contains a
 [vignette about type coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
