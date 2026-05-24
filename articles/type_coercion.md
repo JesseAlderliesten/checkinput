@@ -13,7 +13,8 @@ components, will be the highest type of the components in the hierarchy
 numeric `314` will be coerced to character `"314"` when it is combined
 in a vector with character `"nco"`, such that `c(314, "nco")` results in
 the character vector `c("314", "nco")`. This also holds for the logical
-`NA`, which will be coerced to `NA_character_` but still prints as `NA`.
+`NA`, which will be coerced to `NA_character_`, which also prints as
+`NA`.
 
 ``` r
 
@@ -100,7 +101,8 @@ lapply(X = z, class)
 #> 
 #> [[3]]
 #> [1] "character"
-all_characters(unlist(z)) # TRUE, even though the second element of 'z' is numeric!
+# TRUE, even though the second element of 'z' is numeric!
+all_characters(unlist(z))
 #> [1] TRUE
 all(unlist(lapply(X = z, FUN = all_characters)))
 #> [1] FALSE
@@ -114,7 +116,8 @@ are discarded when combined into a vector with other values, their types
 are taken into account for type coercion. For example, numeric `314`
 will be coerced to character `"314"` when it is combined into a vector
 with zero-length `character(0)`, such that `c(314, character(0))`
-results in the character string `"314"`, not in the numeric value `314`.
+results in the character string `"314"`, **not** in the numeric value
+`314`.
 
 ``` r
 

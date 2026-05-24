@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,12 +80,11 @@
 <p>This vignette explains the design choices of <code>checkinput</code>.
 It also shows how to get a named boolean vector indicating for each
 element of <code>x</code> if it is <code>TRUE</code> or
-<code>FALSE</code> according to
-<code>all_&lt;funcname&gt;(x)</code>.</p>
+<code>FALSE</code> according to <code>all_&lt;func&gt;(x)</code>.</p>
 <p>Text between angled brackets (<code>&lt;...&gt;</code>) is used to
 refer to text that should be replaced with specific text to get working
-code. For example, <code>is_&lt;funcname&gt;(x)</code> is used as a
-place holder to refer to a function name and should be replaced with
+code. For example, <code>is_&lt;func&gt;(x)</code> is used as a place
+holder to refer to a function name and should be replaced with
 <code>is_character(x)</code> if you want to consider the function that
 checks if <code>x</code> is a single character string, and with
 <code>is_logical(x)</code> if you want to consider the function that
@@ -94,17 +93,17 @@ checks if <code>x</code> is a single logical value.</p>
 <div class="section level2">
 <h2 id="type-of-x">Type of x<a class="anchor" aria-label="anchor" href="#type-of-x"></a>
 </h2>
-<p>The <code>is_&lt;funcname&gt;(x, ...)</code> and
-<code>all_&lt;funcname&gt;(x, ...)</code> functions of
+<p>The <code>is_&lt;func&gt;(x, ...)</code> and
+<code>all_&lt;func&gt;(x, ...)</code> functions of
 <code>checkinput</code> return either <code>TRUE</code> or
-<code>FALSE</code> and do not throw errors for any input to
-<code>x</code>: throwing an error about <code>x</code> is deferred to
-<code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">base::stopifnot()</a></code> in which calls to functions from
-<code>checkinput</code> are typically wrapped when they are used inside
-other functions. Errors <em>are</em> thrown about invalid input to
-arguments other than <code>x</code>, e.g., when values other than
-<code>TRUE</code> or <code>FALSE</code> are used for
-<code>allow_zero</code>.</p>
+<code>FALSE</code> and do <strong>not</strong> throw errors for any
+input to <code>x</code>: throwing an error about <code>x</code> is
+deferred to <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">base::stopifnot()</a></code> in which calls to functions
+from <code>checkinput</code> are typically wrapped when they are used
+inside other functions. Errors <strong>are</strong> thrown about invalid
+input to arguments other than <code>x</code>, e.g., when values other
+than <code>TRUE</code> or <code>FALSE</code> are used for
+<code>allow_NA</code>.</p>
 <p>The default arguments make functions of <code>checkinput</code> more
 restrictive than the equivalent functions in base R (e.g.,
 <code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> versus
@@ -115,10 +114,10 @@ example, zero-length <code>x</code> is unwanted.</p>
 <div class="section level2">
 <h2 id="length-of-x">Length of x<a class="anchor" aria-label="anchor" href="#length-of-x"></a>
 </h2>
-<p>By default, <code>is_&lt;funcname&gt;(x)</code> only returns
+<p>By default, <code>is_&lt;func&gt;(x)</code> only returns
 <code>TRUE</code> for <code>x</code> of length one (with the obvious
 exception of <code>is_zerolength(x)</code>) and
-<code>all_&lt;funcname&gt;(x)</code> only returns <code>TRUE</code> for
+<code>all_&lt;func&gt;(x)</code> only returns <code>TRUE</code> for
 <code>x</code> of length larger than zero. Set argument
 <code>allow_zero</code> to <code>TRUE</code> to also return
 <code>TRUE</code> for zero-length <code>x</code> of the correct type.
@@ -138,15 +137,15 @@ correct type.</p>
 <div class="section level2">
 <h2 id="return">Return<a class="anchor" aria-label="anchor" href="#return"></a>
 </h2>
-<p>The <code>is_&lt;funcname&gt;(x)</code> and
-<code>all_&lt;funcname&gt;(x)</code> functions of
-<code>checkinput</code> always return either <code>TRUE</code> or
-<code>FALSE</code>. To get a named boolean vector indicating for each
-element of <code>x</code> if it <code>TRUE</code> or <code>FALSE</code>
-according to <code>all_&lt;funcname&gt;(x)</code>, use
-<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_&lt;funcname&gt;, ...)</code>
-instead of <code>all_&lt;funcname&gt;(x, ...)</code>. For example, to
-check which elements of <code>x</code> are valid names, use
+<p>The <code>is_&lt;func&gt;(x)</code> and
+<code>all_&lt;func&gt;(x)</code> functions of <code>checkinput</code>
+always return either <code>TRUE</code> or <code>FALSE</code>. To get a
+named boolean vector indicating for each element of <code>x</code> if it
+<code>TRUE</code> or <code>FALSE</code> according to
+<code>all_&lt;func&gt;(x)</code>, use
+<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_&lt;func&gt;, ...)</code>
+instead of <code>all_&lt;func&gt;(x, ...)</code>. For example, to check
+which elements of <code>x</code> are valid names, use
 <code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)</code>
 instead of <code>all_names(x, ...)</code>. The dots (<code>...</code>)
 indicate where to place other function arguments, e.g.,

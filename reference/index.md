@@ -34,4 +34,4 @@
   : Check that x is zero-length
 
 - [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-  : Concatenate x to a string with quoted elements.
+  : Quote and concatenate elements to a string.

@@ -1,5 +1,14 @@
 # Changelog
 
+## checkinput 0.6.5
+
+#### Miscellaneous
+
+- [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md):
+  clearer title and description.
+- Stylistic changes to vignettes.
+- Align `README` with vignette text.
+
 ## checkinput 0.6.4
 
 #### Miscellaneous

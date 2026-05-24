@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,8 +90,8 @@ numeric <code>314</code> will be coerced to character <code>"314"</code>
 when it is combined in a vector with character <code>"nco"</code>, such
 that <code>c(314, "nco")</code> results in the character vector
 <code>c("314", "nco")</code>. This also holds for the logical
-<code>NA</code>, which will be coerced to <code>NA_character_</code> but
-still prints as <code>NA</code>.</p>
+<code>NA</code>, which will be coerced to <code>NA_character_</code>,
+which also prints as <code>NA</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num</span> <span class="op">&lt;-</span> <span class="fl">314</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">num</span><span class="op">)</span></span>
@@ -176,7 +176,8 @@ elements of <code>z</code> is of a higher type.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
 <span><span class="co">#&gt; [1] "character"</span></span>
-<span><span class="fu"><a href="../reference/all_characters.html">all_characters</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE, even though the second element of 'z' is numeric!</span></span>
+<span><span class="co"># TRUE, even though the second element of 'z' is numeric!</span></span>
+<span><span class="fu"><a href="../reference/all_characters.html">all_characters</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">z</span>, FUN <span class="op">=</span> <span class="va">all_characters</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
@@ -190,7 +191,7 @@ taken into account for type coercion. For example, numeric
 <code>314</code> will be coerced to character <code>"314"</code> when it
 is combined into a vector with zero-length <code>character(0)</code>,
 such that <code>c(314, character(0))</code> results in the character
-string <code>"314"</code>, not in the numeric value
+string <code>"314"</code>, <strong>not</strong> in the numeric value
 <code>314</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num</span> <span class="op">&lt;-</span> <span class="fl">314</span></span>

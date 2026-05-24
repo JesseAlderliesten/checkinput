@@ -34,11 +34,6 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 `TRUE` or `FALSE` indicating if `x` is a character vector of the correct
 length with only allowed values.
 
-## Notes
-
-`all_characters()` and `is_character()` by default return `FALSE` for
-empty strings.
-
 ## See also
 
 The vignettes *Design choices regarding function input*:

@@ -120,16 +120,14 @@ the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html)).
 
 ## See also
 
-[progutils::are_equal()](https://github.com/JesseAlderliesten/progutils)
-to check for element-wise near-equality of numbers;
-[`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check more
-generally for near-equality;
+`progutils::are_equal()` to check for element-wise near-equality of
+numbers; [`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check
+more generally for near-equality;
 [`identical()`](https://rdrr.io/r/base/identical.html) to check for
 exact equality; [Comparison](https://rdrr.io/r/base/Comparison.html) to
 compare two vectors using binary operators;
-[`match()`](https://rdrr.io/r/base/match.html) and
-[progutils::not_in()](https://github.com/JesseAlderliesten/progutils) to
-compare character vectors; [R FAQ
+[`match()`](https://rdrr.io/r/base/match.html) and `progutils::not_in()`
+to compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 for background on numerical equality.
 

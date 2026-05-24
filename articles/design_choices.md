@@ -4,26 +4,26 @@
 
 This vignette explains the design choices of `checkinput`. It also shows
 how to get a named boolean vector indicating for each element of `x` if
-it is `TRUE` or `FALSE` according to `all_<funcname>(x)`.
+it is `TRUE` or `FALSE` according to `all_<func>(x)`.
 
 Text between angled brackets (`<...>`) is used to refer to text that
 should be replaced with specific text to get working code. For example,
-`is_<funcname>(x)` is used as a place holder to refer to a function name
-and should be replaced with `is_character(x)` if you want to consider
-the function that checks if `x` is a single character string, and with
+`is_<func>(x)` is used as a place holder to refer to a function name and
+should be replaced with `is_character(x)` if you want to consider the
+function that checks if `x` is a single character string, and with
 `is_logical(x)` if you want to consider the function that checks if `x`
 is a single logical value.
 
 ## Type of x
 
-The `is_<funcname>(x, ...)` and `all_<funcname>(x, ...)` functions of
-`checkinput` return either `TRUE` or `FALSE` and do not throw errors for
-any input to `x`: throwing an error about `x` is deferred to
+The `is_<func>(x, ...)` and `all_<func>(x, ...)` functions of
+`checkinput` return either `TRUE` or `FALSE` and do **not** throw errors
+for any input to `x`: throwing an error about `x` is deferred to
 [`base::stopifnot()`](https://rdrr.io/r/base/stopifnot.html) in which
 calls to functions from `checkinput` are typically wrapped when they are
-used inside other functions. Errors *are* thrown about invalid input to
-arguments other than `x`, e.g., when values other than `TRUE` or `FALSE`
-are used for `allow_zero`.
+used inside other functions. Errors **are** thrown about invalid input
+to arguments other than `x`, e.g., when values other than `TRUE` or
+`FALSE` are used for `allow_NA`.
 
 The default arguments make functions of `checkinput` more restrictive
 than the equivalent functions in base R (e.g.,
@@ -34,11 +34,11 @@ checking, where, for example, zero-length `x` is unwanted.
 
 ## Length of x
 
-By default, `is_<funcname>(x)` only returns `TRUE` for `x` of length one
-(with the obvious exception of `is_zerolength(x)`) and
-`all_<funcname>(x)` only returns `TRUE` for `x` of length larger than
-zero. Set argument `allow_zero` to `TRUE` to also return `TRUE` for
-zero-length `x` of the correct type. See
+By default, `is_<func>(x)` only returns `TRUE` for `x` of length one
+(with the obvious exception of `is_zerolength(x)`) and `all_<func>(x)`
+only returns `TRUE` for `x` of length larger than zero. Set argument
+`allow_zero` to `TRUE` to also return `TRUE` for zero-length `x` of the
+correct type. See
 [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
 and
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
@@ -52,13 +52,13 @@ argument `allow_NA` to `TRUE` to also return `TRUE` for `x` containing
 
 ## Return
 
-The `is_<funcname>(x)` and `all_<funcname>(x)` functions of `checkinput`
-always return either `TRUE` or `FALSE`. To get a named boolean vector
+The `is_<func>(x)` and `all_<func>(x)` functions of `checkinput` always
+return either `TRUE` or `FALSE`. To get a named boolean vector
 indicating for each element of `x` if it `TRUE` or `FALSE` according to
-`all_<funcname>(x)`, use
-`vapply(X = x, FUN.VALUE = logical(1), FUN = all_<funcname>, ...)`
-instead of `all_<funcname>(x, ...)`. For example, to check which
-elements of `x` are valid names, use
+`all_<func>(x)`, use
+`vapply(X = x, FUN.VALUE = logical(1), FUN = all_<func>, ...)` instead
+of `all_<func>(x, ...)`. For example, to check which elements of `x` are
+valid names, use
 `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)` instead of
 `all_names(x, ...)`. The dots (`...`) indicate where to place other
 function arguments, e.g., `allow_underscores = FALSE`.
