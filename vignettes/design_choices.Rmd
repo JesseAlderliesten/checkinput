@@ -31,11 +31,11 @@ function that checks if `x` is a single logical value.
 
 ## Type of x
 The `is_<func>(x, ...)` and `all_<func>(x, ...)` functions of `checkinput`
-return either `TRUE` or `FALSE` and do not throw errors for any input to `x`:
+return either `TRUE` or `FALSE` and do **not** throw errors for any input to `x`:
 throwing an error about `x` is deferred to `base::stopifnot()` in which calls to
 functions from `checkinput` are typically wrapped when they are used inside
-other functions. Errors *are* thrown about invalid input to arguments other than
-`x`, e.g., when values other than `TRUE` or `FALSE` are used for `allow_zero`.
+other functions. Errors **are** thrown about invalid input to arguments other
+than `x`, e.g., when values other than `TRUE` or `FALSE` are used for `allow_NA`.
 
 The default arguments make functions of `checkinput` more restrictive than the
 equivalent functions in base R (e.g., `checkinput::is_logical()` versus
