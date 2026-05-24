@@ -9,10 +9,6 @@
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
 #' correct length with only allowed values.
 #'
-#' @section Notes:
-#' `all_characters()` and `is_character()` by default return `FALSE` for empty
-#' strings.
-#'
 #' @family
 #' collections of checks on type and length
 #'

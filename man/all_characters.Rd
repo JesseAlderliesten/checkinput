@@ -26,12 +26,6 @@ correct length with only allowed values.
 Check that \code{x} is a character vector of the correct length with only allowed
 values.
 }
-\section{Notes}{
-
-\code{all_characters()} and \code{is_character()} by default return \code{FALSE} for empty
-strings.
-}
-
 \examples{
 is_character("a") # TRUE
 is_character(c("a", "b")) # FALSE: incorrect length

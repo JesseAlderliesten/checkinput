@@ -1,6 +1,7 @@
-#' Concatenate x to a string with quoted elements.
+#' Quote and concatenate elements to a string.
 #'
-#' Concatenate a vector or factor to a string with quoted elements.
+#' Quote elements of a vector or a factor and concatenate them to a single
+#' string.
 #'
 #' @details
 #' `paste_quoted()` returns `NULL` as `"'NULL'"`, other zero-length objects as
