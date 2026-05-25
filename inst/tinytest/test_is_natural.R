@@ -59,9 +59,9 @@ expect_false(is_natural(x = 0, strict = TRUE))
 expect_true(is_natural(x = 0, strict = FALSE))
 expect_false(is_natural(x = 0L, strict = TRUE))
 expect_error(make_natural(x = 0L, strict = TRUE),
-             pattern = "all_natural(0L) is not TRUE", fixed = TRUE)
+             pattern = "is_natural(0L) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 1e-10, strict = TRUE),
-             pattern = "all_natural(1e-10) is not TRUE", fixed = TRUE)
+             pattern = "is_natural(1e-10) is not TRUE", fixed = TRUE)
 expect_identical(make_natural(x = 0L, strict = FALSE), 0L)
 expect_identical(make_natural(x = 1e-10, strict = FALSE), 0L)
 expect_true(is_natural(x = 0L, strict = FALSE))
@@ -121,7 +121,7 @@ expect_warning(
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 expect_warning(
   expect_error(make_natural(x = .Machine$integer.max + 1L),
-               pattern = "all_natural(.Machine$integer.max + 1L) is not TRUE",
+               pattern = "is_natural(.Machine$integer.max + 1L) is not TRUE",
                fixed = TRUE),
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 
@@ -130,7 +130,7 @@ expect_warning(
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 expect_warning(
   expect_error(make_natural(x = (-1L * .Machine$integer.max) - 1L),
-               pattern = "all_natural((-1L * .Machine$integer.max) - 1L) is not TRUE",
+               pattern = "is_natural((-1L * .Machine$integer.max) - 1L) is not TRUE",
                fixed = TRUE),
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 
