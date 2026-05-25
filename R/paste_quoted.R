@@ -1,6 +1,6 @@
-#' Quote and concatenate elements to a string.
+#' Quote and concatenate x to a string
 #'
-#' Quote elements of a vector or a factor and concatenate them to a single
+#' Quote a factor or elements of a vector and concatenate the result to a single
 #' string.
 #'
 #' @details
@@ -9,11 +9,12 @@
 #' `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`; for [factors][factor] this
 #' is `"'NA_character_'"`).
 #'
-#' @param x Vector or factor to be converted to a character string.
+#' @param x Factor or vector to be converted to a character string.
 #'
 #' @returns
 #' A character string consisting of the elements of `x` surrounded by single
-#' quotes, separated by commas. See `Details` on handling of some special values.
+#' quotes, separated by commas. See `Details` on the handling of some special
+#' values.
 #'
 #' @section Notes:
 #' An error occurs if multiple arguments are provided because then `x` probably

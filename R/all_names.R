@@ -28,7 +28,7 @@
 #' syntactically invalid by [make.names()].
 #'
 #' Suspicious names are not allowed by `all_names()`. A suspicious name contains
-#' a pattern that suggests it originally was syntactically invalid and has been
+#' a pattern suggesting it originally was syntactically invalid and has been
 #' **adjusted** into a syntactically valid name, or has been adjusted to make names
 #' [unique][make.unique()]. Such adjustments usually occur silently, for example
 #' when data is read into \R, which is problematic because it cannot reliably be
@@ -46,8 +46,8 @@
 #'   letter, number, dot or underscore): `make.names()` and
 #'   `vctrs::vec_as_names(x, repair = "universal")` replace such characters with
 #'   a dot. Their identification is based on the assumption that names
-#'   originally did **not** contain dots, which is good practice (unfortunately
-#'   not strictly followed in base-\R, e.g., in [data.frame()]) preventing names
+#'   originally did **not** contain dots, which is good practice (despite not
+#'   being strictly followed in base-\R, e.g., in [data.frame()]) preventing names
 #'   containing a dot from being confused with [methods][UseMethod] used on
 #'   [classed objects][is.object].
 #' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
@@ -62,20 +62,20 @@
 #'   not followed by a number, syntactically valid: `make.names()` prepends `X`;
 #'   `vctrs::vec_as_names(x, repair = "universal")` prepends one or more dots.
 #' - adjustments to name unnamed columns: `data.frame()` uses pattern `V1`,
-#'   `V2`, `V3` if a matrix without column names is converted to a data.frame,
+#'   `V2`, `V3` if a matrix without column names is converted to a data frame,
 #'   and `read.csv(..., header = FALSE)` uses the same pattern for data without
 #'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
 #'
 #' Names containing underscores (`_`) are by default **allowed** by `all_names()`
 #' because names containing underscores are not syntactically invalid. However,
-#' setting `allow_underscores` to `FALSE` to not allow such names is useful to
-#' check that names do not contain underscores, for example if several names
+#' setting `allow_underscores` to `FALSE` to **not** allow such names is useful
+#' to check that names do not contain underscores, for example if several names
 #' will be concatenated to create an ID-tag, separating the parts by underscores.
 #'
 #' @returns
 #' `TRUE` or `FALSE`, indicating if `x` is a character vector that consists of
-#' unique, syntactically valid names that do not consist of only dots or of two
-#' dots followed by a number, and do not suggest they were adjusted or
+#' unique, syntactically valid names that do **not** consist of only dots or of
+#' two dots followed by a number, and do **not** suggest they were adjusted or
 #' automatically created.
 #'
 #' @section Programming notes:
@@ -101,10 +101,8 @@
 #' [names()] to get or set object names; `janitor::make_clean_names()` to adjust
 #' names, e.g., through adjusting case and transliterating non-ASCII characters.
 #'
-#' The vignettes *Design choices regarding function input*:
-#' `vignette("design_choices", package = "checkinput")` and
-#' *Type coercion in vectors*:
-#' `vignette("type_coercion", package = "checkinput")`.
+#' The vignette *Design choices regarding function input*:
+#' `vignette("design_choices", package = "checkinput")`.
 #'
 #' @family
 #' collections of checks on type and length

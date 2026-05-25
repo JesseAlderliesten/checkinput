@@ -20,23 +20,12 @@ knitr::opts_chunk$set(
 With `checkinput`, you can write concise but flexible checks for input to R
 functions.
 
-## Folder structure
-```
-├── .github
-│   └── workflows: workflows to run tests with GitHub Actions
-├── R: functions
-├── inst
-│   └── tinytest: tests
-├── man: help-files
-└── tests: setup to use 'tinytest' for testing
-```
-
 ## Installation
 You can visit the
 [checkinput website](https://jessealderliesten.github.io/checkinput/) to explore
 the package. To use `checkinput`, you have to install it from
-[GitHub](https://github.com/JesseAlderliesten/checkinput) using the following
-code in R (you need to run R as administrator):
+[GitHub](https://github.com/JesseAlderliesten/checkinput) using the following R
+code (you need to run R as administrator):
 
 ```{r, eval = FALSE}
 if(!requireNamespace("remotes", quietly = TRUE)) {
@@ -72,15 +61,18 @@ single non-negative number; (3) `hobbies` contains at least one character string
 and does not contain any empty strings or `NA`s.
 
 The base R equivalent of `list_hobbies()` would require much more code to check
-the input:
+the input, increasing the chance of coding errors and making it more difficult
+to read:
 
 ```{r}
 list_hobbies_base <- function(name, age, hobbies) {
-  stopifnot(is.null(dim(name)), length(name) > 0L, length(name) < 2L,
-            is.character(name), is.numeric(age), length(age) == 1L,
-            is.null(dim(age)), age >= age, is.null(dim(hobbies)),
-            length(hobbies) > 0L, is.character(hobbies),
-            all(nzchar(hobbies, keepNA = FALSE)), !anyNA(hobbies))
+  stopifnot(is.character(name), is.atomic(name), is.null(dim(name)),
+            length(name) == 1L,
+            is.numeric(age), is.atomic(age), is.null(dim(age)), length(age) == 1L,
+            nzchar(x = age, keepNA = FALSE), !is.na(age), age >= 0L,
+            is.character(hobbies), is.atomic(hobbies), is.null(dim(hobbies)),
+            length(hobbies) > 0L, all(nzchar(hobbies, keepNA = FALSE)),
+            !anyNA(hobbies))
   list(name = name, age = age, hobbies = hobbies)
 }
 ```
@@ -109,13 +101,6 @@ try(list_hobbies_base(name = "John", age = 25, hobbies = c(hobbies_John, "")))
 try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
 try(list_hobbies_base(name = "", age = -1, hobbies = hobbies_baby))
 ```
-
-In the last example, `list_hobbies_base()` does not throw an error if a negative
-value is entered for the baby's age: the check that `age` should be non-negative
-was accidentally written as `age >= age` instead of `age >= 0`. This shows
-another advantage of specifying constraints on the input through arguments of
-the check functions instead of spelling out each condition: the reduced need to
-adjust variable names reduces the chance of coding errors.
 
 ### Design choices
 The `is_<func>(x, ...)` and `all_<func>(x, ...)` functions of `checkinput`

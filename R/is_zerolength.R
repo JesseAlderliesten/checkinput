@@ -1,10 +1,6 @@
-#' Check that x is zero-length
+#' Check that x has length zero
 #'
 #' @param x object to test.
-#'
-#' @details No check is performed on dimensions, such that a [matrix()]
-#' with zero rows is a zero-length object whereas a [data.frame()] with
-#' zero rows is **not** (see the `Examples`).
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a zero-length object.
 #'
@@ -15,13 +11,15 @@
 #' complex (`complex(0)`), character (`character(0)`), and list ([list()] and
 #' [data.frame()]). `""` is not a zero-length object: it has a `length` of one
 #' despite its [width][nchar()] of zero characters. A dataframe with zero rows
-#' is *not* a zero-length object: it has `length` equal to the number of columns.
+#' is **not** a zero-length object: it has `length` equal to the number of
+#' columns. In contrast, a [matrix][matrix()] with zero rows **is** a
+#' zero-length object, see the `Examples`.
 #'
 #' [is.null()] should be used to check that an object is `NULL` and, more
 #' generally, `isTRUE(all.equal(x, <zero-length object>))` should be used to
 #' check equality to a zero-length object. Testing equality should **not** be
 #' done by using [==][Comparison] because that leads to `logical(0)` if any of
-#' any sides contains a zero-length object, which gives an error when used as
+#' the sides contains a zero-length object, which gives an error when used as
 #' complete [conditional statement][Control].
 #'
 #' `all(logical(0))` returns `TRUE`, see the `Note` in [all()]. This is also the
@@ -29,8 +27,9 @@
 #' `logical`.
 #'
 #' Although zero-length objects are discarded when combined into a vector with
-#' other values, their types are taken into account for type coercion, see the
-#' vignette mentioned in the `See also` section. For example,
+#' other values, their types **are** taken into account for type coercion, see
+#' the vignette *Type coercion in vectors*:
+#' `vignette("type_coercion", package = "checkinput")`. For example,
 #' numeric `314` will be coerced to character `"314"` when it is combined into a
 #' vector with zero-length `character(0)`, such that `c(314, character(0))`
 #' results in the character string `"314"`, not in the numeric value `314`. If

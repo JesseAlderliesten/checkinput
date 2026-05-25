@@ -59,9 +59,9 @@ expect_false(is_natural(x = 0, strict = TRUE))
 expect_true(is_natural(x = 0, strict = FALSE))
 expect_false(is_natural(x = 0L, strict = TRUE))
 expect_error(make_natural(x = 0L, strict = TRUE),
-             pattern = "all_natural(0L) is not TRUE", fixed = TRUE)
+             pattern = "is_natural(0L) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 1e-10, strict = TRUE),
-             pattern = "all_natural(1e-10) is not TRUE", fixed = TRUE)
+             pattern = "is_natural(1e-10) is not TRUE", fixed = TRUE)
 expect_identical(make_natural(x = 0L, strict = FALSE), 0L)
 expect_identical(make_natural(x = 1e-10, strict = FALSE), 0L)
 expect_true(is_natural(x = 0L, strict = FALSE))
@@ -72,11 +72,6 @@ expect_true(is_natural(x = integer(0), allow_zero = TRUE, strict = FALSE))
 expect_false(is_natural(x = numeric(0), allow_zero = FALSE, strict = FALSE))
 expect_true(is_natural(x = numeric(0), allow_zero = TRUE, strict = FALSE))
 expect_false(is_natural(x = NULL, allow_zero = TRUE, strict = FALSE))
-
-# Testing a value that cannot be represented as integer by R (R uses 32-bit
-# integers, see 'Details' in help(`integer`)). Negative values are not natural
-# anyway, so no need to test large negative numbers.
-expect_false(is_natural(x = .Machine$integer.max + 1))
 
 expect_false(is_natural(x = c(3, 5 + 1e-10, 5.0, 1e4, 1.2e4)))
 expect_error(make_natural(x = c(3, 5 + 1e-10, 5.0, 1e4, 1.2e4), all = FALSE),
@@ -117,13 +112,27 @@ expect_false(all_natural(x = numeric(0), allow_zero = FALSE, strict = FALSE))
 expect_true(all_natural(x = numeric(0), allow_zero = TRUE, strict = FALSE))
 expect_false(all_natural(x = NULL, allow_zero = TRUE, strict = FALSE))
 
-# Testing a value that cannot be represented as integer by R (R uses 32-bit
-# integers, see 'Details' in help(`integer`)). Negative values are not natural
-# anyway, so no need to test large negative numbers.
-expect_false(all_natural(x = .Machine$integer.max + 1))
-expect_error(make_natural(x = .Machine$integer.max + 1),
-             pattern = "all_natural(.Machine$integer.max + 1) is not TRUE",
-             fixed = TRUE)
+# Testing values that cannot be represented as integer by R (R uses 32-bit
+# integers, see section 'Details' in help("integer")). Although negative values
+# are clearly not natural numbers, they will be converted to NA_integer_ so it
+# is worthwile to test them as well.
+expect_warning(
+  expect_false(all_natural(x = .Machine$integer.max + 1L)),
+  pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
+expect_warning(
+  expect_error(make_natural(x = .Machine$integer.max + 1L),
+               pattern = "is_natural(.Machine$integer.max + 1L) is not TRUE",
+               fixed = TRUE),
+  pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
+
+expect_warning(
+  expect_false(all_natural(x = (-1L * .Machine$integer.max) - 1L)),
+  pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
+expect_warning(
+  expect_error(make_natural(x = (-1L * .Machine$integer.max) - 1L),
+               pattern = "is_natural((-1L * .Machine$integer.max) - 1L) is not TRUE",
+               fixed = TRUE),
+  pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 
 expect_true(all_natural(x = c(3, 5 + 1e-10, 5.0, 1e4, 1.2e4)))
 expect_identical(make_natural(x = c(3, 5 + 1e-10, 5.0, 1e4, 1.2e4), all = TRUE),
