@@ -27,7 +27,7 @@ make_natural(
   strict = TRUE,
   allow_zero = FALSE,
   allow_NA = FALSE,
-  all = TRUE,
+  all = FALSE,
   tol = .Machine$double.eps^0.5
 )
 }
@@ -48,7 +48,8 @@ than \code{tol} are considered equal.}
 \value{
 \code{is_natural()} and \code{all_natural()}: \code{TRUE} or \code{FALSE} indicating if
 \code{x} is a vector of the appropriate length with only natural numbers.
-\code{make_natural()}: \code{x}, \link[=round]{rounded} and coerced to \link{integer}.
+\code{make_natural()}: \code{x}, \link[=round]{rounded to a whole number} and coerced to
+\link{integer} type.
 }
 \description{
 Test element-wise near-equality to natural numbers while allowing for small
@@ -65,13 +66,11 @@ numbers in this implementation.
 If \code{allow_NA} is \code{TRUE}, \code{is_natural()} and \code{all_natural()} return \code{TRUE} for
 \code{NA_integer_} and \code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
 
-\code{is_natural()} and \code{all_natural()} allow for small numeric errors when
+\code{is_natural()}, \code{all_natural()} and \code{make_natural()} allow for small numeric
+errors when
 comparing numbers. Such numeric errors can arise because of rounding or
 representation error. As the \code{Note} at \code{\link{==}} warns, \code{x == round(x)} does
-\strong{not} allow for such errors but tests exact equality. Functions from other
-packages with names like \code{integerish} frequently do \strong{not} allow for small
-numeric errors but are instead intended to allow values that are stored as
-doubles (e.g., \code{3}) in addition to integer-type values (e.g., \code{3L}).
+\strong{not} allow for such errors but tests exact equality.
 }
 \section{Notes}{
 
@@ -91,8 +90,8 @@ assign the result of \code{make_natural(x)} to \code{x} without using \code{is_n
 or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}}.
 
 \code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor if \code{x} is
-a whole number) but rather that \code{x} is of \link[=typeof]{type} integer (see the
-\code{Note} in \code{\link[=is.integer]{is.integer()}}).
+a whole number) but rather that \code{x} is of \link[=typeof]{type} integer, see the
+\code{Note} in \code{\link[=is.integer]{is.integer()}}.
 }
 
 \examples{

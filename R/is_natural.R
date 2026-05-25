@@ -20,17 +20,16 @@
 #' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for
 #' `NA_integer_` and `NA_real_` but not for the other [NA]s or [NaN].
 #'
-#' `is_natural()` and `all_natural()` allow for small numeric errors when
+#' `is_natural()`, `all_natural()` and `make_natural()` allow for small numeric
+#' errors when
 #' comparing numbers. Such numeric errors can arise because of rounding or
 #' representation error. As the `Note` at [`==`] warns, `x == round(x)` does
-#' **not** allow for such errors but tests exact equality. Functions from other
-#' packages with names like `integerish` frequently do **not** allow for small
-#' numeric errors but are instead intended to allow values that are stored as
-#' doubles (e.g., `3`) in addition to integer-type values (e.g., `3L`).
+#' **not** allow for such errors but tests exact equality.
 #'
 #' @returns `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
 #' `x` is a vector of the appropriate length with only natural numbers.
-#' `make_natural()`: `x`, [rounded][round] and coerced to [integer].
+#' `make_natural()`: `x`, [rounded to a whole number][round] and coerced to
+#' [integer] type.
 #'
 #' @section Notes:
 #' `make_natural(x, all = FALSE)` and `make_natural(x, all = TRUE)` throw an
@@ -47,8 +46,8 @@
 #' or `all_natural(x)` inside [stopifnot()].
 #'
 #' [is.integer()] does **not** check that `x` is a natural number (nor if `x` is
-#' a whole number) but rather that `x` is of [type][typeof()] integer (see the
-#' `Note` in [is.integer()]).
+#' a whole number) but rather that `x` is of [type][typeof()] integer, see the
+#' `Note` in [is.integer()].
 #'
 #' @family
 #' collections of checks on type and length
@@ -164,7 +163,7 @@ all_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
 #' @rdname is_natural
 #' @export
 make_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
-                         all = TRUE, tol = .Machine$double.eps^0.5) {
+                         all = FALSE, tol = .Machine$double.eps^0.5) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all))
   if(all && !all_natural(x = x, strict = strict, allow_zero = allow_zero,
