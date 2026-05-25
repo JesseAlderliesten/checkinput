@@ -1,4 +1,4 @@
-# checkinput devel
+# checkinput 0.7.0
 
 ### Breaking changes
 - `make_natural()`: change default `all` from `TRUE` to `FALSE` because it will
