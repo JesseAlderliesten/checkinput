@@ -10,16 +10,6 @@
 With `checkinput`, you can write concise but flexible checks for input
 to R functions.
 
-## Folder structure
-
-    ├── .github
-    │   └── workflows: workflows to run tests with GitHub Actions
-    ├── R: functions
-    ├── inst
-    │   └── tinytest: tests
-    ├── man: help-files
-    └── tests: setup to use 'tinytest' for testing
-
 ## Installation
 
 You can visit the [checkinput
