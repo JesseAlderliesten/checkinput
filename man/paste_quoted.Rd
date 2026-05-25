@@ -2,19 +2,20 @@
 % Please edit documentation in R/paste_quoted.R
 \name{paste_quoted}
 \alias{paste_quoted}
-\title{Quote and concatenate elements to a string.}
+\title{Quote and concatenate x to a string}
 \usage{
 paste_quoted(x)
 }
 \arguments{
-\item{x}{Vector or factor to be converted to a character string.}
+\item{x}{Factor or vector to be converted to a character string.}
 }
 \value{
 A character string consisting of the elements of \code{x} surrounded by single
-quotes, separated by commas. See \code{Details} on handling of some special values.
+quotes, separated by commas. See \code{Details} on the handling of some special
+values.
 }
 \description{
-Quote elements of a vector or a factor and concatenate them to a single
+Quote a factor or elements of a vector and concatenate the result to a single
 string.
 }
 \details{

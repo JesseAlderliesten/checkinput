@@ -44,7 +44,8 @@ is also allowed for both types of functions.
 \code{all_nonnegative()} and \code{is_nonnegative()} return \code{TRUE} for \code{0}, whereas
 \code{is_positive()} returns \code{FALSE} for \code{0}.
 
-All functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct sign;
+All these functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct
+sign;
 return \code{TRUE} for \link{NaN} (which has \link{mode} \code{numeric}, despite meaning 'not a
 number') if \code{allow_NaN} is \code{TRUE}; and return \code{FALSE} for \code{NA_complex_} (even
 if \code{allow_NA} is \code{TRUE}) because its mode is \code{complex} instead of \code{numeric}.

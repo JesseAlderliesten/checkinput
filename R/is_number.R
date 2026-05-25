@@ -16,7 +16,8 @@
 #' `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`, whereas
 #' `is_positive()` returns `FALSE` for `0`.
 #'
-#' All functions return `TRUE` for `-Inf` and `Inf` if it has the correct sign;
+#' All these functions return `TRUE` for `-Inf` and `Inf` if it has the correct
+#' sign;
 #' return `TRUE` for [NaN] (which has [mode] `numeric`, despite meaning 'not a
 #' number') if `allow_NaN` is `TRUE`; and return `FALSE` for `NA_complex_` (even
 #' if `allow_NA` is `TRUE`) because its mode is `complex` instead of `numeric`.
