@@ -1,45 +1,33 @@
 # Changelog
 
+## checkinput 0.7.0
+
+#### Breaking changes
+
+- [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
+  change default `all` from `TRUE` to `FALSE` because it will be used
+  more often with scalar input.
+
 ## checkinput 0.6.5
 
-#### Miscellaneous
+#### Documentation
 
 - [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md):
   clearer title and description.
-- Stylistic changes to vignettes.
-- Align `README` with vignette text.
 
 ## checkinput 0.6.4
 
-#### Miscellaneous
+#### Documentation
 
 - Vignette `design_choices`: shorten name to `Design choices`.
-- Fix links to vignettes. Stylistic updates to function documentation.
-
-## checkinput 0.6.3
-
-#### Miscellaneous
-
-- Stylistic updates to vignette and website.
+- Fix links to vignettes.
 
 ## checkinput 0.6.2
 
-#### Miscellaneous
+#### Documentation
 
-- `README`: refer to website when appropriate. Stylistic update.
-- `NEWS`: stylistic update.
 - Vignettes: explain notation. Rely on `pkgdown` to create links to
   functions.
-- `check-no-suggests.yaml`: also mention package `rcmdcheck` as needed
-  package. Order packages alphabetically. Fuller annotation of
-  modifications.
-
-## checkinput 0.6.1
-
-#### Miscellaneous
-
-- Add pkgdown website:
-  `https://jessealderliesten.github.io/checkinput/`.
 
 ## checkinput 0.6.0
 
@@ -49,10 +37,6 @@
 - Replace the non-exported function
   [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
   by the full function from `progutils::paste_quoted()` and export it.
-
-#### Miscellaneous
-
-- Stylistic changes to code and tests prompted by `goodpractice::gp()`.
 
 ## checkinput 0.5.0
 
@@ -87,17 +71,6 @@
   followed by `all(x >= 0, na.rm = TRUE)` or `all(x > 0, na.rm = TRUE)`
   for more succinct and uniform code.
 
-#### Miscellaneous
-
-- GitHub action `check-standard` also runs on R 4.1.0 on macOS, Windows,
-  and Ubuntu, is triggered every Saturday on 04:23 UTC, and can be
-  triggered manually (trigger it once manually on the main branch to be
-  able to trigger it manually on other branches).
-
-## checkinput 0.3.1
-
-`checkinput` uses GitHub action `check-standard` on all branches.
-
 ## checkinput 0.3.0
 
 #### Breaking changes
@@ -128,25 +101,28 @@
 
 - `is_natural`: as
   [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
-  but also test if `x` has a length of at most one.
+  but test if `x` has a length of at most one.
 
 ## checkinput 0.1.0
 
-#### Updated documentation
+#### Documentation
 
 - Vignettes: add hyperlinks from the vignettes to the help-pages of
   functions. No need to put output in comments because the output is
   automatically shown together with the code. Use `<funcname>` instead
   of `<func>` or `<function>` to align with usage in the vignettes of
   `checkrpkgs`.
-- README: use `<funcname>` instead of `<func>` or `<function>` to align
-  with usage in the vignettes of `checkrpkgs`. Define variables to write
-  more succinct code.
+- `README`: use `<funcname>` instead of `<func>` or `<function>` to
+  align with usage in the vignettes of `checkrpkgs`. Define variables to
+  write more succinct code.
 
 ## checkinput 0.0.6
 
 #### Breaking changes
 
+- Added `vctrs` as dependency in `Suggests` because it is used in
+  documentation of
+  [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   remove argument `allow_susp` and never allows suspicious names because
   allowing them amounts to only checking for syntactically invalid
@@ -165,55 +141,28 @@
   part, and that the first digit of numbers added to duplicated names is
   non-zero.
 - [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
-  and derived functions gained arguments `allow_zero`, `allow_NA` and
-  `allow_NaN` (with default `FALSE` in contrast to the previously
+  and derived functions gain arguments `allow_zero`, `allow_NA` and
+  `allow_NaN` (with default `FALSE`, in contrast to the previously
   implicit `TRUE`), to resolve the contradiction that using
   [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   returned `TRUE` for these values but using them in conditional
   statements led to `logical(0)` and thus to an error.
 
-#### Updated documentation
+#### Documentation
 
-- Added `vctrs` as dependency in `Suggests` because it is used in
-  documentation of
-  [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   major updates and restructuring. Also updated and added examples.
-- [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
-  add a note about functions named `integerish`.
 - `README`: add a reference to my repository `checkrpkgs`. Clarify that
-  functions *do* throw errors about invalid input to arguments other
+  functions **do** throw errors about invalid input to arguments other
   than `x`.
-- Vignette `design_choices`: clarified that functions *do* throw errors
-  about invalid input to arguments other than `x`. Added a table of
-  contents. Removed obsolete note about `allow_NA` being absent from
-  [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
-  and derived functions.
-- Vignette `Type_Coercion`: rename to `type_coercion`. Added section
-  labels and a table of contents.
-- Replace section title `Note` (created through `@Note`) by section
-  title `Notes` (created through `@section Notes:`). Idem for
-  `Programming note`.
+- Vignette `design_choices`: clarified that functions **do** throw
+  errors about invalid input to arguments other than `x`.
 
 ## checkinput 0.0.5
 
-#### Breaking changes
+#### Documentation
 
-- [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-  (an internal function) throws an error if `x` has dimensions.
-
-#### Minor improvements
-
-- Move code of `is_character.R` to `all_characters.R`, and code of
-  `is_positive.R`, `is_nonnegative.R`, etc. to `is.number.R`.
-
-#### Updated documentation
-
-- Update `README` to mention vignettes and introduce design choices.
-- Cross-reference on
-  [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
-  instead of on
-  [`all_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md).
+- `README`: mention vignettes and introduce design choices.
 - Remove `Notes` about legacy code.
 - Move `To do` points and `Wishlist` to GitHub issues.
 - Move information about correct input to the vignette `design_choices`
@@ -225,7 +174,7 @@
   [`make.names()`](https://rdrr.io/r/base/make.names.html). Move section
   on how to get a boolean vector to the vignette on design choices.
 - [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md):
-  document that a zero-row `data.frame` is not a zero-length object.
+  document that a zero-row data frame is not a zero-length object.
 
 ## checkinput 0.0.4
 

@@ -1,7 +1,7 @@
-# Quote and concatenate elements to a string.
+# Quote and concatenate x to a string
 
-Quote elements of a vector or a factor and concatenate them to a single
-string.
+Quote a factor or elements of a vector and concatenate the result to a
+single string.
 
 ## Usage
 
@@ -13,13 +13,13 @@ paste_quoted(x)
 
 - x:
 
-  Vector or factor to be converted to a character string.
+  Factor or vector to be converted to a character string.
 
 ## Value
 
 A character string consisting of the elements of `x` surrounded by
-single quotes, separated by commas. See `Details` on handling of some
-special values.
+single quotes, separated by commas. See `Details` on the handling of
+some special values.
 
 ## Details
 

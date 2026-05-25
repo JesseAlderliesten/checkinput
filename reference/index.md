@@ -31,7 +31,7 @@
   Check that `x` is numeric
 
 - [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-  : Check that x is zero-length
+  : Check that x has length zero
 
 - [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-  : Quote and concatenate elements to a string.
+  : Quote and concatenate x to a string

@@ -51,10 +51,11 @@ zero-length `x` is also allowed for both types of functions.
 `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`,
 whereas `is_positive()` returns `FALSE` for `0`.
 
-All functions return `TRUE` for `-Inf` and `Inf` if it has the correct
-sign; return `TRUE` for [NaN](https://rdrr.io/r/base/is.finite.html)
-(which has [mode](https://rdrr.io/r/base/mode.html) `numeric`, despite
-meaning 'not a number') if `allow_NaN` is `TRUE`; and return `FALSE` for
+All these functions return `TRUE` for `-Inf` and `Inf` if it has the
+correct sign; return `TRUE` for
+[NaN](https://rdrr.io/r/base/is.finite.html) (which has
+[mode](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning 'not
+a number') if `allow_NaN` is `TRUE`; and return `FALSE` for
 `NA_complex_` (even if `allow_NA` is `TRUE`) because its mode is
 `complex` instead of `numeric`.
 

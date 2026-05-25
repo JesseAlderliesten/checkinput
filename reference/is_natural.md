@@ -27,7 +27,7 @@ make_natural(
   strict = TRUE,
   allow_zero = FALSE,
   allow_NA = FALSE,
-  all = TRUE,
+  all = FALSE,
   tol = .Machine$double.eps^0.5
 )
 ```
@@ -64,8 +64,9 @@ make_natural(
 
 `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
 is a vector of the appropriate length with only natural numbers.
-`make_natural()`: `x`, [rounded](https://rdrr.io/r/base/Round.html) and
-coerced to [integer](https://rdrr.io/r/base/integer.html).
+`make_natural()`: `x`, [rounded to a whole
+number](https://rdrr.io/r/base/Round.html) and coerced to
+[integer](https://rdrr.io/r/base/integer.html) type.
 
 ## Details
 
@@ -84,15 +85,11 @@ If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return
 [NA](https://rdrr.io/r/base/NA.html)s or
 [NaN](https://rdrr.io/r/base/is.finite.html).
 
-`is_natural()` and `all_natural()` allow for small numeric errors when
-comparing numbers. Such numeric errors can arise because of rounding or
-representation error. As the `Note` at
+`is_natural()`, `all_natural()` and `make_natural()` allow for small
+numeric errors when comparing numbers. Such numeric errors can arise
+because of rounding or representation error. As the `Note` at
 [`==`](https://rdrr.io/r/base/Comparison.html) warns, `x == round(x)`
-does **not** allow for such errors but tests exact equality. Functions
-from other packages with names like `integerish` frequently do **not**
-allow for small numeric errors but are instead intended to allow values
-that are stored as doubles (e.g., `3`) in addition to integer-type
-values (e.g., `3L`).
+does **not** allow for such errors but tests exact equality.
 
 ## Notes
 
@@ -115,8 +112,8 @@ assigning the rounded value to the argument:
 
 [`is.integer()`](https://rdrr.io/r/base/integer.html) does **not** check
 that `x` is a natural number (nor if `x` is a whole number) but rather
-that `x` is of [type](https://rdrr.io/r/base/typeof.html) integer (see
-the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html)).
+that `x` is of [type](https://rdrr.io/r/base/typeof.html) integer, see
+the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html).
 
 ## See also
 
@@ -153,7 +150,7 @@ is_natural(x = 1e-10, strict = TRUE) # FALSE
 #> [1] FALSE
 try(make_natural(x = 1e-10, strict = TRUE)) # Error
 #> Error in make_natural(x = 1e-10, strict = TRUE) : 
-#>   checkinput::all_natural(1e-10) is not TRUE
+#>   checkinput::is_natural(1e-10) is not TRUE
 is_natural(x = 1e-10, strict = FALSE) # TRUE
 #> [1] TRUE
 make_natural(x = 1e-10, strict = FALSE) # 0
@@ -179,7 +176,8 @@ x - 2 # about 4.44e-16
 all_natural(x = c(3, 5 + 1e-10)) # TRUE
 #> [1] TRUE
 try(make_natural(x = c(3, 5 + 1e-10))) # c(3L, 5L)
-#> [1] 3 5
+#> Error in make_natural(x = c(3, 5 + 1e-10)) : 
+#>   checkinput::is_natural(c(3, 5 + 1e-10)) is not TRUE
 # Zero is not considered a natural number if 'strict' is TRUE:
 all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 #> [1] FALSE

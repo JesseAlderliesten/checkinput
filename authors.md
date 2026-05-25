@@ -11,12 +11,12 @@ Source:
 [`DESCRIPTION`](https://github.com/JesseAlderliesten/checkinput/blob/main/DESCRIPTION)
 
 Alderliesten J (2026). *checkinput: Check Function Input*. R package
-version 0.6.5, <https://github.com/JesseAlderliesten/checkinput>.
+version 0.7.0, <https://github.com/JesseAlderliesten/checkinput>.
 
     @Manual{,
       title = {checkinput: Check Function Input},
       author = {Jesse Alderliesten},
       year = {2026},
-      note = {R package version 0.6.5},
+      note = {R package version 0.7.0},
       url = {https://github.com/JesseAlderliesten/checkinput},
     }

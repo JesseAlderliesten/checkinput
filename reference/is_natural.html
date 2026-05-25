@@ -9,7 +9,7 @@ numeric errors."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@ numeric errors.</p>
 <span>  strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  allow_zero <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  allow_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  all <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.5</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -112,7 +112,8 @@ than <code>tol</code> are considered equal.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>is_natural()</code> and <code>all_natural()</code>: <code>TRUE</code> or <code>FALSE</code> indicating if
 <code>x</code> is a vector of the appropriate length with only natural numbers.
-<code>make_natural()</code>: <code>x</code>, <a href="https://rdrr.io/r/base/Round.html" class="external-link">rounded</a> and coerced to <a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a>.</p>
+<code>make_natural()</code>: <code>x</code>, <a href="https://rdrr.io/r/base/Round.html" class="external-link">rounded to a whole number</a> and coerced to
+<a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a> type.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -124,13 +125,11 @@ be represented as <a href="https://rdrr.io/r/base/integer.html" class="external-
 numbers in this implementation.</p>
 <p>If <code>allow_NA</code> is <code>TRUE</code>, <code>is_natural()</code> and <code>all_natural()</code> return <code>TRUE</code> for
 <code>NA_integer_</code> and <code>NA_real_</code> but not for the other <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a>s or <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a>.</p>
-<p><code>is_natural()</code> and <code>all_natural()</code> allow for small numeric errors when
+<p><code>is_natural()</code>, <code>all_natural()</code> and <code>make_natural()</code> allow for small numeric
+errors when
 comparing numbers. Such numeric errors can arise because of rounding or
 representation error. As the <code>Note</code> at <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">==</a></code> warns, <code>x == round(x)</code> does
-<strong>not</strong> allow for such errors but tests exact equality. Functions from other
-packages with names like <code>integerish</code> frequently do <strong>not</strong> allow for small
-numeric errors but are instead intended to allow values that are stored as
-doubles (e.g., <code>3</code>) in addition to integer-type values (e.g., <code>3L</code>).</p>
+<strong>not</strong> allow for such errors but tests exact equality.</p>
     </div>
     <div class="section level2">
     <h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a></h2>
@@ -151,8 +150,8 @@ the rounded value to the argument: <code>x &lt;- as.integer(round(x))</code>. Al
 assign the result of <code>make_natural(x)</code> to <code>x</code> without using <code>is_natural(x)</code>
 or <code>all_natural(x)</code> inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>.</p>
 <p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code> does <strong>not</strong> check that <code>x</code> is a natural number (nor if <code>x</code> is
-a whole number) but rather that <code>x</code> is of <a href="https://rdrr.io/r/base/typeof.html" class="external-link">type</a> integer (see the
-<code>Note</code> in <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code>).</p>
+a whole number) but rather that <code>x</code> is of <a href="https://rdrr.io/r/base/typeof.html" class="external-link">type</a> integer, see the
+<code>Note</code> in <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -183,7 +182,7 @@ for background on numerical equality.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1e-10</span>, strict <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="co"># Error</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in make_natural(x = 1e-10, strict = TRUE) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   checkinput::all_natural(1e-10) is not TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   checkinput::is_natural(1e-10) is not TRUE</span>
 <span class="r-in"><span><span class="fu">is_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1e-10</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1e-10</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># 0</span></span></span>
@@ -209,7 +208,8 @@ for background on numerical equality.</p>
 <span class="r-in"><span><span class="fu">all_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span> <span class="op">+</span> <span class="fl">1e-10</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span> <span class="op">+</span> <span class="fl">1e-10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># c(3L, 5L)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in make_natural(x = c(3, 5 + 1e-10)) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   checkinput::is_natural(c(3, 5 + 1e-10)) is not TRUE</span>
 <span class="r-in"><span><span class="co"># Zero is not considered a natural number if 'strict' is TRUE:</span></span></span>
 <span class="r-in"><span><span class="fu">all_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-10</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>, strict <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>

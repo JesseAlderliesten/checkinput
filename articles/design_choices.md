@@ -28,9 +28,9 @@ to arguments other than `x`, e.g., when values other than `TRUE` or
 The default arguments make functions of `checkinput` more restrictive
 than the equivalent functions in base R (e.g.,
 [`checkinput::is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md)
-versus [`base::is.logical()`](https://rdrr.io/r/base/logical.html)),
-reflecting that the functions of `checkinput` are intended for argument
-checking, where, for example, zero-length `x` is unwanted.
+versus [`base::is.logical()`](https://rdrr.io/r/base/logical.html))
+because the functions of `checkinput` are intended for argument checking
+where, for example, zero-length `x` is unwanted.
 
 ## Length of x
 
@@ -38,9 +38,7 @@ By default, `is_<func>(x)` only returns `TRUE` for `x` of length one
 (with the obvious exception of `is_zerolength(x)`) and `all_<func>(x)`
 only returns `TRUE` for `x` of length larger than zero. Set argument
 `allow_zero` to `TRUE` to also return `TRUE` for zero-length `x` of the
-correct type. See
-[`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-and
+correct type. See `help("Is_zerolength")` and
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
 for a discussion of some issues with zero-length input.
 

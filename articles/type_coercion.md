@@ -8,13 +8,13 @@ combined in a vector. The type of the vector, and thus of all its
 components, will be the highest type of the components in the hierarchy
 `NULL` \< `raw` \< `logical` \< `integer` \< `double` \< `complex` \<
 `character` \< `list` \< `expression`, see the section `Details` in
-[`help("c")`](https://rdrr.io/r/base/c.html) and
+[`help("c")`](https://rdrr.io/r/base/c.html) and the section `Value` in
 [`help("typeof")`](https://rdrr.io/r/base/typeof.html). For example,
 numeric `314` will be coerced to character `"314"` when it is combined
 in a vector with character `"nco"`, such that `c(314, "nco")` results in
 the character vector `c("314", "nco")`. This also holds for the logical
-`NA`, which will be coerced to `NA_character_`, which also prints as
-`NA`.
+`NA`, which will be coerced to `NA_character_`, even though it is also
+printed as `NA`.
 
 ``` r
 
@@ -110,14 +110,12 @@ all(unlist(lapply(X = z, FUN = all_characters)))
 
 ## Zero-length values
 
-Although zero-length objects (see
-[`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md))
-are discarded when combined into a vector with other values, their types
-are taken into account for type coercion. For example, numeric `314`
-will be coerced to character `"314"` when it is combined into a vector
-with zero-length `character(0)`, such that `c(314, character(0))`
-results in the character string `"314"`, **not** in the numeric value
-`314`.
+Although zero-length objects (see `help("Is_zerolength")`) are discarded
+when combined into a vector with other values, their types are taken
+into account for type coercion. For example, numeric `314` will be
+coerced to character `"314"` when it is combined into a vector with
+zero-length `character(0)`, such that `c(314, character(0))` results in
+the character string `"314"`, **not** in the numeric value `314`.
 
 ``` r
 

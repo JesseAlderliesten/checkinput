@@ -1,6 +1,6 @@
-# Check that x is zero-length
+# Check that x has length zero
 
-Check that x is zero-length
+Check that x has length zero
 
 ## Usage
 
@@ -18,14 +18,6 @@ is_zerolength(x)
 
 `TRUE` or `FALSE` indicating if `x` is a zero-length object.
 
-## Details
-
-No check is performed on dimensions, such that a
-[`matrix()`](https://rdrr.io/r/base/matrix.html) with zero rows is a
-zero-length object whereas a
-[`data.frame()`](https://rdrr.io/r/base/data.frame.html) with zero rows
-is **not** (see the `Examples`).
-
 ## Notes
 
 [Zero-length](https://rdrr.io/r/base/length.html) objects can have
@@ -37,15 +29,17 @@ character (`character(0)`), and list
 [`data.frame()`](https://rdrr.io/r/base/data.frame.html)). `""` is not a
 zero-length object: it has a `length` of one despite its
 [width](https://rdrr.io/r/base/nchar.html) of zero characters. A
-dataframe with zero rows is *not* a zero-length object: it has `length`
-equal to the number of columns.
+dataframe with zero rows is **not** a zero-length object: it has
+`length` equal to the number of columns. In contrast, a
+[matrix](https://rdrr.io/r/base/matrix.html) with zero rows **is** a
+zero-length object, see the `Examples`.
 
 [`is.null()`](https://rdrr.io/r/base/NULL.html) should be used to check
 that an object is `NULL` and, more generally,
 `isTRUE(all.equal(x, <zero-length object>))` should be used to check
 equality to a zero-length object. Testing equality should **not** be
 done by using [==](https://rdrr.io/r/base/Comparison.html) because that
-leads to `logical(0)` if any of any sides contains a zero-length object,
+leads to `logical(0)` if any of the sides contains a zero-length object,
 which gives an error when used as complete [conditional
 statement](https://rdrr.io/r/base/Control.html).
 
@@ -55,10 +49,11 @@ statement](https://rdrr.io/r/base/Control.html).
 `logical`.
 
 Although zero-length objects are discarded when combined into a vector
-with other values, their types are taken into account for type coercion,
-see the vignette mentioned in the `See also` section. For example,
-numeric `314` will be coerced to character `"314"` when it is combined
-into a vector with zero-length `character(0)`, such that
+with other values, their types **are** taken into account for type
+coercion, see the vignette *Type coercion in vectors*:
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
+For example, numeric `314` will be coerced to character `"314"` when it
+is combined into a vector with zero-length `character(0)`, such that
 `c(314, character(0))` results in the character string `"314"`, not in
 the numeric value `314`. If zero-length objects are combined into a
 vector with only zero-length values, the type of the vector is the

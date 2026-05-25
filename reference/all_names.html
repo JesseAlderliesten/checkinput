@@ -11,7 +11,7 @@ not suggest they were adjusted or automatically created."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,8 +74,8 @@ not suggest they were adjusted or automatically created.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>TRUE</code> or <code>FALSE</code>, indicating if <code>x</code> is a character vector that consists of
-unique, syntactically valid names that do not consist of only dots or of two
-dots followed by a number, and do not suggest they were adjusted or
+unique, syntactically valid names that do <strong>not</strong> consist of only dots or of
+two dots followed by a number, and do <strong>not</strong> suggest they were adjusted or
 automatically created.</p>
     </div>
     <div class="section level2">
@@ -97,7 +97,7 @@ are not allowed by <code>all_names()</code> (nor by <code><a href="https://vctrs
 listed as <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words even though they are not recognised as
 syntactically invalid by <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>.</p>
 <p>Suspicious names are not allowed by <code>all_names()</code>. A suspicious name contains
-a pattern that suggests it originally was syntactically invalid and has been
+a pattern suggesting it originally was syntactically invalid and has been
 <strong>adjusted</strong> into a syntactically valid name, or has been adjusted to make names
 <a href="https://rdrr.io/r/base/make.unique.html" class="external-link">unique</a>. Such adjustments usually occur silently, for example
 when data is read into <span style="R">R</span>, which is problematic because it cannot reliably be
@@ -113,8 +113,8 @@ throughout the <a href="https://tidyverse.org/" class="external-link">tidyverse<
 letter, number, dot or underscore): <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> and
 <code>vctrs::vec_as_names(x, repair = "universal")</code> replace such characters with
 a dot. Their identification is based on the assumption that names
-originally did <strong>not</strong> contain dots, which is good practice (unfortunately
-not strictly followed in base-<span style="R">R</span>, e.g., in <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>) preventing names
+originally did <strong>not</strong> contain dots, which is good practice (despite not
+being strictly followed in base-<span style="R">R</span>, e.g., in <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>) preventing names
 containing a dot from being confused with <a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">methods</a> used on
 <a href="https://rdrr.io/r/base/is.object.html" class="external-link">classed objects</a>.</p></li>
 <li><p>adjustments to make duplicated names unique: <code>make.names(x, unique = TRUE)</code>
@@ -129,13 +129,13 @@ names is present, e.g., <code>a.2</code> will be flagged as suspicious even if <
 not followed by a number, syntactically valid: <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> prepends <code>X</code>;
 <code>vctrs::vec_as_names(x, repair = "universal")</code> prepends one or more dots.</p></li>
 <li><p>adjustments to name unnamed columns: <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> uses pattern <code>V1</code>,
-<code>V2</code>, <code>V3</code> if a matrix without column names is converted to a data.frame,
+<code>V2</code>, <code>V3</code> if a matrix without column names is converted to a data frame,
 and <code>read.csv(..., header = FALSE)</code> uses the same pattern for data without
 column names; <code>read.csv(..., header = TRUE)</code> uses pattern <code>X</code>, <code>X.1</code>, <code>X.2</code>.</p></li>
 </ul><p>Names containing underscores (<code>_</code>) are by default <strong>allowed</strong> by <code>all_names()</code>
 because names containing underscores are not syntactically invalid. However,
-setting <code>allow_underscores</code> to <code>FALSE</code> to not allow such names is useful to
-check that names do not contain underscores, for example if several names
+setting <code>allow_underscores</code> to <code>FALSE</code> to <strong>not</strong> allow such names is useful
+to check that names do not contain underscores, for example if several names
 will be concatenated to create an ID-tag, separating the parts by underscores.</p>
     </div>
     <div class="section level2">
@@ -160,10 +160,8 @@ times (<code>+</code>).</p></li>
 on the syntactical validity of names.</p>
 <p><code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code> to get or set object names; <code>janitor::make_clean_names()</code> to adjust
 names, e.g., through adjusting case and transliterating non-ASCII characters.</p>
-<p>The vignettes <em>Design choices regarding function input</em>:
-<code><a href="../articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code> and
-<em>Type coercion in vectors</em>:
-<code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
+<p>The vignette <em>Design choices regarding function input</em>:
+<code><a href="../articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>.</p>
 <p>Other collections of checks on type and length:
 <code><a href="all_characters.html">all_characters()</a></code>,
 <code><a href="is_logical.html">is_logical()</a></code>,
