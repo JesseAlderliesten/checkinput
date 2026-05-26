@@ -33,9 +33,6 @@
 #' would test the [class()] of `x` which is `numeric` for floating-point numbers
 #' but `integer` for integers (see the `Note on names` in [is.numeric()]).
 #'
-#' The functions duplicate code instead of calling `is_number()` or
-#' `all_numbers()`, to prevent performing checks twice.
-#'
 #' @family
 #' collections of checks on type and length
 #'

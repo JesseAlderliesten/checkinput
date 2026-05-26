@@ -28,7 +28,7 @@
 #'
 #' @returns `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
 #' `x` is a vector of the appropriate length with only natural numbers.
-#' `make_natural()`: `x`, [rounded to a whole number][round] and coerced to
+#' `make_natural()`: `x`, [rounded][round] to a whole number and coerced to
 #' [integer] type.
 #'
 #' @section Notes:
@@ -40,10 +40,11 @@
 #' `is.wholenumber()` in [is.integer()].
 #'
 #' @section Programming notes:
-#' Use of `is_natural(x)` or `all_natural(x)` should be followed by assigning
-#' the rounded value to the argument: `x <- as.integer(round(x))`. Alternatively,
-#' assign the result of `make_natural(x)` to `x` without using `is_natural(x)`
-#' or `all_natural(x)` inside [stopifnot()].
+#' Use of `is_natural(x)` or `all_natural(x)` inside [stopifnot()] should be
+#' followed by assigning the rounded value to the argument:
+#' `x <- as.integer(round(x))`. Alternatively, use `make_natural(x)` and assign
+#' the result to `x` (then there is no need to use [stopifnot()]: `make_natural()`
+#' throws an error if `x` is not natural.
 #'
 #' [is.integer()] does **not** check that `x` is a natural number (nor if `x` is
 #' a whole number) but rather that `x` is of [type][typeof()] integer, see the

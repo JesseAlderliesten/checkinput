@@ -57,9 +57,6 @@ floating-point numbers such as 3.2 and integers such as 3L. In contrast,
 \code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
 would test the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
 but \code{integer} for integers (see the \verb{Note on names} in \code{\link[=is.numeric]{is.numeric()}}).
-
-The functions duplicate code instead of calling \code{is_number()} or
-\code{all_numbers()}, to prevent performing checks twice.
 }
 
 \examples{
