@@ -9,7 +9,7 @@ correct sign."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,15 +53,25 @@ correct sign.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_number</span><span class="op">(</span><span class="va">x</span>, allow_zero <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_number</span><span class="op">(</span><span class="va">x</span>, allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">all_numbers</span><span class="op">(</span><span class="va">x</span>, allow_zero <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">all_numbers</span><span class="op">(</span><span class="va">x</span>, allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">is_nonnegative</span><span class="op">(</span><span class="va">x</span>, allow_zero <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">is_nonnegative</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_NaN <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">all_nonnegative</span><span class="op">(</span><span class="va">x</span>, allow_zero <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">all_nonnegative</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_NaN <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">is_positive</span><span class="op">(</span><span class="va">x</span>, allow_zero <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">is_positive</span><span class="op">(</span><span class="va">x</span>, allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>, allow_NA <span class="op">=</span> <span class="cn">FALSE</span>, allow_NaN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,7 +82,7 @@ correct sign.</p>
 <dd><p>object to test.</p></dd>
 
 
-<dt id="arg-allow-zero">allow_zero<a class="anchor" aria-label="anchor" href="#arg-allow-zero"></a></dt>
+<dt id="arg-allow-zero-length">allow_zero_length<a class="anchor" aria-label="anchor" href="#arg-allow-zero-length"></a></dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code>: allow zero-length <code>x</code> of the correct type?</p></dd>
 
 
@@ -93,7 +103,7 @@ only containing allowed numbers.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The correct length of <code>x</code> is one for <code>is_...()</code> and larger than zero for
-<code>all_...()</code>, unless <code>allow_zero</code> is <code>TRUE</code>: then numeric-type zero-length <code>x</code>
+<code>all_...()</code>, unless <code>allow_zero_length</code> is <code>TRUE</code>: then numeric-type zero-length <code>x</code>
 is also allowed for both types of functions.</p>
 <p><code>all_nonnegative()</code> and <code>is_nonnegative()</code> return <code>TRUE</code> for <code>0</code>, whereas
 <code>is_positive()</code> returns <code>FALSE</code> for <code>0</code>.</p>
@@ -112,8 +122,6 @@ floating-point numbers such as 3.2 and integers such as 3L. In contrast,
 <code>class(x) == "numeric"</code> (or, more robust, <code>inherits(x = x, what = "numeric")</code>)
 would test the <code><a href="https://rdrr.io/r/base/class.html" class="external-link">class()</a></code> of <code>x</code> which is <code>numeric</code> for floating-point numbers
 but <code>integer</code> for integers (see the <code>Note on names</code> in <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">is.numeric()</a></code>).</p>
-<p>The functions duplicate code instead of calling <code>is_number()</code> or
-<code>all_numbers()</code>, to prevent performing checks twice.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -143,7 +151,7 @@ but <code>integer</code> for integers (see the <code>Note on names</code> in <co
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="fu">is_number</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE: incorrect length</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span><span class="fu">is_number</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, allow_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
+<span class="r-in"><span><span class="fu">is_number</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, allow_zero_length <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu">is_number</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NA_real_</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
@@ -163,7 +171,7 @@ but <code>integer</code> for integers (see the <code>Note on names</code> in <co
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu">all_nonnegative</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">all_nonnegative</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, allow_zero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
+<span class="r-in"><span><span class="fu">all_nonnegative</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, allow_zero_length <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu">is_positive</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>

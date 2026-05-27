@@ -9,7 +9,7 @@ small numeric errors.
 is_natural(
   x,
   strict = TRUE,
-  allow_zero = FALSE,
+  allow_zero_length = FALSE,
   allow_NA = FALSE,
   tol = .Machine$double.eps^0.5
 )
@@ -17,7 +17,7 @@ is_natural(
 all_natural(
   x,
   strict = TRUE,
-  allow_zero = FALSE,
+  allow_zero_length = FALSE,
   allow_NA = FALSE,
   tol = .Machine$double.eps^0.5
 )
@@ -25,7 +25,7 @@ all_natural(
 make_natural(
   x,
   strict = TRUE,
-  allow_zero = FALSE,
+  allow_zero_length = FALSE,
   allow_NA = FALSE,
   all = FALSE,
   tol = .Machine$double.eps^0.5
@@ -42,7 +42,7 @@ make_natural(
 
   Exclude zero from the natural numbers?
 
-- allow_zero:
+- allow_zero_length:
 
   `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
 
@@ -64,8 +64,8 @@ make_natural(
 
 `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
 is a vector of the appropriate length with only natural numbers.
-`make_natural()`: `x`, [rounded to a whole
-number](https://rdrr.io/r/base/Round.html) and coerced to
+`make_natural()`: `x`, [rounded](https://rdrr.io/r/base/Round.html) to a
+whole number and coerced to
 [integer](https://rdrr.io/r/base/integer.html) type.
 
 ## Details
@@ -73,7 +73,8 @@ number](https://rdrr.io/r/base/Round.html) and coerced to
 Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
 considered a natural number if argument `strict` is `FALSE`.
 `integer(0)` and `numeric(0)` are considered natural numbers if argument
-`allow_zero` is `TRUE`. [Inf](https://rdrr.io/r/base/is.finite.html),
+`allow_zero_length` is `TRUE`.
+[Inf](https://rdrr.io/r/base/is.finite.html),
 [NaN](https://rdrr.io/r/base/is.finite.html),
 [NULL](https://rdrr.io/r/base/NULL.html), and numbers that are [too
 large](https://rdrr.io/r/base/zMachine.html) to be represented as
@@ -103,12 +104,13 @@ example `is.wholenumber()` in
 
 ## Programming notes
 
-Use of `is_natural(x)` or `all_natural(x)` should be followed by
-assigning the rounded value to the argument:
-`x <- as.integer(round(x))`. Alternatively, assign the result of
-`make_natural(x)` to `x` without using `is_natural(x)` or
-`all_natural(x)` inside
-[`stopifnot()`](https://rdrr.io/r/base/stopifnot.html).
+Use of `is_natural(x)` or `all_natural(x)` inside
+[`stopifnot()`](https://rdrr.io/r/base/stopifnot.html) should be
+followed by assigning the rounded value to the argument:
+`x <- as.integer(round(x))`. Alternatively, use `make_natural(x)` and
+assign the result to `x` (then there is no need to use
+[`stopifnot()`](https://rdrr.io/r/base/stopifnot.html): `make_natural()`
+throws an error if `x` is not natural.
 
 [`is.integer()`](https://rdrr.io/r/base/integer.html) does **not** check
 that `x` is a natural number (nor if `x` is a whole number) but rather
@@ -121,8 +123,8 @@ the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html).
 numbers; [`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check
 more generally for near-equality;
 [`identical()`](https://rdrr.io/r/base/identical.html) to check for
-exact equality; [Comparison](https://rdrr.io/r/base/Comparison.html) to
-compare two vectors using binary operators;
+exact equality and [Comparison](https://rdrr.io/r/base/Comparison.html)
+to do so using binary operators;
 [`match()`](https://rdrr.io/r/base/match.html) and `progutils::not_in()`
 to compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)

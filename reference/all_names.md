@@ -1,8 +1,7 @@
 # Check that names are syntactically valid and unadjusted
 
 Check that `x` is a character vector with unique, syntactically valid
-names that do not consist of only dots or of two dots followed by a
-number and do not suggest they were adjusted or automatically created.
+names that do not suggest they were adjusted or automatically created.
 
 ## Usage
 
@@ -59,11 +58,12 @@ contains a pattern suggesting it originally was syntactically invalid
 and has been **adjusted** into a syntactically valid name, or has been
 adjusted to make names
 [unique](https://rdrr.io/r/base/make.unique.html). Such adjustments
-usually occur silently, for example when data is read into R, which is
-problematic because it cannot reliably be assumed the original (i.e.,
-before being read into R) column names are present. The identification
-of suspicious names is partly based on the assumption that names
-originally did not contain dots, see the first item in the list below.
+usually occur silently, for example when data is read into R, such that
+it should **not** be assumed that column names after reading data into R
+are the same as the column names before reading data into R. The
+identification of suspicious names is partly based on the assumption
+that names originally did not contain dots, see the first item in the
+list below.
 
 `all_names()` **tries** to recognise adjustments made by
 [`make.names()`](https://rdrr.io/r/base/make.names.html), which is used
@@ -166,7 +166,7 @@ all_names(x = c("a", "b1a")) # TRUE
 #> [1] TRUE
 all_names(x = c("a", "b1a", "a")) # FALSE: duplicated name
 #> Warning: Names are duplicated: 'a'.
-#> Use 'x <- make.names(x, unique = TRUE)' to create unique, syntactically valid names!
+#> Use 'make.names(c("a", "b1a", "a"), unique = TRUE)' to create unique, syntactically valid names!
 #> [1] FALSE
 
 invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
@@ -174,7 +174,7 @@ invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
 # '""' is an empty name, 'for', '..', and '..23' are reserved words.
 all_names(x = invalid_names) # FALSE
 #> Warning: Names are syntactically invalid: 'ab#cd', 'for', '""' (i.e., an empty string); and consist of only dots, which is a reserved word: '..'; and consist of two dots followed by digits, which is a reserved word: '..23'.
-#> Use 'x <- make.names(x, unique = TRUE)' to create unique, syntactically valid names
+#> Use 'invalid_names <- make.names(invalid_names, unique = TRUE)' to create unique, syntactically valid names
 #> (it does not recognise names that consist of only dots, or two dots followed by digits)!
 #> [1] FALSE
 
@@ -193,7 +193,7 @@ all_names(x = c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
 all_names(x = "abc_def", allow_underscores = FALSE) # FALSE: underscores
 #> Warning: Names contain underscores (which are not allowed if 'allow_underscores' is FALSE):
 #> 'abc_def'.
-#> Use 'x <- make.names(x, unique = TRUE, allow_ = FALSE)' to create unique,
+#> Use '"abc_def" <- make.names("abc_def", unique = TRUE, allow_ = FALSE)' to create unique,
 #> syntactically valid names without underscores!
 #> [1] FALSE
 all_names(x = "abc_def", allow_underscores = TRUE) # TRUE
@@ -202,8 +202,8 @@ all_names(x = "abc_def", allow_underscores = TRUE) # TRUE
 # pass names() or colnames() used on an object
 # without (column) names to all_names():
 all_names(x = names(1:3)) # FALSE
-#> Warning: 'x' is NULL: did you use names() or colnames() on an object without
-#> (column) names to all_names()?
+#> Warning: 'x' (names(1:3)) is NULL: did you use names() or colnames() on an object without
+#> (column) names and passed the result to all_names()?
 #> [1] FALSE
 
 all_names(13) # FALSE: 'x' is not a character vector

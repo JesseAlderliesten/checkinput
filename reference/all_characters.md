@@ -6,9 +6,19 @@ allowed values.
 ## Usage
 
 ``` r
-all_characters(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
+all_characters(
+  x,
+  allow_empty = FALSE,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE
+)
 
-is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
+is_character(
+  x,
+  allow_empty = FALSE,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE
+)
 ```
 
 ## Arguments
@@ -21,7 +31,7 @@ is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
 
   `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
 
-- allow_zero:
+- allow_zero_length:
 
   `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
 

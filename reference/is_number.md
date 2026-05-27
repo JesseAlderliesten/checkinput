@@ -6,15 +6,25 @@ the correct sign.
 ## Usage
 
 ``` r
-is_number(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_number(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-all_numbers(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+all_numbers(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-is_nonnegative(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_nonnegative(
+  x,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE,
+  allow_NaN = FALSE
+)
 
-all_nonnegative(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+all_nonnegative(
+  x,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE,
+  allow_NaN = FALSE
+)
 
-is_positive(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_positive(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 ```
 
 ## Arguments
@@ -23,7 +33,7 @@ is_positive(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
   object to test.
 
-- allow_zero:
+- allow_zero_length:
 
   `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
 
@@ -45,7 +55,7 @@ length only containing allowed numbers.
 ## Details
 
 The correct length of `x` is one for `is_...()` and larger than zero for
-`all_...()`, unless `allow_zero` is `TRUE`: then numeric-type
+`all_...()`, unless `allow_zero_length` is `TRUE`: then numeric-type
 zero-length `x` is also allowed for both types of functions.
 
 `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`,
@@ -70,9 +80,6 @@ contrast, `class(x) == "numeric"` (or, more robust,
 for floating-point numbers but `integer` for integers (see the
 `Note on names` in
 [`is.numeric()`](https://rdrr.io/r/base/numeric.html)).
-
-The functions duplicate code instead of calling `is_number()` or
-`all_numbers()`, to prevent performing checks twice.
 
 ## See also
 
@@ -103,7 +110,7 @@ is_number(x = "a") # FALSE: incorrect type
 #> [1] FALSE
 is_number(x = numeric(0)) # FALSE: incorrect length
 #> [1] FALSE
-is_number(x = numeric(0), allow_zero = TRUE) # TRUE
+is_number(x = numeric(0), allow_zero_length = TRUE) # TRUE
 #> [1] TRUE
 is_number(x = NA_real_) # FALSE
 #> [1] FALSE
@@ -123,7 +130,7 @@ is_nonnegative(x = 0) # TRUE
 #> [1] TRUE
 all_nonnegative(x = c(3, 0)) # TRUE
 #> [1] TRUE
-all_nonnegative(x = numeric(0), allow_zero = TRUE) # TRUE
+all_nonnegative(x = numeric(0), allow_zero_length = TRUE) # TRUE
 #> [1] TRUE
 is_positive(x = 3) # TRUE
 #> [1] TRUE

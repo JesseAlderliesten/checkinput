@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,13 +126,16 @@ See <code>help("Is_zerolength")</code> and
 discussion of some issues with zero-length input.</p>
 </div>
 <div class="section level2">
-<h2 id="nas-in-x">NAs in x<a class="anchor" aria-label="anchor" href="#nas-in-x"></a>
+<h2 id="nas-and-nans-in-x">NAs and NaNs in x<a class="anchor" aria-label="anchor" href="#nas-and-nans-in-x"></a>
 </h2>
 <p>By default, functions only return <code>TRUE</code> for
-<code>x</code> without <code>NA</code>s. Set argument
-<code>allow_NA</code> to <code>TRUE</code> to also return
+<code>x</code> without <code>NA</code>s and <code>NaN</code>s. Set
+argument <code>allow_NA</code> to <code>TRUE</code> to also return
 <code>TRUE</code> for <code>x</code> containing <code>NA</code>s of the
-correct type.</p>
+correct type, and set argument <code>allow_NaN</code> for functions like
+<code>is_number(x)</code> and <code>is_natural(x)</code> to
+<code>TRUE</code> to also return <code>TRUE</code> for <code>x</code>
+containing <code>NaN</code>s.</p>
 </div>
 <div class="section level2">
 <h2 id="return">Return<a class="anchor" aria-label="anchor" href="#return"></a>
@@ -149,7 +152,9 @@ which elements of <code>x</code> are valid names, use
 <code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)</code>
 instead of <code>all_names(x, ...)</code>. The dots (<code>...</code>)
 indicate where to place other function arguments, e.g.,
-<code>allow_underscores = FALSE</code>.</p>
+<code>allow_underscores = FALSE</code> to change the default
+<code>TRUE</code> for <code>allow_underscores</code> to
+<code>FALSE</code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

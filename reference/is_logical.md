@@ -5,7 +5,7 @@ Check that `x` is a length-one logical vector with only allowed values.
 ## Usage
 
 ``` r
-is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
+is_logical(x, allow_zero_length = FALSE, allow_NA = FALSE)
 ```
 
 ## Arguments
@@ -14,7 +14,7 @@ is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
 
   object to test.
 
-- allow_zero:
+- allow_zero_length:
 
   `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
 

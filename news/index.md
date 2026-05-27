@@ -1,5 +1,26 @@
 # Changelog
 
+## checkinput 0.8.0
+
+#### Breaking changes
+
+- [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md)
+  now includes the used call instead of hardcoded `x` in suggestions to
+  make names valid.
+- [`is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md),
+  [`is_character()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
+  [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
+  [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`all_numbers()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`is_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`all_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`is_positive()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
+  [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
+  and
+  [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
+  renamed argument `allow_zero` to `allow_zero_length`.
+
 ## checkinput 0.7.0
 
 #### Breaking changes

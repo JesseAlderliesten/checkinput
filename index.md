@@ -5,9 +5,9 @@ to R functions.
 
 ## Installation
 
-You can visit the [checkinput
+Visit the [checkinput
 website](https://jessealderliesten.github.io/checkinput/) to explore the
-package. To use `checkinput`, you have to install it from
+package, or install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) using the
 following R code (you need to run R as administrator):
 

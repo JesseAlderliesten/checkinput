@@ -42,11 +42,13 @@ correct type. See `help("Is_zerolength")` and
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
 for a discussion of some issues with zero-length input.
 
-## NAs in x
+## NAs and NaNs in x
 
-By default, functions only return `TRUE` for `x` without `NA`s. Set
-argument `allow_NA` to `TRUE` to also return `TRUE` for `x` containing
-`NA`s of the correct type.
+By default, functions only return `TRUE` for `x` without `NA`s and
+`NaN`s. Set argument `allow_NA` to `TRUE` to also return `TRUE` for `x`
+containing `NA`s of the correct type, and set argument `allow_NaN` for
+functions like `is_number(x)` and `is_natural(x)` to `TRUE` to also
+return `TRUE` for `x` containing `NaN`s.
 
 ## Return
 
@@ -59,4 +61,5 @@ of `all_<func>(x, ...)`. For example, to check which elements of `x` are
 valid names, use
 `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)` instead of
 `all_names(x, ...)`. The dots (`...`) indicate where to place other
-function arguments, e.g., `allow_underscores = FALSE`.
+function arguments, e.g., `allow_underscores = FALSE` to change the
+default `TRUE` for `allow_underscores` to `FALSE`.
