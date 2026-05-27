@@ -1,3 +1,14 @@
+# checkinput 0.8.0
+
+### Breaking changes
+- `all_names()` now includes the used call instead of hardcoded `x` in
+  suggestions to make names valid.
+- `is_logical()`, `is_character()` `all_characters()`, `is_number()`,
+  `all_numbers()`, `is_nonnegative()`, `all_nonnegative()`, `is_positive()`,
+  `is_natural()`, `all_natural()` and `make_natural()`: renamed argument
+  `allow_zero` to `allow_zero_length`.
+
+
 # checkinput 0.7.0
 
 ### Breaking changes
