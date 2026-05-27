@@ -4,12 +4,12 @@
 \alias{is_logical}
 \title{Check that \code{x} is logical}
 \usage{
-is_logical(x, allow_zero = FALSE, allow_NA = FALSE)
+is_logical(x, allow_zero_length = FALSE, allow_NA = FALSE)
 }
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 }

@@ -28,21 +28,21 @@
 #' is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 #'
 #' @export
-all_characters <- function(x, allow_empty = FALSE, allow_zero = FALSE,
+all_characters <- function(x, allow_empty = FALSE, allow_zero_length = FALSE,
                            allow_NA = FALSE) {
-  stopifnot(is_logical(allow_empty), is_logical(allow_zero), is_logical(allow_NA))
+  stopifnot(is_logical(allow_empty), is_logical(allow_zero_length), is_logical(allow_NA))
   is.character(x) && is.atomic(x) && is.null(dim(x)) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
-    (allow_zero || length(x) > 0) &&
+    (allow_zero_length || length(x) > 0) &&
     (allow_NA || !anyNA(x))
 }
 
 #' @rdname all_characters
 #' @export
-is_character <- function(x, allow_empty = FALSE, allow_zero = FALSE,
+is_character <- function(x, allow_empty = FALSE, allow_zero_length = FALSE,
                          allow_NA = FALSE) {
   # Argument checking is deferred to all_characters().
   length(x) < 2L &&
-    all_characters(x, allow_empty = allow_empty, allow_zero = allow_zero,
+    all_characters(x, allow_empty = allow_empty, allow_zero_length = allow_zero_length,
                    allow_NA = allow_NA)
 }

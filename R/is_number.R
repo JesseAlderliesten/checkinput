@@ -10,7 +10,7 @@
 #'
 #' @details
 #' The correct length of `x` is one for `is_...()` and larger than zero for
-#' `all_...()`, unless `allow_zero` is `TRUE`: then numeric-type zero-length `x`
+#' `all_...()`, unless `allow_zero_length` is `TRUE`: then numeric-type zero-length `x`
 #' is also allowed for both types of functions.
 #'
 #' `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`, whereas
@@ -49,7 +49,7 @@
 #' all_numbers(x = c(1, 2)) # TRUE
 #' is_number(x = "a") # FALSE: incorrect type
 #' is_number(x = numeric(0)) # FALSE: incorrect length
-#' is_number(x = numeric(0), allow_zero = TRUE) # TRUE
+#' is_number(x = numeric(0), allow_zero_length = TRUE) # TRUE
 #' is_number(x = NA_real_) # FALSE
 #' is_number(x = NA_real_, allow_NA = TRUE) # TRUE
 #' is_number(x = NA_character_, allow_NA = TRUE) # FALSE: incorrect type
@@ -59,17 +59,17 @@
 #' is_nonnegative(x = 3) # TRUE
 #' is_nonnegative(x = 0) # TRUE
 #' all_nonnegative(x = c(3, 0)) # TRUE
-#' all_nonnegative(x = numeric(0), allow_zero = TRUE) # TRUE
+#' all_nonnegative(x = numeric(0), allow_zero_length = TRUE) # TRUE
 #' is_positive(x = 3) # TRUE
 #' is_positive(x = 0) # FALSE
 #'
 #' @export
-is_number <- function(x, allow_zero = FALSE, allow_NA = FALSE,
+is_number <- function(x, allow_zero_length = FALSE, allow_NA = FALSE,
                       allow_NaN = FALSE) {
   length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
-    ((allow_zero && length_x == 0L) ||
+    ((allow_zero_length && length_x == 0L) ||
        (length_x == 1L &&
           (allow_NA || !any(is.na(x) & !is.nan(x))) &&
           (allow_NaN || !any(is.nan(x)))))
@@ -77,12 +77,12 @@ is_number <- function(x, allow_zero = FALSE, allow_NA = FALSE,
 
 #' @rdname is_number
 #' @export
-all_numbers <- function(x, allow_zero = FALSE, allow_NA = FALSE,
+all_numbers <- function(x, allow_zero_length = FALSE, allow_NA = FALSE,
                         allow_NaN = FALSE) {
   length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
-    ((allow_zero && length_x == 0L) ||
+    ((allow_zero_length && length_x == 0L) ||
        (length_x >= 1L &&
           (allow_NA || !any(is.na(x) & !is.nan(x))) &&
           (allow_NaN || !any(is.nan(x)))))
@@ -90,27 +90,27 @@ all_numbers <- function(x, allow_zero = FALSE, allow_NA = FALSE,
 
 #' @rdname is_number
 #' @export
-is_nonnegative <- function(x, allow_zero = FALSE, allow_NA = FALSE,
+is_nonnegative <- function(x, allow_zero_length = FALSE, allow_NA = FALSE,
                            allow_NaN = FALSE) {
-  is_number(x, allow_zero = allow_zero, allow_NA = allow_NA,
+  is_number(x, allow_zero_length = allow_zero_length, allow_NA = allow_NA,
             allow_NaN = allow_NaN) &&
     all(x >= 0, na.rm = TRUE)
 }
 
 #' @rdname is_number
 #' @export
-all_nonnegative <- function(x, allow_zero = FALSE, allow_NA = FALSE,
+all_nonnegative <- function(x, allow_zero_length = FALSE, allow_NA = FALSE,
                             allow_NaN = FALSE) {
-  all_numbers(x, allow_zero = allow_zero, allow_NA = allow_NA,
+  all_numbers(x, allow_zero_length = allow_zero_length, allow_NA = allow_NA,
               allow_NaN = allow_NaN) &&
     all(x >= 0, na.rm = TRUE)
 }
 
 #' @rdname is_number
 #' @export
-is_positive <- function(x, allow_zero = FALSE, allow_NA = FALSE,
+is_positive <- function(x, allow_zero_length = FALSE, allow_NA = FALSE,
                         allow_NaN = FALSE) {
-  is_number(x = x, allow_zero = allow_zero, allow_NA = allow_NA,
+  is_number(x = x, allow_zero_length = allow_zero_length, allow_NA = allow_NA,
             allow_NaN = allow_NaN) &&
     all(x > 0, na.rm = TRUE)
 }

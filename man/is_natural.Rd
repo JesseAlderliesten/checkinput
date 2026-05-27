@@ -9,7 +9,7 @@
 is_natural(
   x,
   strict = TRUE,
-  allow_zero = FALSE,
+  allow_zero_length = FALSE,
   allow_NA = FALSE,
   tol = .Machine$double.eps^0.5
 )
@@ -17,7 +17,7 @@ is_natural(
 all_natural(
   x,
   strict = TRUE,
-  allow_zero = FALSE,
+  allow_zero_length = FALSE,
   allow_NA = FALSE,
   tol = .Machine$double.eps^0.5
 )
@@ -25,7 +25,7 @@ all_natural(
 make_natural(
   x,
   strict = TRUE,
-  allow_zero = FALSE,
+  allow_zero_length = FALSE,
   allow_NA = FALSE,
   all = FALSE,
   tol = .Machine$double.eps^0.5
@@ -36,7 +36,7 @@ make_natural(
 
 \item{strict}{Exclude zero from the natural numbers?}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 
@@ -58,7 +58,7 @@ numeric errors.
 \details{
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). Zero is
 considered a natural number if argument \code{strict} is \code{FALSE}. \code{integer(0)} and
-\code{numeric(0)} are considered natural numbers if argument \code{allow_zero} is
+\code{numeric(0)} are considered natural numbers if argument \code{allow_zero_length} is
 \code{TRUE}. \link{Inf}, \link{NaN}, \link{NULL}, and numbers that are \link[=.Machine]{too large} to
 be represented as \link[=integer]{integers} are \strong{never} considered natural
 numbers in this implementation.
@@ -154,9 +154,8 @@ try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 \seealso{
 \code{progutils::are_equal()} to check for element-wise near-equality of numbers;
 \code{\link[=all.equal]{all.equal()}} to check more generally for near-equality; \code{\link[=identical]{identical()}} to
-check for exact equality; \link{Comparison} to compare two vectors using binary
-operators; \code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors;
-\href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
+check for exact equality and \link{Comparison} to do so using binary operators;
+\code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality.
 
 The vignettes \emph{Design choices regarding function input}:
