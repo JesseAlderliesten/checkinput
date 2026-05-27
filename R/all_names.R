@@ -1,8 +1,7 @@
 #' Check that names are syntactically valid and unadjusted
 #'
 #' Check that `x` is a character vector with unique, syntactically valid names
-#' that do not consist of only dots or of two dots followed by a number and do
-#' not suggest they were adjusted or automatically created.
+#' that do not suggest they were adjusted or automatically created.
 #'
 #' @param x Vector of names to test.
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
@@ -31,11 +30,11 @@
 #' a pattern suggesting it originally was syntactically invalid and has been
 #' **adjusted** into a syntactically valid name, or has been adjusted to make names
 #' [unique][make.unique()]. Such adjustments usually occur silently, for example
-#' when data is read into \R, which is problematic because it cannot reliably be
-#' assumed the original (i.e., before being read into \R) column names are
-#' present. The identification of suspicious names is partly based on the
-#' assumption that names originally did not contain dots, see the first item in
-#' the list below.
+#' when data is read into \R, such that it should **not** be assumed that column
+#' names after reading data into \R are the same as the column names before
+#' reading data into \R. The identification of suspicious names is partly based
+#' on the assumption that names originally did not contain dots, see the first
+#' item in the list below.
 #'
 #' `all_names()` **tries** to recognise adjustments made by [make.names()],
 #' which is used by [data.frame()], [read.csv()][utils::read.csv()], and
@@ -137,9 +136,12 @@
 all_names <- function(x, allow_underscores = TRUE) {
   stopifnot(is_logical(allow_underscores))
 
+  name_x <- deparse1(substitute(x))
+  length_name_x <- length(substitute(x))
+
   # 'NULL' is catched later on with an informative message
   if(!is.null(x) && (!is.atomic(x) || !is.null(dim(x)) || !is.character(x))) {
-    warning("Input to 'x' is not a character vector: ", deparse1(substitute(x)))
+    warning("Input to 'x' is not a character vector: ", name_x)
     return(FALSE)
   }
 
@@ -152,9 +154,11 @@ all_names <- function(x, allow_underscores = TRUE) {
   warn_text_zerolength <- character(0)
   if(length(x) == 0L) {
     if(is.null(x)) {
+      # Catch calls like all_names(colnames(letters[1:3])), where
+      # colnames(letters[1:3]) gives NULL
       warn_text_zerolength <- paste0(
-        "'x' is NULL: did you use names() or colnames() on an object without\n",
-        "(column) names to all_names()?")
+        "'x' (", name_x, ") is NULL: did you use names() or colnames() on an",
+        " object without\n(column) names and passed the result to all_names()?")
     } else {
       warn_text_zerolength <- "x has length zero but is not NULL"
     }
@@ -271,15 +275,18 @@ all_names <- function(x, allow_underscores = TRUE) {
 
     if(allow_underscores) {
       warn_text <- paste0(
-        warn_text, ".\nUse 'x <- make.names(x, unique = TRUE)' to create",
-        " unique, syntactically valid names",
+        warn_text, ".\nUse '", if(length_name_x == 1L) {paste0(name_x, " <- ")},
+        "make.names(", name_x,
+        ", unique = TRUE)' to create unique, syntactically valid names",
         if(length(warn_text_dots) > 0L) {
           note_dots
         }, "!")
     } else {
       warn_text <- paste0(
-        warn_text, ".\nUse 'x <- make.names(x, unique = TRUE, allow_ = FALSE)'",
-        " to create unique,\nsyntactically valid names without underscores",
+        warn_text, ".\nUse '", if(length_name_x == 1L) {paste0(name_x, " <- ")},
+        "make.names(", name_x,
+        ", unique = TRUE, allow_ = FALSE)' to create unique,\nsyntactically",
+        " valid names without underscores",
         if(length(warn_text_dots) > 0L) {
           note_dots
         }, "!")

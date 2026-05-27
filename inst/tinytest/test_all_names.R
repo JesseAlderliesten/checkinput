@@ -7,9 +7,13 @@ x_invld_caught <- c(
 x_csv_df <- c("V1", "V234")
 x_dupl <- c(".X", "X.", "ab", "a.", "A.X", "X.X")
 x_invld <- c("", x_invld_caught)
-x_invld_empty_q <- "'\"\"' (i.e., an empty string)"
+x_invld_empty_q <- "'\"\"' \\(i.e., an empty string)"
 x_invld_mn_made <- make.names(names = x_invld_caught)
-x_invld_q <- paste0(paste_quoted(x_invld[-1]), ", ", x_invld_empty_q)
+# paste0(paste_quoted(x_invld[-1]), ", ", x_invld_empty_q)
+x_invld_q <- paste0("'.1a', '_0', '_0A', '_A', '_A0', '1a._', 'for', 'NA',",
+                    " 'a-b', 'a1\\$', 'a1._#', 'ab#cd', 'c/d', '\\\"\\\"'",
+                    " \\(i.e., an empty string)")
+
 # Output of vctrs::vec_as_names(names = x_invld_caught, repair = "universal_quiet")
 x_invld_vcsnm_repaired <- c("..1a", "._0", "._0A", "._A", "._A0", "..1a._",
                             ".for", ".NA", "a.b", "a1.", "a1._.", "ab.cd", "c.d")
@@ -67,9 +71,13 @@ x_vld <- c("a", "A", "C", "nco", "V", "V0", "V03", "v1", "V1V", "V234V", "VV1",
 x_vld_undersc <- c("g_hi", "V_", "V0_3", "V1V_", "V2_34V", "VV_1", "VV_234")
 
 ##### Messages and warnings #####
-use_mknm <- ".\nUse 'x <- make.names(x, unique = TRUE)"
+use_mknm <- ".\nUse '.+ <- make.names\\(.+, unique = TRUE)"
+use_mknm_mult <- ".\nUse 'make.names\\(.+, unique = TRUE)"
 use_mknm_undersc <- paste0(
-  ".\nUse 'x <- make.names(x, unique = TRUE, allow_ = FALSE)' to create",
+  ".\nUse '.+ <- make.names\\(.+, unique = TRUE, allow_ = FALSE)' to create",
+  " unique,\nsyntactically valid names without underscores")
+use_mknm_undersc_mult <- paste0(
+  ".\nUse 'make.names\\(.+, unique = TRUE, allow_ = FALSE)' to create",
   " unique,\nsyntactically valid names without underscores")
 warn_dots <- "consist of only dots, which is a reserved word: "
 warn_dots_pattern <- paste0("consist of two dots followed by digits, which is",
@@ -77,9 +85,9 @@ warn_dots_pattern <- paste0("consist of two dots followed by digits, which is",
 warn_dupl <- "are duplicated: "
 warn_suspicious <- "Names are suspicious: "
 warn_syntax <- "are syntactically invalid: "
-warn_undersc <- paste0("contain underscores (which are not allowed if",
+warn_undersc <- paste0("contain underscores \\(which are not allowed if",
                        " 'allow_underscores' is FALSE):\n")
-note_mknm_dots <- paste0("\n(it does not recognise names that consist of only",
+note_mknm_dots <- paste0("\n\\(it does not recognise names that consist of only",
                          " dots, or two dots followed by digits)")
 
 
@@ -87,7 +95,7 @@ note_mknm_dots <- paste0("\n(it does not recognise names that consist of only",
 expect_true(all_names(x = c("a", "b1a")))
 expect_warning(
   expect_false(all_names(x = c("a", "b1a", "a"))),
-  pattern = paste0(warn_dupl, "'a'", use_mknm), strict = FALSE, fixed = TRUE)
+  pattern = paste0(warn_dupl, "'a'", use_mknm_mult), strict = TRUE, fixed = FALSE)
 
 invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
 expect_warning(
@@ -96,13 +104,13 @@ expect_warning(
     "Names are syntactically invalid: 'ab#cd', 'for', ", x_invld_empty_q,
     "; and ", warn_dots, "'..'; and ", warn_dots_pattern, "'..23'", use_mknm,
     "' to create unique, syntactically valid names", note_mknm_dots),
-  strict = FALSE, fixed = TRUE)
+  strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = make.names(invalid_names))),
   pattern = paste0(warn_dots, "'..'; and ", warn_dots_pattern,
                    "'..23'; and are suspicious: 'ab.cd', 'X', 'for.'"),
-  strict = FALSE, fixed = TRUE)
+  strict = TRUE, fixed = FALSE)
 
 x_susp_example <- c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
                     "V3", "X.2", "X0...11", "X0.3", "X3")
@@ -114,12 +122,12 @@ expect_warning(
 expect_warning(
   expect_false(all_names(x = "abc_def", allow_underscores = FALSE)),
   pattern = paste0("Names ", warn_undersc, "'abc_def'", use_mknm_undersc),
-  strict = TRUE, fixed = TRUE)
+  strict = TRUE, fixed = FALSE)
 expect_true(all_names(x = "abc_def", allow_underscores = TRUE))
 
 expect_warning(
   expect_false(all_names(x = names(1:3))),
-  pattern = "'x' is NULL", strict = TRUE, fixed = TRUE)
+  pattern = "'x' (names(1:3)) is NULL", strict = TRUE, fixed = TRUE)
 
 expect_warning(
   expect_false(all_names(13)),
@@ -159,13 +167,14 @@ for(x in list(NA, data.frame(a = "nco"), as.matrix(data.frame(a = "nco")),
               list(a = 314), list(), 314)) {
   expect_warning(
     expect_false(all_names(x = x)),
-    pattern = "Input to 'x' is not a character vector: x", strict = TRUE, fixed = TRUE)
+    pattern = "Input to 'x' is not a character vector: x",
+    strict = TRUE, fixed = TRUE)
 }
 
 ##### Zero-length values #####
 expect_warning(
   expect_false(all_names(x = NULL)),
-  pattern = "'x' is NULL: did you use names() or colnames() on an object without",
+  pattern = "'x' (NULL) is NULL: did you use names() or colnames() on an object without",
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
@@ -181,8 +190,8 @@ expect_warning(
 expect_warning(
   expect_false(all_names(x = c(x_invld, x_invld[c(2, 3)]))),
   pattern = paste0(warn_dupl, paste_quoted(x_invld[c(2, 3)]),
-                   "; and ", warn_syntax, x_invld_q, use_mknm),
-  strict = TRUE, fixed = TRUE)
+                   "; and ", warn_syntax, x_invld_q, use_mknm_mult),
+  strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = c(x_susp_dot, x_susp_dot[c(2, 3)]))),
@@ -193,16 +202,16 @@ expect_warning(
 expect_warning(
   expect_false(all_names(x = c(x_vld_undersc, x_vld_undersc[c(2, 3)]),
                          allow_underscores = TRUE)),
-  pattern = paste0(warn_dupl, paste_quoted(x_vld_undersc[c(2, 3)]), use_mknm),
-  strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_dupl, paste_quoted(x_vld_undersc[c(2, 3)]), use_mknm_mult),
+  strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = c(x_vld_undersc, x_vld_undersc[c(2, 3)]),
                          allow_underscores = FALSE)),
   pattern = paste0(warn_dupl, paste_quoted(x_vld_undersc[c(2, 3)]),
                    "; and ", warn_undersc, paste_quoted(x_vld_undersc),
-                   use_mknm_undersc),
-  strict = TRUE, fixed = TRUE)
+                   use_mknm_undersc_mult),
+  strict = TRUE, fixed = FALSE)
 
 ##### Valid and invalid names #####
 expect_silent(
@@ -213,13 +222,13 @@ expect_warning(
   expect_false(
     all_names(x = c(x_vld, x_vld_undersc, x_invld), allow_underscores = TRUE)
   ),
-  pattern = paste0(warn_syntax, x_invld_q, use_mknm),
-  strict = TRUE, fixed = TRUE)
+  pattern = paste0(warn_syntax, x_invld_q, use_mknm_mult),
+  strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = "")),
   pattern = paste0(warn_syntax, x_invld_empty_q, use_mknm),
-  strict = TRUE, fixed = TRUE)
+  strict = TRUE, fixed = FALSE)
 
 ##### Only dots or patterned dots #####
 for(x in list(".", "..", "...", "....")) {
@@ -244,8 +253,8 @@ expect_warning(
   expect_false(all_names(x = c(x_vld, x_vld_undersc),
                          allow_underscores = FALSE)),
   pattern = paste0("Names ", warn_undersc, paste_quoted(x_vld_undersc),
-                   use_mknm_undersc),
-  strict = TRUE, fixed = TRUE)
+                   use_mknm_undersc_mult),
+  strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = x_susp_undersc, allow_undersc = TRUE)),
@@ -255,7 +264,7 @@ expect_warning(
 expect_warning(
   expect_false(all_names(x = x_susp_undersc, allow_undersc = FALSE)),
   pattern = paste0("Names ", warn_undersc, x_susp_undersc_q, use_mknm_undersc),
-  strict = TRUE, fixed = TRUE)
+  strict = TRUE, fixed = FALSE)
 
 ##### Suspicious names #####
 expect_warning(
@@ -328,11 +337,11 @@ expect_warning(
   ),
   pattern = paste0(warn_syntax, x_invld_q, "; and are suspicious: ",
                    x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_T_q, ", ",
-                   x_mknm_T_vcsnm_q, ", ", x_vcsnm_q, use_mknm),
-  strict = TRUE, fixed = TRUE)
+                   x_mknm_T_vcsnm_q, ", ", x_vcsnm_q, use_mknm_mult),
+  strict = TRUE, fixed = FALSE)
 
 if(any(grepl(pattern = "_", x = c(x_mknm_q, x_mknm_csv_q, x_mknm_T_q,
-                                  x_mknm_T_vcsnm_q), fixed = TRUE))) {
+                                  x_mknm_T_vcsnm_q), fixed = FALSE))) {
   warning("Next test will fail because some sets contain underscores that are",
           " not removed when listing suspicious names.")
 }
@@ -349,13 +358,13 @@ expect_warning(
       # invalid, not as containing underscores!
       grep(pattern = "_", x = c(x_vld, x_mknm, x_mknm_csv, x_mknm_T,
                                 x_mknm_T_vcsnm, x_vcsnm, x_vld_undersc),
-           value = TRUE, fixed = TRUE)),
+           value = TRUE, fixed = FALSE)),
     "; and are suspicious: ", x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_T_q,
     ", ", x_mknm_T_vcsnm_q, ", ",
-    paste_quoted(grep(pattern = "_", x = x_vcsnm, value = TRUE, fixed = TRUE,
+    paste_quoted(grep(pattern = "_", x = x_vcsnm, value = TRUE, fixed = FALSE,
                       invert = TRUE)),
-    use_mknm_undersc),
-  strict = TRUE, fixed = TRUE)
+    use_mknm_undersc_mult),
+  strict = TRUE, fixed = FALSE)
 
 ##### Erroneous input #####
 expect_error(all_names(),
@@ -366,7 +375,8 @@ expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscores = NA),
 
 
 #### Remove objects used in tests ####
-rm(invalid_names, note_mknm_dots, use_mknm, use_mknm_undersc, warn_dots,
+rm(invalid_names, note_mknm_dots, use_mknm, use_mknm_mult, use_mknm_undersc,
+   use_mknm_undersc_mult, warn_dots,
    warn_dots_pattern, warn_dupl, warn_suspicious, warn_syntax, warn_undersc, x,
    x_csv_df, x_dupl, x_invld, x_invld_caught, x_invld_empty_q, x_invld_mn_made,
    x_invld_q, x_invld_vcsnm_repaired, x_mknm, x_mknm_csv, x_mknm_csv_q,

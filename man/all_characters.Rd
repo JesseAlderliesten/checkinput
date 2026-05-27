@@ -5,16 +5,26 @@
 \alias{is_character}
 \title{Check that \code{x} is character}
 \usage{
-all_characters(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
+all_characters(
+  x,
+  allow_empty = FALSE,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE
+)
 
-is_character(x, allow_empty = FALSE, allow_zero = FALSE, allow_NA = FALSE)
+is_character(
+  x,
+  allow_empty = FALSE,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE
+)
 }
 \arguments{
 \item{x}{object to test.}
 
 \item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 }

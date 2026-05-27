@@ -8,20 +8,30 @@
 \alias{is_positive}
 \title{Check that \code{x} is numeric}
 \usage{
-is_number(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_number(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-all_numbers(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+all_numbers(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-is_nonnegative(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_nonnegative(
+  x,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE,
+  allow_NaN = FALSE
+)
 
-all_nonnegative(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+all_nonnegative(
+  x,
+  allow_zero_length = FALSE,
+  allow_NA = FALSE,
+  allow_NaN = FALSE
+)
 
-is_positive(x, allow_zero = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_positive(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 }
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_zero}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow numeric \link{NA}s (i.e., \code{NA_integer_}
 and \code{NA_real_})?}
@@ -38,7 +48,7 @@ correct sign.
 }
 \details{
 The correct length of \code{x} is one for \code{is_...()} and larger than zero for
-\code{all_...()}, unless \code{allow_zero} is \code{TRUE}: then numeric-type zero-length \code{x}
+\code{all_...()}, unless \code{allow_zero_length} is \code{TRUE}: then numeric-type zero-length \code{x}
 is also allowed for both types of functions.
 
 \code{all_nonnegative()} and \code{is_nonnegative()} return \code{TRUE} for \code{0}, whereas
@@ -57,9 +67,6 @@ floating-point numbers such as 3.2 and integers such as 3L. In contrast,
 \code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
 would test the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
 but \code{integer} for integers (see the \verb{Note on names} in \code{\link[=is.numeric]{is.numeric()}}).
-
-The functions duplicate code instead of calling \code{is_number()} or
-\code{all_numbers()}, to prevent performing checks twice.
 }
 
 \examples{
@@ -69,7 +76,7 @@ is_number(x = c(1, 2)) # FALSE: incorrect length
 all_numbers(x = c(1, 2)) # TRUE
 is_number(x = "a") # FALSE: incorrect type
 is_number(x = numeric(0)) # FALSE: incorrect length
-is_number(x = numeric(0), allow_zero = TRUE) # TRUE
+is_number(x = numeric(0), allow_zero_length = TRUE) # TRUE
 is_number(x = NA_real_) # FALSE
 is_number(x = NA_real_, allow_NA = TRUE) # TRUE
 is_number(x = NA_character_, allow_NA = TRUE) # FALSE: incorrect type
@@ -79,7 +86,7 @@ is_number(x = Inf) # TRUE
 is_nonnegative(x = 3) # TRUE
 is_nonnegative(x = 0) # TRUE
 all_nonnegative(x = c(3, 0)) # TRUE
-all_nonnegative(x = numeric(0), allow_zero = TRUE) # TRUE
+all_nonnegative(x = numeric(0), allow_zero_length = TRUE) # TRUE
 is_positive(x = 3) # TRUE
 is_positive(x = 0) # FALSE
 

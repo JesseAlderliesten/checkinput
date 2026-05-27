@@ -12,7 +12,7 @@
 #' @details
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
 #' considered a natural number if argument `strict` is `FALSE`. `integer(0)` and
-#' `numeric(0)` are considered natural numbers if argument `allow_zero` is
+#' `numeric(0)` are considered natural numbers if argument `allow_zero_length` is
 #' `TRUE`. [Inf], [NaN], [NULL], and numbers that are [too large][.Machine] to
 #' be represented as [integers][integer] are **never** considered natural
 #' numbers in this implementation.
@@ -28,7 +28,7 @@
 #'
 #' @returns `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
 #' `x` is a vector of the appropriate length with only natural numbers.
-#' `make_natural()`: `x`, [rounded to a whole number][round] and coerced to
+#' `make_natural()`: `x`, [rounded][round] to a whole number and coerced to
 #' [integer] type.
 #'
 #' @section Notes:
@@ -40,10 +40,11 @@
 #' `is.wholenumber()` in [is.integer()].
 #'
 #' @section Programming notes:
-#' Use of `is_natural(x)` or `all_natural(x)` should be followed by assigning
-#' the rounded value to the argument: `x <- as.integer(round(x))`. Alternatively,
-#' assign the result of `make_natural(x)` to `x` without using `is_natural(x)`
-#' or `all_natural(x)` inside [stopifnot()].
+#' Use of `is_natural(x)` or `all_natural(x)` inside [stopifnot()] should be
+#' followed by assigning the rounded value to the argument:
+#' `x <- as.integer(round(x))`. Alternatively, use `make_natural(x)` and assign
+#' the result to `x` (then there is no need to use [stopifnot()]: `make_natural()`
+#' throws an error if `x` is not natural.
 #'
 #' [is.integer()] does **not** check that `x` is a natural number (nor if `x` is
 #' a whole number) but rather that `x` is of [type][typeof()] integer, see the
@@ -55,9 +56,8 @@
 #' @seealso
 #' `progutils::are_equal()` to check for element-wise near-equality of numbers;
 #' [all.equal()] to check more generally for near-equality; [identical()] to
-#' check for exact equality; [Comparison] to compare two vectors using binary
-#' operators; [match()] and `progutils::not_in()` to compare character vectors;
-#' [\R FAQ 7.31](
+#' check for exact equality and [Comparison] to do so using binary operators;
+#' [match()] and `progutils::not_in()` to compare character vectors; [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality.
 #'
@@ -122,25 +122,25 @@
 #' try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 #'
 #' @export
-is_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
+is_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
                        tol = .Machine$double.eps^0.5) {
-  all_natural(x = x, strict = strict, allow_zero = allow_zero,
+  all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
               allow_NA = allow_NA, tol = tol) &&
     length(x) <= 1L
 }
 
 #' @rdname is_natural
 #' @export
-all_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
+all_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
                         tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_zero), is_logical(allow_NA),
+  stopifnot(is_logical(strict), is_logical(allow_zero_length), is_logical(allow_NA),
             is_positive(tol), tol < 0.5)
 
   if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
     return(FALSE)
   }
 
-  if(!allow_zero && length(x) == 0L) {
+  if(!allow_zero_length && length(x) == 0L) {
     return(FALSE)
   }
 
@@ -162,15 +162,15 @@ all_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
 
 #' @rdname is_natural
 #' @export
-make_natural <- function(x, strict = TRUE, allow_zero = FALSE, allow_NA = FALSE,
+make_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
                          all = FALSE, tol = .Machine$double.eps^0.5) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all))
-  if(all && !all_natural(x = x, strict = strict, allow_zero = allow_zero,
+  if(all && !all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
                          allow_NA = allow_NA, tol = tol)) {
     stop("checkinput::all_natural(", name_x, ") is not TRUE")
   }
-  if(!all && !is_natural(x = x, strict = strict, allow_zero = allow_zero,
+  if(!all && !is_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
                          allow_NA = allow_NA, tol = tol)) {
     stop("checkinput::is_natural(", name_x, ") is not TRUE")
   }

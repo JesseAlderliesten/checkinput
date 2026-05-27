@@ -19,8 +19,7 @@ automatically created.
 }
 \description{
 Check that \code{x} is a character vector with unique, syntactically valid names
-that do not consist of only dots or of two dots followed by a number and do
-not suggest they were adjusted or automatically created.
+that do not suggest they were adjusted or automatically created.
 }
 \details{
 \link[=duplicated]{Duplicated} or syntactically invalid names are not allowed by
@@ -46,11 +45,11 @@ Suspicious names are not allowed by \code{all_names()}. A suspicious name contai
 a pattern suggesting it originally was syntactically invalid and has been
 \strong{adjusted} into a syntactically valid name, or has been adjusted to make names
 \link[=make.unique]{unique}. Such adjustments usually occur silently, for example
-when data is read into \R, which is problematic because it cannot reliably be
-assumed the original (i.e., before being read into \R) column names are
-present. The identification of suspicious names is partly based on the
-assumption that names originally did not contain dots, see the first item in
-the list below.
+when data is read into \R, such that it should \strong{not} be assumed that column
+names after reading data into \R are the same as the column names before
+reading data into \R. The identification of suspicious names is partly based
+on the assumption that names originally did not contain dots, see the first
+item in the list below.
 
 \code{all_names()} \strong{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}},
 which is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.csv]{read.csv()}, and

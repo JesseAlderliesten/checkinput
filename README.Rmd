@@ -21,9 +21,8 @@ With `checkinput`, you can write concise but flexible checks for input to R
 functions.
 
 ## Installation
-You can visit the
-[checkinput website](https://jessealderliesten.github.io/checkinput/) to explore
-the package. To use `checkinput`, you have to install it from
+Visit the [checkinput website](https://jessealderliesten.github.io/checkinput/)
+to explore the package, or install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) using the following R
 code (you need to run R as administrator):
 

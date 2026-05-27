@@ -50,10 +50,11 @@ return `TRUE` for zero-length `x` of the correct type. See
 `help("Is_zerolength")` and `vignette("type_coercion", package = "checkinput")`
 for a discussion of some issues with zero-length input.
 
-## NAs in x
-By default, functions only return `TRUE` for `x` without `NA`s. Set argument
-`allow_NA` to `TRUE` to also return `TRUE` for `x` containing `NA`s of the
-correct type.
+## NAs and NaNs in x
+By default, functions only return `TRUE` for `x` without `NA`s and `NaN`s. Set
+argument `allow_NA` to `TRUE` to also return `TRUE` for `x` containing `NA`s of
+the correct type, and set argument `allow_NaN` for functions like `is_number(x)`
+and `is_natural(x)` to `TRUE` to also return `TRUE` for `x` containing `NaN`s.
 
 ## Return
 The `is_<func>(x)` and `all_<func>(x)` functions of `checkinput` always return
@@ -63,4 +64,5 @@ element of `x` if it `TRUE` or `FALSE` according to `all_<func>(x)`, use
 `all_<func>(x, ...)`. For example, to check which elements of `x` are valid
 names, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)` instead
 of `all_names(x, ...)`. The dots (`...`) indicate where to place other function
-arguments, e.g., `allow_underscores = FALSE`.
+arguments, e.g., `allow_underscores = FALSE` to change the default `TRUE` for
+`allow_underscores` to `FALSE`.
