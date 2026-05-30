@@ -61,10 +61,10 @@ throughout the \href{https://tidyverse.org/}{tidyverse}:
 letter, number, dot or underscore): \code{make.names()} and
 \code{vctrs::vec_as_names(x, repair = "universal")} replace such characters with
 a dot. Their identification is based on the assumption that names
-originally did \strong{not} contain dots, which is good practice (despite not
-being strictly followed in base-\R, e.g., in \code{\link[=data.frame]{data.frame()}}) preventing names
+originally did \strong{not} contain dots, which is good practice preventing names
 containing a dot from being confused with \link[=UseMethod]{methods} used on
-\link[=is.object]{classed objects}.
+\link[=is.object]{classed objects}, even though that advice is not strictly
+followed in base-\R, e.g., in the function name \code{\link[=data.frame]{data.frame()}}.
 \item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
 appends a dot followed by a number;
 \code{vctrs::vec_as_names(x, repair = "universal")} appends three dots followed
