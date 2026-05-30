@@ -17,8 +17,7 @@ knitr::opts_chunk$set(
 
 
 # checkinput
-With `checkinput`, you can write concise but flexible checks for input to R
-functions.
+With `checkinput`, you can write concise, flexible checks for input to R functions.
 
 ## Installation
 Visit the [checkinput website](https://jessealderliesten.github.io/checkinput/)
