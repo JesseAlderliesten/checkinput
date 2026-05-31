@@ -1,3 +1,12 @@
+# checkinput 0.9.0
+
+### Breaking changes
+- Added dependency `fs` that is used in `is_path()`.
+
+### Added functions
+- `is_path()`: moved from package `progutils` to `checkinput`.
+
+
 # checkinput 0.8.0
 
 ### Breaking changes
