@@ -9,6 +9,8 @@ Description: Utility functions to write more-concise checks of function input,
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+Imports: 
+    fs
 Suggests: 
     knitr,
     rmarkdown,
