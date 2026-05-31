@@ -9,7 +9,7 @@ numeric errors."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,8 +110,8 @@ than <code>tol</code> are considered equal.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>is_natural()</code> and <code>all_natural()</code>: <code>TRUE</code> or <code>FALSE</code> indicating if
-<code>x</code> is a vector of the appropriate length with only natural numbers.
+    <p>For <code>is_natural()</code> and <code>all_natural()</code>: <code>TRUE</code> or <code>FALSE</code> indicating if
+<code>x</code> is a vector of the appropriate length with only natural numbers. For
 <code>make_natural()</code>: <code>x</code>, <a href="https://rdrr.io/r/base/Round.html" class="external-link">rounded</a> to a whole number and coerced to
 <a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a> type.</p>
     </div>
@@ -148,8 +148,8 @@ respectively.</p>
 <p>Use of <code>is_natural(x)</code> or <code>all_natural(x)</code> inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> should be
 followed by assigning the rounded value to the argument:
 <code>x &lt;- as.integer(round(x))</code>. Alternatively, use <code>make_natural(x)</code> and assign
-the result to <code>x</code> (then there is no need to use <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>: <code>make_natural()</code>
-throws an error if <code>x</code> is not natural.</p>
+the result to <code>x</code> (then there is no need to use <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>:
+<code>make_natural()</code> throws an error if <code>x</code> is not natural).</p>
 <p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code> does <strong>not</strong> check that <code>x</code> is a natural number (nor if <code>x</code> is
 a whole number) but rather that <code>x</code> is of <a href="https://rdrr.io/r/base/typeof.html" class="external-link">type</a> integer, see the
 <code>Note</code> in <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code>.</p>
@@ -170,6 +170,7 @@ for background on numerical equality.</p>
 <code><a href="all_names.html">all_names()</a></code>,
 <code><a href="is_logical.html">is_logical()</a></code>,
 <code><a href="is_number.html">is_number()</a></code>,
+<code><a href="is_path.html">is_path()</a></code>,
 <code><a href="is_zerolength.html">is_zerolength()</a></code></p></div>
     </div>
 

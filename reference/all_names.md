@@ -78,12 +78,12 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   [`make.names()`](https://rdrr.io/r/base/make.names.html) and
   `vctrs::vec_as_names(x, repair = "universal")` replace such characters
   with a dot. Their identification is based on the assumption that names
-  originally did **not** contain dots, which is good practice (despite
-  not being strictly followed in base-R, e.g., in
-  [`data.frame()`](https://rdrr.io/r/base/data.frame.html)) preventing
+  originally did **not** contain dots, which is good practice preventing
   names containing a dot from being confused with
   [methods](https://rdrr.io/r/base/UseMethod.html) used on [classed
-  objects](https://rdrr.io/r/base/is.object.html).
+  objects](https://rdrr.io/r/base/is.object.html), even though that
+  advice is not strictly followed in base-R, e.g., in the function name
+  [`data.frame()`](https://rdrr.io/r/base/data.frame.html).
 
 - adjustments to make duplicated names unique:
   `make.names(x, unique = TRUE)` appends a dot followed by a number;
@@ -157,6 +157,7 @@ Other collections of checks on type and length:
 [`is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md),
 [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
 [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+[`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md),
 [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
 
 ## Examples

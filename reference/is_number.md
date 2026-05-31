@@ -93,6 +93,7 @@ Other collections of checks on type and length:
 [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),
 [`is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md),
 [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
+[`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md),
 [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
 
 ## Examples

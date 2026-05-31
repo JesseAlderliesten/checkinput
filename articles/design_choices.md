@@ -34,21 +34,21 @@ where, for example, zero-length `x` is unwanted.
 
 ## Length of x
 
-By default, `is_<func>(x)` only returns `TRUE` for `x` of length one
-(with the obvious exception of `is_zerolength(x)`) and `all_<func>(x)`
-only returns `TRUE` for `x` of length larger than zero. Set argument
-`allow_zero` to `TRUE` to also return `TRUE` for zero-length `x` of the
-correct type. See `help("Is_zerolength")` and
+By default, `is_<func>(x)` of `checkinput` only returns `TRUE` for `x`
+of length one (with the obvious exception of `is_zerolength(x)`) and
+`all_<func>(x)` only returns `TRUE` for `x` of length larger than zero.
+Set argument `allow_zero` to `TRUE` to also return `TRUE` for
+zero-length `x` of the correct type. See `help("Is_zerolength")` and
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
 for a discussion of some issues with zero-length input.
 
 ## NAs and NaNs in x
 
-By default, functions only return `TRUE` for `x` without `NA`s and
-`NaN`s. Set argument `allow_NA` to `TRUE` to also return `TRUE` for `x`
-containing `NA`s of the correct type, and set argument `allow_NaN` for
-functions like `is_number(x)` and `is_natural(x)` to `TRUE` to also
-return `TRUE` for `x` containing `NaN`s.
+By default, functions of `checkinput`only return `TRUE` for `x` without
+`NA`s and `NaN`s. Set argument `allow_NA` to `TRUE` to also return
+`TRUE` for `x` containing `NA`s of the correct type, and set argument
+`allow_NaN` for functions like `is_number(x)` and `is_natural(x)` to
+`TRUE` to also return `TRUE` for `x` containing `NaN`s.
 
 ## Return
 

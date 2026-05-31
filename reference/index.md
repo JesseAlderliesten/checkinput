@@ -30,6 +30,11 @@
 
   Check that `x` is numeric
 
+- [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md)
+  :
+
+  Check that `x` is a valid path
+
 - [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
   : Check that x has length zero
 

@@ -62,8 +62,8 @@ make_natural(
 
 ## Value
 
-`is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
-is a vector of the appropriate length with only natural numbers.
+For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
+`x` is a vector of the appropriate length with only natural numbers. For
 `make_natural()`: `x`, [rounded](https://rdrr.io/r/base/Round.html) to a
 whole number and coerced to
 [integer](https://rdrr.io/r/base/integer.html) type.
@@ -110,7 +110,7 @@ followed by assigning the rounded value to the argument:
 `x <- as.integer(round(x))`. Alternatively, use `make_natural(x)` and
 assign the result to `x` (then there is no need to use
 [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html): `make_natural()`
-throws an error if `x` is not natural.
+throws an error if `x` is not natural).
 
 [`is.integer()`](https://rdrr.io/r/base/integer.html) does **not** check
 that `x` is a natural number (nor if `x` is a whole number) but rather
@@ -140,6 +140,7 @@ Other collections of checks on type and length:
 [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),
 [`is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md),
 [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+[`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md),
 [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
 
 ## Examples

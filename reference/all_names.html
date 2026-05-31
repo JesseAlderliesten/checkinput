@@ -9,7 +9,7 @@ that do not suggest they were adjusted or automatically created."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,10 +110,10 @@ throughout the <a href="https://tidyverse.org/" class="external-link">tidyverse<
 letter, number, dot or underscore): <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> and
 <code>vctrs::vec_as_names(x, repair = "universal")</code> replace such characters with
 a dot. Their identification is based on the assumption that names
-originally did <strong>not</strong> contain dots, which is good practice (despite not
-being strictly followed in base-<span style="R">R</span>, e.g., in <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>) preventing names
+originally did <strong>not</strong> contain dots, which is good practice preventing names
 containing a dot from being confused with <a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">methods</a> used on
-<a href="https://rdrr.io/r/base/is.object.html" class="external-link">classed objects</a>.</p></li>
+<a href="https://rdrr.io/r/base/is.object.html" class="external-link">classed objects</a>, even though that advice is not strictly
+followed in base-<span style="R">R</span>, e.g., in the function name <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>.</p></li>
 <li><p>adjustments to make duplicated names unique: <code>make.names(x, unique = TRUE)</code>
 appends a dot followed by a number;
 <code>vctrs::vec_as_names(x, repair = "universal")</code> appends three dots followed
@@ -164,6 +164,7 @@ names, e.g., through adjusting case and transliterating non-ASCII characters.</p
 <code><a href="is_logical.html">is_logical()</a></code>,
 <code><a href="is_natural.html">is_natural()</a></code>,
 <code><a href="is_number.html">is_number()</a></code>,
+<code><a href="is_path.html">is_path()</a></code>,
 <code><a href="is_zerolength.html">is_zerolength()</a></code></p></div>
     </div>
 

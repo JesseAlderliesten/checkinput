@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,12 +114,12 @@ example, zero-length <code>x</code> is unwanted.</p>
 <div class="section level2">
 <h2 id="length-of-x">Length of x<a class="anchor" aria-label="anchor" href="#length-of-x"></a>
 </h2>
-<p>By default, <code>is_&lt;func&gt;(x)</code> only returns
-<code>TRUE</code> for <code>x</code> of length one (with the obvious
-exception of <code>is_zerolength(x)</code>) and
-<code>all_&lt;func&gt;(x)</code> only returns <code>TRUE</code> for
-<code>x</code> of length larger than zero. Set argument
-<code>allow_zero</code> to <code>TRUE</code> to also return
+<p>By default, <code>is_&lt;func&gt;(x)</code> of
+<code>checkinput</code> only returns <code>TRUE</code> for
+<code>x</code> of length one (with the obvious exception of
+<code>is_zerolength(x)</code>) and <code>all_&lt;func&gt;(x)</code> only
+returns <code>TRUE</code> for <code>x</code> of length larger than zero.
+Set argument <code>allow_zero</code> to <code>TRUE</code> to also return
 <code>TRUE</code> for zero-length <code>x</code> of the correct type.
 See <code>help("Is_zerolength")</code> and
 <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code> for a
@@ -128,14 +128,14 @@ discussion of some issues with zero-length input.</p>
 <div class="section level2">
 <h2 id="nas-and-nans-in-x">NAs and NaNs in x<a class="anchor" aria-label="anchor" href="#nas-and-nans-in-x"></a>
 </h2>
-<p>By default, functions only return <code>TRUE</code> for
-<code>x</code> without <code>NA</code>s and <code>NaN</code>s. Set
-argument <code>allow_NA</code> to <code>TRUE</code> to also return
-<code>TRUE</code> for <code>x</code> containing <code>NA</code>s of the
-correct type, and set argument <code>allow_NaN</code> for functions like
-<code>is_number(x)</code> and <code>is_natural(x)</code> to
+<p>By default, functions of <code>checkinput</code>only return
+<code>TRUE</code> for <code>x</code> without <code>NA</code>s and
+<code>NaN</code>s. Set argument <code>allow_NA</code> to
 <code>TRUE</code> to also return <code>TRUE</code> for <code>x</code>
-containing <code>NaN</code>s.</p>
+containing <code>NA</code>s of the correct type, and set argument
+<code>allow_NaN</code> for functions like <code>is_number(x)</code> and
+<code>is_natural(x)</code> to <code>TRUE</code> to also return
+<code>TRUE</code> for <code>x</code> containing <code>NaN</code>s.</p>
 </div>
 <div class="section level2">
 <h2 id="return">Return<a class="anchor" aria-label="anchor" href="#return"></a>
