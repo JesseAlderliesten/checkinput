@@ -57,6 +57,7 @@ Other collections of checks on type and length:
 \code{\link[=is_logical]{is_logical()}},
 \code{\link[=is_natural]{is_natural()}},
 \code{\link[=is_number]{is_number()}},
+\code{\link[=is_path]{is_path()}},
 \code{\link[=is_zerolength]{is_zerolength()}}
 }
 \concept{collections of checks on type and length}

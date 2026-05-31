@@ -26,8 +26,9 @@
 #' representation error. As the `Note` at [`==`] warns, `x == round(x)` does
 #' **not** allow for such errors but tests exact equality.
 #'
-#' @returns `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
-#' `x` is a vector of the appropriate length with only natural numbers.
+#' @returns
+#' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
+#' `x` is a vector of the appropriate length with only natural numbers. For
 #' `make_natural()`: `x`, [rounded][round] to a whole number and coerced to
 #' [integer] type.
 #'
@@ -43,8 +44,8 @@
 #' Use of `is_natural(x)` or `all_natural(x)` inside [stopifnot()] should be
 #' followed by assigning the rounded value to the argument:
 #' `x <- as.integer(round(x))`. Alternatively, use `make_natural(x)` and assign
-#' the result to `x` (then there is no need to use [stopifnot()]: `make_natural()`
-#' throws an error if `x` is not natural.
+#' the result to `x` (then there is no need to use [stopifnot()]:
+#' `make_natural()` throws an error if `x` is not natural).
 #'
 #' [is.integer()] does **not** check that `x` is a natural number (nor if `x` is
 #' a whole number) but rather that `x` is of [type][typeof()] integer, see the
@@ -166,13 +167,18 @@ make_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA =
                          all = FALSE, tol = .Machine$double.eps^0.5) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all))
-  if(all && !all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
-                         allow_NA = allow_NA, tol = tol)) {
-    stop("checkinput::all_natural(", name_x, ") is not TRUE")
+
+  if(all) {
+    if(!all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+                    allow_NA = allow_NA, tol = tol)) {
+      stop("checkinput::all_natural(", name_x, ") is not TRUE")
+    }
+  } else {
+    if(!is_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+                   allow_NA = allow_NA, tol = tol)) {
+      stop("checkinput::is_natural(", name_x, ") is not TRUE")
+    }
   }
-  if(!all && !is_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
-                         allow_NA = allow_NA, tol = tol)) {
-    stop("checkinput::is_natural(", name_x, ") is not TRUE")
-  }
+
   as.integer(round(x))
 }

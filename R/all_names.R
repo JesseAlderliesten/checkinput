@@ -45,10 +45,10 @@
 #'   letter, number, dot or underscore): `make.names()` and
 #'   `vctrs::vec_as_names(x, repair = "universal")` replace such characters with
 #'   a dot. Their identification is based on the assumption that names
-#'   originally did **not** contain dots, which is good practice (despite not
-#'   being strictly followed in base-\R, e.g., in [data.frame()]) preventing names
+#'   originally did **not** contain dots, which is good practice preventing names
 #'   containing a dot from being confused with [methods][UseMethod] used on
-#'   [classed objects][is.object].
+#'   [classed objects][is.object], even though that advice is not strictly
+#'   followed in base-\R, e.g., in the function name [data.frame()].
 #' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
 #'   appends a dot followed by a number;
 #'   `vctrs::vec_as_names(x, repair = "universal")` appends three dots followed

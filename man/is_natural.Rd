@@ -46,8 +46,8 @@ than \code{tol} are considered equal.}
 \item{all}{\code{TRUE} or \code{FALSE}: use \code{all_natural()} instead of \code{is_natural()}?}
 }
 \value{
-\code{is_natural()} and \code{all_natural()}: \code{TRUE} or \code{FALSE} indicating if
-\code{x} is a vector of the appropriate length with only natural numbers.
+For \code{is_natural()} and \code{all_natural()}: \code{TRUE} or \code{FALSE} indicating if
+\code{x} is a vector of the appropriate length with only natural numbers. For
 \code{make_natural()}: \code{x}, \link[=round]{rounded} to a whole number and coerced to
 \link{integer} type.
 }
@@ -87,8 +87,8 @@ The code of \code{is_natural()} and \code{all_natural()} is partly based on the 
 Use of \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}} should be
 followed by assigning the rounded value to the argument:
 \code{x <- as.integer(round(x))}. Alternatively, use \code{make_natural(x)} and assign
-the result to \code{x} (then there is no need to use \code{\link[=stopifnot]{stopifnot()}}: \code{make_natural()}
-throws an error if \code{x} is not natural.
+the result to \code{x} (then there is no need to use \code{\link[=stopifnot]{stopifnot()}}:
+\code{make_natural()} throws an error if \code{x} is not natural).
 
 \code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor if \code{x} is
 a whole number) but rather that \code{x} is of \link[=typeof]{type} integer, see the
@@ -168,6 +168,7 @@ Other collections of checks on type and length:
 \code{\link[=all_names]{all_names()}},
 \code{\link[=is_logical]{is_logical()}},
 \code{\link[=is_number]{is_number()}},
+\code{\link[=is_path]{is_path()}},
 \code{\link[=is_zerolength]{is_zerolength()}}
 }
 \concept{collections of checks on type and length}
