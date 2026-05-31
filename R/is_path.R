@@ -5,7 +5,7 @@
 #' @param path [character string][is_character()] with the path.
 #'
 #' @details
-#' `is_path()` puts some restrictions on paths so it can be used to check for
+#' `is_path()` puts restrictions on paths so it can be used to check for
 #' valid paths before creating a directory or a file:
 #'
 #' - `path` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`,
@@ -74,14 +74,13 @@
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso
-#' `utils::file_test()` and references there on file existence and permissions;
-#' `help(fs::path_math)` for various operations on paths;
+#' [fs::path_math] for various operations on paths; [fs::path_sanitize()] to
+#' **remove** invalid characters from potential paths;
+#' [utils::file_test()] and references there on file existence and permissions;
 #' `progutils::create_file_path()` to create a file path, creating the directory
 #' if it does not yet exist; `progutils::create_dir()` to create a directory if
 #' it does not yet exist; `progutils::get_file_path()` to check if a file exists
 #' and is a unique match to a pattern.
-#'
-#' `fs::path_sanitize()` to **remove** invalid characters from potential paths.
 #'
 #' @family
 #' collections of checks on type and length
@@ -194,11 +193,11 @@ is_path <- function(path) {
   }
 
   if(to_tempdir) {
-    stop(wrap_text(paste0(
+    stop(paste0(
       "'path' should not point to 'tempdir()': instead, point to a subdirectory",
-      " in tempdir() through 'fs::path(tempdir(), \"subdir\")', or create such",
-      " a subdirectory through 'progutils::create_tempdir(subdir = \"subdir\")':\n",
-      path)))
+      " in\ntempdir() through 'fs::path(tempdir(), \"subdir\")', or create such",
+      " a subdirectory\nthrough 'progutils::create_tempdir(subdir = \"subdir\")':\n",
+      path))
   }
 
   TRUE

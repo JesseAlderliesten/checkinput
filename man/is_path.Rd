@@ -17,7 +17,7 @@ file extension but the filename is not valid.
 Check that \code{x} is a path that is likely to be valid.
 }
 \details{
-\code{is_path()} puts some restrictions on paths so it can be used to check for
+\code{is_path()} puts restrictions on paths so it can be used to check for
 valid paths before creating a directory or a file:
 \itemize{
 \item \code{path} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>},
@@ -102,14 +102,13 @@ try(is_path(fs::path_wd("ab|cd.txt")))
 
 }
 \seealso{
-\code{utils::file_test()} and references there on file existence and permissions;
-\code{help(fs::path_math)} for various operations on paths;
+\link[fs:path_math]{fs::path_math} for various operations on paths; \code{\link[fs:path_sanitize]{fs::path_sanitize()}} to
+\strong{remove} invalid characters from potential paths;
+\code{\link[utils:file_test]{utils::file_test()}} and references there on file existence and permissions;
 \code{progutils::create_file_path()} to create a file path, creating the directory
 if it does not yet exist; \code{progutils::create_dir()} to create a directory if
 it does not yet exist; \code{progutils::get_file_path()} to check if a file exists
 and is a unique match to a pattern.
-
-\code{fs::path_sanitize()} to \strong{remove} invalid characters from potential paths.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},
