@@ -11,6 +11,8 @@
 #' - `path` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`,
 #'   nor any of the control characters (`ASCII` octal codes 000 through 037 and
 #'   177, see `help("regex")`).
+#' - `path` should **not** contain repeated file separators (e.g., `//` or
+#'   `\\\\`).
 #' - `path` components (i.e., parts separated by file separators `/` or `\\`)
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of
@@ -37,12 +39,11 @@
 #' `path` does **not** have to point to an existing directory: `path` even does
 #' **not** have to contain a file separator (e.g., `/` or `\\`), such that
 #' `is_path()` can be used to check that input to [fs::path()] only contains
-#' allowed characters. Repeated file separators (e.g., `//` or `\\\\`) are
-#' treated as single separators, with a warning.
+#' allowed characters.
 #'
 #' @returns
-#' `TRUE`: an error occurs if `path` is not a valid path or if `path` contains a
-#' file extension but the filename is not valid.
+#' `TRUE` or `FALSE` indicating if `path` is a valid path, possibly containing a
+#' valid filename.
 #'
 #' @section Programming notes:
 #' On MacOS, the output of `tempdir()` is preceded by duplicated forward slashes
@@ -88,18 +89,22 @@
 #' @examples
 #' is_path(getwd())
 #' is_path(fs::path_wd("abcd"))
-#' try(is_path(fs::path_wd("ab|cd")))
+#' is_path(fs::path_wd("ab|cd"))
 #'
 #' is_path(fs::path_wd("abcd.txt"))
 #' is_path(fs::path_wd("abcd.txt.gz"))
 #' is_path(fs::path_wd("abcd.gz"))
 #'
-#' try(is_path(fs::path_wd("ab:cd.txt")))
-#' try(is_path(fs::path_wd("ab|cd.txt")))
+#' is_path(fs::path_wd("ab:cd.txt"))
+#' is_path(fs::path_wd("ab|cd.txt"))
 #'
 #' @export
 is_path <- function(path) {
-  stopifnot(is_character(path))
+  path_ok <- TRUE
+
+  if(!is_character(path)) {
+    path_ok <- FALSE
+  }
 
   # Notes:
   # - split = c("/", "\\") does not work because that recycles 'split' along 'x'
@@ -117,26 +122,30 @@ is_path <- function(path) {
   # The check for zero-character (i.e., "") is needed to catch patterns like "/\\"
   if(any(!nzchar(path_comp)) || grepl(pattern = "//", x = path, fixed = TRUE) ||
      grepl(pattern = "\\\\", x = path, fixed = TRUE)) {
-    warning("Repeated '/' or '\\\\' in ", paste_quoted(deparse(substitute(path))),
-            " will be ignored:\n", path)
+    path_ok <- FALSE
+    warning(paste_quoted(deparse(substitute(path))),
+            "should not contain repeated '/' or '\\\\':\n", path)
   }
 
   if(grepl(pattern = '["*?|<>]', x = path)) {
-    stop(paste_quoted(deparse(substitute(path))),
-         " should not contain '\"', '*', '?', '|', '<' or '>':\n", path)
+    path_ok <- FALSE
+    warning(paste_quoted(deparse(substitute(path))),
+            " should not contain '\"', '*', '?', '|', '<' or '>':\n", path)
   }
 
   # "[[:cntrl:]]" matches the control characters, see help("regex")
   if(grepl(pattern = "[[:cntrl:]]", x = path)) {
-    stop("'path' should not contain control characters:\n", path)
+    path_ok <- FALSE
+    warning("'path' should not contain control characters:\n", path)
   }
 
   Windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
                         "nul", "prn")
   if(any(Windows_reserved %in% tolower(path_comp))) {
+    path_ok <- FALSE
     reserved_comp <- path_comp[tolower(path_comp) %in% Windows_reserved]
-    stop("'path' components should not contain Windows-reserved names (",
-         paste_quoted(reserved_comp), "):\n", path)
+    warning("'path' components should not contain Windows-reserved names (",
+            paste_quoted(reserved_comp), "):\n", path)
   }
 
   bool_invalid_dot <- endsWith(x = path_comp, suffix = ".")
@@ -146,9 +155,10 @@ is_path <- function(path) {
     bool_invalid_dot[1] <- FALSE
   }
   if(any(bool_invalid_dot | endsWith(x = path_comp, suffix = " "))) {
-    stop("Path components in ", paste_quoted(deparse(substitute(path))),
-         " should not end with ' ' or '.' (i.e., a space or a dot):\n",
-         path)
+    path_ok <- FALSE
+    warning("Path components in ", paste_quoted(deparse(substitute(path))),
+            " should not end with ' ' or '.' (i.e., a space or a dot):\n",
+            path)
   }
 
   filename <- basename(path)
@@ -171,34 +181,39 @@ is_path <- function(path) {
       basename(normalizePath(tempdir(), winslash = "/", mustWork = FALSE))
 
     if(length(filename_no_ext) == 0L || !nzchar(filename_no_ext)) {
-      stop("filename without extension (", paste_quoted(filename_no_ext),
-           ") should not be empty:\n", path)
+      path_ok <- FALSE
+      warning("filename without extension (", paste_quoted(filename_no_ext),
+              ") should not be empty:\n", path)
     }
 
     if(startsWith(x = filename, prefix = " ")) {
-      stop("'filename' should not start with ' ' (i.e., a space):\n", filename)
+      path_ok <- FALSE
+      warning("'filename' should not start with ' ' (i.e., a space):\n", filename)
     }
 
     if(grepl(pattern = ":", x = filename, fixed = TRUE)) {
-      stop("'filename' should not contain ':':\n", filename)
+      path_ok <- FALSE
+      warning("'filename' should not contain ':':\n", filename)
     }
 
     if(endsWith(x = filename_no_ext, suffix = " ") ||
        endsWith(x = filename_no_ext, suffix = ".") ||
        # To catch case where filename ends in a dot, e.g., "ff..txt"
        end_dot) {
-      stop("'filename' should not end with ' ' or '.' (i.e., a space or a dot):\n",
-           filename)
+      path_ok <- FALSE
+      warning("'filename' should not end with ' ' or '.' (i.e., a space or a",
+              " dot):\n", filename)
     }
   }
 
   if(to_tempdir) {
-    stop(paste0(
+    path_ok <- FALSE
+    warning(paste0(
       "'path' should not point to 'tempdir()': instead, point to a subdirectory",
       " in\ntempdir() through 'fs::path(tempdir(), \"subdir\")', or create such",
       " a subdirectory\nthrough 'progutils::create_tempdir(subdir = \"subdir\")':\n",
       path))
   }
 
-  TRUE
+  path_ok
 }

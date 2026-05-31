@@ -4,7 +4,8 @@
 - Added dependency `fs` that is used in `is_path()`.
 
 ### Added functions
-- `is_path()`: moved from package `progutils` to `checkinput`.
+- `is_path()`: moved from package `progutils` to `checkinput`. Adjusted to warn
+  and return `FALSE` instead of throwing an error if `path` is not a valid path.
 
 
 # checkinput 0.8.0

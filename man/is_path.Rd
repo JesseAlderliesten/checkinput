@@ -10,8 +10,8 @@ is_path(path)
 \item{path}{\link[=is_character]{character string} with the path.}
 }
 \value{
-\code{TRUE}: an error occurs if \code{path} is not a valid path or if \code{path} contains a
-file extension but the filename is not valid.
+\code{TRUE} or \code{FALSE} indicating if \code{path} is a valid path, possibly containing a
+valid filename.
 }
 \description{
 Check that \code{x} is a path that is likely to be valid.
@@ -23,6 +23,8 @@ valid paths before creating a directory or a file:
 \item \code{path} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>},
 nor any of the control characters (\code{ASCII} octal codes 000 through 037 and
 177, see \code{help("regex")}).
+\item \code{path} should \strong{not} contain repeated file separators (e.g., \verb{//} or
+\verb{\\\\\\\\}).
 \item \code{path} components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
@@ -50,8 +52,7 @@ reserved names in Windows.
 \code{path} does \strong{not} have to point to an existing directory: \code{path} even does
 \strong{not} have to contain a file separator (e.g., \code{/} or \verb{\\\\}), such that
 \code{is_path()} can be used to check that input to \code{\link[fs:path]{fs::path()}} only contains
-allowed characters. Repeated file separators (e.g., \verb{//} or \verb{\\\\\\\\}) are
-treated as single separators, with a warning.
+allowed characters.
 }
 \section{Programming notes}{
 
@@ -91,14 +92,14 @@ removed in some operations.
 \examples{
 is_path(getwd())
 is_path(fs::path_wd("abcd"))
-try(is_path(fs::path_wd("ab|cd")))
+is_path(fs::path_wd("ab|cd"))
 
 is_path(fs::path_wd("abcd.txt"))
 is_path(fs::path_wd("abcd.txt.gz"))
 is_path(fs::path_wd("abcd.gz"))
 
-try(is_path(fs::path_wd("ab:cd.txt")))
-try(is_path(fs::path_wd("ab|cd.txt")))
+is_path(fs::path_wd("ab:cd.txt"))
+is_path(fs::path_wd("ab|cd.txt"))
 
 }
 \seealso{
