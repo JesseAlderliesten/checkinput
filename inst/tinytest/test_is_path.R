@@ -185,10 +185,7 @@ expect_warning(
   pattern = "should not start with ' ' (i.e., a space) or '-'", fixed = TRUE)
 
 ##### Temporary directory #####
-expect_warning(
-  expect_false(is_path(tempdir())),
-  pattern = "'x' should not point to 'tempdir()'", fixed = TRUE)
-
+expect_silent(expect_true(is_path(tempdir())))
 expect_true(is_path(fs::path(tempdir(), "subdir")))
 
 

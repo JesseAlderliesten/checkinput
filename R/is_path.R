@@ -21,8 +21,6 @@
 #' - path components should **not** end with a dot, with the exception of `"."`
 #'   and `".."` that are allowed as first component to indicate the working
 #'   directory and the parent directory, respectively.
-#' - `x` should not point to `tempdir()`: a temporary subdirectory should be
-#'   used instead (see `progutils::create_tempdir()`).
 #' - If `x` contains a file extension (or compression extension, the current
 #'   implementation does not distinguish those from each other), the part after
 #'   the last slash is considered the filename, which **should** adhere to the
@@ -72,8 +70,8 @@
 #'
 #' On MacOS, the output of `tempdir()` is preceded by duplicated forward slashes
 #' (e.g., `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which led to
-#' spurious warnings in earlier versions of `is_path()` that warned about
-#' duplicated file separators.
+#' spurious warnings in earlier versions of `is_path()` about duplicated file
+#' separators.
 #'
 #' @section References:
 #' - Naming files, paths, and namespaces from
@@ -180,15 +178,7 @@ is_path <- function(x) {
     # R 4.1.0: modified from fs::path_ext_remove() to only remove a single dot
     grepl(pattern = "\\.([^.]+)$", x = filename, perl = TRUE)
 
-  if(!has_file_ext) {
-    to_tempdir <-
-      basename(normalizePath(x, winslash = "/", mustWork = FALSE)) ==
-      basename(normalizePath(tempdir(), winslash = "/", mustWork = FALSE))
-  } else {
-    to_tempdir <-
-      basename(dirname(normalizePath(x, winslash = "/", mustWork = FALSE))) ==
-      basename(normalizePath(tempdir(), winslash = "/", mustWork = FALSE))
-
+  if(has_file_ext) {
     if(length(filename_no_ext) == 0L || !nzchar(filename_no_ext)) {
       path_ok <- FALSE
       warning("filename without extension (", paste_quoted(filename_no_ext),
@@ -221,15 +211,6 @@ is_path <- function(x) {
       warning("The filename (", paste_quoted(filename), ") in ", arg_name,
               " should not end with ' ' or '.' (i.e., a space or a dot):\n", x)
     }
-  }
-
-  if(to_tempdir) {
-    path_ok <- FALSE
-    warning(paste0(
-      "'x' should not point to 'tempdir()': instead, point to a subdirectory",
-      " in\ntempdir() through 'fs::path(tempdir(), \"subdir\")', or create such",
-      " a subdirectory\nthrough 'progutils::create_tempdir(subdir = \"subdir\")':\n",
-      x))
   }
 
   # An early return (FALSE) occurs for non-character input.
