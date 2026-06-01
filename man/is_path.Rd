@@ -7,18 +7,19 @@
 is_path(path)
 }
 \arguments{
-\item{path}{\link[=is_character]{character string} with the path.}
+\item{path}{\link[=is_character]{character string} with the path, possibly
+containing a valid filename.}
 }
 \value{
-\code{TRUE}: an error occurs if \code{path} is not a valid path or if \code{path} contains a
-file extension but the filename is not valid.
+\code{TRUE} or \code{FALSE} indicating if \code{path} is a valid path, possibly containing a
+valid filename.
 }
 \description{
-Check that \code{x} is a path that is likely to be valid.
+Check that \code{x} is a valid path, possibly containing a valid filename.
 }
 \details{
-\code{is_path()} puts restrictions on paths so it can be used to check for
-valid paths before creating a directory or a file:
+\code{is_path()} is intended to be used to check for valid paths before creating a
+directory or a file. Therefore it imposes the following restrictions:
 \itemize{
 \item \code{path} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>},
 nor any of the control characters (\code{ASCII} octal codes 000 through 037 and
@@ -27,55 +28,63 @@ nor any of the control characters (\code{ASCII} octal codes 000 through 037 and
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
 these names, or these names followed by an extension.
-\item \code{path} components
-should \strong{not} end with a space or dot (\code{"."} and \code{".."} are allowed as
-first component to indicate the working directory and the parent directory,
-respectively).
+\item \code{path} components should \strong{not} end with a space.
+\item \code{path} components should \strong{not} end with a dot, with the exception of
+\code{"."} and \code{".."} that are allowed as first component to indicate the
+working directory and the parent directory, respectively.
 \item \code{path} should not point to \code{tempdir()}: a temporary subdirectory should be
 used instead (see \code{progutils::create_tempdir()}).
+\item If \code{path} contains a file extension (or compression extension, the current
+implementation does not distinguish those from each other), the part after
+the last slash is considered the filename, which \strong{should} adhere to the
+restrictions listed above, and in addition should \strong{not} contain \code{:}
+\strong{nor} start with a space or a hyphen (\code{-}), while it \strong{might} contain
+the Windows-reserved terms given in the second point above.
 }
 
-Furthermore, if \code{path} contains a file extension or compression extension,
-the part after the last
-slash is considered the filename, which should adhere to the same
-restrictions as the path but should \strong{not} contain \code{:} \strong{nor}
-start with a space, while it might contain Windows-reserved terms.
+These restrictions \code{path} consider characters and words that are not allowed
+in Windows and thus would lead to an error when used to create a directory or
+file; and characters that are silently removed in Windows and thus would lead
+to a mismatch between the created directory and the returned path when used
+to create a directory.
 
-These restrictions on the path and the filename consider characters that
-would lead to an error in Windows because they are not allowed; characters
-that would lead to a mismatch between the created directory and the returned
-path because they are silently removed in Windows; and words that are
-reserved names in Windows.
-
-\code{path} does \strong{not} have to point to an existing directory: \code{path} even does
-\strong{not} have to contain a file separator (e.g., \code{/} or \verb{\\\\}), such that
-\code{is_path()} can be used to check that input to \code{\link[fs:path]{fs::path()}} only contains
-allowed characters. Repeated file separators (e.g., \verb{//} or \verb{\\\\\\\\}) are
-treated as single separators, with a warning.
+\code{is_path()} allows some patterns that will not occur in real (i.e., existing)
+paths or filenames:
+\itemize{
+\item \code{path} does \strong{not} have to contain a file separator (i.e., \code{/} or \verb{\\\\}).
+This makes it possible to use \code{is_path()} to check that input to
+\code{\link[fs:path]{fs::path()}} only contains allowed characters.
+\item \code{path} does \strong{not} have to point to an existing directory (see the
+previous point).
+\item \code{path} might contain repeated file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
+will be treated as if they were only a single file separator.
+\item \code{path} might contain trailing file separators, even though these might be
+ignored or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}}
+and \code{\link[fs:path]{fs::path()}})
+.
+}
 }
 \section{Programming notes}{
-
-On MacOS, the output of \code{tempdir()} is preceded by duplicated forward slashes
-in R cmd checks (e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR}),
-leading to a spurious warning from \code{is_path()}.
 
 The file separator is a backslash (\verb{\\}) on Windows but a forward slash (\code{/})
 on other operating systems (\link[=.Platform]{.Platform$file.sep} gives the file
 separator used on the current platform). Furthermore, the backslash is used
 as \link[=regex]{escape character} in \R, such that backslashes need to be escaped
-in \R code. Thus, to warn if a \link[=is_character]{string} contains
-a file separator, one should write the warning message as
-\code{warning("Repeated '/' or '\\\\'")} which will be printed as
-\verb{Repeated '/' or '\\'}. Checks on the presence of slashes and backslashes
-should use \code{grepl(pattern = "/", x = string)} and
-\code{grepl(pattern = "\\\\\\\\", x = string)}. This makes it cumbersome to get the
-correct type and number of slashes to compare with the path recorded in a
-warning message, such that it is more robust to check only for fixed parts of
-the message (e.g., \code{"Repeated"}), possibly followed by a check like
+in \R code. Thus, a check on the presence of repeated slashes and backslashes
+in \link[=is_character]{string} \code{string} would use
+\code{grepl(pattern = "//", x = string, fixed = TRUE)} and
+\code{grepl(pattern = "\\\\\\\\", x = string, fixed = TRUE)}. The message to point out
+their presence would be written as \code{message("Repeated '/' or '\\\\'")} which
+would be printed as \verb{Repeated '/' or '\\'}. This makes it cumbersome to get
+the correct type and number of slashes to compare with the path recorded in a
+message, such that it is more robust to check only for fixed parts of the
+message (e.g., \code{"Repeated"}), possibly followed by a check like
 \code{tinytest::expect_true(dir.exists(string))}.
 
-Trailing slashes or backslashes are allowed, even though these might be
-removed in some operations.
+On MacOS, the output of \code{tempdir()} is preceded by duplicated forward slashes
+(e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR}) which led to
+spurious warnings in earlier versions of \code{is_path()} that warned about
+duplicated file separators.
 }
 
 \section{References}{
@@ -83,6 +92,13 @@ removed in some operations.
 \itemize{
 \item Naming files, paths, and namespaces from
 \href{https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file}{Microsoft}
+\item Entries
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146}{Filename},
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264}{Portable filenames}
+and
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254}{Pathname}
+from the Posix standard
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/}{POSIX.1-2024}
 \item Comparison of file systems from
 \href{https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits}{Wikipedia}
 }
@@ -91,14 +107,14 @@ removed in some operations.
 \examples{
 is_path(getwd())
 is_path(fs::path_wd("abcd"))
-try(is_path(fs::path_wd("ab|cd")))
+is_path(fs::path_wd("ab|cd"))
 
 is_path(fs::path_wd("abcd.txt"))
 is_path(fs::path_wd("abcd.txt.gz"))
 is_path(fs::path_wd("abcd.gz"))
 
-try(is_path(fs::path_wd("ab:cd.txt")))
-try(is_path(fs::path_wd("ab|cd.txt")))
+is_path(fs::path_wd("ab:cd.txt"))
+is_path(fs::path_wd("ab|cd.txt"))
 
 }
 \seealso{

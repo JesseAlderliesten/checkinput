@@ -10,126 +10,198 @@ warn_space_dot <- "should not end with ' ' or '.'"
 #### Test the examples ####
 expect_true(is_path(getwd()))
 expect_true(is_path(fs::path_wd("abcd")))
-expect_error(is_path(fs::path_wd("ab|cd")),
-             pattern = "should not contain '\"', '*'", fixed = TRUE)
+expect_warning(
+  expect_false(is_path(fs::path_wd("ab|cd"))),
+  pattern = "should not contain '\"', '*'", fixed = TRUE)
 
 expect_true(is_path(fs::path_wd("abcd.txt")))
 expect_true(is_path(fs::path_wd("abcd.txt.gz")))
 expect_true(is_path(fs::path_wd("abcd.gz")))
 
-expect_error(is_path(fs::path_wd("ab:cd.txt")),
-             pattern = "'filename' should not contain ':'", fixed = TRUE)
-expect_error(is_path(fs::path_wd("ab|cd.txt")),
-             pattern = "should not contain '\"', '*'", fixed = TRUE)
+expect_warning(
+  expect_false(is_path(fs::path_wd("ab:cd.txt"))),
+  pattern = "'filename' should not contain ':'", fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(fs::path_wd("ab|cd.txt"))),
+  pattern = "should not contain '\"', '*'", fixed = TRUE)
 
 
 #### Tests ####
 ##### Illegal characters #####
 for(illegal_char in illegal_chars) {
-  expect_error(is_path(path = fs::path_wd(paste0("ab", illegal_char, "cd"))),
-               pattern = "should not contain '\"', '*'", fixed = TRUE)
+  expect_warning(
+    expect_false(is_path(path = fs::path_wd(paste0("ab", illegal_char, "cd")))),
+    pattern = "should not contain '\"', '*'", fixed = TRUE)
 }
 
 for(illegal_char in illegal_chars) {
-  expect_error(is_path(path = fs::path_wd(paste0("ab", illegal_char, "cd.txt"))),
-               pattern = "should not contain '\"', '*'", fixed = TRUE)
+  expect_warning(
+    expect_false(is_path(path = fs::path_wd(paste0("ab", illegal_char, "cd.txt")))),
+    pattern = "should not contain '\"', '*'", fixed = TRUE)
 }
 
-expect_error(is_path(path = fs::path_wd("ab:cd.txt")),
-             pattern = "'filename' should not contain ':'", fixed = TRUE)
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("ab:cd.txt"))),
+  pattern = "'filename' should not contain ':'", fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = "ab:cd.txt")),
+  pattern = "'filename' should not contain ':'", fixed = TRUE)
 
 for(control_char in paste0("\005", "\025", "\035", "\177")) {
-  expect_error(is_path(path = fs::path_wd(paste0("ab", control_char, "cd"))),
-               pattern = "should not contain control characters", fixed = TRUE)
-  expect_error(is_path(path = fs::path_wd(paste0("ab", control_char, "cd.txt"))),
-               pattern = "should not contain control characters", fixed = TRUE)
+  expect_warning(
+    expect_false(is_path(path = fs::path_wd(paste0("ab", control_char, "cd")))),
+    pattern = "should not contain control characters", fixed = TRUE)
+
+  expect_warning(
+    expect_false(is_path(path = fs::path_wd(paste0("ab", control_char, "cd.txt")))),
+    pattern = "should not contain control characters", fixed = TRUE)
 }
 
 ##### Windows reserved names #####
 # These are not allowed as path components but are allowed as filename
 for(Windows_name in Windows_reserved) {
-  expect_error(is_path(path = fs::path_wd(Windows_name)),
-               pattern = warn_Windows_reserved, fixed = TRUE)
-  expect_error(is_path(path = fs::path_wd("subdir", Windows_name, "filename.txt")),
-               pattern = warn_Windows_reserved, fixed = TRUE)
-  expect_true(is_path(path = fs::path_wd("subdir", paste0(Windows_name, ".txt"),
-                                         "filename.txt")))
-  expect_true(is_path(path = fs::path_wd("subdir", paste0(Windows_name, ".txt"))))
+  expect_warning(
+    expect_false(is_path(path = fs::path_wd(Windows_name))),
+    pattern = warn_Windows_reserved, fixed = TRUE)
+
+  expect_warning(
+    expect_false(is_path(path = fs::path_wd("subdir", Windows_name, "filename.txt"))),
+    pattern = warn_Windows_reserved, fixed = TRUE)
+
+  expect_true(
+    is_path(path = fs::path_wd("subdir", paste0(Windows_name, ".txt"),
+                               "filename.txt")))
+
+  expect_true(
+    is_path(path = fs::path_wd("subdir", paste0(Windows_name, ".txt"))))
 }
 
 # 'COM', 'COM0', 'LPT' and 'LPT0' are allowed as filename and as path component
 for(Windows_allowed in c("COM", "COM0", "LPT", "LPT0")) {
-  expect_true(is_path(path = fs::path_wd(Windows_allowed)))
-  expect_true(is_path(path = fs::path_wd("subdir", Windows_allowed, "filename.txt")))
-  expect_true(is_path(path = fs::path_wd("subdir", paste0(Windows_allowed, ".txt"),
-                                         "filename.txt")))
-  expect_true(is_path(path = fs::path_wd("subdir", paste0(Windows_allowed, ".txt"))))
+  expect_true(
+    is_path(path = fs::path_wd(Windows_allowed)))
+
+  expect_true(
+    is_path(path = fs::path_wd("subdir", Windows_allowed, "filename.txt")))
+
+  expect_true(
+    is_path(path = fs::path_wd("subdir", paste0(Windows_allowed, ".txt"),
+                               "filename.txt")))
+
+  expect_true(
+    is_path(path = fs::path_wd("subdir", paste0(Windows_allowed, ".txt"))))
 }
 
 ##### Spaces and dots #####
 # Path elements should not end with a space
 expect_true(is_path(fs::path("a b", "def")))
+
 expect_true(is_path(fs::path("a  b", "def")))
-expect_error(is_path(path = fs::path("ab", " ", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab", "  ", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab ", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab  ", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab", "def ")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab", "def ")),
-             pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", " ", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", "  ", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab ", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab  ", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", "def "))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", "def "))),
+  pattern = warn_space_dot, fixed = TRUE)
 
 # "." and ".." are only allowed as first path component
 expect_true(is_path(fs::path(".", "a.b", "def")))
+
 expect_true(is_path(fs::path("..", "a..b", "def")))
-expect_error(is_path(path = fs::path("ab", "..", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab", ".", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", "..", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", ".", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
 
 # Path elements should not end with a dot
-expect_error(is_path(path = fs::path("ab.", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab..", "def")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab", "def.")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path("ab", "def..")),
-             pattern = warn_space_dot, fixed = TRUE)
+expect_warning(
+  expect_false(is_path(path = fs::path("ab.", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab..", "def"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", "def."))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path("ab", "def.."))),
+  pattern = warn_space_dot, fixed = TRUE)
 
 # Filenames should not end with a space or a dot
-expect_error(is_path(path = fs::path_wd("subdir", "filename ")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path_wd("subdir", "filename .txt")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path_wd("subdir", "filename.")),
-             pattern = warn_space_dot, fixed = TRUE)
-expect_error(is_path(path = fs::path_wd("subdir", "filename..txt")),
-             pattern = warn_space_dot, fixed = TRUE)
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", "filename "))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", "filename .txt"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", "filename."))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", "filename..txt"))),
+  pattern = warn_space_dot, fixed = TRUE)
+
+# Filenames should not start with a space or a hyphen
+expect_silent(expect_true(is_path(path = fs::path_wd("subdir", " filename"))))
+
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", " filename.txt"))),
+  pattern = "should not start with ' ' (i.e., a space) or '-'", fixed = TRUE)
+
+expect_silent(expect_true(is_path(path = fs::path_wd("subdir", "-filename"))))
+
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", "-filename.txt"))),
+  pattern = "should not start with ' ' (i.e., a space) or '-'", fixed = TRUE)
 
 ##### Temporary directory #####
-expect_error(is_path(path = tempdir()),
-             pattern = "'path' should not point to 'tempdir()'", fixed = TRUE)
+expect_warning(
+  expect_false(is_path(path = tempdir())),
+  pattern = "'path' should not point to 'tempdir()'", fixed = TRUE)
+
 expect_true(is_path(fs::path(tempdir(), "subdir")))
 
 
 ##### Repeated file separators #####
 # Need file.path() because fs::path_wd() removes repeated file separators
-expect_warning(
-  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "/filename.txt"))),
-  pattern = "Repeated '/' or '\\\\' in", fixed = TRUE, strict = TRUE)
+expect_silent(
+  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "/filename.txt"))))
 
-expect_warning(
-  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "\\filename.txt"))),
-  pattern = "Repeated '/' or '\\\\' in", fixed = TRUE, strict = TRUE)
+expect_silent(
+  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "\\filename.txt"))))
 
-expect_warning(
-  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "\\\\filename.txt"))),
-  pattern = "Repeated '/' or '\\\\' in", fixed = TRUE, strict = TRUE)
+expect_silent(
+  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "\\\\filename.txt"))))
 
 ##### Trailing file separators #####
 # To prevent warning about repeated file separators on MacOS and Ubuntu (where
