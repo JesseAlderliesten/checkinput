@@ -172,7 +172,10 @@ is_path <- function(path) {
   file_ext <- fs::path_ext(path = filename)
   filename_no_ext <- fs::path_ext_remove(path = filename)
   has_file_ext <- (length(file_ext) != 0L && nzchar(file_ext)) ||
-    filename != filename_no_ext
+    filename != filename_no_ext ||
+    # To catch case where filename ends in a dot, e.g., "ff..txt": modified
+    # from fs::path_ext_remove() to only remove a single dot
+    grepl(pattern = "\\.([^.]+)$", x = filename, perl = TRUE)
 
   if(!has_file_ext) {
     to_tempdir <-
