@@ -33,9 +33,6 @@ for(illegal_char in illegal_chars) {
   expect_warning(
     expect_false(is_path(path = fs::path_wd(paste0("ab", illegal_char, "cd")))),
     pattern = "should not contain '\"', '*'", fixed = TRUE)
-}
-
-for(illegal_char in illegal_chars) {
   expect_warning(
     expect_false(is_path(path = fs::path_wd(paste0("ab", illegal_char, "cd.txt")))),
     pattern = "should not contain '\"', '*'", fixed = TRUE)
@@ -138,6 +135,10 @@ expect_warning(
   pattern = warn_space_dot, fixed = TRUE)
 
 # Path elements should not end with a dot
+expect_warning(
+  expect_false(is_path(path = "ab.")),
+  pattern = "should not end with ' ' or '.'", fixed = TRUE)
+
 expect_warning(
   expect_false(is_path(path = fs::path("ab.", "def"))),
   pattern = warn_space_dot, fixed = TRUE)
