@@ -2,6 +2,8 @@
 
 ### Breaking changes
 - Added dependency `fs` that is used in `is_path()`.
+- `paste_quoted()` now accepts atomic non-vector objects such as the output of
+  `fs::path()`.
 
 ### Added functions
 - `is_path()`: move from package `progutils` to `checkinput`. Rename argument

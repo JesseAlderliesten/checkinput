@@ -7,7 +7,8 @@
 paste_quoted(x)
 }
 \arguments{
-\item{x}{Factor or vector to be converted to a character string.}
+\item{x}{Atomic object without dimensions to be converted to a single
+character string.}
 }
 \value{
 A character string consisting of the elements of \code{x} surrounded by single
@@ -15,8 +16,8 @@ quotes, separated by commas. See \code{Details} on the handling of some special
 values.
 }
 \description{
-Quote a factor or elements of a vector and concatenate the result to a single
-string.
+Quote elements of an atomic object without dimensions and concatenate the
+result to a single character string.
 }
 \details{
 \code{paste_quoted()} returns \code{NULL} as \code{"'NULL'"}, other zero-length objects as

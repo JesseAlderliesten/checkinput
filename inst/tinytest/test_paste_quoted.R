@@ -67,26 +67,22 @@ expect_error(
   paste_quoted(c(3, 4), h = 5, 7),
   pattern = "unused arguments (h = 5, 7)", fixed = TRUE)
 
-expect_error(
-  paste_quoted(vector(mode = "list")),
-  pattern = "!is.list(x) is not TRUE", fixed = TRUE)
-
 for(index_NULL in seq_along(list_input_zerolength)) {
   expect_silent(expect_identical(
     paste_quoted(list_input_zerolength[[index_NULL]]),
     list_output_zerolength[[index_NULL]]))
 }
 
-for(x in list(data.frame(a = 314), as.matrix(data.frame(a = 314)))) {
+for(x in list(data.frame(a = 314), list(a = 314), vector(mode = "list"))) {
   expect_error(
     paste_quoted(x),
-    pattern = "is.vector(x) || is.factor(x) || is.null(x) is not TRUE", fixed = TRUE)
+    pattern = "is.atomic(x) || is.null(x) is not TRUE", fixed = TRUE)
 }
 
-for(x in list(list(a = 314), vector(mode = "list"))) {
+for(x in list(as.matrix(data.frame(a = 314)))) {
   expect_error(
     paste_quoted(x),
-    pattern = "!is.list(x) is not TRUE", fixed = TRUE)
+    pattern = "is.null(dim(x)) is not TRUE", fixed = TRUE)
 }
 
 

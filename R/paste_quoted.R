@@ -1,7 +1,7 @@
 #' Quote and concatenate x to a string
 #'
-#' Quote a factor or elements of a vector and concatenate the result to a single
-#' string.
+#' Quote elements of an atomic object without dimensions and concatenate the
+#' result to a single character string.
 #'
 #' @details
 #' `paste_quoted()` returns `NULL` as `"'NULL'"`, other zero-length objects as
@@ -9,7 +9,8 @@
 #' `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`; for [factors][factor] this
 #' is `"'NA_character_'"`).
 #'
-#' @param x Factor or vector to be converted to a character string.
+#' @param x Atomic object without dimensions to be converted to a single
+#' character string.
 #'
 #' @returns
 #' A character string consisting of the elements of `x` surrounded by single
@@ -36,7 +37,8 @@
 #'
 #' @export
 paste_quoted <- function(x) {
-  stopifnot(is.vector(x) || is.factor(x) || is.null(x), !is.list(x))
+  # Need condition 'is.null(x)' because is.atomic(NULL) was FALSE before R 4.4.0.
+  stopifnot(is.atomic(x) || is.null(x), is.null(dim(x)))
 
   if(!is.null(names(x))) {
     warning_text <- "'x' has names, these will be discarded."
