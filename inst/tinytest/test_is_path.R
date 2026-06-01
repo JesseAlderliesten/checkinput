@@ -45,6 +45,10 @@ expect_warning(
   expect_false(is_path(path = fs::path_wd("ab:cd.txt"))),
   pattern = "'filename' should not contain ':'", fixed = TRUE)
 
+expect_warning(
+  expect_false(is_path(path = "ab:cd.txt")),
+  pattern = "'filename' should not contain ':'", fixed = TRUE)
+
 for(control_char in paste0("\005", "\025", "\035", "\177")) {
   expect_warning(
     expect_false(is_path(path = fs::path_wd(paste0("ab", control_char, "cd")))),
@@ -167,6 +171,19 @@ expect_warning(
   expect_false(is_path(path = fs::path_wd("subdir", "filename..txt"))),
   pattern = warn_space_dot, fixed = TRUE)
 
+# Filenames should not start with a space or a hyphen
+expect_silent(expect_true(is_path(path = fs::path_wd("subdir", " filename"))))
+
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", " filename.txt"))),
+  pattern = "should not start with ' ' (i.e., a space) or '-'", fixed = TRUE)
+
+expect_silent(expect_true(is_path(path = fs::path_wd("subdir", "-filename"))))
+
+expect_warning(
+  expect_false(is_path(path = fs::path_wd("subdir", "-filename.txt"))),
+  pattern = "should not start with ' ' (i.e., a space) or '-'", fixed = TRUE)
+
 ##### Temporary directory #####
 expect_warning(
   expect_false(is_path(path = tempdir())),
@@ -177,17 +194,14 @@ expect_true(is_path(fs::path(tempdir(), "subdir")))
 
 ##### Repeated file separators #####
 # Need file.path() because fs::path_wd() removes repeated file separators
-expect_warning(
-  expect_false(is_path(path = file.path(fs::path_wd("subdir"), "/filename.txt"))),
-  pattern = "not contain repeated '/' or '\\\\'", fixed = TRUE, strict = TRUE)
+expect_silent(
+  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "/filename.txt"))))
 
-expect_warning(
-  expect_false(is_path(path = file.path(fs::path_wd("subdir"), "\\filename.txt"))),
-  pattern = "not contain repeated '/' or '\\\\'", fixed = TRUE, strict = TRUE)
+expect_silent(
+  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "\\filename.txt"))))
 
-expect_warning(
-  expect_false(is_path(path = file.path(fs::path_wd("subdir"), "\\\\filename.txt"))),
-  pattern = "not contain repeated '/' or '\\\\'", fixed = TRUE, strict = TRUE)
+expect_silent(
+  expect_true(is_path(path = file.path(fs::path_wd("subdir"), "\\\\filename.txt"))))
 
 ##### Trailing file separators #####
 # To prevent warning about repeated file separators on MacOS and Ubuntu (where
