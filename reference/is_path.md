@@ -5,12 +5,12 @@ Check that `x` is a valid path, possibly containing a valid filename.
 ## Usage
 
 ``` r
-is_path(path)
+is_path(x)
 ```
 
 ## Arguments
 
-- path:
+- x:
 
   [character
   string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
@@ -18,8 +18,8 @@ is_path(path)
 
 ## Value
 
-`TRUE` or `FALSE` indicating if `path` is a valid path, possibly
-containing a valid filename.
+`TRUE` or `FALSE` indicating if `x` is a valid path, possibly containing
+a valid filename.
 
 ## Details
 
@@ -27,29 +27,31 @@ containing a valid filename.
 creating a directory or a file. Therefore it imposes the following
 restrictions:
 
-- `path` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
+- `x` should be a [character
+  string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md).
+
+- `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
   `>`, nor any of the control characters (`ASCII` octal codes 000
   through 037 and 177, see
   [`help("regex")`](https://rdrr.io/r/base/regex.html)).
 
-- `path` components (i.e., parts separated by file separators `/` or
-  `\\`) should **not** be the Windows-reserved terms `CON`, `PRN`,
-  `AUX`, `NUL`, `COM<non-zero digit>`, `LPT<non-zero digit>`,
-  case-insensitive variants of these names, or these names followed by
-  an extension.
+- `x` components (i.e., parts separated by file separators `/` or `\\`)
+  should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`,
+  `NUL`, `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive
+  variants of these names, or these names followed by an extension.
 
-- `path` components should **not** end with a space.
+- path components should **not** end with a space.
 
-- `path` components should **not** end with a dot, with the exception of
+- path components should **not** end with a dot, with the exception of
   `"."` and `".."` that are allowed as first component to indicate the
   working directory and the parent directory, respectively.
 
-- `path` should not point to
+- `x` should not point to
   [`tempdir()`](https://rdrr.io/r/base/tempfile.html): a temporary
   subdirectory should be used instead (see
   `progutils::create_tempdir()`).
 
-- If `path` contains a file extension (or compression extension, the
+- If `x` contains a file extension (or compression extension, the
   current implementation does not distinguish those from each other),
   the part after the last slash is considered the filename, which
   **should** adhere to the restrictions listed above, and in addition
@@ -57,7 +59,7 @@ restrictions:
   (`-`), while it **might** contain the Windows-reserved terms given in
   the second point above.
 
-These restrictions `path` consider characters and words that are not
+These restrictions on `x` consider characters and words that are not
 allowed in Windows and thus would lead to an error when used to create a
 directory or file; and characters that are silently removed in Windows
 and thus would lead to a mismatch between the created directory and the
@@ -66,19 +68,19 @@ returned path when used to create a directory.
 `is_path()` allows some patterns that will not occur in real (i.e.,
 existing) paths or filenames:
 
-- `path` does **not** have to contain a file separator (i.e., `/` or
-  `\\`). This makes it possible to use `is_path()` to check that input
-  to [`fs::path()`](https://fs.r-lib.org/reference/path.html) only
-  contains allowed characters.
+- `x` does **not** have to contain a file separator (i.e., `/` or `\\`).
+  This makes it possible to use `is_path()` to check that input to
+  [`fs::path()`](https://fs.r-lib.org/reference/path.html) only contains
+  allowed characters.
 
-- `path` does **not** have to point to an existing directory (see the
+- `x` does **not** have to point to an existing directory (see the
   previous point).
 
-- `path` might contain repeated file separators (e.g., `//` or `\\\\`):
+- `x` might contain repeated file separators (e.g., `//` or `\\\\`):
   these will be treated as if they were only a single file separator.
 
-- `path` might contain trailing file separators, even though these might
-  be ignored or removed in some operations (e.g., they are removed by
+- `x` might contain trailing file separators, even though these might be
+  ignored or removed in some operations (e.g., they are removed by
   [`file.path()`](https://rdrr.io/r/base/file.path.html) and
   [`fs::path()`](https://fs.r-lib.org/reference/path.html)) .
 
@@ -155,7 +157,7 @@ is_path(getwd())
 is_path(fs::path_wd("abcd"))
 #> [1] TRUE
 is_path(fs::path_wd("ab|cd"))
-#> Warning: 'path' ('fs::path_wd("ab|cd")') should not contain '"', '*', '?', '|', '<' or '>':
+#> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd
 #> [1] FALSE
 
@@ -167,11 +169,11 @@ is_path(fs::path_wd("abcd.gz"))
 #> [1] TRUE
 
 is_path(fs::path_wd("ab:cd.txt"))
-#> Warning: 'filename' should not contain ':':
-#> ab:cd.txt
+#> Warning: The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':
+#> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt
 #> [1] FALSE
 is_path(fs::path_wd("ab|cd.txt"))
-#> Warning: 'path' ('fs::path_wd("ab|cd.txt")') should not contain '"', '*', '?', '|', '<' or '>':
+#> Warning: 'fs::path_wd("ab|cd.txt")' should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt
 #> [1] FALSE
 ```
