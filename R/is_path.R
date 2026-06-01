@@ -2,34 +2,35 @@
 #'
 #' Check that `x` is a valid path, possibly containing a valid filename.
 #'
-#' @param path [character string][is_character()] with the path, possibly
+#' @param x [character string][is_character()] with the path, possibly
 #' containing a valid filename.
 #'
 #' @details
 #' `is_path()` is intended to be used to check for valid paths before creating a
 #' directory or a file. Therefore it imposes the following restrictions:
 #'
-#' - `path` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`,
-#'   nor any of the control characters (`ASCII` octal codes 000 through 037 and
-#'   177, see `help("regex")`).
-#' - `path` components (i.e., parts separated by file separators `/` or `\\`)
+#' - `x` should be a [character string][is_character()].
+#' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
+#'   any of the control characters (`ASCII` octal codes 000 through 037 and 177,
+#'   see `help("regex")`).
+#' - `x` components (i.e., parts separated by file separators `/` or `\\`)
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of
 #'   these names, or these names followed by an extension.
-#' - `path` components should **not** end with a space.
-#' - `path` components should **not** end with a dot, with the exception of
-#'   `"."` and `".."` that are allowed as first component to indicate the
-#'   working directory and the parent directory, respectively.
-#' - `path` should not point to `tempdir()`: a temporary subdirectory should be
+#' - path components should **not** end with a space.
+#' - path components should **not** end with a dot, with the exception of `"."`
+#'   and `".."` that are allowed as first component to indicate the working
+#'   directory and the parent directory, respectively.
+#' - `x` should not point to `tempdir()`: a temporary subdirectory should be
 #'   used instead (see `progutils::create_tempdir()`).
-#' - If `path` contains a file extension (or compression extension, the current
+#' - If `x` contains a file extension (or compression extension, the current
 #'   implementation does not distinguish those from each other), the part after
 #'   the last slash is considered the filename, which **should** adhere to the
 #'   restrictions listed above, and in addition should **not** contain `:`
 #'   **nor** start with a space or a hyphen (`-`), while it **might** contain
 #'   the Windows-reserved terms given in the second point above.
 #'
-#' These restrictions `path` consider characters and words that are not allowed
+#' These restrictions on `x` consider characters and words that are not allowed
 #' in Windows and thus would lead to an error when used to create a directory or
 #' file; and characters that are silently removed in Windows and thus would lead
 #' to a mismatch between the created directory and the returned path when used
@@ -38,19 +39,19 @@
 #' `is_path()` allows some patterns that will not occur in real (i.e., existing)
 #' paths or filenames:
 #'
-#' - `path` does **not** have to contain a file separator (i.e., `/` or `\\`).
-#'   This makes it possible to use `is_path()` to check that input to
-#'   [fs::path()] only contains allowed characters.
-#' - `path` does **not** have to point to an existing directory (see the
-#'   previous point).
-#' - `path` might contain repeated file separators (e.g., `//` or `\\\\`): these
+#' - `x` does **not** have to contain a file separator (i.e., `/` or `\\`). This
+#'   makes it possible to use `is_path()` to check that input to [fs::path()]
+#'   only contains allowed characters.
+#' - `x` does **not** have to point to an existing directory (see the previous
+#'   point).
+#' - `x` might contain repeated file separators (e.g., `//` or `\\\\`): these
 #'   will be treated as if they were only a single file separator.
-#' - `path` might contain trailing file separators, even though these might be
-#'   ignored or removed in some operations (e.g., they are removed by [file.path()]
-#'   and [fs::path()])
+#' - `x` might contain trailing file separators, even though these might be
+#'   ignored or removed in some operations (e.g., they are removed by
+#'   [file.path()] and [fs::path()])
 #'   .
 #' @returns
-#' `TRUE` or `FALSE` indicating if `path` is a valid path, possibly containing a
+#' `TRUE` or `FALSE` indicating if `x` is a valid path, possibly containing a
 #' valid filename.
 #'
 #' @section Programming notes:
@@ -112,13 +113,16 @@
 #' is_path(fs::path_wd("ab|cd.txt"))
 #'
 #' @export
-is_path <- function(path) {
-  path_ok <- TRUE
-  path_name <- paste0("'path' (", paste_quoted(deparse(substitute(path))), ")")
+is_path <- function(x) {
+  arg_name <- paste_quoted(deparse(substitute(x)))
 
-  if(!is_character(path)) {
-    path_ok <- FALSE
+  if(!is_character(x)) {
+    warning(arg_name, " should be a character string:\n", x)
+    # Return early for non-character input to prevent spurious errors.
+    return(FALSE)
   }
+
+  path_ok <- TRUE
 
   # Notes:
   # - split = c("/", "\\") does not work because that recycles 'split' along 'x'
@@ -126,23 +130,23 @@ is_path <- function(path) {
   #   fs::path_tidy() before splitting, which removes repeated slashes
   # - The if-else construct is needed because strsplit() discards empty quotes
   #   in the input.
-  path_comp <- unlist(strsplit(x = path, split = "/", fixed = TRUE))
+  path_comp <- unlist(strsplit(x = x, split = "/", fixed = TRUE))
   if(any(!nzchar(path_comp))) {
     path_comp <- c(unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE)), "")
   } else {
     path_comp <- unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE))
   }
 
-  if(grepl(pattern = '["*?|<>]', x = path)) {
+  if(grepl(pattern = '["*?|<>]', x = x)) {
     path_ok <- FALSE
-    warning(path_name, " should not contain '\"', '*', '?', '|', '<' or '>':\n",
-            path)
+    warning(arg_name, " should not contain '\"', '*', '?', '|', '<' or '>':\n",
+            x)
   }
 
   # "[[:cntrl:]]" matches the control characters, see help("regex")
-  if(grepl(pattern = "[[:cntrl:]]", x = path)) {
+  if(grepl(pattern = "[[:cntrl:]]", x = x)) {
     path_ok <- FALSE
-    warning(path_name, " should not contain control characters:\n", path)
+    warning(arg_name, " should not contain control characters:\n", x)
   }
 
   Windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
@@ -150,9 +154,9 @@ is_path <- function(path) {
   if(any(Windows_reserved %in% tolower(path_comp))) {
     path_ok <- FALSE
     reserved_comp <- path_comp[tolower(path_comp) %in% Windows_reserved]
-    warning("Components of ", path_name,
+    warning("Components of ", arg_name,
             " should not contain Windows-reserved names (",
-            paste_quoted(reserved_comp), "):\n", path)
+            paste_quoted(reserved_comp), "):\n", x)
   }
 
   bool_path_dot <- endsWith(x = path_comp, suffix = ".")
@@ -163,45 +167,45 @@ is_path <- function(path) {
   }
   if(any(bool_path_dot | endsWith(x = path_comp, suffix = " "))) {
     path_ok <- FALSE
-    warning("Components of ", path_name,
-            " should not end with ' ' or '.' (i.e., a space or a dot):\n",
-            path)
+    warning("Components of ", arg_name,
+            " should not end with ' ' or '.' (i.e., a space or a dot):\n", x)
   }
 
-  filename <- basename(path)
+  filename <- basename(x)
   file_ext <- fs::path_ext(path = filename)
   filename_no_ext <- fs::path_ext_remove(path = filename)
   has_file_ext <- (length(file_ext) != 0L && nzchar(file_ext)) ||
     filename != filename_no_ext ||
-    # To catch case where filename ends in a dot, e.g., "ff..txt": modified
-    # from fs::path_ext_remove() to only remove a single dot
+    # Catch case where filename ends in a dot (e.g., "ff..txt") on Windows with
+    # R 4.1.0: modified from fs::path_ext_remove() to only remove a single dot
     grepl(pattern = "\\.([^.]+)$", x = filename, perl = TRUE)
 
   if(!has_file_ext) {
     to_tempdir <-
-      basename(normalizePath(path, winslash = "/", mustWork = FALSE)) ==
+      basename(normalizePath(x, winslash = "/", mustWork = FALSE)) ==
       basename(normalizePath(tempdir(), winslash = "/", mustWork = FALSE))
   } else {
     to_tempdir <-
-      basename(dirname(normalizePath(path, winslash = "/", mustWork = FALSE))) ==
+      basename(dirname(normalizePath(x, winslash = "/", mustWork = FALSE))) ==
       basename(normalizePath(tempdir(), winslash = "/", mustWork = FALSE))
 
     if(length(filename_no_ext) == 0L || !nzchar(filename_no_ext)) {
       path_ok <- FALSE
       warning("filename without extension (", paste_quoted(filename_no_ext),
-              ") should not be empty:\n", path)
+              ") should not be empty:\n", x)
     }
 
     if(startsWith(x = filename, prefix = " ") ||
        startsWith(x = filename, prefix = "-")) {
       path_ok <- FALSE
-      warning("'filename' should not start with ' ' (i.e., a space) or '-':\n",
-              filename)
+      warning("The filename (", paste_quoted(filename), ") in ", arg_name,
+              " should not start with ' ' (i.e., a space) or '-':\n", x)
     }
 
     if(grepl(pattern = ":", x = filename, fixed = TRUE)) {
       path_ok <- FALSE
-      warning("'filename' should not contain ':':\n", filename)
+      warning("The filename (", paste_quoted(filename), ") in ", arg_name,
+              " should not contain ':':\n", x)
     }
 
     filename_dot <- !(filename %in% c(".", "..")) &&
@@ -214,19 +218,20 @@ is_path <- function(path) {
        endsWith(x = filename_no_ext, suffix = ".") ||
        filename_dot) {
       path_ok <- FALSE
-      warning("'filename' should not end with ' ' or '.' (i.e., a space or a",
-              " dot):\n", filename)
+      warning("The filename (", paste_quoted(filename), ") in ", arg_name,
+              " should not end with ' ' or '.' (i.e., a space or a dot):\n", x)
     }
   }
 
   if(to_tempdir) {
     path_ok <- FALSE
     warning(paste0(
-      "'path' should not point to 'tempdir()': instead, point to a subdirectory",
+      "'x' should not point to 'tempdir()': instead, point to a subdirectory",
       " in\ntempdir() through 'fs::path(tempdir(), \"subdir\")', or create such",
       " a subdirectory\nthrough 'progutils::create_tempdir(subdir = \"subdir\")':\n",
-      path))
+      x))
   }
 
+  # An early return (FALSE) occurs for non-character input.
   path_ok
 }

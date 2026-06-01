@@ -4,14 +4,14 @@
 \alias{is_path}
 \title{Check that \code{x} is a valid path}
 \usage{
-is_path(path)
+is_path(x)
 }
 \arguments{
-\item{path}{\link[=is_character]{character string} with the path, possibly
+\item{x}{\link[=is_character]{character string} with the path, possibly
 containing a valid filename.}
 }
 \value{
-\code{TRUE} or \code{FALSE} indicating if \code{path} is a valid path, possibly containing a
+\code{TRUE} or \code{FALSE} indicating if \code{x} is a valid path, possibly containing a
 valid filename.
 }
 \description{
@@ -21,20 +21,21 @@ Check that \code{x} is a valid path, possibly containing a valid filename.
 \code{is_path()} is intended to be used to check for valid paths before creating a
 directory or a file. Therefore it imposes the following restrictions:
 \itemize{
-\item \code{path} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>},
-nor any of the control characters (\code{ASCII} octal codes 000 through 037 and
-177, see \code{help("regex")}).
-\item \code{path} components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
+\item \code{x} should be a \link[=is_character]{character string}.
+\item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
+any of the control characters (\code{ASCII} octal codes 000 through 037 and 177,
+see \code{help("regex")}).
+\item \code{x} components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
 these names, or these names followed by an extension.
-\item \code{path} components should \strong{not} end with a space.
-\item \code{path} components should \strong{not} end with a dot, with the exception of
-\code{"."} and \code{".."} that are allowed as first component to indicate the
-working directory and the parent directory, respectively.
-\item \code{path} should not point to \code{tempdir()}: a temporary subdirectory should be
+\item path components should \strong{not} end with a space.
+\item path components should \strong{not} end with a dot, with the exception of \code{"."}
+and \code{".."} that are allowed as first component to indicate the working
+directory and the parent directory, respectively.
+\item \code{x} should not point to \code{tempdir()}: a temporary subdirectory should be
 used instead (see \code{progutils::create_tempdir()}).
-\item If \code{path} contains a file extension (or compression extension, the current
+\item If \code{x} contains a file extension (or compression extension, the current
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
 restrictions listed above, and in addition should \strong{not} contain \code{:}
@@ -42,7 +43,7 @@ restrictions listed above, and in addition should \strong{not} contain \code{:}
 the Windows-reserved terms given in the second point above.
 }
 
-These restrictions \code{path} consider characters and words that are not allowed
+These restrictions on \code{x} consider characters and words that are not allowed
 in Windows and thus would lead to an error when used to create a directory or
 file; and characters that are silently removed in Windows and thus would lead
 to a mismatch between the created directory and the returned path when used
@@ -51,16 +52,16 @@ to create a directory.
 \code{is_path()} allows some patterns that will not occur in real (i.e., existing)
 paths or filenames:
 \itemize{
-\item \code{path} does \strong{not} have to contain a file separator (i.e., \code{/} or \verb{\\\\}).
-This makes it possible to use \code{is_path()} to check that input to
-\code{\link[fs:path]{fs::path()}} only contains allowed characters.
-\item \code{path} does \strong{not} have to point to an existing directory (see the
-previous point).
-\item \code{path} might contain repeated file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
+\item \code{x} does \strong{not} have to contain a file separator (i.e., \code{/} or \verb{\\\\}). This
+makes it possible to use \code{is_path()} to check that input to \code{\link[fs:path]{fs::path()}}
+only contains allowed characters.
+\item \code{x} does \strong{not} have to point to an existing directory (see the previous
+point).
+\item \code{x} might contain repeated file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
 will be treated as if they were only a single file separator.
-\item \code{path} might contain trailing file separators, even though these might be
-ignored or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}}
-and \code{\link[fs:path]{fs::path()}})
+\item \code{x} might contain trailing file separators, even though these might be
+ignored or removed in some operations (e.g., they are removed by
+\code{\link[=file.path]{file.path()}} and \code{\link[fs:path]{fs::path()}})
 .
 }
 }
