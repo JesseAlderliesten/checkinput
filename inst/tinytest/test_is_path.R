@@ -31,15 +31,15 @@ expect_warning(
 ##### Illegal characters #####
 for(illegal_char in illegal_chars) {
   expect_warning(
-    expect_false(is_path(fs::path_wd(paste0("ab", illegal_char, "cd")))),
+    expect_false(is_path(paste0("ab", illegal_char, "cd"))),
     pattern = "should not contain '\"', '*'", fixed = TRUE)
   expect_warning(
-    expect_false(is_path(fs::path_wd(paste0("ab", illegal_char, "cd.txt")))),
+    expect_false(is_path(paste0("ab", illegal_char, "cd.txt"))),
     pattern = "should not contain '\"', '*'", fixed = TRUE)
 }
 
 expect_warning(
-  expect_false(is_path(fs::path_wd("ab:cd.txt"))),
+  expect_false(is_path("ab:cd.txt")),
   pattern = "should not contain ':'", fixed = TRUE)
 
 expect_warning(
@@ -48,11 +48,11 @@ expect_warning(
 
 for(control_char in paste0("\005", "\025", "\035", "\177")) {
   expect_warning(
-    expect_false(is_path(fs::path_wd(paste0("ab", control_char, "cd")))),
+    expect_false(is_path(paste0("ab", control_char, "cd"))),
     pattern = "should not contain control characters", fixed = TRUE)
 
   expect_warning(
-    expect_false(is_path(fs::path_wd(paste0("ab", control_char, "cd.txt")))),
+    expect_false(is_path(paste0("ab", control_char, "cd.txt"))),
     pattern = "should not contain control characters", fixed = TRUE)
 }
 
@@ -60,7 +60,7 @@ for(control_char in paste0("\005", "\025", "\035", "\177")) {
 # These are not allowed as path components but are allowed as filename
 for(Windows_name in Windows_reserved) {
   expect_warning(
-    expect_false(is_path(fs::path_wd(Windows_name))),
+    expect_false(is_path(Windows_name)),
     pattern = warn_Windows_reserved, fixed = TRUE)
 
   expect_warning(
@@ -77,7 +77,7 @@ for(Windows_name in Windows_reserved) {
 # 'COM', 'COM0', 'LPT' and 'LPT0' are allowed as filename and as path component
 for(Windows_allowed in c("COM", "COM0", "LPT", "LPT0")) {
   expect_true(
-    is_path(fs::path_wd(Windows_allowed)))
+    is_path(Windows_allowed))
 
   expect_true(
     is_path(fs::path_wd("subdir", Windows_allowed, "filename.txt")))
@@ -195,13 +195,13 @@ expect_true(is_path(fs::path(tempdir(), "subdir")))
 ##### Repeated file separators #####
 # Need file.path() because fs::path_wd() removes repeated file separators
 expect_silent(
-  expect_true(is_path(file.path(fs::path_wd("subdir"), "/filename.txt"))))
+  expect_true(is_path(file.path("subdir", "/filename.txt"))))
 
 expect_silent(
-  expect_true(is_path(file.path(fs::path_wd("subdir"), "\\filename.txt"))))
+  expect_true(is_path(file.path("subdir", "\\filename.txt"))))
 
 expect_silent(
-  expect_true(is_path(file.path(fs::path_wd("subdir"), "\\\\filename.txt"))))
+  expect_true(is_path(file.path("subdir", "\\\\filename.txt"))))
 
 ##### Trailing file separators #####
 # To prevent warning about repeated file separators on MacOS and Ubuntu (where
