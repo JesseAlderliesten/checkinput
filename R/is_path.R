@@ -171,16 +171,10 @@ is_path <- function(path) {
   filename <- basename(path)
   file_ext <- fs::path_ext(path = filename)
   filename_no_ext <- fs::path_ext_remove(path = filename)
+  has_file_ext <- (length(file_ext) != 0L && nzchar(file_ext)) ||
+    filename != filename_no_ext
 
-  filename_dot <- !(filename %in% c(".", "..")) &&
-    # To not get spurious warnings about filenames if it is a path component
-    filename != filename_no_ext &&
-    (endsWith(filename_no_ext, suffix = ".") ||
-       # To catch case where filename ends in a dot, e.g., "ff..txt": modified
-       # from fs::path_ext_remove() to only remove a single dot
-       endsWith(sub("\\.([^.]+)$", "", filename, perl = TRUE), suffix = "."))
-
-  if(!filename_dot && (length(file_ext) == 0L || !nzchar(file_ext))) {
+  if(!has_file_ext) {
     to_tempdir <-
       basename(normalizePath(path, winslash = "/", mustWork = FALSE)) ==
       basename(normalizePath(tempdir(), winslash = "/", mustWork = FALSE))
@@ -206,6 +200,12 @@ is_path <- function(path) {
       path_ok <- FALSE
       warning("'filename' should not contain ':':\n", filename)
     }
+
+    filename_dot <- !(filename %in% c(".", "..")) &&
+      (endsWith(filename_no_ext, suffix = ".") ||
+         # To catch case where filename ends in a dot, e.g., "ff..txt": modified
+         # from fs::path_ext_remove() to only remove a single dot
+         endsWith(sub("\\.([^.]+)$", "", filename, perl = TRUE), suffix = "."))
 
     if(endsWith(x = filename_no_ext, suffix = " ") ||
        endsWith(x = filename_no_ext, suffix = ".") ||
