@@ -155,7 +155,7 @@ is_path(getwd())
 is_path(fs::path_wd("abcd"))
 #> [1] TRUE
 is_path(fs::path_wd("ab|cd"))
-#> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
+#> Warning: 'path' ('fs::path_wd("ab|cd")') should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd
 #> [1] FALSE
 
@@ -171,7 +171,7 @@ is_path(fs::path_wd("ab:cd.txt"))
 #> ab:cd.txt
 #> [1] FALSE
 is_path(fs::path_wd("ab|cd.txt"))
-#> Warning: 'fs::path_wd("ab|cd.txt")' should not contain '"', '*', '?', '|', '<' or '>':
+#> Warning: 'path' ('fs::path_wd("ab|cd.txt")') should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt
 #> [1] FALSE
 ```
