@@ -10,7 +10,10 @@
 #### Added functions
 
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
-  moved from package `progutils` to `checkinput`.
+  move from package `progutils` to `checkinput`. Warn and return `FALSE`
+  instead of throwing an error if `path` is not a valid path. Not warn
+  about duplicated file separators. Not allow filenames to start with a
+  hyphen.
 
 ## checkinput 0.8.0
 
