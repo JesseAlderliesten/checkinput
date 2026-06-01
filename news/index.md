@@ -12,8 +12,9 @@
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
   move from package `progutils` to `checkinput`. Rename argument `path`
   to `x`. Warn and return `FALSE` instead of throwing an error if `path`
-  is not a valid path. Not warn about duplicated file separators. Not
-  allow filenames to start with a hyphen.
+  is not a valid path. Not allow filenames to start with a hyphen. Not
+  warn about duplicated file separators or pointing to
+  [`tempdir()`](https://rdrr.io/r/base/tempfile.html).
 
 ## checkinput 0.8.0
 

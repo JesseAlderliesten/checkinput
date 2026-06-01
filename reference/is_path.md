@@ -46,11 +46,6 @@ restrictions:
   `"."` and `".."` that are allowed as first component to indicate the
   working directory and the parent directory, respectively.
 
-- `x` should not point to
-  [`tempdir()`](https://rdrr.io/r/base/tempfile.html): a temporary
-  subdirectory should be used instead (see
-  `progutils::create_tempdir()`).
-
 - If `x` contains a file extension (or compression extension, the
   current implementation does not distinguish those from each other),
   the part after the last slash is considered the filename, which
@@ -108,8 +103,8 @@ On MacOS, the output of
 [`tempdir()`](https://rdrr.io/r/base/tempfile.html) is preceded by
 duplicated forward slashes (e.g.,
 `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which led to spurious
-warnings in earlier versions of `is_path()` that warned about duplicated
-file separators.
+warnings in earlier versions of `is_path()` about duplicated file
+separators.
 
 ## References
 
