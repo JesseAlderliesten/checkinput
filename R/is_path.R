@@ -114,6 +114,7 @@
 #' @export
 is_path <- function(path) {
   path_ok <- TRUE
+  path_name <- paste0("'path' (", paste_quoted(deparse(substitute(path))), ")")
 
   if(!is_character(path)) {
     path_ok <- FALSE
@@ -134,14 +135,14 @@ is_path <- function(path) {
 
   if(grepl(pattern = '["*?|<>]', x = path)) {
     path_ok <- FALSE
-    warning(paste_quoted(deparse(substitute(path))),
-            " should not contain '\"', '*', '?', '|', '<' or '>':\n", path)
+    warning(path_name, " should not contain '\"', '*', '?', '|', '<' or '>':\n",
+            path)
   }
 
   # "[[:cntrl:]]" matches the control characters, see help("regex")
   if(grepl(pattern = "[[:cntrl:]]", x = path)) {
     path_ok <- FALSE
-    warning("'path' should not contain control characters:\n", path)
+    warning(path_name, " should not contain control characters:\n", path)
   }
 
   Windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
@@ -149,19 +150,20 @@ is_path <- function(path) {
   if(any(Windows_reserved %in% tolower(path_comp))) {
     path_ok <- FALSE
     reserved_comp <- path_comp[tolower(path_comp) %in% Windows_reserved]
-    warning("'path' components should not contain Windows-reserved names (",
+    warning("Components of ", path_name,
+            " should not contain Windows-reserved names (",
             paste_quoted(reserved_comp), "):\n", path)
   }
 
-  bool_invalid_dot <- endsWith(x = path_comp, suffix = ".")
+  bool_path_dot <- endsWith(x = path_comp, suffix = ".")
   # "." and ".." are allowed as first path component to denote the working
   # directory and the parent directory, respectively
-  if(bool_invalid_dot[1] && path_comp[1] %in% c(".", "..")) {
-    bool_invalid_dot[1] <- FALSE
+  if(bool_path_dot[1] && path_comp[1] %in% c(".", "..")) {
+    bool_path_dot[1] <- FALSE
   }
-  if(any(bool_invalid_dot | endsWith(x = path_comp, suffix = " "))) {
+  if(any(bool_path_dot | endsWith(x = path_comp, suffix = " "))) {
     path_ok <- FALSE
-    warning("Path components in ", paste_quoted(deparse(substitute(path))),
+    warning("Components of ", path_name,
             " should not end with ' ' or '.' (i.e., a space or a dot):\n",
             path)
   }
@@ -170,13 +172,15 @@ is_path <- function(path) {
   file_ext <- fs::path_ext(path = filename)
   filename_no_ext <- fs::path_ext_remove(path = filename)
 
-  end_dot <- filename != "." && filename != ".." &&
+  filename_dot <- !(filename %in% c(".", "..")) &&
+    # To not get spurious warnings about filenames if it is a path component
+    filename != filename_no_ext &&
     (endsWith(filename_no_ext, suffix = ".") ||
        # To catch case where filename ends in a dot, e.g., "ff..txt": modified
        # from fs::path_ext_remove() to only remove a single dot
        endsWith(sub("\\.([^.]+)$", "", filename, perl = TRUE), suffix = "."))
 
-  if(!end_dot && (length(file_ext) == 0L || !nzchar(file_ext))) {
+  if(!filename_dot && (length(file_ext) == 0L || !nzchar(file_ext))) {
     to_tempdir <-
       basename(normalizePath(path, winslash = "/", mustWork = FALSE)) ==
       basename(normalizePath(tempdir(), winslash = "/", mustWork = FALSE))
@@ -205,7 +209,7 @@ is_path <- function(path) {
 
     if(endsWith(x = filename_no_ext, suffix = " ") ||
        endsWith(x = filename_no_ext, suffix = ".") ||
-       end_dot) {
+       filename_dot) {
       path_ok <- FALSE
       warning("'filename' should not end with ' ' or '.' (i.e., a space or a",
               " dot):\n", filename)
