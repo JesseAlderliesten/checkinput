@@ -1,7 +1,7 @@
 # Quote and concatenate x to a string
 
-Quote a factor or elements of a vector and concatenate the result to a
-single string.
+Quote elements of an atomic object without dimensions and concatenate
+the result to a single character string.
 
 ## Usage
 
@@ -13,7 +13,8 @@ paste_quoted(x)
 
 - x:
 
-  Factor or vector to be converted to a character string.
+  Atomic object without dimensions to be converted to a single character
+  string.
 
 ## Value
 

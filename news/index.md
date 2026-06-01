@@ -6,6 +6,9 @@
 
 - Added dependency `fs` that is used in
   [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md).
+- [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
+  now accepts atomic non-vector objects such as the output of
+  [`fs::path()`](https://fs.r-lib.org/reference/path.html).
 
 #### Added functions
 
