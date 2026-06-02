@@ -28,7 +28,7 @@
 #'
 #' @section Programming notes:
 #' [is.numeric()] tests the [mode()] of `x`, which is `numeric` for
-#' floating-point numbers such as 3.2 and integers such as 3L. In contrast,
+#' floating-point numbers such as `3.2` and integers such as `3L`. In contrast,
 #' `class(x) == "numeric"` (or, more robust, `inherits(x = x, what = "numeric")`)
 #' would test the [class()] of `x` which is `numeric` for floating-point numbers
 #' but `integer` for integers (see the `Note on names` in [is.numeric()]).

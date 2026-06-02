@@ -63,7 +63,7 @@ if \code{allow_NA} is \code{TRUE}) because its mode is \code{complex} instead of
 \section{Programming notes}{
 
 \code{\link[=is.numeric]{is.numeric()}} tests the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for
-floating-point numbers such as 3.2 and integers such as 3L. In contrast,
+floating-point numbers such as \code{3.2} and integers such as \code{3L}. In contrast,
 \code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
 would test the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
 but \code{integer} for integers (see the \verb{Note on names} in \code{\link[=is.numeric]{is.numeric()}}).
