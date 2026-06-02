@@ -74,7 +74,7 @@ directory or a file. Therefore it imposes the following restrictions:</p><ul><li
 <li><p><code>x</code> should <strong>not</strong> contain the characters <code>"</code>, <code>*</code>, <code>?</code>, <code>|</code>, <code>&lt;</code>, <code>&gt;</code>, nor
 any of the control characters (<code>ASCII</code> octal codes 000 through 037 and 177,
 see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code>).</p></li>
-<li><p><code>x</code> components (i.e., parts separated by file separators <code>/</code> or <code>\\</code>)
+<li><p>path components (i.e., parts separated by file separators <code>/</code> or <code>\\</code>)
 should <strong>not</strong> be the Windows-reserved terms <code>CON</code>, <code>PRN</code>, <code>AUX</code>, <code>NUL</code>,
 <code>COM&lt;non-zero digit&gt;</code>, <code>LPT&lt;non-zero digit&gt;</code>, case-insensitive variants of
 these names, or these names followed by an extension.</p></li>
@@ -123,11 +123,11 @@ would be printed as <code>Repeated '/' or '\'</code>. This makes it cumbersome t
 the correct type and number of slashes to compare with the path recorded in a
 message, such that it is more robust to check only for fixed parts of the
 message (e.g., <code>"Repeated"</code>), possibly followed by a check like
-<code>tinytest::expect_true(dir.exists(string))</code>.</p>
-<p>On MacOS, the output of <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> is preceded by duplicated forward slashes
-(e.g., <code>/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR</code>) which led to
-spurious warnings in earlier versions of <code>is_path()</code> about duplicated file
-separators.</p>
+<code>tinytest::expect_true(fs::dir_exists(string))</code>.</p>
+<p>The output of <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> during R cmd checks on MacOS contains duplicated
+forward slashes (e.g., <code>/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR</code>)
+which in earlier versions of <code>is_path()</code> (then in package <code>progutils</code>) led to
+spurious warnings about duplicated file separators.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

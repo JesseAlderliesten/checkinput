@@ -35,7 +35,7 @@ restrictions:
   through 037 and 177, see
   [`help("regex")`](https://rdrr.io/r/base/regex.html)).
 
-- `x` components (i.e., parts separated by file separators `/` or `\\`)
+- path components (i.e., parts separated by file separators `/` or `\\`)
   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`,
   `NUL`, `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive
   variants of these names, or these names followed by an extension.
@@ -97,14 +97,13 @@ point out their presence would be written as
 and number of slashes to compare with the path recorded in a message,
 such that it is more robust to check only for fixed parts of the message
 (e.g., `"Repeated"`), possibly followed by a check like
-`tinytest::expect_true(dir.exists(string))`.
+`tinytest::expect_true(fs::dir_exists(string))`.
 
-On MacOS, the output of
-[`tempdir()`](https://rdrr.io/r/base/tempfile.html) is preceded by
-duplicated forward slashes (e.g.,
-`/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which led to spurious
-warnings in earlier versions of `is_path()` about duplicated file
-separators.
+The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
+R cmd checks on MacOS contains duplicated forward slashes (e.g.,
+`/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier
+versions of `is_path()` (then in package `progutils`) led to spurious
+warnings about duplicated file separators.
 
 ## References
 

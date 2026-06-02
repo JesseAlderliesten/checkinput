@@ -73,7 +73,7 @@ a number') if `allow_NaN` is `TRUE`; and return `FALSE` for
 
 [`is.numeric()`](https://rdrr.io/r/base/numeric.html) tests the
 [`mode()`](https://rdrr.io/r/base/mode.html) of `x`, which is `numeric`
-for floating-point numbers such as 3.2 and integers such as 3L. In
+for floating-point numbers such as `3.2` and integers such as `3L`. In
 contrast, `class(x) == "numeric"` (or, more robust,
 `inherits(x = x, what = "numeric")`) would test the
 [`class()`](https://rdrr.io/r/base/class.html) of `x` which is `numeric`
