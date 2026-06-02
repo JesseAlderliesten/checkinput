@@ -25,7 +25,7 @@ directory or a file. Therefore it imposes the following restrictions:
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\code{ASCII} octal codes 000 through 037 and 177,
 see \code{help("regex")}).
-\item \code{x} components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
+\item path components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
 these names, or these names followed by an extension.
@@ -78,12 +78,12 @@ would be printed as \verb{Repeated '/' or '\\'}. This makes it cumbersome to get
 the correct type and number of slashes to compare with the path recorded in a
 message, such that it is more robust to check only for fixed parts of the
 message (e.g., \code{"Repeated"}), possibly followed by a check like
-\code{tinytest::expect_true(dir.exists(string))}.
+\code{tinytest::expect_true(fs::dir_exists(string))}.
 
-On MacOS, the output of \code{tempdir()} is preceded by duplicated forward slashes
-(e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR}) which led to
-spurious warnings in earlier versions of \code{is_path()} about duplicated file
-separators.
+The output of \code{tempdir()} during R cmd checks on MacOS contains duplicated
+forward slashes (e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR})
+which in earlier versions of \code{is_path()} (then in package \code{progutils}) led to
+spurious warnings about duplicated file separators.
 }
 
 \section{References}{
