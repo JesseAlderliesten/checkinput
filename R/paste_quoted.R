@@ -1,6 +1,6 @@
 #' Quote and concatenate x to a string
 #'
-#' Quote elements of an atomic object without dimensions and concatenate the
+#' Quote elements of a dimensionless atomic object and concatenate the
 #' result to a single character string.
 #'
 #' @details
@@ -9,7 +9,7 @@
 #' `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`; for [factors][factor] this
 #' is `"'NA_character_'"`).
 #'
-#' @param x Atomic object without dimensions to be converted to a single
+#' @param x Dimensionless atomic object to be converted to a single
 #' character string.
 #'
 #' @returns
@@ -23,9 +23,12 @@
 #' `paste_quoted("a", "b")` will return the error `unused argument ("b")`. The
 #' probably intended call is `paste_quoted(c("a", "b"))`, returning `"'a', 'b'"`.
 #'
+#' `paste_quoted()` drops [names][names()] of `x`, which is pointed out in a
+#' [warning][warning()] if `x` has names.
+#'
 #' @seealso
 #' [toString()] which can be used instead of `paste(x, collapse = ", ")`,
-#' [sQuote()] to use fancy quotes, [paste0()], `progutils::unpaste_unquote()`
+#' [sQuote()] to use fancy quotes, [paste0()], [progutils::unpaste_unquote()]
 #' for the approximate opposite of `paste_quoted()`.
 #'
 #' @family functions to modify character vectors
