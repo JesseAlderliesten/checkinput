@@ -92,9 +92,9 @@ note_mknm_dots <- paste0("\n\\(it does not recognise names that consist of only"
 
 
 #### Test the examples ####
-expect_true(all_names(x = c("a", "b1a")))
+expect_true(all_names(x = c("a", "b2a")))
 expect_warning(
-  expect_false(all_names(x = c("a", "b1a", "a"))),
+  expect_false(all_names(x = c("a", "b2a", "a"))),
   pattern = paste0(warn_dupl, "'a'", use_mknm_mult), strict = TRUE, fixed = FALSE)
 
 invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")

@@ -107,8 +107,8 @@
 #' collections of checks on type and length
 #'
 #' @examples
-#' all_names(x = c("a", "b1a")) # TRUE
-#' all_names(x = c("a", "b1a", "a")) # FALSE: duplicated name
+#' all_names(x = c("a", "b2a")) # TRUE
+#' all_names(x = c("a", "b2a", "a")) # FALSE: duplicated name
 #'
 #' invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
 #' # Syntactically invalid names: the character '#' makes names invalid,
