@@ -21,8 +21,7 @@ knitr::opts_chunk$set(
 
 
 ## Introduction
-When testing vector input of length larger than one, it should be kept in mind
-that objects are converted ('coerced') to a common type when combined in a
+Objects in R are converted ('coerced') to a common type when combined in a
 vector. The type of the vector, and thus of all its components, will be the
 highest type of the components in the hierarchy `NULL` < `raw` < `logical` <
 `integer` < `double` < `complex` < `character` < `list` < `expression`, see the
@@ -50,7 +49,7 @@ logiNA_char[1]
 
 
 ## Consequences for checks
-Type coercion in a vector has as consequence that code like
+As a consequence of type coercion in a vector, code like
 `all_characters(c(x, y))` does **not** check if all elements in `x` and `y` are
 character: `x` and `y` will be coerced to the highest of their types before the
 check is performed, such that `all_characters(c(x, y))` tests if any of `x` or
@@ -58,9 +57,10 @@ check is performed, such that `all_characters(c(x, y))` tests if any of `x` or
 
 To check if all elements in `x` and `y` are character, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily to more
-than two objects, `all(unlist(lapply(X = list(x, y), FUN = all_characters, ...)))`,
-where `...` indicates the position of arguments passed to `all_characters()`,
-e.g., `allow_empty = TRUE`.
+than two objects, `all(unlist(lapply(X = list(x, y), FUN = all_characters)))`.
+Other function arguments passed to `all_characters()`, e.g., `allow_empty = TRUE`
+to change the default `TRUE` for `allow_empty` to `FALSE`, should be placed
+behind argument `x`.
 
 Elements of a list can contain objects of different types but using `unlist()`
 on a list creates a vector in which all elements of the list are coerced to a

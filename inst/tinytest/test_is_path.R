@@ -18,16 +18,28 @@ expect_true(is_path(fs::path_wd("abcd.txt")))
 expect_true(is_path(fs::path_wd("abcd.txt.gz")))
 expect_true(is_path(fs::path_wd("abcd.gz")))
 
+expect_silent(
+  expect_true(is_path(fs::path_wd("ab:cd"))))
 expect_warning(
   expect_false(is_path(fs::path_wd("ab:cd.txt"))),
   pattern = "should not contain ':'", fixed = TRUE)
 
+expect_warning(
+  expect_false(is_path(fs::path_wd("ab|cd"))),
+  pattern = "should not contain '\"', '*'", fixed = TRUE)
 expect_warning(
   expect_false(is_path(fs::path_wd("ab|cd.txt"))),
   pattern = "should not contain '\"', '*'", fixed = TRUE)
 
 
 #### Tests ####
+##### Miscellaneous #####
+expect_silent(expect_true(is_path(".txt")))
+expect_silent(expect_true(is_path(".gz")))
+expect_silent(expect_true(is_path("abcd")))
+expect_silent(expect_true(is_path("abcd.gz")))
+expect_silent(expect_true(is_path("abc.tx#")))
+
 ##### Illegal characters #####
 for(illegal_char in illegal_chars) {
   expect_warning(
@@ -45,6 +57,10 @@ expect_warning(
 expect_warning(
   expect_false(is_path("ab:cd.txt")),
   pattern = "should not contain ':'", fixed = TRUE)
+
+# fs::path_ext_remove(filename) normalized "C:" to "C:/" leading to the
+# erroneous warning that the filename should not contain ':'.
+expect_silent(expect_true(is_path("C:")))
 
 for(control_char in paste0("\005", "\025", "\035", "\177")) {
   expect_warning(
@@ -156,6 +172,10 @@ expect_warning(
 
 # Filenames should not end with a space or a dot
 expect_warning(
+  expect_false(is_path("..txt")),
+  pattern = warn_space_dot, fixed = TRUE)
+
+expect_warning(
   expect_false(is_path(fs::path_wd("subdir", "filename "))),
   pattern = warn_space_dot, fixed = TRUE)
 
@@ -215,11 +235,18 @@ expect_true(is_path(paste0(fs::path_wd("subdir", "filename.txt"), "\\")))
 ##### Non-character input #####
 expect_warning(
   expect_false(is_path(3)),
-  pattern = "should be a character string", fixed = TRUE)
+  pattern = "should be a non-empty, non-NA_character_ character string",
+  fixed = TRUE)
 
 expect_warning(
   expect_false(is_path(c("abc.txt", "def.html"))),
-  pattern = "should be a character string", fixed = TRUE)
+  pattern = "should be a non-empty, non-NA_character_ character string",
+  fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(NA_character_)),
+  pattern = "should be a non-empty, non-NA_character_ character string",
+  fixed = TRUE)
 
 
 #### Cleaning up ####

@@ -24,15 +24,16 @@
 #' - If `x` contains a file extension (or compression extension, the current
 #'   implementation does not distinguish those from each other), the part after
 #'   the last slash is considered the filename, which **should** adhere to the
-#'   restrictions listed above, and in addition should **not** contain `:`
-#'   **nor** start with a space or a hyphen (`-`), while it **might** contain
-#'   the Windows-reserved terms given in the second point above.
+#'   restrictions listed above (although it **may** contain the Windows-reserved
+#'   terms listed in the second point above), and in addition should **not**
+#'   contain `:` **nor** start with a space or a hyphen (`-`).
 #'
 #' These restrictions on `x` consider characters and words that are not allowed
 #' in Windows and thus would lead to an error when used to create a directory or
-#' file; and characters that are silently removed in Windows and thus would lead
+#' file; characters that are silently removed in Windows and thus would lead
 #' to a mismatch between the created directory and the returned path when used
-#' to create a directory.
+#' to create a directory; and characters that might give problems when used in
+#' the shell.
 #'
 #' `is_path()` allows some patterns that will not occur in real (i.e., existing)
 #' paths or filenames:
@@ -52,13 +53,16 @@
 #' `TRUE` or `FALSE` indicating if `x` is a valid path, possibly containing a
 #' valid filename.
 #'
-#' @section Programming notes:
+#' @section Notes on paths:
 #' The file separator is a backslash (`\`) on Windows but a forward slash (`/`)
 #' on other operating systems ([.Platform$file.sep][.Platform] gives the file
-#' separator used on the current platform). Furthermore, the backslash is used
+#' separator used on the current platform).
+#'
+#' Furthermore, the backslash is used
 #' as [escape character][regex] in \R, such that backslashes need to be escaped
-#' in \R code. Thus, a check on the presence of repeated slashes and backslashes
-#' in [string][is_character()] `string` would use
+#' in \R code by doubling them (use `cat(x)` to see how x would be printed).
+#' Thus, a check on the presence of repeated
+#' slashes and backslashes in [string][is_character()] `string` would use
 #' `grepl(pattern = "//", x = string, fixed = TRUE)` and
 #' `grepl(pattern = "\\\\", x = string, fixed = TRUE)`. The message to point out
 #' their presence would be written as `message("Repeated '/' or '\\'")` which
@@ -68,6 +72,7 @@
 #' message (e.g., `"Repeated"`), possibly followed by a check like
 #' `tinytest::expect_true(fs::dir_exists(string))`.
 #'
+#' @section Programming notes:
 #' The output of `tempdir()` during R cmd checks on MacOS contains duplicated
 #' forward slashes (e.g., `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
 #' which in earlier versions of `is_path()` (then in package `progutils`) led to
@@ -87,13 +92,17 @@
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso
-#' [fs::path_math] for various operations on paths; [fs::path_sanitize()] to
+#' [fs::path_math()] for various operations on paths; [fs::path_sanitize()] to
 #' **remove** invalid characters from potential paths;
 #' [utils::file_test()] and references there on file existence and permissions;
-#' `progutils::create_file_path()` to create a file path, creating the directory
-#' if it does not yet exist; `progutils::create_dir()` to create a directory if
-#' it does not yet exist; `progutils::get_file_path()` to check if a file exists
+#' [progutils::create_file_path()] to create a file path, creating the directory
+#' if it does not yet exist; [progutils::create_dir()] to create a directory if
+#' it does not yet exist; [progutils::get_file_path()] to check if a file exists
 #' and is a unique match to a pattern.
+#'
+#' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
+#' `checkrpkgs`: `vignette("git_github", package = "checkrpkgs")` on paths and
+#' file separators in the [shell](https://happygitwithr.com/shell).
 #'
 #' @family
 #' collections of checks on type and length
@@ -107,15 +116,20 @@
 #' is_path(fs::path_wd("abcd.txt.gz"))
 #' is_path(fs::path_wd("abcd.gz"))
 #'
-#' is_path(fs::path_wd("ab:cd.txt"))
-#' is_path(fs::path_wd("ab|cd.txt"))
+#' # ':' is allowed in paths but not in filenames
+#' is_path(fs::path_wd("ab:cd")) # TRUE
+#' is_path(fs::path_wd("ab:cd.txt")) # FALSE
+#'
+#' # Other illegal characters are not allowed in either paths or filenames
+#' is_path(fs::path_wd("ab|cd")) # FALSE
+#' is_path(fs::path_wd("ab|cd.txt")) # FALSE
 #'
 #' @export
 is_path <- function(x) {
   arg_name <- paste_quoted(deparse(substitute(x)))
 
   if(!is_character(x)) {
-    warning(arg_name, " should be a character string:\n", x)
+    warning(arg_name, " should be a non-empty, non-NA_character_ character string:\n", x)
     # Return early for non-character input to prevent spurious errors.
     return(FALSE)
   }
@@ -173,7 +187,8 @@ is_path <- function(x) {
   file_ext <- fs::path_ext(path = filename)
   filename_no_ext <- fs::path_ext_remove(path = filename)
   has_file_ext <- (length(file_ext) != 0L && nzchar(file_ext)) ||
-    filename != filename_no_ext ||
+    # fs::path() needed because fs::path_ext_remove() tidies the path
+    fs::path(filename) != filename_no_ext ||
     # Catch case where filename ends in a dot (e.g., "ff..txt") on Windows with
     # R 4.1.0: modified from fs::path_ext_remove() to only remove a single dot
     grepl(pattern = "\\.([^.]+)$", x = filename, perl = TRUE)

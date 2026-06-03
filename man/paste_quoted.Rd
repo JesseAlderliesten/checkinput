@@ -7,7 +7,7 @@
 paste_quoted(x)
 }
 \arguments{
-\item{x}{Atomic object without dimensions to be converted to a single
+\item{x}{Dimensionless atomic object to be converted to a single
 character string.}
 }
 \value{
@@ -16,7 +16,7 @@ quotes, separated by commas. See \code{Details} on the handling of some special
 values.
 }
 \description{
-Quote elements of an atomic object without dimensions and concatenate the
+Quote elements of a dimensionless atomic object and concatenate the
 result to a single character string.
 }
 \details{
@@ -31,6 +31,9 @@ An error occurs if multiple arguments are provided because then \code{x} probabl
 was accidentally not \link[=c]{combined}. For example, the call
 \code{paste_quoted("a", "b")} will return the error \verb{unused argument ("b")}. The
 probably intended call is \code{paste_quoted(c("a", "b"))}, returning \code{"'a', 'b'"}.
+
+\code{paste_quoted()} drops \link{names} of \code{x}, which is pointed out in a
+\link{warning} if \code{x} has names.
 }
 
 \examples{
@@ -41,7 +44,7 @@ paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 }
 \seealso{
 \code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")},
-\code{\link[=sQuote]{sQuote()}} to use fancy quotes, \code{\link[=paste0]{paste0()}}, \code{progutils::unpaste_unquote()}
+\code{\link[=sQuote]{sQuote()}} to use fancy quotes, \code{\link[=paste0]{paste0()}}, \code{\link[progutils:unpaste_unquote]{progutils::unpaste_unquote()}}
 for the approximate opposite of \code{paste_quoted()}.
 }
 \concept{functions to modify character vectors}

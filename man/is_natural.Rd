@@ -78,17 +78,17 @@ representation error. As the \code{Note} at \code{\link{==}} warns, \code{x == r
 error if \code{x} is not natural according to \code{is_natural(x)} or \code{all_natural(x)},
 respectively.
 
-The code of \code{is_natural()} and \code{all_natural()} is partly based on the example
-\code{is.wholenumber()} in \code{\link[=is.integer]{is.integer()}}.
-}
-
-\section{Programming notes}{
-
 Use of \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}} should be
 followed by assigning the rounded value to the argument:
 \code{x <- as.integer(round(x))}. Alternatively, use \code{make_natural(x)} and assign
 the result to \code{x} (then there is no need to use \code{\link[=stopifnot]{stopifnot()}}:
 \code{make_natural()} throws an error if \code{x} is not natural).
+}
+
+\section{Programming notes}{
+
+The code of \code{is_natural()} and \code{all_natural()} is partly based on the example
+\code{is.wholenumber()} in \code{\link[=is.integer]{is.integer()}}.
 
 \code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor if \code{x} is
 a whole number) but rather that \code{x} is of \link[=typeof]{type} integer, see the
@@ -152,10 +152,10 @@ try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 
 }
 \seealso{
-\code{progutils::are_equal()} to check for element-wise near-equality of numbers;
+\code{\link[progutils:are_equal]{progutils::are_equal()}} to check for element-wise near-equality of numbers;
 \code{\link[=all.equal]{all.equal()}} to check more generally for near-equality; \code{\link[=identical]{identical()}} to
 check for exact equality and \link{Comparison} to do so using binary operators;
-\code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
+\code{\link[=match]{match()}} and \code{\link[progutils:not_in]{progutils::not_in()}} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality.
 
 The vignettes \emph{Design choices regarding function input}:

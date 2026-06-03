@@ -1,7 +1,20 @@
+# checkinput 0.10.0
+
+### Breaking changes
+- Add dependency `progutils >= 0.0.4` to `Suggests` because it is used in the
+  documentation.
+
+### Bugfixes
+- `is_path("C:")` would warn that filename should not contain `:`.
+
+### Documentation
+- `paste_quoted()`: document that `paste_quoted()` warns about dropping names.
+
+
 # checkinput 0.9.0
 
 ### Breaking changes
-- Added dependency `fs` that is used in `is_path()`.
+- Add dependency `fs` to `Imports` because it is used in `is_path()`.
 - `paste_quoted()` now accepts atomic non-vector objects such as the output of
   `fs::path()`.
 
@@ -70,7 +83,7 @@
 
 ### Breaking changes
 - Dependency `R` >= 4.0.0 increased to `R` >= 4.1.0, which is required to pass
-  the R CMD check on ubuntu-latest: `rmarkdown` > `bslib` > `sass` > `fs` needs
+  the R CMD check on Ubuntu-latest: `rmarkdown` > `bslib` > `sass` > `fs` needs
   `R` >= 4.1 and `rappdirs` needs `R` >= 4.1.
 - `all_names()`: wrap text of warnings. Use `deparse1(substitute(x))` to get the
   offending values instead of literal `'x'` in the text of warnings or errors.
@@ -115,8 +128,8 @@
 # checkinput 0.0.6
 
 ### Breaking changes
-- Added `vctrs` as dependency in `Suggests` because it is used in documentation
-  of `all_names()`.
+- Add dependency `vctrs` to `Suggests` because it is used in documentation of
+  `all_names()`.
 - `all_names()`: remove argument `allow_susp` and never allows suspicious names
   because allowing them amounts to only checking for syntactically invalid names,
   for which `make.names()` can be used directly; do not try to identify which
@@ -134,7 +147,7 @@
   and thus to an error.
 
 ### Documentation
-- `all_names()`: major updates and restructuring. Also updated and added examples.
+- `all_names()`: major updates and restructuring. Update and add examples.
 - `README`: add a reference to my repository `checkrpkgs`. Clarify that
   functions **do** throw errors about invalid input to arguments other than `x`.
 - Vignette `design_choices`: clarified that functions **do** throw errors about
