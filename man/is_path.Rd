@@ -36,16 +36,17 @@ directory and the parent directory, respectively.
 \item If \code{x} contains a file extension (or compression extension, the current
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
-restrictions listed above, and in addition should \strong{not} contain \code{:}
-\strong{nor} start with a space or a hyphen (\code{-}), while it \strong{might} contain
-the Windows-reserved terms given in the second point above.
+restrictions listed above (although it \strong{may} contain the Windows-reserved
+terms listed in the second point above), and in addition should \strong{not}
+contain \code{:} \strong{nor} start with a space or a hyphen (\code{-}).
 }
 
 These restrictions on \code{x} consider characters and words that are not allowed
 in Windows and thus would lead to an error when used to create a directory or
-file; and characters that are silently removed in Windows and thus would lead
+file; characters that are silently removed in Windows and thus would lead
 to a mismatch between the created directory and the returned path when used
-to create a directory.
+to create a directory; and characters that might give problems when used in
+the shell.
 
 \code{is_path()} allows some patterns that will not occur in real (i.e., existing)
 paths or filenames:
@@ -112,17 +113,22 @@ is_path(fs::path_wd("abcd.txt"))
 is_path(fs::path_wd("abcd.txt.gz"))
 is_path(fs::path_wd("abcd.gz"))
 
-is_path(fs::path_wd("ab:cd.txt"))
-is_path(fs::path_wd("ab|cd.txt"))
+# ':' is allowed in paths but not in filenames
+is_path(fs::path_wd("ab:cd")) # TRUE
+is_path(fs::path_wd("ab:cd.txt")) # FALSE
+
+# Other illegal characters are not allowed in either paths or filenames
+is_path(fs::path_wd("ab|cd")) # FALSE
+is_path(fs::path_wd("ab|cd.txt")) # FALSE
 
 }
 \seealso{
-\link[fs:path_math]{fs::path_math} for various operations on paths; \code{\link[fs:path_sanitize]{fs::path_sanitize()}} to
+\code{\link[fs:path_math]{fs::path_math()}} for various operations on paths; \code{\link[fs:path_sanitize]{fs::path_sanitize()}} to
 \strong{remove} invalid characters from potential paths;
 \code{\link[utils:file_test]{utils::file_test()}} and references there on file existence and permissions;
-\code{progutils::create_file_path()} to create a file path, creating the directory
-if it does not yet exist; \code{progutils::create_dir()} to create a directory if
-it does not yet exist; \code{progutils::get_file_path()} to check if a file exists
+\code{\link[progutils:create_file_path]{progutils::create_file_path()}} to create a file path, creating the directory
+if it does not yet exist; \code{\link[progutils:create_dir]{progutils::create_dir()}} to create a directory if
+it does not yet exist; \code{\link[progutils:get_file_path]{progutils::get_file_path()}} to check if a file exists
 and is a unique match to a pattern.
 
 Other collections of checks on type and length:
