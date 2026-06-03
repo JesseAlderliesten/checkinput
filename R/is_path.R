@@ -53,13 +53,16 @@
 #' `TRUE` or `FALSE` indicating if `x` is a valid path, possibly containing a
 #' valid filename.
 #'
-#' @section Programming notes:
+#' @section Notes on paths:
 #' The file separator is a backslash (`\`) on Windows but a forward slash (`/`)
 #' on other operating systems ([.Platform$file.sep][.Platform] gives the file
-#' separator used on the current platform). Furthermore, the backslash is used
+#' separator used on the current platform).
+#'
+#' Furthermore, the backslash is used
 #' as [escape character][regex] in \R, such that backslashes need to be escaped
-#' in \R code. Thus, a check on the presence of repeated slashes and backslashes
-#' in [string][is_character()] `string` would use
+#' in \R code by doubling them (use `cat(x)` to see how x would be printed).
+#' Thus, a check on the presence of repeated
+#' slashes and backslashes in [string][is_character()] `string` would use
 #' `grepl(pattern = "//", x = string, fixed = TRUE)` and
 #' `grepl(pattern = "\\\\", x = string, fixed = TRUE)`. The message to point out
 #' their presence would be written as `message("Repeated '/' or '\\'")` which
@@ -69,6 +72,7 @@
 #' message (e.g., `"Repeated"`), possibly followed by a check like
 #' `tinytest::expect_true(fs::dir_exists(string))`.
 #'
+#' @section Programming notes:
 #' The output of `tempdir()` during R cmd checks on MacOS contains duplicated
 #' forward slashes (e.g., `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
 #' which in earlier versions of `is_path()` (then in package `progutils`) led to
@@ -95,6 +99,10 @@
 #' if it does not yet exist; [progutils::create_dir()] to create a directory if
 #' it does not yet exist; [progutils::get_file_path()] to check if a file exists
 #' and is a unique match to a pattern.
+#'
+#' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
+#' `checkrpkgs`: `vignette("git_github", package = "checkrpkgs")` on paths and
+#' file separators in the [shell](https://happygitwithr.com/shell).
 #'
 #' @family
 #' collections of checks on type and length
