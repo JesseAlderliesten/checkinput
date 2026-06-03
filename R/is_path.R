@@ -19,8 +19,8 @@
 #'   these names, or these names followed by an extension.
 #' - path components should **not** end with a space.
 #' - path components should **not** end with a dot, with the exception of `"."`
-#'   and `".."` that are allowed as first component to indicate the working
-#'   directory and the parent directory, respectively.
+#'   and `".."` that are allowed as first component to indicate the
+#'   [working directory][getwd()] and the parent directory, respectively.
 #' - If `x` contains a file extension (or compression extension, the current
 #'   implementation does not distinguish those from each other), the part after
 #'   the last slash is considered the filename, which **should** adhere to the
@@ -126,7 +126,7 @@
 #'
 #' @export
 is_path <- function(x) {
-  arg_name <- paste_quoted(deparse(substitute(x)))
+  arg_name <- paste_quoted(deparse1(substitute(x)))
 
   if(!is_character(x)) {
     warning(arg_name, " should be a non-empty, non-NA_character_ character string:\n", x)

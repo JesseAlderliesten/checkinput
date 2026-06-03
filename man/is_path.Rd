@@ -31,8 +31,8 @@ should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{
 these names, or these names followed by an extension.
 \item path components should \strong{not} end with a space.
 \item path components should \strong{not} end with a dot, with the exception of \code{"."}
-and \code{".."} that are allowed as first component to indicate the working
-directory and the parent directory, respectively.
+and \code{".."} that are allowed as first component to indicate the
+\link[=getwd]{working directory} and the parent directory, respectively.
 \item If \code{x} contains a file extension (or compression extension, the current
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
