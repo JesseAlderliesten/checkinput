@@ -37,15 +37,15 @@
 #' error if `x` is not natural according to `is_natural(x)` or `all_natural(x)`,
 #' respectively.
 #'
-#' The code of `is_natural()` and `all_natural()` is partly based on the example
-#' `is.wholenumber()` in [is.integer()].
-#'
-#' @section Programming notes:
 #' Use of `is_natural(x)` or `all_natural(x)` inside [stopifnot()] should be
 #' followed by assigning the rounded value to the argument:
 #' `x <- as.integer(round(x))`. Alternatively, use `make_natural(x)` and assign
 #' the result to `x` (then there is no need to use [stopifnot()]:
 #' `make_natural()` throws an error if `x` is not natural).
+#'
+#' @section Programming notes:
+#' The code of `is_natural()` and `all_natural()` is partly based on the example
+#' `is.wholenumber()` in [is.integer()].
 #'
 #' [is.integer()] does **not** check that `x` is a natural number (nor if `x` is
 #' a whole number) but rather that `x` is of [type][typeof()] integer, see the
