@@ -7,8 +7,8 @@
 
 # checkinput
 
-With `checkinput`, you can write concise but flexible checks for input
-to R functions.
+With `checkinput`, you can write concise, flexible checks for input to R
+functions.
 
 ## Installation
 
@@ -50,7 +50,7 @@ The checks inside `stopifnot()` ensure that (1) `name` contains a single
 character string that might be empty (`""`) or character-type `NA`
 (`NA_character_`) if people do not want to give their name; (2) `age`
 contains a single non-negative number; (3) `hobbies` contains at least
-one character string and does not contain any empty strings or `NA`s.
+one character string and does not contain empty strings or `NA`s.
 
 The base R equivalent of `list_hobbies()` would require much more code
 to check the input, increasing the chance of coding errors and making it
@@ -86,23 +86,16 @@ identical(baby_checkinput, baby_base)
 #> [1] TRUE
 ```
 
-When a check fails, error messages can be more informative when using
-`checkinput`:
+When a check fails, error messages indicate the offending arguments:
 
 ``` r
+library(checkinput)
 try(list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John, "")))
 #> Error in list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John,  : 
 #>   all_characters(hobbies) is not TRUE
-try(list_hobbies_base(name = "John", age = 25, hobbies = c(hobbies_John, "")))
-#> Error in list_hobbies_base(name = "John", age = 25, hobbies = c(hobbies_John,  : 
-#>   all(nzchar(hobbies, keepNA = FALSE)) is not TRUE
-
 try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
 #> Error in list_hobbies(name = "", age = -1, hobbies = hobbies_baby) : 
 #>   is_nonnegative(age) is not TRUE
-try(list_hobbies_base(name = "", age = -1, hobbies = hobbies_baby))
-#> Error in list_hobbies_base(name = "", age = -1, hobbies = hobbies_baby) : 
-#>   age >= 0L is not TRUE
 ```
 
 ### Design choices
@@ -115,19 +108,20 @@ are used for `allow_NA`. This is explained in the [vignette about design
 choices](https://jessealderliesten.github.io/checkinput/articles/design_choices.html):
 `vignette("design_choices", package = "checkinput")`. That vignette also
 shows how to get a named boolean vector indicating for each element of
-`x` if it is `TRUE` or `FALSE` according to `all_<func>(x)`.
+`x` if it is `TRUE` or `FALSE` according to `is_<func>(x)` or
+`all_<func>(x)`.
 
 `checkinput` also contains a [vignette about type
 coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
-in vectors, which discusses some important aspects regarding testing of
-vectors: `vignette("type_coercion", package = "checkinput")`.
+in relation to the testing of vectors:
+`vignette("type_coercion", package = "checkinput")`.
 
 ## Similar packages
 
 Functions of `checkinput` use arguments to determine which special
-values should be allowed, which makes them more flexible than functions
-in similar packages. Nevertheless, the following similar packages are
-worth looking into:
+values should be allowed, making them more flexible than functions in
+similar packages. Nevertheless, the following similar packages are worth
+looking into:
 
 - [arkhe](https://CRAN.R-project.org/package=arkhe): tools for cleaning
   rectangular data.
