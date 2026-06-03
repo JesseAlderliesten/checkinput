@@ -10,7 +10,8 @@
 #'
 #' @details
 #' The correct length of `x` is one for `is_...()` and larger than zero for
-#' `all_...()`, unless `allow_zero_length` is `TRUE`: then numeric-type zero-length `x`
+#' `all_...()`, unless `allow_zero_length` is `TRUE`: then numeric-type
+#' [zero-length][is_zerolength()] `x`
 #' is also allowed for both types of functions.
 #'
 #' `all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`, whereas

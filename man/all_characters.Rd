@@ -24,7 +24,8 @@ is_character(
 
 \item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
-\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
+\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
 }

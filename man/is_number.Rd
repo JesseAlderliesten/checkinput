@@ -31,7 +31,8 @@ is_positive(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
+\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow numeric \link{NA}s (i.e., \code{NA_integer_}
 and \code{NA_real_})?}
@@ -48,7 +49,8 @@ correct sign.
 }
 \details{
 The correct length of \code{x} is one for \code{is_...()} and larger than zero for
-\code{all_...()}, unless \code{allow_zero_length} is \code{TRUE}: then numeric-type zero-length \code{x}
+\code{all_...()}, unless \code{allow_zero_length} is \code{TRUE}: then numeric-type
+\link[=is_zerolength]{zero-length} \code{x}
 is also allowed for both types of functions.
 
 \code{all_nonnegative()} and \code{is_nonnegative()} return \code{TRUE} for \code{0}, whereas

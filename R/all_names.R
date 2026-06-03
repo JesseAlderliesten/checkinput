@@ -7,13 +7,13 @@
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
 #'
 #' @details
-#' [Duplicated][duplicated] or syntactically invalid names are not allowed by
+#' [Duplicated][duplicated()] or syntactically invalid names are not allowed by
 #' `all_names()` because \R functions are not guaranteed to handle such names
 #' correctly. For example, not all operations on [data frames][data.frame()]
 #' will preserve duplicated column names, and operations involving syntactically
 #' invalid names might, by definition, give undocumented results.
 #'
-#' [Syntactically valid][make.names] names only consist of letters, numbers,
+#' [Syntactically valid][make.names()] names only consist of letters, numbers,
 #' dots and underscores; start with a letter, or with a dot not followed by a
 #' number; and are not [reserved] words such as [for] or any of the [NA]s. The
 #' definition of **letter** depends on the current [locale][locales]. A
@@ -37,7 +37,7 @@
 #' item in the list below.
 #'
 #' `all_names()` **tries** to recognise adjustments made by [make.names()],
-#' which is used by [data.frame()], [read.csv()][utils::read.csv()], and
+#' which is used by [data.frame()], [utils::read.csv()], and
 #' `data.table::fread(x, header = TRUE, check.names = TRUE)`; and adjustments
 #' made by `vctrs::vec_as_names(x, repair = "universal")`, which is used
 #' throughout the [tidyverse](https://tidyverse.org/):

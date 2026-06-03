@@ -52,7 +52,7 @@ on the assumption that names originally did not contain dots, see the first
 item in the list below.
 
 \code{all_names()} \strong{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}},
-which is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.csv]{read.csv()}, and
+which is used by \code{\link[=data.frame]{data.frame()}}, \code{\link[utils:read.csv]{utils::read.csv()}}, and
 \code{data.table::fread(x, header = TRUE, check.names = TRUE)}; and adjustments
 made by \code{vctrs::vec_as_names(x, repair = "universal")}, which is used
 throughout the \href{https://tidyverse.org/}{tidyverse}:

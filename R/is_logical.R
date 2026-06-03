@@ -3,7 +3,8 @@
 #' Check that `x` is a length-one logical vector with only allowed values.
 #'
 #' @param x object to test.
-#' @param allow_zero_length `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
+#' @param allow_zero_length `TRUE` or `FALSE`: allow
+#' [zero-length][is_zerolength()] `x` of the correct type?
 #' @param allow_NA `TRUE` or `FALSE`: allow `NA`s of the correct type in `x`?
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
