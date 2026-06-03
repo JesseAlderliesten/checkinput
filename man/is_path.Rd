@@ -72,7 +72,7 @@ separator used on the current platform).
 
 Furthermore, the backslash is used
 as \link[=regex]{escape character} in \R, such that backslashes need to be escaped
-in \R code by doubling them (use \code{cat(x)} to see how x would be printed).
+in \R code by doubling them (use \code{cat(x)} to see how \code{x} would be printed).
 Thus, a check on the presence of repeated
 slashes and backslashes in \link[=is_character]{string} \code{string} would use
 \code{grepl(pattern = "//", x = string, fixed = TRUE)} and

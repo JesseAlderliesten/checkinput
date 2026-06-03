@@ -60,7 +60,7 @@
 #'
 #' Furthermore, the backslash is used
 #' as [escape character][regex] in \R, such that backslashes need to be escaped
-#' in \R code by doubling them (use `cat(x)` to see how x would be printed).
+#' in \R code by doubling them (use `cat(x)` to see how `x` would be printed).
 #' Thus, a check on the presence of repeated
 #' slashes and backslashes in [string][is_character()] `string` would use
 #' `grepl(pattern = "//", x = string, fixed = TRUE)` and
