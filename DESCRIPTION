@@ -13,6 +13,7 @@ Imports:
     fs
 Suggests: 
     knitr,
+    progutils (>= 0.0.4),
     rmarkdown,
     tinytest (>= 1.4.1)
 URL: https://github.com/JesseAlderliesten/checkinput, https://jessealderliesten.github.io/checkinput/
