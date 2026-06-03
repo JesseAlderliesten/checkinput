@@ -2,12 +2,11 @@
 
 ## Introduction
 
-When testing vector input of length larger than one, it should be kept
-in mind that objects are converted (‘coerced’) to a common type when
-combined in a vector. The type of the vector, and thus of all its
-components, will be the highest type of the components in the hierarchy
-`NULL` \< `raw` \< `logical` \< `integer` \< `double` \< `complex` \<
-`character` \< `list` \< `expression`, see the section `Details` in
+Objects in R are converted (‘coerced’) to a common type when combined in
+a vector. The type of the vector, and thus of all its components, will
+be the highest type of the components in the hierarchy `NULL` \< `raw`
+\< `logical` \< `integer` \< `double` \< `complex` \< `character` \<
+`list` \< `expression`, see the section `Details` in
 [`help("c")`](https://rdrr.io/r/base/c.html) and the section `Value` in
 [`help("typeof")`](https://rdrr.io/r/base/typeof.html). For example,
 numeric `314` will be coerced to character `"314"` when it is combined
@@ -41,7 +40,7 @@ logiNA_char[1]
 
 ## Consequences for checks
 
-Type coercion in a vector has as consequence that code like
+As a consequence of type coercion in a vector, code like
 `all_characters(c(x, y))` does **not** check if all elements in `x` and
 `y` are character: `x` and `y` will be coerced to the highest of their
 types before the check is performed, such that `all_characters(c(x, y))`
@@ -51,10 +50,11 @@ a higher type.
 To check if all elements in `x` and `y` are character, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily
 to more than two objects,
-`all(unlist(lapply(X = list(x, y), FUN = all_characters, ...)))`, where
-`...` indicates the position of arguments passed to
+`all(unlist(lapply(X = list(x, y), FUN = all_characters)))`. Other
+function arguments passed to
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
-e.g., `allow_empty = TRUE`.
+e.g., `allow_empty = TRUE` to change the default `TRUE` for
+`allow_empty` to `FALSE`, should be placed behind argument `x`.
 
 Elements of a list can contain objects of different types but using
 [`unlist()`](https://rdrr.io/r/base/unlist.html) on a list creates a

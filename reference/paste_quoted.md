@@ -1,7 +1,7 @@
 # Quote and concatenate x to a string
 
-Quote elements of an atomic object without dimensions and concatenate
-the result to a single character string.
+Quote elements of a dimensionless atomic object and concatenate the
+result to a single character string.
 
 ## Usage
 
@@ -13,7 +13,7 @@ paste_quoted(x)
 
 - x:
 
-  Atomic object without dimensions to be converted to a single character
+  Dimensionless atomic object to be converted to a single character
   string.
 
 ## Value
@@ -38,14 +38,18 @@ For example, the call `paste_quoted("a", "b")` will return the error
 `unused argument ("b")`. The probably intended call is
 `paste_quoted(c("a", "b"))`, returning `"'a', 'b'"`.
 
+`paste_quoted()` drops [names](https://rdrr.io/r/base/names.html) of
+`x`, which is pointed out in a
+[warning](https://rdrr.io/r/base/warning.html) if `x` has names.
+
 ## See also
 
 [`toString()`](https://rdrr.io/r/base/toString.html) which can be used
 instead of `paste(x, collapse = ", ")`,
 [`sQuote()`](https://rdrr.io/r/base/sQuote.html) to use fancy quotes,
 [`paste0()`](https://rdrr.io/r/base/paste.html),
-`progutils::unpaste_unquote()` for the approximate opposite of
-`paste_quoted()`.
+[`progutils::unpaste_unquote()`](https://jessealderliesten.github.io/progutils/reference/unpaste_unquote.html)
+for the approximate opposite of `paste_quoted()`.
 
 ## Examples
 

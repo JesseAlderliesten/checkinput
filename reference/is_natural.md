@@ -98,12 +98,6 @@ does **not** allow for such errors but tests exact equality.
 an error if `x` is not natural according to `is_natural(x)` or
 `all_natural(x)`, respectively.
 
-The code of `is_natural()` and `all_natural()` is partly based on the
-example `is.wholenumber()` in
-[`is.integer()`](https://rdrr.io/r/base/integer.html).
-
-## Programming notes
-
 Use of `is_natural(x)` or `all_natural(x)` inside
 [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html) should be
 followed by assigning the rounded value to the argument:
@@ -112,6 +106,12 @@ assign the result to `x` (then there is no need to use
 [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html): `make_natural()`
 throws an error if `x` is not natural).
 
+## Programming notes
+
+The code of `is_natural()` and `all_natural()` is partly based on the
+example `is.wholenumber()` in
+[`is.integer()`](https://rdrr.io/r/base/integer.html).
+
 [`is.integer()`](https://rdrr.io/r/base/integer.html) does **not** check
 that `x` is a natural number (nor if `x` is a whole number) but rather
 that `x` is of [type](https://rdrr.io/r/base/typeof.html) integer, see
@@ -119,13 +119,15 @@ the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html).
 
 ## See also
 
-`progutils::are_equal()` to check for element-wise near-equality of
-numbers; [`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check
-more generally for near-equality;
+[`progutils::are_equal()`](https://jessealderliesten.github.io/progutils/reference/are_equal.html)
+to check for element-wise near-equality of numbers;
+[`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check more
+generally for near-equality;
 [`identical()`](https://rdrr.io/r/base/identical.html) to check for
 exact equality and [Comparison](https://rdrr.io/r/base/Comparison.html)
 to do so using binary operators;
-[`match()`](https://rdrr.io/r/base/match.html) and `progutils::not_in()`
+[`match()`](https://rdrr.io/r/base/match.html) and
+[`progutils::not_in()`](https://jessealderliesten.github.io/progutils/reference/not_in.html)
 to compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 for background on numerical equality.

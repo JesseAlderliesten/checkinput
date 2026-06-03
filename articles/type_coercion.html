@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,10 +77,9 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>When testing vector input of length larger than one, it should be
-kept in mind that objects are converted (‘coerced’) to a common type
-when combined in a vector. The type of the vector, and thus of all its
-components, will be the highest type of the components in the hierarchy
+<p>Objects in R are converted (‘coerced’) to a common type when combined
+in a vector. The type of the vector, and thus of all its components,
+will be the highest type of the components in the hierarchy
 <code>NULL</code> &lt; <code>raw</code> &lt; <code>logical</code> &lt;
 <code>integer</code> &lt; <code>double</code> &lt; <code>complex</code>
 &lt; <code>character</code> &lt; <code>list</code> &lt;
@@ -117,7 +116,7 @@ even though it is also printed as <code>NA</code>.</p>
 <div class="section level2">
 <h2 id="consequences-for-checks">Consequences for checks<a class="anchor" aria-label="anchor" href="#consequences-for-checks"></a>
 </h2>
-<p>Type coercion in a vector has as consequence that code like
+<p>As a consequence of type coercion in a vector, code like
 <code>all_characters(c(x, y))</code> does <strong>not</strong> check if
 all elements in <code>x</code> and <code>y</code> are character:
 <code>x</code> and <code>y</code> will be coerced to the highest of
@@ -129,10 +128,11 @@ or <code>y</code> is of a higher type.</p>
 character, use
 <code>all_characters(x) &amp;&amp; all_characters(y)</code> or, to
 generalise more easily to more than two objects,
-<code>all(unlist(lapply(X = list(x, y), FUN = all_characters, ...)))</code>,
-where <code>...</code> indicates the position of arguments passed to
-<code><a href="../reference/all_characters.html">all_characters()</a></code>, e.g.,
-<code>allow_empty = TRUE</code>.</p>
+<code>all(unlist(lapply(X = list(x, y), FUN = all_characters)))</code>.
+Other function arguments passed to <code><a href="../reference/all_characters.html">all_characters()</a></code>, e.g.,
+<code>allow_empty = TRUE</code> to change the default <code>TRUE</code>
+for <code>allow_empty</code> to <code>FALSE</code>, should be placed
+behind argument <code>x</code>.</p>
 <p>Elements of a list can contain objects of different types but using
 <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on a list creates a vector in which all elements
 of the list are coerced to a single type, such that

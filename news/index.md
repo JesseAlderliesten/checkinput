@@ -1,10 +1,28 @@
 # Changelog
 
+## checkinput 0.10.0
+
+#### Breaking changes
+
+- Add dependency `progutils >= 0.0.4` to `Suggests` because it is used
+  in the documentation.
+
+#### Bugfixes
+
+- `is_path("C:")` would warn that filename should not contain `:`.
+
+#### Documentation
+
+- [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md):
+  document that
+  [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
+  warns about dropping names.
+
 ## checkinput 0.9.0
 
 #### Breaking changes
 
-- Added dependency `fs` that is used in
+- Add dependency `fs` to `Imports` because it is used in
   [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md).
 - [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
   now accepts atomic non-vector objects such as the output of
@@ -76,7 +94,9 @@
 - Use `roxygen2` version 8.0.0.
 - Replace the non-exported function
   [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-  by the full function from `progutils::paste_quoted()` and export it.
+  by the full function from
+  [`progutils::paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.html)
+  and export it.
 
 ## checkinput 0.5.0
 
@@ -95,7 +115,7 @@
 #### Breaking changes
 
 - Dependency `R` \>= 4.0.0 increased to `R` \>= 4.1.0, which is required
-  to pass the R CMD check on ubuntu-latest: `rmarkdown` \> `bslib` \>
+  to pass the R CMD check on Ubuntu-latest: `rmarkdown` \> `bslib` \>
   `sass` \> `fs` needs `R` \>= 4.1 and `rappdirs` needs `R` \>= 4.1.
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   wrap text of warnings. Use `deparse1(substitute(x))` to get the
@@ -160,7 +180,7 @@
 
 #### Breaking changes
 
-- Added `vctrs` as dependency in `Suggests` because it is used in
+- Add dependency `vctrs` to `Suggests` because it is used in
   documentation of
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
@@ -191,7 +211,7 @@
 #### Documentation
 
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  major updates and restructuring. Also updated and added examples.
+  major updates and restructuring. Update and add examples.
 - `README`: add a reference to my repository `checkrpkgs`. Clarify that
   functions **do** throw errors about invalid input to arguments other
   than `x`.

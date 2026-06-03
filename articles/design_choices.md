@@ -4,7 +4,7 @@
 
 This vignette explains the design choices of `checkinput`. It also shows
 how to get a named boolean vector indicating for each element of `x` if
-it is `TRUE` or `FALSE` according to `all_<func>(x)`.
+it is `TRUE` or `FALSE` according to `is_<func>(x)` or `all_<func>(x)`.
 
 Text between angled brackets (`<...>`) is used to refer to text that
 should be replaced with specific text to get working code. For example,
@@ -26,11 +26,13 @@ to arguments other than `x`, e.g., when values other than `TRUE` or
 `FALSE` are used for `allow_NA`.
 
 The default arguments make functions of `checkinput` more restrictive
-than the equivalent functions in base R (e.g.,
+than the equivalent functions in base R because the functions of
+`checkinput` are intended for argument checking. For example,
 [`checkinput::is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md)
-versus [`base::is.logical()`](https://rdrr.io/r/base/logical.html))
-because the functions of `checkinput` are intended for argument checking
-where, for example, zero-length `x` is unwanted.
+by default returns `FALSE` for `logical(0)` because zero-length `x` is
+usually unwanted in function arguments, whereas
+[`base::is.logical()`](https://rdrr.io/r/base/logical.html) returns
+`TRUE` for `logical(0)`.
 
 ## Length of x
 
@@ -44,22 +46,22 @@ for a discussion of some issues with zero-length input.
 
 ## NAs and NaNs in x
 
-By default, functions of `checkinput`only return `TRUE` for `x` without
-`NA`s and `NaN`s. Set argument `allow_NA` to `TRUE` to also return
-`TRUE` for `x` containing `NA`s of the correct type, and set argument
-`allow_NaN` for functions like `is_number(x)` and `is_natural(x)` to
-`TRUE` to also return `TRUE` for `x` containing `NaN`s.
+By default, functions of `checkinput` return `FALSE` for `x` containing
+`NA`s or `NaN`s. Set argument `allow_NA` to `TRUE` to return `TRUE` for
+`x` containing `NA`s of the correct type, and set argument `allow_NaN`
+in functions like `is_number(x)` and `is_natural(x)` to `TRUE` to return
+`TRUE` for `x` containing `NaN`s.
 
 ## Return
 
 The `is_<func>(x)` and `all_<func>(x)` functions of `checkinput` always
 return either `TRUE` or `FALSE`. To get a named boolean vector
 indicating for each element of `x` if it `TRUE` or `FALSE` according to
-`all_<func>(x)`, use
-`vapply(X = x, FUN.VALUE = logical(1), FUN = all_<func>, ...)` instead
-of `all_<func>(x, ...)`. For example, to check which elements of `x` are
-valid names, use
-`vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)` instead of
-`all_names(x, ...)`. The dots (`...`) indicate where to place other
-function arguments, e.g., `allow_underscores = FALSE` to change the
-default `TRUE` for `allow_underscores` to `FALSE`.
+`is_<func>(x)` or `all_<func>(x)`, use
+`vapply(X = x, FUN.VALUE = logical(1), FUN = all_<func>)` instead of
+`all_<func>(x)`. For example, to check which elements of `x` are valid
+names, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names)`
+instead of `all_names(x)`. Other function arguments passed to
+[`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),
+e.g., `allow_underscores = FALSE` to change the default `TRUE` for
+`allow_underscores` to `FALSE`, should be placed behind argument `x`.

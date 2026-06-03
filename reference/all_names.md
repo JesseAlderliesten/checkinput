@@ -163,11 +163,11 @@ Other collections of checks on type and length:
 ## Examples
 
 ``` r
-all_names(x = c("a", "b1a")) # TRUE
+all_names(x = c("a", "b2a")) # TRUE
 #> [1] TRUE
-all_names(x = c("a", "b1a", "a")) # FALSE: duplicated name
+all_names(x = c("a", "b2a", "a")) # FALSE: duplicated name
 #> Warning: Names are duplicated: 'a'.
-#> Use 'make.names(c("a", "b1a", "a"), unique = TRUE)' to create unique, syntactically valid names!
+#> Use 'make.names(c("a", "b2a", "a"), unique = TRUE)' to create unique, syntactically valid names!
 #> [1] FALSE
 
 invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")

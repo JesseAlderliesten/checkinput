@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,14 +85,15 @@ directory and the parent directory, respectively.</p></li>
 <li><p>If <code>x</code> contains a file extension (or compression extension, the current
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which <strong>should</strong> adhere to the
-restrictions listed above, and in addition should <strong>not</strong> contain <code>:</code>
-<strong>nor</strong> start with a space or a hyphen (<code>-</code>), while it <strong>might</strong> contain
-the Windows-reserved terms given in the second point above.</p></li>
+restrictions listed above (although it <strong>may</strong> contain the Windows-reserved
+terms listed in the second point above), and in addition should <strong>not</strong>
+contain <code>:</code> <strong>nor</strong> start with a space or a hyphen (<code>-</code>).</p></li>
 </ul><p>These restrictions on <code>x</code> consider characters and words that are not allowed
 in Windows and thus would lead to an error when used to create a directory or
-file; and characters that are silently removed in Windows and thus would lead
+file; characters that are silently removed in Windows and thus would lead
 to a mismatch between the created directory and the returned path when used
-to create a directory.</p>
+to create a directory; and characters that might give problems when used in
+the shell.</p>
 <p><code>is_path()</code> allows some patterns that will not occur in real (i.e., existing)
 paths or filenames:</p><ul><li><p><code>x</code> does <strong>not</strong> have to contain a file separator (i.e., <code>/</code> or <code>\\</code>). This
 makes it possible to use <code>is_path()</code> to check that input to <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>
@@ -107,15 +108,17 @@ ignored or removed in some operations (e.g., they are removed by
 .</p></li>
 </ul></div>
     <div class="section level2">
-    <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
+    <h2 id="notes-on-paths">Notes on paths<a class="anchor" aria-label="anchor" href="#notes-on-paths"></a></h2>
 
 
 <p>The file separator is a backslash (<code>\</code>) on Windows but a forward slash (<code>/</code>)
 on other operating systems (<a href="https://rdrr.io/r/base/Platform.html" class="external-link">.Platform$file.sep</a> gives the file
-separator used on the current platform). Furthermore, the backslash is used
+separator used on the current platform).</p>
+<p>Furthermore, the backslash is used
 as <a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in <span style="R">R</span>, such that backslashes need to be escaped
-in <span style="R">R</span> code. Thus, a check on the presence of repeated slashes and backslashes
-in <a href="all_characters.html">string</a> <code>string</code> would use
+in <span style="R">R</span> code by doubling them (use <code>cat(x)</code> to see how x would be printed).
+Thus, a check on the presence of repeated
+slashes and backslashes in <a href="all_characters.html">string</a> <code>string</code> would use
 <code>grepl(pattern = "//", x = string, fixed = TRUE)</code> and
 <code>grepl(pattern = "\\\\", x = string, fixed = TRUE)</code>. The message to point out
 their presence would be written as <code>message("Repeated '/' or '\\'")</code> which
@@ -124,6 +127,11 @@ the correct type and number of slashes to compare with the path recorded in a
 message, such that it is more robust to check only for fixed parts of the
 message (e.g., <code>"Repeated"</code>), possibly followed by a check like
 <code>tinytest::expect_true(fs::dir_exists(string))</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
+
+
 <p>The output of <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> during R cmd checks on MacOS contains duplicated
 forward slashes (e.g., <code>/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR</code>)
 which in earlier versions of <code>is_path()</code> (then in package <code>progutils</code>) led to
@@ -147,13 +155,16 @@ from the Posix standard
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math</a> for various operations on paths; <code><a href="https://fs.r-lib.org/reference/path_sanitize.html" class="external-link">fs::path_sanitize()</a></code> to
+    <div class="dont-index"><p><code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math()</a></code> for various operations on paths; <code><a href="https://fs.r-lib.org/reference/path_sanitize.html" class="external-link">fs::path_sanitize()</a></code> to
 <strong>remove</strong> invalid characters from potential paths;
 <code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and references there on file existence and permissions;
-<code>progutils::create_file_path()</code> to create a file path, creating the directory
-if it does not yet exist; <code>progutils::create_dir()</code> to create a directory if
-it does not yet exist; <code>progutils::get_file_path()</code> to check if a file exists
+<code><a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link">progutils::create_file_path()</a></code> to create a file path, creating the directory
+if it does not yet exist; <code><a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link">progutils::create_dir()</a></code> to create a directory if
+it does not yet exist; <code><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link">progutils::get_file_path()</a></code> to check if a file exists
 and is a unique match to a pattern.</p>
+<p>Section 'Paths in the shell' in the vignette <em>Git and GitHub</em> of package
+<code>checkrpkgs</code>: <code>vignette("git_github", package = "checkrpkgs")</code> on paths and
+file separators in the <a href="https://happygitwithr.com/shell" class="external-link">shell</a>.</p>
 <p>Other collections of checks on type and length:
 <code><a href="all_characters.html">all_characters()</a></code>,
 <code><a href="all_names.html">all_names()</a></code>,
@@ -181,11 +192,20 @@ and is a unique match to a pattern.</p>
 <span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.gz"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd.txt"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># ':' is allowed in paths but not in filenames</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd.txt"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Other illegal characters are not allowed in either paths or filenames</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '&lt;' or '&gt;':</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'fs::path_wd("ab|cd.txt")' should not contain '"', '*', '?', '|', '&lt;' or '&gt;':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>

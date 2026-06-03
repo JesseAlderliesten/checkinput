@@ -49,16 +49,17 @@ restrictions:
 - If `x` contains a file extension (or compression extension, the
   current implementation does not distinguish those from each other),
   the part after the last slash is considered the filename, which
-  **should** adhere to the restrictions listed above, and in addition
-  should **not** contain `:` **nor** start with a space or a hyphen
-  (`-`), while it **might** contain the Windows-reserved terms given in
-  the second point above.
+  **should** adhere to the restrictions listed above (although it
+  **may** contain the Windows-reserved terms listed in the second point
+  above), and in addition should **not** contain `:` **nor** start with
+  a space or a hyphen (`-`).
 
 These restrictions on `x` consider characters and words that are not
 allowed in Windows and thus would lead to an error when used to create a
-directory or file; and characters that are silently removed in Windows
-and thus would lead to a mismatch between the created directory and the
-returned path when used to create a directory.
+directory or file; characters that are silently removed in Windows and
+thus would lead to a mismatch between the created directory and the
+returned path when used to create a directory; and characters that might
+give problems when used in the shell.
 
 `is_path()` allows some patterns that will not occur in real (i.e.,
 existing) paths or filenames:
@@ -79,15 +80,18 @@ existing) paths or filenames:
   [`file.path()`](https://rdrr.io/r/base/file.path.html) and
   [`fs::path()`](https://fs.r-lib.org/reference/path.html)) .
 
-## Programming notes
+## Notes on paths
 
 The file separator is a backslash (`\`) on Windows but a forward slash
 (`/`) on other operating systems
 ([.Platform\$file.sep](https://rdrr.io/r/base/Platform.html) gives the
-file separator used on the current platform). Furthermore, the backslash
-is used as [escape character](https://rdrr.io/r/base/regex.html) in R,
-such that backslashes need to be escaped in R code. Thus, a check on the
-presence of repeated slashes and backslashes in
+file separator used on the current platform).
+
+Furthermore, the backslash is used as [escape
+character](https://rdrr.io/r/base/regex.html) in R, such that
+backslashes need to be escaped in R code by doubling them (use `cat(x)`
+to see how x would be printed). Thus, a check on the presence of
+repeated slashes and backslashes in
 [string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
 `string` would use `grepl(pattern = "//", x = string, fixed = TRUE)` and
 `grepl(pattern = "\\\\", x = string, fixed = TRUE)`. The message to
@@ -98,6 +102,8 @@ and number of slashes to compare with the path recorded in a message,
 such that it is more robust to check only for fixed parts of the message
 (e.g., `"Repeated"`), possibly followed by a check like
 `tinytest::expect_true(fs::dir_exists(string))`.
+
+## Programming notes
 
 The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
 R cmd checks on MacOS contains duplicated forward slashes (e.g.,
@@ -124,16 +130,22 @@ warnings about duplicated file separators.
 
 ## See also
 
-[fs::path_math](https://fs.r-lib.org/reference/path_math.html) for
+[`fs::path_math()`](https://fs.r-lib.org/reference/path_math.html) for
 various operations on paths;
 [`fs::path_sanitize()`](https://fs.r-lib.org/reference/path_sanitize.html)
 to **remove** invalid characters from potential paths;
 [`utils::file_test()`](https://rdrr.io/r/utils/filetest.html) and
 references there on file existence and permissions;
-`progutils::create_file_path()` to create a file path, creating the
-directory if it does not yet exist; `progutils::create_dir()` to create
-a directory if it does not yet exist; `progutils::get_file_path()` to
-check if a file exists and is a unique match to a pattern.
+[`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
+to create a file path, creating the directory if it does not yet exist;
+[`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
+to create a directory if it does not yet exist;
+[`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
+to check if a file exists and is a unique match to a pattern.
+
+Section 'Paths in the shell' in the vignette *Git and GitHub* of package
+`checkrpkgs`: `vignette("git_github", package = "checkrpkgs")` on paths
+and file separators in the [shell](https://happygitwithr.com/shell).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
@@ -162,11 +174,20 @@ is_path(fs::path_wd("abcd.txt.gz"))
 is_path(fs::path_wd("abcd.gz"))
 #> [1] TRUE
 
-is_path(fs::path_wd("ab:cd.txt"))
+# ':' is allowed in paths but not in filenames
+is_path(fs::path_wd("ab:cd")) # TRUE
+#> [1] TRUE
+is_path(fs::path_wd("ab:cd.txt")) # FALSE
 #> Warning: The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt
 #> [1] FALSE
-is_path(fs::path_wd("ab|cd.txt"))
+
+# Other illegal characters are not allowed in either paths or filenames
+is_path(fs::path_wd("ab|cd")) # FALSE
+#> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
+#> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd
+#> [1] FALSE
+is_path(fs::path_wd("ab|cd.txt")) # FALSE
 #> Warning: 'fs::path_wd("ab|cd.txt")' should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt
 #> [1] FALSE

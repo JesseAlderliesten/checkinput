@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,8 @@
 <p>This vignette explains the design choices of <code>checkinput</code>.
 It also shows how to get a named boolean vector indicating for each
 element of <code>x</code> if it is <code>TRUE</code> or
-<code>FALSE</code> according to <code>all_&lt;func&gt;(x)</code>.</p>
+<code>FALSE</code> according to <code>is_&lt;func&gt;(x)</code> or
+<code>all_&lt;func&gt;(x)</code>.</p>
 <p>Text between angled brackets (<code>&lt;...&gt;</code>) is used to
 refer to text that should be replaced with specific text to get working
 code. For example, <code>is_&lt;func&gt;(x)</code> is used as a place
@@ -105,11 +106,13 @@ input to arguments other than <code>x</code>, e.g., when values other
 than <code>TRUE</code> or <code>FALSE</code> are used for
 <code>allow_NA</code>.</p>
 <p>The default arguments make functions of <code>checkinput</code> more
-restrictive than the equivalent functions in base R (e.g.,
-<code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> versus
-<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code>) because the functions of
-<code>checkinput</code> are intended for argument checking where, for
-example, zero-length <code>x</code> is unwanted.</p>
+restrictive than the equivalent functions in base R because the
+functions of <code>checkinput</code> are intended for argument checking.
+For example, <code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> by default returns
+<code>FALSE</code> for <code>logical(0)</code> because zero-length
+<code>x</code> is usually unwanted in function arguments, whereas
+<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code> returns <code>TRUE</code> for
+<code>logical(0)</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="length-of-x">Length of x<a class="anchor" aria-label="anchor" href="#length-of-x"></a>
@@ -128,13 +131,13 @@ discussion of some issues with zero-length input.</p>
 <div class="section level2">
 <h2 id="nas-and-nans-in-x">NAs and NaNs in x<a class="anchor" aria-label="anchor" href="#nas-and-nans-in-x"></a>
 </h2>
-<p>By default, functions of <code>checkinput</code>only return
-<code>TRUE</code> for <code>x</code> without <code>NA</code>s and
+<p>By default, functions of <code>checkinput</code> return
+<code>FALSE</code> for <code>x</code> containing <code>NA</code>s or
 <code>NaN</code>s. Set argument <code>allow_NA</code> to
-<code>TRUE</code> to also return <code>TRUE</code> for <code>x</code>
+<code>TRUE</code> to return <code>TRUE</code> for <code>x</code>
 containing <code>NA</code>s of the correct type, and set argument
-<code>allow_NaN</code> for functions like <code>is_number(x)</code> and
-<code>is_natural(x)</code> to <code>TRUE</code> to also return
+<code>allow_NaN</code> in functions like <code>is_number(x)</code> and
+<code>is_natural(x)</code> to <code>TRUE</code> to return
 <code>TRUE</code> for <code>x</code> containing <code>NaN</code>s.</p>
 </div>
 <div class="section level2">
@@ -145,16 +148,16 @@ containing <code>NA</code>s of the correct type, and set argument
 always return either <code>TRUE</code> or <code>FALSE</code>. To get a
 named boolean vector indicating for each element of <code>x</code> if it
 <code>TRUE</code> or <code>FALSE</code> according to
-<code>all_&lt;func&gt;(x)</code>, use
-<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_&lt;func&gt;, ...)</code>
-instead of <code>all_&lt;func&gt;(x, ...)</code>. For example, to check
-which elements of <code>x</code> are valid names, use
-<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_names, ...)</code>
-instead of <code>all_names(x, ...)</code>. The dots (<code>...</code>)
-indicate where to place other function arguments, e.g.,
-<code>allow_underscores = FALSE</code> to change the default
-<code>TRUE</code> for <code>allow_underscores</code> to
-<code>FALSE</code>.</p>
+<code>is_&lt;func&gt;(x)</code> or <code>all_&lt;func&gt;(x)</code>, use
+<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_&lt;func&gt;)</code>
+instead of <code>all_&lt;func&gt;(x)</code>. For example, to check which
+elements of <code>x</code> are valid names, use
+<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_names)</code>
+instead of <code>all_names(x)</code>. Other function arguments passed to
+<code><a href="../reference/all_names.html">all_names()</a></code>, e.g., <code>allow_underscores = FALSE</code>
+to change the default <code>TRUE</code> for
+<code>allow_underscores</code> to <code>FALSE</code>, should be placed
+behind argument <code>x</code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
