@@ -16,6 +16,8 @@ Suggests:
     progutils (>= 0.0.4),
     rmarkdown,
     tinytest (>= 1.4.1)
+Remotes:
+    github::JesseAlderliesten/progutils
 URL: https://github.com/JesseAlderliesten/checkinput, https://jessealderliesten.github.io/checkinput/
 BugReports: https://github.com/JesseAlderliesten/checkinput/issues
 VignetteBuilder: knitr
