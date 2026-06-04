@@ -2,7 +2,7 @@
 % Please edit documentation in R/paste_quoted.R
 \name{paste_quoted}
 \alias{paste_quoted}
-\title{Quote and concatenate x to a string}
+\title{Quote and concatenate \code{x} to a string}
 \usage{
 paste_quoted(x)
 }

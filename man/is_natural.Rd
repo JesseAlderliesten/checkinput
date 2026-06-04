@@ -4,7 +4,7 @@
 \alias{is_natural}
 \alias{all_natural}
 \alias{make_natural}
-\title{Check that x is nearly equal to natural numbers}
+\title{Check that \code{x} is nearly equal to natural numbers}
 \usage{
 is_natural(
   x,

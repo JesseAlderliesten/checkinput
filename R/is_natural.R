@@ -1,4 +1,4 @@
-#' Check that x is nearly equal to natural numbers
+#' Check that `x` is nearly equal to natural numbers
 #'
 #' Test element-wise near-equality to natural numbers while allowing for small
 #' numeric errors.

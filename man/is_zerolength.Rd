@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_zerolength.R
 \name{is_zerolength}
 \alias{is_zerolength}
-\title{Check that x has length zero}
+\title{Check that \code{x} is a zero-length object}
 \usage{
 is_zerolength(x)
 }
@@ -13,7 +13,7 @@ is_zerolength(x)
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a zero-length object.
 }
 \description{
-Check that x has length zero
+Check that \code{x} is a zero-length object
 }
 \section{Notes}{
 

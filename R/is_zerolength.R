@@ -1,4 +1,4 @@
-#' Check that x has length zero
+#' Check that `x` is a zero-length object
 #'
 #' @param x object to test.
 #'
