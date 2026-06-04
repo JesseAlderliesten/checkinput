@@ -12,9 +12,7 @@ is_path(x)
 
 - x:
 
-  [character
-  string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
-  with the path, possibly containing a valid filename.
+  object to test.
 
 ## Value
 
@@ -27,13 +25,15 @@ a valid filename.
 creating a directory or a file. Therefore it imposes the following
 restrictions:
 
-- `x` should be a [character
+- `x` should be a non-empty [character
   string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md).
 
 - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
   `>`, nor any of the control characters (`ASCII` octal codes 000
   through 037 and 177, see
-  [`help("regex")`](https://rdrr.io/r/base/regex.html)).
+  [`help("regex")`](https://rdrr.io/r/base/regex.html)). Although `:` is
+  allowed by `is_path()` outside a filename, Windows will only allow
+  colons to indicate volume names like `C:\`.
 
 - path components (i.e., parts separated by file separators `/` or `\\`)
   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`,
@@ -44,7 +44,8 @@ restrictions:
 
 - path components should **not** end with a dot, with the exception of
   `"."` and `".."` that are allowed as first component to indicate the
-  working directory and the parent directory, respectively.
+  [working directory](https://rdrr.io/r/base/getwd.html) and the parent
+  directory, respectively.
 
 - If `x` contains a file extension (or compression extension, the
   current implementation does not distinguish those from each other),
@@ -90,7 +91,7 @@ file separator used on the current platform).
 Furthermore, the backslash is used as [escape
 character](https://rdrr.io/r/base/regex.html) in R, such that
 backslashes need to be escaped in R code by doubling them (use `cat(x)`
-to see how x would be printed). Thus, a check on the presence of
+to see how `x` would be printed). Thus, a check on the presence of
 repeated slashes and backslashes in
 [string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
 `string` would use `grepl(pattern = "//", x = string, fixed = TRUE)` and

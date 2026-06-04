@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/design_choices.html">Design choices</a></li>
-    <li><a class="dropdown-item" href="../articles/type_coercion.html">Type coercion in vectors</a></li>
+    <li><a class="dropdown-item" href="../articles/type_coercion.html">Type coercion</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -58,8 +58,7 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p><a href="all_characters.html">character string</a> with the path, possibly
-containing a valid filename.</p></dd>
+<dd><p>object to test.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -70,18 +69,19 @@ valid filename.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>is_path()</code> is intended to be used to check for valid paths before creating a
-directory or a file. Therefore it imposes the following restrictions:</p><ul><li><p><code>x</code> should be a <a href="all_characters.html">character string</a>.</p></li>
+directory or a file. Therefore it imposes the following restrictions:</p><ul><li><p><code>x</code> should be a non-empty <a href="all_characters.html">character string</a>.</p></li>
 <li><p><code>x</code> should <strong>not</strong> contain the characters <code>"</code>, <code>*</code>, <code>?</code>, <code>|</code>, <code>&lt;</code>, <code>&gt;</code>, nor
 any of the control characters (<code>ASCII</code> octal codes 000 through 037 and 177,
-see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code>).</p></li>
+see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code>). Although <code>:</code> is allowed by <code>is_path()</code> outside a
+filename, Windows will only allow colons to indicate volume names like <code>C:\</code>.</p></li>
 <li><p>path components (i.e., parts separated by file separators <code>/</code> or <code>\\</code>)
 should <strong>not</strong> be the Windows-reserved terms <code>CON</code>, <code>PRN</code>, <code>AUX</code>, <code>NUL</code>,
 <code>COM&lt;non-zero digit&gt;</code>, <code>LPT&lt;non-zero digit&gt;</code>, case-insensitive variants of
 these names, or these names followed by an extension.</p></li>
 <li><p>path components should <strong>not</strong> end with a space.</p></li>
 <li><p>path components should <strong>not</strong> end with a dot, with the exception of <code>"."</code>
-and <code>".."</code> that are allowed as first component to indicate the working
-directory and the parent directory, respectively.</p></li>
+and <code>".."</code> that are allowed as first component to indicate the
+<a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a> and the parent directory, respectively.</p></li>
 <li><p>If <code>x</code> contains a file extension (or compression extension, the current
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which <strong>should</strong> adhere to the
@@ -90,10 +90,10 @@ terms listed in the second point above), and in addition should <strong>not</str
 contain <code>:</code> <strong>nor</strong> start with a space or a hyphen (<code>-</code>).</p></li>
 </ul><p>These restrictions on <code>x</code> consider characters and words that are not allowed
 in Windows and thus would lead to an error when used to create a directory or
-file; characters that are silently removed in Windows and thus would lead
-to a mismatch between the created directory and the returned path when used
-to create a directory; and characters that might give problems when used in
-the shell.</p>
+file; characters that are silently removed in Windows and thus would lead to
+a mismatch between the created directory and the returned path when used to
+create a directory; and characters that might give problems when used in the
+shell.</p>
 <p><code>is_path()</code> allows some patterns that will not occur in real (i.e., existing)
 paths or filenames:</p><ul><li><p><code>x</code> does <strong>not</strong> have to contain a file separator (i.e., <code>/</code> or <code>\\</code>). This
 makes it possible to use <code>is_path()</code> to check that input to <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>
@@ -116,9 +116,9 @@ on other operating systems (<a href="https://rdrr.io/r/base/Platform.html" class
 separator used on the current platform).</p>
 <p>Furthermore, the backslash is used
 as <a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in <span style="R">R</span>, such that backslashes need to be escaped
-in <span style="R">R</span> code by doubling them (use <code>cat(x)</code> to see how x would be printed).
-Thus, a check on the presence of repeated
-slashes and backslashes in <a href="all_characters.html">string</a> <code>string</code> would use
+in <span style="R">R</span> code by doubling them (use <code>cat(x)</code> to see how <code>x</code> would be printed).
+Thus, a check on the presence of repeated slashes and backslashes in
+<a href="all_characters.html">string</a> <code>string</code> would use
 <code>grepl(pattern = "//", x = string, fixed = TRUE)</code> and
 <code>grepl(pattern = "\\\\", x = string, fixed = TRUE)</code>. The message to point out
 their presence would be written as <code>message("Repeated '/' or '\\'")</code> which
@@ -155,13 +155,14 @@ from the Posix standard
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math()</a></code> for various operations on paths; <code><a href="https://fs.r-lib.org/reference/path_sanitize.html" class="external-link">fs::path_sanitize()</a></code> to
-<strong>remove</strong> invalid characters from potential paths;
+    <div class="dont-index"><p><code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math()</a></code> for various operations on paths;
+<code><a href="https://fs.r-lib.org/reference/path_sanitize.html" class="external-link">fs::path_sanitize()</a></code> to <strong>remove</strong> invalid characters from potential paths;
 <code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and references there on file existence and permissions;
 <code><a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link">progutils::create_file_path()</a></code> to create a file path, creating the directory
-if it does not yet exist; <code><a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link">progutils::create_dir()</a></code> to create a directory if
-it does not yet exist; <code><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link">progutils::get_file_path()</a></code> to check if a file exists
-and is a unique match to a pattern.</p>
+if it does not yet exist;
+<code><a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link">progutils::create_dir()</a></code> to create a directory if it does not yet exist;
+<code><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link">progutils::get_file_path()</a></code> to check if a file exists and is a unique match
+to a pattern.</p>
 <p>Section 'Paths in the shell' in the vignette <em>Git and GitHub</em> of package
 <code>checkrpkgs</code>: <code>vignette("git_github", package = "checkrpkgs")</code> on paths and
 file separators in the <a href="https://happygitwithr.com/shell" class="external-link">shell</a>.</p>

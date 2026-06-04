@@ -1,4 +1,4 @@
-# Check that names are syntactically valid and unadjusted
+# Check that `x` contains syntactically valid, unadjusted names
 
 Check that `x` is a character vector with unique, syntactically valid
 names that do not suggest they were adjusted or automatically created.
@@ -13,7 +13,7 @@ all_names(x, allow_underscores = TRUE)
 
 - x:
 
-  Vector of names to test.
+  object to test.
 
 - allow_underscores:
 
@@ -68,7 +68,7 @@ list below.
 `all_names()` **tries** to recognise adjustments made by
 [`make.names()`](https://rdrr.io/r/base/make.names.html), which is used
 by [`data.frame()`](https://rdrr.io/r/base/data.frame.html),
-[read.csv()](https://rdrr.io/r/utils/read.table.html), and
+[`utils::read.csv()`](https://rdrr.io/r/utils/read.table.html), and
 `data.table::fread(x, header = TRUE, check.names = TRUE)`; and
 adjustments made by `vctrs::vec_as_names(x, repair = "universal")`,
 which is used throughout the [tidyverse](https://tidyverse.org/):
@@ -88,9 +88,7 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
 - adjustments to make duplicated names unique:
   `make.names(x, unique = TRUE)` appends a dot followed by a number;
   `vctrs::vec_as_names(x, repair = "universal")` appends three dots
-  followed by a number. It is **not** checked if a complete sequence of
-  suspicious names is present, e.g., `a.2` will be flagged as suspicious
-  even if `a` and `a.1` are absent.
+  followed by a number.
 
 - adjustments to make [reserved](https://rdrr.io/r/base/Reserved.html)
   words valid: [`make.names()`](https://rdrr.io/r/base/make.names.html)
@@ -108,7 +106,9 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   `V1`, `V2`, `V3` if a matrix without column names is converted to a
   data frame, and `read.csv(..., header = FALSE)` uses the same pattern
   for data without column names; `read.csv(..., header = TRUE)` uses
-  pattern `X`, `X.1`, `X.2`.
+  pattern `X`, `X.1`, `X.2`. It is **not** checked if a complete
+  sequence of suspicious names is present, e.g., `V3` will be flagged as
+  suspicious even if `V1` and `V2` are absent.
 
 Names containing underscores (`_`) are by default **allowed** by
 `all_names()` because names containing underscores are not syntactically
@@ -149,7 +149,7 @@ on the syntactical validity of names.
 names; `janitor::make_clean_names()` to adjust names, e.g., through
 adjusting case and transliterating non-ASCII characters.
 
-The vignette *Design choices regarding function input*:
+The vignette *Design choices*:
 [`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md).
 
 Other collections of checks on type and length:

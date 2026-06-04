@@ -9,7 +9,7 @@ numeric errors."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@ numeric errors."></head><body>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/design_choices.html">Design choices</a></li>
-    <li><a class="dropdown-item" href="../articles/type_coercion.html">Type coercion in vectors</a></li>
+    <li><a class="dropdown-item" href="../articles/type_coercion.html">Type coercion</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -41,7 +41,7 @@ numeric errors."></head><body>
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Check that x is nearly equal to natural numbers</h1>
+      <h1>Check that <code>x</code> is nearly equal to natural numbers</h1>
       <small class="dont-index">Source: <a href="https://github.com/JesseAlderliesten/checkinput/blob/main/R/is_natural.R" class="external-link"><code>R/is_natural.R</code></a></small>
       <div class="d-none name"><code>is_natural.Rd</code></div>
     </div>
@@ -56,7 +56,7 @@ numeric errors.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_natural</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_zerolength <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  allow_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.5</span></span>
 <span><span class="op">)</span></span>
@@ -64,7 +64,7 @@ numeric errors.</p>
 <span><span class="fu">all_natural</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_zerolength <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  allow_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.5</span></span>
 <span><span class="op">)</span></span>
@@ -72,7 +72,7 @@ numeric errors.</p>
 <span><span class="fu">make_natural</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  allow_zero_length <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_zerolength <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  allow_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.5</span></span>
@@ -91,12 +91,13 @@ numeric errors.</p>
 <dd><p>Exclude zero from the natural numbers?</p></dd>
 
 
-<dt id="arg-allow-zero-length">allow_zero_length<a class="anchor" aria-label="anchor" href="#arg-allow-zero-length"></a></dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>: allow zero-length <code>x</code> of the correct type?</p></dd>
+<dt id="arg-allow-zerolength">allow_zerolength<a class="anchor" aria-label="anchor" href="#arg-allow-zerolength"></a></dt>
+<dd><p><code>TRUE</code> or <code>FALSE</code>: allow
+<a href="is_zerolength.html">zero-length</a> <code>x</code> of the correct type?</p></dd>
 
 
 <dt id="arg-allow-na">allow_NA<a class="anchor" aria-label="anchor" href="#arg-allow-na"></a></dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <code>NA</code>s of the correct type in <code>x</code>?</p></dd>
+<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a>s of the correct type in <code>x</code>?</p></dd>
 
 
 <dt id="arg-tol">tol<a class="anchor" aria-label="anchor" href="#arg-tol"></a></dt>
@@ -110,26 +111,28 @@ than <code>tol</code> are considered equal.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>For <code>is_natural()</code> and <code>all_natural()</code>: <code>TRUE</code> or <code>FALSE</code> indicating if
-<code>x</code> is a vector of the appropriate length with only natural numbers. For
+    <p>For <code>is_natural()</code> and <code>all_natural()</code>: <code>TRUE</code> or <code>FALSE</code> indicating if <code>x</code>
+is a vector of the appropriate length with only natural numbers. For
 <code>make_natural()</code>: <code>x</code>, <a href="https://rdrr.io/r/base/Round.html" class="external-link">rounded</a> to a whole number and coerced to
 <a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a> type.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Natural numbers are the positive integers (<code>1</code>, <code>2</code>, <code>3</code>, etc.). Zero is
-considered a natural number if argument <code>strict</code> is <code>FALSE</code>. <code>integer(0)</code> and
-<code>numeric(0)</code> are considered natural numbers if argument <code>allow_zero_length</code> is
-<code>TRUE</code>. <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">Inf</a>, <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a>, <a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a>, and numbers that are <a href="https://rdrr.io/r/base/zMachine.html" class="external-link">too large</a> to
-be represented as <a href="https://rdrr.io/r/base/integer.html" class="external-link">integers</a> are <strong>never</strong> considered natural
-numbers in this implementation.</p>
-<p>If <code>allow_NA</code> is <code>TRUE</code>, <code>is_natural()</code> and <code>all_natural()</code> return <code>TRUE</code> for
-<code>NA_integer_</code> and <code>NA_real_</code> but not for the other <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a>s or <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a>.</p>
-<p><code>is_natural()</code>, <code>all_natural()</code> and <code>make_natural()</code> allow for small numeric
-errors when
-comparing numbers. Such numeric errors can arise because of rounding or
+    <p>Natural numbers are the positive integers (<code>1</code>, <code>2</code>, <code>3</code>, etc.). These
+functions allow for small numeric errors when comparing numbers to the
+natural numbers. Such numeric errors can arise because of rounding or
 representation error. As the <code>Note</code> at <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">==</a></code> warns, <code>x == round(x)</code> does
 <strong>not</strong> allow for such errors but tests exact equality.</p>
+<p>Zero is considered a natural number if argument <code>strict</code> is <code>FALSE</code>, but even
+then small negative numbers are <strong>not</strong> considered natural numbers.</p>
+<p><code>integer(0)</code> and <code>numeric(0)</code> are considered natural numbers if argument
+<code>allow_zerolength</code> is <code>TRUE</code>.</p>
+<p><code>NA_integer_</code> and <code>NA_real_</code> are considered natural numbers if <code>allow_NA</code> is
+<code>TRUE</code> (<code>NA_complex_</code> is even then  <strong>not</strong> considered a natural number
+because its mode is <code>complex</code> instead of <code>numeric</code>).</p>
+<p><a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a>, <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a>, negative numbers, <code>Inf</code>, and numbers that are
+<a href="https://rdrr.io/r/base/zMachine.html" class="external-link">too large</a> to be represented as <a href="https://rdrr.io/r/base/integer.html" class="external-link">integers</a> are <strong>never</strong>
+considered natural numbers.</p>
     </div>
     <div class="section level2">
     <h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a></h2>
@@ -137,12 +140,10 @@ representation error. As the <code>Note</code> at <code><a href="https://rdrr.io
 
 <p><code>make_natural(x, all = FALSE)</code> and <code>make_natural(x, all = TRUE)</code> throw an
 error if <code>x</code> is not natural according to <code>is_natural(x)</code> or <code>all_natural(x)</code>,
-respectively.</p>
-<p>Use of <code>is_natural(x)</code> or <code>all_natural(x)</code> inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> should be
-followed by assigning the rounded value to the argument:
-<code>x &lt;- as.integer(round(x))</code>. Alternatively, use <code>make_natural(x)</code> and assign
-the result to <code>x</code> (then there is no need to use <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>:
-<code>make_natural()</code> throws an error if <code>x</code> is not natural).</p>
+respectively. Assign their result to <code>x</code> without the need to use
+<code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>.</p>
+<p>Alternatively, use <code>is_natural(x)</code> or <code>all_natural(x)</code> inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>,
+followed by assigning the rounded value to <code>x</code>: <code>x &lt;- as.integer(round(x))</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
@@ -161,7 +162,7 @@ a whole number) but rather that <code>x</code> is of <a href="https://rdrr.io/r/
 check for exact equality and <a href="https://rdrr.io/r/base/Comparison.html" class="external-link">Comparison</a> to do so using binary operators;
 <code><a href="https://rdrr.io/r/base/match.html" class="external-link">match()</a></code> and <code><a href="https://jessealderliesten.github.io/progutils/reference/not_in.html" class="external-link">progutils::not_in()</a></code> to compare character vectors; <a href="https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f" class="external-link"><span style="R">R</span> FAQ 7.31</a>
 for background on numerical equality.</p>
-<p>The vignettes <em>Design choices regarding function input</em>:
+<p>The vignettes <em>Design choices</em>:
 <code><a href="../articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code> and
 <em>Type coercion in vectors</em>:
 <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>

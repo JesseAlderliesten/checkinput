@@ -1,6 +1,6 @@
-# Check that x has length zero
+# Check that `x` is a zero-length object
 
-Check that x has length zero
+Check that `x` is a zero-length object
 
 ## Usage
 
@@ -28,9 +28,9 @@ character (`character(0)`), and list
 ([`list()`](https://rdrr.io/r/base/list.html) and
 [`data.frame()`](https://rdrr.io/r/base/data.frame.html)). `""` is not a
 zero-length object: it has a `length` of one despite its
-[width](https://rdrr.io/r/base/nchar.html) of zero characters. A
-dataframe with zero rows is **not** a zero-length object: it has
-`length` equal to the number of columns. In contrast, a
+[width](https://rdrr.io/r/base/nchar.html) of zero characters. A data
+frame with zero rows is **not** a zero-length object: it has `length`
+equal to the number of columns. In contrast, a
 [matrix](https://rdrr.io/r/base/matrix.html) with zero rows **is** a
 zero-length object, see the `Examples`.
 
@@ -64,9 +64,9 @@ highest type of the components in the hierarchy `NULL` \< `raw` \<
 
 ## See also
 
-The vignettes *Design choices regarding function input*:
+The vignettes *Design choices*:
 [`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
-and *Type coercion in vectors*:
+and *Type coercion*:
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:

@@ -1,4 +1,4 @@
-# Quote and concatenate x to a string
+# Quote and concatenate `x` to a string
 
 Quote elements of a dimensionless atomic object and concatenate the
 result to a single character string.

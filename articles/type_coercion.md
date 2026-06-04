@@ -1,4 +1,4 @@
-# Type coercion in vectors
+# Type coercion
 
 ## Introduction
 

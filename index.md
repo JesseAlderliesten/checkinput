@@ -115,6 +115,36 @@ coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.
 in relation to the testing of vectors:
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
+### Function overview
+
+The check functions in `checkinput` can be divided into grouped based on
+the kind of **input** for which they return `TRUE`:
+
+- zero-length values:
+  [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+- logical values:
+  [`is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md)
+- characters:
+  [`is_character()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
+  [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
+  [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md),
+  [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md)
+- numbers: checks
+  [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`all_numbers()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`is_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`all_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`is_positive()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
+  [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
+  [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
+
+Besides these check functions, `checkinput` contains utility-functions:
+[`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
+which **returns** a natural number if the input is nearly equal to such
+a number, and
+[`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
+which **returns** a character string.
+
 ## Similar packages
 
 Functions of `checkinput` use arguments to determine which special

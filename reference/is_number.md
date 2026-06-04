@@ -6,25 +6,25 @@ the correct sign.
 ## Usage
 
 ``` r
-is_number(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_number(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-all_numbers(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+all_numbers(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
 is_nonnegative(
   x,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE,
   allow_NaN = FALSE
 )
 
 all_nonnegative(
   x,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE,
   allow_NaN = FALSE
 )
 
-is_positive(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 ```
 
 ## Arguments
@@ -33,14 +33,16 @@ is_positive(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
   object to test.
 
-- allow_zero_length:
+- allow_zerolength:
 
-  `TRUE` or `FALSE`: allow zero-length `x` of the correct type?
+  `TRUE` or `FALSE`: allow
+  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  `x` of the correct type?
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow numeric [NA](https://rdrr.io/r/base/NA.html)s
-  (i.e., `NA_integer_` and `NA_real_`)?
+  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html)s of the
+  correct type in `x`?
 
 - allow_NaN:
 
@@ -54,20 +56,26 @@ length only containing allowed numbers.
 
 ## Details
 
-The correct length of `x` is one for `is_...()` and larger than zero for
-`all_...()`, unless `allow_zero_length` is `TRUE`: then numeric-type
-zero-length `x` is also allowed for both types of functions.
+`is_number()`, `all_numbers()`, `all_nonnegative()` and
+`is_nonnegative()` return `TRUE` for zero, whereas `is_positive()`
+returns `FALSE` for zero. All these functions return `TRUE` for `-Inf`
+and `Inf` if it has the correct sign.
 
-`all_nonnegative()` and `is_nonnegative()` return `TRUE` for `0`,
-whereas `is_positive()` returns `FALSE` for `0`.
+`is_number()`, `is_nonnegative()`, and `is_positive()` return `TRUE` for
+`x` with length one. `all_numbers()` and `all_nonnegative()` return
+`TRUE` for `x` with length larger than zero. All these functions return
+`TRUE` for numeric-type
+[zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+`x` if `allow_zerolength` is `TRUE`.
 
-All these functions return `TRUE` for `-Inf` and `Inf` if it has the
-correct sign; return `TRUE` for
+All these functions return `TRUE` for `NA_integer_` and `NA_real_` if
+`allow_NA` is `TRUE`. Even then they return `FALSE` for `NA_complex_`
+because its mode is `complex` instead of `numeric`.
+
+All these functions return `TRUE` for
 [NaN](https://rdrr.io/r/base/is.finite.html) (which has
 [mode](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning 'not
-a number') if `allow_NaN` is `TRUE`; and return `FALSE` for
-`NA_complex_` (even if `allow_NA` is `TRUE`) because its mode is
-`complex` instead of `numeric`.
+a number') if `allow_NaN` is `TRUE`.
 
 ## Programming notes
 
@@ -83,9 +91,9 @@ for floating-point numbers but `integer` for integers (see the
 
 ## See also
 
-The vignettes *Design choices regarding function input*:
+The vignettes *Design choices*:
 [`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
-and *Type coercion in vectors*:
+and *Type coercion*:
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
@@ -111,7 +119,7 @@ is_number(x = "a") # FALSE: incorrect type
 #> [1] FALSE
 is_number(x = numeric(0)) # FALSE: incorrect length
 #> [1] FALSE
-is_number(x = numeric(0), allow_zero_length = TRUE) # TRUE
+is_number(x = numeric(0), allow_zerolength = TRUE) # TRUE
 #> [1] TRUE
 is_number(x = NA_real_) # FALSE
 #> [1] FALSE
@@ -131,7 +139,7 @@ is_nonnegative(x = 0) # TRUE
 #> [1] TRUE
 all_nonnegative(x = c(3, 0)) # TRUE
 #> [1] TRUE
-all_nonnegative(x = numeric(0), allow_zero_length = TRUE) # TRUE
+all_nonnegative(x = numeric(0), allow_zerolength = TRUE) # TRUE
 #> [1] TRUE
 is_positive(x = 3) # TRUE
 #> [1] TRUE
