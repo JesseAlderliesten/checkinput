@@ -34,8 +34,7 @@ is_positive(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 \item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow numeric \link{NA}s (i.e., \code{NA_integer_}
-and \code{NA_real_})?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 
 \item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \link{NaN}s?}
 }
@@ -48,19 +47,22 @@ Check that \code{x} is a numeric vector of the correct length with numbers of th
 correct sign.
 }
 \details{
-The correct length of \code{x} is one for \code{is_...()} and larger than zero for
-\code{all_...()}, unless \code{allow_zero_length} is \code{TRUE}: then numeric-type
-\link[=is_zerolength]{zero-length} \code{x}
-is also allowed for both types of functions.
+\code{is_number()}, \code{all_numbers()}, \code{all_nonnegative()} and \code{is_nonnegative()}
+return \code{TRUE} for zero, whereas \code{is_positive()} returns \code{FALSE} for zero. All
+these functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct sign.
 
-\code{all_nonnegative()} and \code{is_nonnegative()} return \code{TRUE} for \code{0}, whereas
-\code{is_positive()} returns \code{FALSE} for \code{0}.
+\code{is_number()}, \code{is_nonnegative()}, and \code{is_positive()} return \code{TRUE} for \code{x}
+with length one. \code{all_numbers()} and \code{all_nonnegative()} return \code{TRUE} for
+\code{x} with length larger than zero. All these functions return \code{TRUE} for
+numeric-type \link[=is_zerolength]{zero-length} \code{x} if \code{allow_zero_length} is
+\code{TRUE}.
 
-All these functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct
-sign;
-return \code{TRUE} for \link{NaN} (which has \link{mode} \code{numeric}, despite meaning 'not a
-number') if \code{allow_NaN} is \code{TRUE}; and return \code{FALSE} for \code{NA_complex_} (even
-if \code{allow_NA} is \code{TRUE}) because its mode is \code{complex} instead of \code{numeric}.
+All these functions return \code{TRUE} for \code{NA_integer_} and \code{NA_real_} if
+\code{allow_NA} is \code{TRUE}. Even then they return \code{FALSE} for \code{NA_complex_} because
+its mode is \code{complex} instead of \code{numeric}.
+
+All these functions return \code{TRUE} for \link{NaN} (which has \link{mode} \code{numeric},
+despite meaning 'not a number') if \code{allow_NaN} is \code{TRUE}.
 }
 \section{Programming notes}{
 

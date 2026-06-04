@@ -12,7 +12,7 @@ is_logical(x, allow_zero_length = FALSE, allow_NA = FALSE)
 \item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a length-one logical vector
@@ -20,6 +20,12 @@ only containing allowed values.
 }
 \description{
 Check that \code{x} is a length-one logical vector with only allowed values.
+}
+\details{
+\code{is_logical()} returns \code{TRUE} for \code{x} with length one, and for logical-type
+\link[=is_zerolength]{zero-length} \code{x} if \code{allow_zero_length} is \code{TRUE}.
+
+\code{is_logical()} returns \code{TRUE} for (logical-type) \code{NA} if \code{allow_NA} is \code{TRUE}.
 }
 \examples{
 is_logical(TRUE) # TRUE

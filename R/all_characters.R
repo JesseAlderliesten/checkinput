@@ -3,8 +3,20 @@
 #' Check that `x` is a character vector of the correct length with only allowed
 #' values.
 #'
-#' @inheritParams is_logical
+#' @inheritParams is_logical x allow_zero_length allow_NA
 #' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
+#'
+#' @details
+#' `is_character()` and `all_characters()` return `TRUE` for empty strings (`""`)
+#' if `allow_empty` is `TRUE`.
+#'
+#' `is_character()` returns `TRUE` for `x` with length one and `all_characters()`
+#' returns `TRUE` for `x` with length larger than zero. Both functions return
+#' `TRUE` for numeric-type [zero-length][is_zerolength()] `x` if
+#' `allow_zero_length` is `TRUE`.
+#'
+#' `is_character()` and `all_characters()` return `TRUE` for `NA_character_` if
+#' `allow_NA` is `TRUE`.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
 #' correct length with only allowed values.

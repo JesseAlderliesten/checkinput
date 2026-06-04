@@ -3,7 +3,7 @@
 #' Check that `x` is a character vector with unique, syntactically valid names
 #' that do not suggest they were adjusted or automatically created.
 #'
-#' @inheritParams is_logical
+#' @inheritParams is_logical x
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
 #'
 #' @details

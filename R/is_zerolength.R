@@ -1,6 +1,6 @@
 #' Check that `x` is a zero-length object
 #'
-#' @param x object to test.
+#' @inheritParams is_logical x
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a zero-length object.
 #'

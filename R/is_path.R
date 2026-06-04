@@ -2,13 +2,13 @@
 #'
 #' Check that `x` is a valid path, possibly containing a valid filename.
 #'
-#' @inheritParams is_logical
+#' @inheritParams is_logical x
 #'
 #' @details
 #' `is_path()` is intended to be used to check for valid paths before creating a
 #' directory or a file. Therefore it imposes the following restrictions:
 #'
-#' - `x` should be a [character string][is_character()].
+#' - `x` should be a non-empty [character string][is_character()].
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`ASCII` octal codes 000 through 037 and 177,
 #'   see `help("regex")`). Although `:` is allowed by `is_path()` outside a

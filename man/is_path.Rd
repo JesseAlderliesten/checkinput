@@ -20,7 +20,7 @@ Check that \code{x} is a valid path, possibly containing a valid filename.
 \code{is_path()} is intended to be used to check for valid paths before creating a
 directory or a file. Therefore it imposes the following restrictions:
 \itemize{
-\item \code{x} should be a \link[=is_character]{character string}.
+\item \code{x} should be a non-empty \link[=is_character]{character string}.
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\code{ASCII} octal codes 000 through 037 and 177,
 see \code{help("regex")}). Although \code{:} is allowed by \code{is_path()} outside a

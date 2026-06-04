@@ -5,7 +5,13 @@
 #' @param x object to test.
 #' @param allow_zero_length `TRUE` or `FALSE`: allow
 #' [zero-length][is_zerolength()] `x` of the correct type?
-#' @param allow_NA `TRUE` or `FALSE`: allow `NA`s of the correct type in `x`?
+#' @param allow_NA `TRUE` or `FALSE`: allow [NA]s of the correct type in `x`?
+#'
+#' @details
+#' `is_logical()` returns `TRUE` for `x` with length one, and for logical-type
+#' [zero-length][is_zerolength()] `x` if `allow_zero_length` is `TRUE`.
+#'
+#' `is_logical()` returns `TRUE` for (logical-type) `NA` if `allow_NA` is `TRUE`.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
 #' only containing allowed values.

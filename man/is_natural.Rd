@@ -39,7 +39,7 @@ make_natural(
 \item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 
 \item{tol}{A small \link[=is_positive]{positive} number. Numbers that differ less
 than \code{tol} are considered equal.}
@@ -57,33 +57,35 @@ Test element-wise near-equality to natural numbers while allowing for small
 numeric errors.
 }
 \details{
-Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). Zero is
-considered a natural number if argument \code{strict} is \code{FALSE}. \code{integer(0)} and
-\code{numeric(0)} are considered natural numbers if argument \code{allow_zero_length} is
-\code{TRUE}. \link{Inf}, \link{NaN}, \link{NULL}, and numbers that are \link[=.Machine]{too large} to
-be represented as \link[=integer]{integers} are \strong{never} considered natural
-numbers in this implementation.
-
-If \code{allow_NA} is \code{TRUE}, \code{is_natural()} and \code{all_natural()} return \code{TRUE} for
-\code{NA_integer_} and \code{NA_real_} but not for the other \link{NA}s or \link{NaN}.
-
-\code{is_natural()}, \code{all_natural()} and \code{make_natural()} allow for small numeric
-errors when
-comparing numbers. Such numeric errors can arise because of rounding or
+Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). These
+functions allow for small numeric errors when comparing numbers to the
+natural numbers. Such numeric errors can arise because of rounding or
 representation error. As the \code{Note} at \code{\link{==}} warns, \code{x == round(x)} does
 \strong{not} allow for such errors but tests exact equality.
+
+Zero is considered a natural number if argument \code{strict} is \code{FALSE}, but even
+then small negative numbers are \strong{not} considered natural numbers.
+
+\code{integer(0)} and \code{numeric(0)} are considered natural numbers if argument
+\code{allow_zero_length} is \code{TRUE}.
+
+\code{NA_integer_} and \code{NA_real_} are considered natural numbers if \code{allow_NA} is
+\code{TRUE} (\code{NA_complex_} is even then  \strong{not} considered a natural number
+because its mode is \code{complex} instead of \code{numeric}).
+
+\link{NULL}, \link{NaN}, negative numbers, \code{Inf}, and numbers that are
+\link[=.Machine]{too large} to be represented as \link[=integer]{integers} are \strong{never}
+considered natural numbers.
 }
 \section{Notes}{
 
 \code{make_natural(x, all = FALSE)} and \code{make_natural(x, all = TRUE)} throw an
 error if \code{x} is not natural according to \code{is_natural(x)} or \code{all_natural(x)},
-respectively.
+respectively. Assign their result to \code{x} without the need to use
+\code{\link[=stopifnot]{stopifnot()}}.
 
-Use of \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}} should be
-followed by assigning the rounded value to the argument:
-\code{x <- as.integer(round(x))}. Alternatively, use \code{make_natural(x)} and assign
-the result to \code{x} (then there is no need to use \code{\link[=stopifnot]{stopifnot()}}:
-\code{make_natural()} throws an error if \code{x} is not natural).
+Alternatively, use \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}},
+followed by assigning the rounded value to \code{x}: \code{x <- as.integer(round(x))}.
 }
 
 \section{Programming notes}{
@@ -159,7 +161,7 @@ check for exact equality and \link{Comparison} to do so using binary operators;
 \code{\link[=match]{match()}} and \code{\link[progutils:not_in]{progutils::not_in()}} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality.
 
-The vignettes \emph{Design choices regarding function input}:
+The vignettes \emph{Design choices}:
 \code{vignette("design_choices", package = "checkinput")} and
 \emph{Type coercion in vectors}:
 \code{vignette("type_coercion", package = "checkinput")}.
