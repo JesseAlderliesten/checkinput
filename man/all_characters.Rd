@@ -38,8 +38,8 @@ Check that \code{x} is a character vector of the correct length with only allowe
 values.
 }
 \details{
-\code{is_character()} and \code{all_characters()} return \code{TRUE} for empty strings (\code{""})
-if \code{allow_empty} is \code{TRUE}.
+\code{is_character()} and \code{all_characters()} return \code{TRUE} for empty strings
+(\code{""}) if \code{allow_empty} is \code{TRUE}.
 
 \code{is_character()} returns \code{TRUE} for \code{x} with length one and \code{all_characters()}
 returns \code{TRUE} for \code{x} with length larger than zero. Both functions return
@@ -61,8 +61,7 @@ is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 }
 \seealso{
 The vignettes \emph{Design choices}:
-\code{vignette("design_choices", package = "checkinput")} and
-\emph{Type coercion}:
+\code{vignette("design_choices", package = "checkinput")} and \emph{Type coercion}:
 \code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:

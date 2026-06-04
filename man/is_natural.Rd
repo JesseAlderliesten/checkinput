@@ -47,8 +47,8 @@ than \code{tol} are considered equal.}
 \item{all}{\code{TRUE} or \code{FALSE}: use \code{all_natural()} instead of \code{is_natural()}?}
 }
 \value{
-For \code{is_natural()} and \code{all_natural()}: \code{TRUE} or \code{FALSE} indicating if
-\code{x} is a vector of the appropriate length with only natural numbers. For
+For \code{is_natural()} and \code{all_natural()}: \code{TRUE} or \code{FALSE} indicating if \code{x}
+is a vector of the appropriate length with only natural numbers. For
 \code{make_natural()}: \code{x}, \link[=round]{rounded} to a whole number and coerced to
 \link{integer} type.
 }

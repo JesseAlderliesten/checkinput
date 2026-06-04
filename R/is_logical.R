@@ -33,8 +33,10 @@
 #'
 #' @export
 is_logical <- function(x, allow_zerolength = FALSE, allow_NA = FALSE) {
-  stopifnot(is.logical(allow_zerolength), length(allow_zerolength) == 1L, !is.na(allow_zerolength),
-            is.logical(allow_NA), length(allow_NA) == 1L, !is.na(allow_NA))
+  stopifnot(is.logical(allow_zerolength), length(allow_zerolength) == 1L,
+            !is.na(allow_zerolength), is.logical(allow_NA),
+            length(allow_NA) == 1L, !is.na(allow_NA))
+
   is.logical(x) && is.atomic(x) && is.null(dim(x)) &&
     (length(x) == 1L || (allow_zerolength && length(x) == 0L)) &&
     (allow_NA || !anyNA(x))

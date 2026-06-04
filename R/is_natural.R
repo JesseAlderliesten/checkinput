@@ -31,8 +31,8 @@
 #' considered natural numbers.
 #'
 #' @returns
-#' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
-#' `x` is a vector of the appropriate length with only natural numbers. For
+#' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
+#' is a vector of the appropriate length with only natural numbers. For
 #' `make_natural()`: `x`, [rounded][round] to a whole number and coerced to
 #' [integer] type.
 #'
@@ -125,8 +125,8 @@
 #' try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 #'
 #' @export
-is_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = FALSE,
-                       tol = .Machine$double.eps^0.5) {
+is_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
+                       allow_NA = FALSE, tol = .Machine$double.eps^0.5) {
   all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
               allow_NA = allow_NA, tol = tol) &&
     length(x) <= 1L
@@ -134,10 +134,10 @@ is_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = FA
 
 #' @rdname is_natural
 #' @export
-all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = FALSE,
-                        tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_zerolength), is_logical(allow_NA),
-            is_positive(tol), tol < 0.5)
+all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
+                        allow_NA = FALSE, tol = .Machine$double.eps^0.5) {
+  stopifnot(is_logical(strict), is_logical(allow_zerolength),
+            is_logical(allow_NA), is_positive(tol), tol < 0.5)
 
   if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
     return(FALSE)
@@ -165,8 +165,9 @@ all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = F
 
 #' @rdname is_natural
 #' @export
-make_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = FALSE,
-                         all = FALSE, tol = .Machine$double.eps^0.5) {
+make_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
+                         allow_NA = FALSE, all = FALSE,
+                         tol = .Machine$double.eps^0.5) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all))
 

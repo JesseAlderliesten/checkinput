@@ -30,10 +30,10 @@
 #'
 #' These restrictions on `x` consider characters and words that are not allowed
 #' in Windows and thus would lead to an error when used to create a directory or
-#' file; characters that are silently removed in Windows and thus would lead
-#' to a mismatch between the created directory and the returned path when used
-#' to create a directory; and characters that might give problems when used in
-#' the shell.
+#' file; characters that are silently removed in Windows and thus would lead to
+#' a mismatch between the created directory and the returned path when used to
+#' create a directory; and characters that might give problems when used in the
+#' shell.
 #'
 #' `is_path()` allows some patterns that will not occur in real (i.e., existing)
 #' paths or filenames:
@@ -61,8 +61,8 @@
 #' Furthermore, the backslash is used
 #' as [escape character][regex] in \R, such that backslashes need to be escaped
 #' in \R code by doubling them (use `cat(x)` to see how `x` would be printed).
-#' Thus, a check on the presence of repeated
-#' slashes and backslashes in [string][is_character()] `string` would use
+#' Thus, a check on the presence of repeated slashes and backslashes in
+#' [string][is_character()] `string` would use
 #' `grepl(pattern = "//", x = string, fixed = TRUE)` and
 #' `grepl(pattern = "\\\\", x = string, fixed = TRUE)`. The message to point out
 #' their presence would be written as `message("Repeated '/' or '\\'")` which
@@ -92,13 +92,14 @@
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso
-#' [fs::path_math()] for various operations on paths; [fs::path_sanitize()] to
-#' **remove** invalid characters from potential paths;
+#' [fs::path_math()] for various operations on paths;
+#' [fs::path_sanitize()] to **remove** invalid characters from potential paths;
 #' [utils::file_test()] and references there on file existence and permissions;
 #' [progutils::create_file_path()] to create a file path, creating the directory
-#' if it does not yet exist; [progutils::create_dir()] to create a directory if
-#' it does not yet exist; [progutils::get_file_path()] to check if a file exists
-#' and is a unique match to a pattern.
+#' if it does not yet exist;
+#' [progutils::create_dir()] to create a directory if it does not yet exist;
+#' [progutils::get_file_path()] to check if a file exists and is a unique match
+#' to a pattern.
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
 #' `checkrpkgs`: `vignette("git_github", package = "checkrpkgs")` on paths and
@@ -129,7 +130,8 @@ is_path <- function(x) {
   arg_name <- paste_quoted(deparse1(substitute(x)))
 
   if(!is_character(x)) {
-    warning(arg_name, " should be a non-empty, non-NA_character_ character string:\n", x)
+    warning(arg_name,
+            " should be a non-empty, non-NA_character_ character string:\n", x)
     # Return early for non-character input to prevent spurious errors.
     return(FALSE)
   }
@@ -144,7 +146,8 @@ is_path <- function(x) {
   #   in the input.
   path_comp <- unlist(strsplit(x = x, split = "/", fixed = TRUE))
   if(any(!nzchar(path_comp))) {
-    path_comp <- c(unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE)), "")
+    path_comp <- c(unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE)),
+                   "")
   } else {
     path_comp <- unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE))
   }

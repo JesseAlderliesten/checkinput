@@ -28,13 +28,13 @@
 #'
 #' Suspicious names are not allowed by `all_names()`. A suspicious name contains
 #' a pattern suggesting it originally was syntactically invalid and has been
-#' **adjusted** into a syntactically valid name, or has been adjusted to make names
-#' [unique][make.unique()]. Such adjustments usually occur silently, for example
-#' when data is read into \R, such that it should **not** be assumed that column
-#' names after reading data into \R are the same as the column names before
-#' reading data into \R. The identification of suspicious names is partly based
-#' on the assumption that names originally did not contain dots, see the first
-#' item in the list below.
+#' **adjusted** into a syntactically valid name, or has been adjusted to make
+#' names [unique][make.unique()]. Such adjustments usually occur silently, for
+#' example when data is read into \R, such that it should **not** be assumed
+#' that column names after reading data into \R are the same as the column names
+#' before reading data into \R. The identification of suspicious names is partly
+#' based on the assumption that names originally did not contain dots, see the
+#' first item in the list below.
 #'
 #' `all_names()` **tries** to recognise adjustments made by [make.names()],
 #' which is used by [data.frame()], [utils::read.csv()], and
@@ -45,9 +45,9 @@
 #'   letter, number, dot or underscore): `make.names()` and
 #'   `vctrs::vec_as_names(x, repair = "universal")` replace such characters with
 #'   a dot. Their identification is based on the assumption that names
-#'   originally did **not** contain dots, which is good practice preventing names
-#'   containing a dot from being confused with [methods][UseMethod] used on
-#'   [classed objects][is.object], even though that advice is not strictly
+#'   originally did **not** contain dots, which is good practice preventing
+#'   names containing a dot from being confused with [methods][UseMethod] used
+#'   on [classed objects][is.object], even though that advice is not strictly
 #'   followed in base-\R, e.g., in the function name [data.frame()].
 #' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
 #'   appends a dot followed by a number;
@@ -61,8 +61,8 @@
 #' - adjustments to name unnamed columns: `data.frame()` uses pattern `V1`,
 #'   `V2`, `V3` if a matrix without column names is converted to a data frame,
 #'   and `read.csv(..., header = FALSE)` uses the same pattern for data without
-#'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
-#'   It is **not** checked if a complete sequence of suspicious names is
+#'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`,
+#'   `X.2`. It is **not** checked if a complete sequence of suspicious names is
 #'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
 #'   absent.
 #'

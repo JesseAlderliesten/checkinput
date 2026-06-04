@@ -43,10 +43,10 @@ contain \code{:} \strong{nor} start with a space or a hyphen (\code{-}).
 
 These restrictions on \code{x} consider characters and words that are not allowed
 in Windows and thus would lead to an error when used to create a directory or
-file; characters that are silently removed in Windows and thus would lead
-to a mismatch between the created directory and the returned path when used
-to create a directory; and characters that might give problems when used in
-the shell.
+file; characters that are silently removed in Windows and thus would lead to
+a mismatch between the created directory and the returned path when used to
+create a directory; and characters that might give problems when used in the
+shell.
 
 \code{is_path()} allows some patterns that will not occur in real (i.e., existing)
 paths or filenames:
@@ -73,8 +73,8 @@ separator used on the current platform).
 Furthermore, the backslash is used
 as \link[=regex]{escape character} in \R, such that backslashes need to be escaped
 in \R code by doubling them (use \code{cat(x)} to see how \code{x} would be printed).
-Thus, a check on the presence of repeated
-slashes and backslashes in \link[=is_character]{string} \code{string} would use
+Thus, a check on the presence of repeated slashes and backslashes in
+\link[=is_character]{string} \code{string} would use
 \code{grepl(pattern = "//", x = string, fixed = TRUE)} and
 \code{grepl(pattern = "\\\\\\\\", x = string, fixed = TRUE)}. The message to point out
 their presence would be written as \code{message("Repeated '/' or '\\\\'")} which
@@ -129,13 +129,14 @@ is_path(fs::path_wd("ab|cd.txt")) # FALSE
 
 }
 \seealso{
-\code{\link[fs:path_math]{fs::path_math()}} for various operations on paths; \code{\link[fs:path_sanitize]{fs::path_sanitize()}} to
-\strong{remove} invalid characters from potential paths;
+\code{\link[fs:path_math]{fs::path_math()}} for various operations on paths;
+\code{\link[fs:path_sanitize]{fs::path_sanitize()}} to \strong{remove} invalid characters from potential paths;
 \code{\link[utils:file_test]{utils::file_test()}} and references there on file existence and permissions;
 \code{\link[progutils:create_file_path]{progutils::create_file_path()}} to create a file path, creating the directory
-if it does not yet exist; \code{\link[progutils:create_dir]{progutils::create_dir()}} to create a directory if
-it does not yet exist; \code{\link[progutils:get_file_path]{progutils::get_file_path()}} to check if a file exists
-and is a unique match to a pattern.
+if it does not yet exist;
+\code{\link[progutils:create_dir]{progutils::create_dir()}} to create a directory if it does not yet exist;
+\code{\link[progutils:get_file_path]{progutils::get_file_path()}} to check if a file exists and is a unique match
+to a pattern.
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
 \code{checkrpkgs}: \code{vignette("git_github", package = "checkrpkgs")} on paths and

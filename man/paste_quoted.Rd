@@ -7,8 +7,8 @@
 paste_quoted(x)
 }
 \arguments{
-\item{x}{Dimensionless atomic object to be converted to a single
-character string.}
+\item{x}{Dimensionless atomic object to be converted to a single character
+string.}
 }
 \value{
 A character string consisting of the elements of \code{x} surrounded by single
@@ -16,8 +16,8 @@ quotes, separated by commas. See \code{Details} on the handling of some special
 values.
 }
 \description{
-Quote elements of a dimensionless atomic object and concatenate the
-result to a single character string.
+Quote elements of a dimensionless atomic object and concatenate the result to
+a single character string.
 }
 \details{
 \code{paste_quoted()} returns \code{NULL} as \code{"'NULL'"}, other zero-length objects as

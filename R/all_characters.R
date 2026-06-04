@@ -7,8 +7,8 @@
 #' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
 #'
 #' @details
-#' `is_character()` and `all_characters()` return `TRUE` for empty strings (`""`)
-#' if `allow_empty` is `TRUE`.
+#' `is_character()` and `all_characters()` return `TRUE` for empty strings
+#' (`""`) if `allow_empty` is `TRUE`.
 #'
 #' `is_character()` returns `TRUE` for `x` with length one and `all_characters()`
 #' returns `TRUE` for `x` with length larger than zero. Both functions return
@@ -26,8 +26,7 @@
 #'
 #' @seealso
 #' The vignettes *Design choices*:
-#' `vignette("design_choices", package = "checkinput")` and
-#' *Type coercion*:
+#' `vignette("design_choices", package = "checkinput")` and *Type coercion*:
 #' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
@@ -42,7 +41,9 @@
 #' @export
 all_characters <- function(x, allow_empty = FALSE, allow_zerolength = FALSE,
                            allow_NA = FALSE) {
-  stopifnot(is_logical(allow_empty), is_logical(allow_zerolength), is_logical(allow_NA))
+  stopifnot(is_logical(allow_empty), is_logical(allow_zerolength),
+            is_logical(allow_NA))
+
   is.character(x) && is.atomic(x) && is.null(dim(x)) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
     (allow_zerolength || length(x) > 0) &&
@@ -55,6 +56,6 @@ is_character <- function(x, allow_empty = FALSE, allow_zerolength = FALSE,
                          allow_NA = FALSE) {
   # Argument checking is deferred to all_characters().
   length(x) < 2L &&
-    all_characters(x, allow_empty = allow_empty, allow_zerolength = allow_zerolength,
-                   allow_NA = allow_NA)
+    all_characters(x, allow_empty = allow_empty,
+                   allow_zerolength = allow_zerolength, allow_NA = allow_NA)
 }

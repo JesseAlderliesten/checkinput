@@ -43,13 +43,13 @@ syntactically invalid by \code{\link[=make.names]{make.names()}}.
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name contains
 a pattern suggesting it originally was syntactically invalid and has been
-\strong{adjusted} into a syntactically valid name, or has been adjusted to make names
-\link[=make.unique]{unique}. Such adjustments usually occur silently, for example
-when data is read into \R, such that it should \strong{not} be assumed that column
-names after reading data into \R are the same as the column names before
-reading data into \R. The identification of suspicious names is partly based
-on the assumption that names originally did not contain dots, see the first
-item in the list below.
+\strong{adjusted} into a syntactically valid name, or has been adjusted to make
+names \link[=make.unique]{unique}. Such adjustments usually occur silently, for
+example when data is read into \R, such that it should \strong{not} be assumed
+that column names after reading data into \R are the same as the column names
+before reading data into \R. The identification of suspicious names is partly
+based on the assumption that names originally did not contain dots, see the
+first item in the list below.
 
 \code{all_names()} \strong{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}},
 which is used by \code{\link[=data.frame]{data.frame()}}, \code{\link[utils:read.csv]{utils::read.csv()}}, and
@@ -61,9 +61,9 @@ throughout the \href{https://tidyverse.org/}{tidyverse}:
 letter, number, dot or underscore): \code{make.names()} and
 \code{vctrs::vec_as_names(x, repair = "universal")} replace such characters with
 a dot. Their identification is based on the assumption that names
-originally did \strong{not} contain dots, which is good practice preventing names
-containing a dot from being confused with \link[=UseMethod]{methods} used on
-\link[=is.object]{classed objects}, even though that advice is not strictly
+originally did \strong{not} contain dots, which is good practice preventing
+names containing a dot from being confused with \link[=UseMethod]{methods} used
+on \link[=is.object]{classed objects}, even though that advice is not strictly
 followed in base-\R, e.g., in the function name \code{\link[=data.frame]{data.frame()}}.
 \item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
 appends a dot followed by a number;
@@ -77,8 +77,8 @@ not followed by a number, syntactically valid: \code{make.names()} prepends \cod
 \item adjustments to name unnamed columns: \code{data.frame()} uses pattern \code{V1},
 \code{V2}, \code{V3} if a matrix without column names is converted to a data frame,
 and \code{read.csv(..., header = FALSE)} uses the same pattern for data without
-column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}.
-It is \strong{not} checked if a complete sequence of suspicious names is
+column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1},
+\code{X.2}. It is \strong{not} checked if a complete sequence of suspicious names is
 present, e.g., \code{V3} will be flagged as suspicious even if \code{V1} and \code{V2} are
 absent.
 }
