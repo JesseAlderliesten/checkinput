@@ -3,7 +3,7 @@
 #' Test element-wise near-equality to natural numbers while allowing for small
 #' numeric errors.
 #'
-#' @inheritParams is_number x allow_zero_length allow_NA
+#' @inheritParams is_number x allow_zerolength allow_NA
 #' @param strict Exclude zero from the natural numbers?
 #' @param tol A small [positive][is_positive()] number. Numbers that differ less
 #' than `tol` are considered equal.
@@ -20,7 +20,7 @@
 #' then small negative numbers are **not** considered natural numbers.
 #'
 #' `integer(0)` and `numeric(0)` are considered natural numbers if argument
-#' `allow_zero_length` is `TRUE`.
+#' `allow_zerolength` is `TRUE`.
 #'
 #' `NA_integer_` and `NA_real_` are considered natural numbers if `allow_NA` is
 #' `TRUE` (`NA_complex_` is even then  **not** considered a natural number
@@ -125,25 +125,25 @@
 #' try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 #'
 #' @export
-is_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
+is_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = FALSE,
                        tol = .Machine$double.eps^0.5) {
-  all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+  all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
               allow_NA = allow_NA, tol = tol) &&
     length(x) <= 1L
 }
 
 #' @rdname is_natural
 #' @export
-all_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
+all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = FALSE,
                         tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_zero_length), is_logical(allow_NA),
+  stopifnot(is_logical(strict), is_logical(allow_zerolength), is_logical(allow_NA),
             is_positive(tol), tol < 0.5)
 
   if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
     return(FALSE)
   }
 
-  if(!allow_zero_length && length(x) == 0L) {
+  if(!allow_zerolength && length(x) == 0L) {
     return(FALSE)
   }
 
@@ -165,18 +165,18 @@ all_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = 
 
 #' @rdname is_natural
 #' @export
-make_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
+make_natural <- function(x, strict = TRUE, allow_zerolength = FALSE, allow_NA = FALSE,
                          all = FALSE, tol = .Machine$double.eps^0.5) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all))
 
   if(all) {
-    if(!all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+    if(!all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
                     allow_NA = allow_NA, tol = tol)) {
       stop("checkinput::all_natural(", name_x, ") is not TRUE")
     }
   } else {
-    if(!is_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+    if(!is_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
                    allow_NA = allow_NA, tol = tol)) {
       stop("checkinput::is_natural(", name_x, ") is not TRUE")
     }

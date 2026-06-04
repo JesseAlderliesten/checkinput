@@ -8,30 +8,30 @@
 \alias{is_positive}
 \title{Check that \code{x} is numeric}
 \usage{
-is_number(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_number(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
-all_numbers(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+all_numbers(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
 is_nonnegative(
   x,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE,
   allow_NaN = FALSE
 )
 
 all_nonnegative(
   x,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE,
   allow_NaN = FALSE
 )
 
-is_positive(x, allow_zero_length = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
+is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 }
 \arguments{
 \item{x}{object to test.}
 
-\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
+\item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
@@ -54,7 +54,7 @@ these functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the 
 \code{is_number()}, \code{is_nonnegative()}, and \code{is_positive()} return \code{TRUE} for \code{x}
 with length one. \code{all_numbers()} and \code{all_nonnegative()} return \code{TRUE} for
 \code{x} with length larger than zero. All these functions return \code{TRUE} for
-numeric-type \link[=is_zerolength]{zero-length} \code{x} if \code{allow_zero_length} is
+numeric-type \link[=is_zerolength]{zero-length} \code{x} if \code{allow_zerolength} is
 \code{TRUE}.
 
 All these functions return \code{TRUE} for \code{NA_integer_} and \code{NA_real_} if
@@ -80,7 +80,7 @@ is_number(x = c(1, 2)) # FALSE: incorrect length
 all_numbers(x = c(1, 2)) # TRUE
 is_number(x = "a") # FALSE: incorrect type
 is_number(x = numeric(0)) # FALSE: incorrect length
-is_number(x = numeric(0), allow_zero_length = TRUE) # TRUE
+is_number(x = numeric(0), allow_zerolength = TRUE) # TRUE
 is_number(x = NA_real_) # FALSE
 is_number(x = NA_real_, allow_NA = TRUE) # TRUE
 is_number(x = NA_character_, allow_NA = TRUE) # FALSE: incorrect type
@@ -90,7 +90,7 @@ is_number(x = Inf) # TRUE
 is_nonnegative(x = 3) # TRUE
 is_nonnegative(x = 0) # TRUE
 all_nonnegative(x = c(3, 0)) # TRUE
-all_nonnegative(x = numeric(0), allow_zero_length = TRUE) # TRUE
+all_nonnegative(x = numeric(0), allow_zerolength = TRUE) # TRUE
 is_positive(x = 3) # TRUE
 is_positive(x = 0) # FALSE
 

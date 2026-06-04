@@ -3,7 +3,7 @@
 #' Check that `x` is a character vector of the correct length with only allowed
 #' values.
 #'
-#' @inheritParams is_logical x allow_zero_length allow_NA
+#' @inheritParams is_logical x allow_zerolength allow_NA
 #' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
 #'
 #' @details
@@ -13,7 +13,7 @@
 #' `is_character()` returns `TRUE` for `x` with length one and `all_characters()`
 #' returns `TRUE` for `x` with length larger than zero. Both functions return
 #' `TRUE` for numeric-type [zero-length][is_zerolength()] `x` if
-#' `allow_zero_length` is `TRUE`.
+#' `allow_zerolength` is `TRUE`.
 #'
 #' `is_character()` and `all_characters()` return `TRUE` for `NA_character_` if
 #' `allow_NA` is `TRUE`.
@@ -40,21 +40,21 @@
 #' is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 #'
 #' @export
-all_characters <- function(x, allow_empty = FALSE, allow_zero_length = FALSE,
+all_characters <- function(x, allow_empty = FALSE, allow_zerolength = FALSE,
                            allow_NA = FALSE) {
-  stopifnot(is_logical(allow_empty), is_logical(allow_zero_length), is_logical(allow_NA))
+  stopifnot(is_logical(allow_empty), is_logical(allow_zerolength), is_logical(allow_NA))
   is.character(x) && is.atomic(x) && is.null(dim(x)) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
-    (allow_zero_length || length(x) > 0) &&
+    (allow_zerolength || length(x) > 0) &&
     (allow_NA || !anyNA(x))
 }
 
 #' @rdname all_characters
 #' @export
-is_character <- function(x, allow_empty = FALSE, allow_zero_length = FALSE,
+is_character <- function(x, allow_empty = FALSE, allow_zerolength = FALSE,
                          allow_NA = FALSE) {
   # Argument checking is deferred to all_characters().
   length(x) < 2L &&
-    all_characters(x, allow_empty = allow_empty, allow_zero_length = allow_zero_length,
+    all_characters(x, allow_empty = allow_empty, allow_zerolength = allow_zerolength,
                    allow_NA = allow_NA)
 }

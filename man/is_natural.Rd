@@ -9,7 +9,7 @@
 is_natural(
   x,
   strict = TRUE,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE,
   tol = .Machine$double.eps^0.5
 )
@@ -17,7 +17,7 @@ is_natural(
 all_natural(
   x,
   strict = TRUE,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE,
   tol = .Machine$double.eps^0.5
 )
@@ -25,7 +25,7 @@ all_natural(
 make_natural(
   x,
   strict = TRUE,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE,
   all = FALSE,
   tol = .Machine$double.eps^0.5
@@ -36,7 +36,7 @@ make_natural(
 
 \item{strict}{Exclude zero from the natural numbers?}
 
-\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
+\item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
@@ -67,7 +67,7 @@ Zero is considered a natural number if argument \code{strict} is \code{FALSE}, b
 then small negative numbers are \strong{not} considered natural numbers.
 
 \code{integer(0)} and \code{numeric(0)} are considered natural numbers if argument
-\code{allow_zero_length} is \code{TRUE}.
+\code{allow_zerolength} is \code{TRUE}.
 
 \code{NA_integer_} and \code{NA_real_} are considered natural numbers if \code{allow_NA} is
 \code{TRUE} (\code{NA_complex_} is even then  \strong{not} considered a natural number

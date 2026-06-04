@@ -8,14 +8,14 @@
 all_characters(
   x,
   allow_empty = FALSE,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE
 )
 
 is_character(
   x,
   allow_empty = FALSE,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE
 )
 }
@@ -24,7 +24,7 @@ is_character(
 
 \item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
-\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow
+\item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
@@ -44,7 +44,7 @@ if \code{allow_empty} is \code{TRUE}.
 \code{is_character()} returns \code{TRUE} for \code{x} with length one and \code{all_characters()}
 returns \code{TRUE} for \code{x} with length larger than zero. Both functions return
 \code{TRUE} for numeric-type \link[=is_zerolength]{zero-length} \code{x} if
-\code{allow_zero_length} is \code{TRUE}.
+\code{allow_zerolength} is \code{TRUE}.
 
 \code{is_character()} and \code{all_characters()} return \code{TRUE} for \code{NA_character_} if
 \code{allow_NA} is \code{TRUE}.
