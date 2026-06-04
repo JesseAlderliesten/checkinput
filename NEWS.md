@@ -1,3 +1,16 @@
+# checkinput 0.11.0
+
+### Breaking changes
+- Rename argument `allow_zero_length` to `allow_zerolength`.
+
+### Documentation
+- `README`: add section `Function overview`.
+- `is_path()`: Document that `:` outside filenames should only be used to
+  indicate volume names.
+- Consistently document which values are allowed.
+- Vignette `Type coercion in vectors`: shorten name to `Type coercion`.
+
+
 # checkinput 0.10.0
 
 ### Breaking changes

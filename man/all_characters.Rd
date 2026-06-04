@@ -8,14 +8,14 @@
 all_characters(
   x,
   allow_empty = FALSE,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE
 )
 
 is_character(
   x,
   allow_empty = FALSE,
-  allow_zero_length = FALSE,
+  allow_zerolength = FALSE,
   allow_NA = FALSE
 )
 }
@@ -24,9 +24,10 @@ is_character(
 
 \item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
-\item{allow_zero_length}{\code{TRUE} or \code{FALSE}: allow zero-length \code{x} of the correct type?}
+\item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
+\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{NA}s of the correct type in \code{x}?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector of the
@@ -35,6 +36,18 @@ correct length with only allowed values.
 \description{
 Check that \code{x} is a character vector of the correct length with only allowed
 values.
+}
+\details{
+\code{is_character()} and \code{all_characters()} return \code{TRUE} for empty strings
+(\code{""}) if \code{allow_empty} is \code{TRUE}.
+
+\code{is_character()} returns \code{TRUE} for \code{x} with length one and \code{all_characters()}
+returns \code{TRUE} for \code{x} with length larger than zero. Both functions return
+\code{TRUE} for numeric-type \link[=is_zerolength]{zero-length} \code{x} if
+\code{allow_zerolength} is \code{TRUE}.
+
+\code{is_character()} and \code{all_characters()} return \code{TRUE} for \code{NA_character_} if
+\code{allow_NA} is \code{TRUE}.
 }
 \examples{
 is_character("a") # TRUE
@@ -47,9 +60,8 @@ is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignettes \emph{Design choices regarding function input}:
-\code{vignette("design_choices", package = "checkinput")} and
-\emph{Type coercion in vectors}:
+The vignettes \emph{Design choices}:
+\code{vignette("design_choices", package = "checkinput")} and \emph{Type coercion}:
 \code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:

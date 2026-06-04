@@ -1,7 +1,7 @@
-#' Quote and concatenate x to a string
+#' Quote and concatenate `x` to a string
 #'
-#' Quote elements of a dimensionless atomic object and concatenate the
-#' result to a single character string.
+#' Quote elements of a dimensionless atomic object and concatenate the result to
+#' a single character string.
 #'
 #' @details
 #' `paste_quoted()` returns `NULL` as `"'NULL'"`, other zero-length objects as
@@ -9,8 +9,8 @@
 #' `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`; for [factors][factor] this
 #' is `"'NA_character_'"`).
 #'
-#' @param x Dimensionless atomic object to be converted to a single
-#' character string.
+#' @param x Dimensionless atomic object to be converted to a single character
+#' string.
 #'
 #' @returns
 #' A character string consisting of the elements of `x` surrounded by single

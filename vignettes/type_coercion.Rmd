@@ -1,5 +1,5 @@
 ---
-title: "Type coercion in vectors"
+title: "Type coercion"
 output:
   rmarkdown::html_vignette:
     toc: true

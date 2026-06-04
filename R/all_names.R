@@ -1,19 +1,19 @@
-#' Check that names are syntactically valid and unadjusted
+#' Check that `x` contains syntactically valid, unadjusted names
 #'
 #' Check that `x` is a character vector with unique, syntactically valid names
 #' that do not suggest they were adjusted or automatically created.
 #'
-#' @param x Vector of names to test.
+#' @inheritParams is_logical x
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
 #'
 #' @details
-#' [Duplicated][duplicated] or syntactically invalid names are not allowed by
+#' [Duplicated][duplicated()] or syntactically invalid names are not allowed by
 #' `all_names()` because \R functions are not guaranteed to handle such names
 #' correctly. For example, not all operations on [data frames][data.frame()]
 #' will preserve duplicated column names, and operations involving syntactically
 #' invalid names might, by definition, give undocumented results.
 #'
-#' [Syntactically valid][make.names] names only consist of letters, numbers,
+#' [Syntactically valid][make.names()] names only consist of letters, numbers,
 #' dots and underscores; start with a letter, or with a dot not followed by a
 #' number; and are not [reserved] words such as [for] or any of the [NA]s. The
 #' definition of **letter** depends on the current [locale][locales]. A
@@ -28,16 +28,16 @@
 #'
 #' Suspicious names are not allowed by `all_names()`. A suspicious name contains
 #' a pattern suggesting it originally was syntactically invalid and has been
-#' **adjusted** into a syntactically valid name, or has been adjusted to make names
-#' [unique][make.unique()]. Such adjustments usually occur silently, for example
-#' when data is read into \R, such that it should **not** be assumed that column
-#' names after reading data into \R are the same as the column names before
-#' reading data into \R. The identification of suspicious names is partly based
-#' on the assumption that names originally did not contain dots, see the first
-#' item in the list below.
+#' **adjusted** into a syntactically valid name, or has been adjusted to make
+#' names [unique][make.unique()]. Such adjustments usually occur silently, for
+#' example when data is read into \R, such that it should **not** be assumed
+#' that column names after reading data into \R are the same as the column names
+#' before reading data into \R. The identification of suspicious names is partly
+#' based on the assumption that names originally did not contain dots, see the
+#' first item in the list below.
 #'
 #' `all_names()` **tries** to recognise adjustments made by [make.names()],
-#' which is used by [data.frame()], [read.csv()][utils::read.csv()], and
+#' which is used by [data.frame()], [utils::read.csv()], and
 #' `data.table::fread(x, header = TRUE, check.names = TRUE)`; and adjustments
 #' made by `vctrs::vec_as_names(x, repair = "universal")`, which is used
 #' throughout the [tidyverse](https://tidyverse.org/):
@@ -45,16 +45,14 @@
 #'   letter, number, dot or underscore): `make.names()` and
 #'   `vctrs::vec_as_names(x, repair = "universal")` replace such characters with
 #'   a dot. Their identification is based on the assumption that names
-#'   originally did **not** contain dots, which is good practice preventing names
-#'   containing a dot from being confused with [methods][UseMethod] used on
-#'   [classed objects][is.object], even though that advice is not strictly
+#'   originally did **not** contain dots, which is good practice preventing
+#'   names containing a dot from being confused with [methods][UseMethod] used
+#'   on [classed objects][is.object], even though that advice is not strictly
 #'   followed in base-\R, e.g., in the function name [data.frame()].
 #' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
 #'   appends a dot followed by a number;
 #'   `vctrs::vec_as_names(x, repair = "universal")` appends three dots followed
-#'   by a number. It is **not** checked if a complete sequence of suspicious
-#'   names is present, e.g., `a.2` will be flagged as suspicious even if `a` and
-#'   `a.1` are absent.
+#'   by a number.
 #' - adjustments to make [reserved] words valid: `make.names()` appends a dot;
 #'   `vctrs::vec_as_names(x, repair = "universal")` prepends a dot.
 #' - adjustments to make names that did not start with a letter, nor with a dot
@@ -63,7 +61,10 @@
 #' - adjustments to name unnamed columns: `data.frame()` uses pattern `V1`,
 #'   `V2`, `V3` if a matrix without column names is converted to a data frame,
 #'   and `read.csv(..., header = FALSE)` uses the same pattern for data without
-#'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
+#'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`,
+#'   `X.2`. It is **not** checked if a complete sequence of suspicious names is
+#'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
+#'   absent.
 #'
 #' Names containing underscores (`_`) are by default **allowed** by `all_names()`
 #' because names containing underscores are not syntactically invalid. However,
@@ -100,7 +101,7 @@
 #' [names()] to get or set object names; `janitor::make_clean_names()` to adjust
 #' names, e.g., through adjusting case and transliterating non-ASCII characters.
 #'
-#' The vignette *Design choices regarding function input*:
+#' The vignette *Design choices*:
 #' `vignette("design_choices", package = "checkinput")`.
 #'
 #' @family

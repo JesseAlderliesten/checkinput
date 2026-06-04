@@ -116,6 +116,23 @@ coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.
 in relation to the testing of vectors:
 `vignette("type_coercion", package = "checkinput")`.
 
+### Function overview
+
+The check functions in `checkinput` can be divided into grouped based on
+the kind of **input** for which they return `TRUE`:
+
+- zero-length values: `is_zerolength()`
+- logical values: `is_logical()`
+- characters: `is_character()`, `all_characters()`, `is_path()`,
+  `all_names()`
+- numbers: checks `is_number()`, `all_numbers()`, `is_nonnegative()`,
+  `all_nonnegative()`, `is_positive()`, `is_natural()`, `all_natural()`
+
+Besides these check functions, `checkinput` contains utility-functions:
+`make_natural()` which **returns** a natural number if the input is
+nearly equal to such a number, and `paste_quoted()` which **returns** a
+character string.
+
 ## Similar packages
 
 Functions of `checkinput` use arguments to determine which special

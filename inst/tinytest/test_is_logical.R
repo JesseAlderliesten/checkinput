@@ -15,53 +15,53 @@ expect_false(is_logical(x = NA_character_, allow_NA = TRUE))
 
 #### Tests ####
 for(x in false_true) {
-  for(allow_zero_length in false_true) {
+  for(allow_zerolength in false_true) {
     for(allow_NA in false_true) {
       expect_silent(expect_true(
-        is_logical(x = x, allow_zero_length = allow_zero_length, allow_NA = allow_NA)))
+        is_logical(x = x, allow_zerolength = allow_zerolength, allow_NA = allow_NA)))
     }
   }
 }
 
-for(allow_zero_length in false_true) {
+for(allow_zerolength in false_true) {
   for(allow_NA in false_true) {
     for(x in list(NULL, c(TRUE, TRUE), c(TRUE, NA), numeric(0), NaN, NA_real_,
                   -Inf, -314, 0, 314, Inf, character(0), NA_character_, "",
                   "nco", c(NA, NA), data.frame(a = TRUE), matrix(TRUE),
                   list(TRUE))) {
       expect_silent(expect_false(
-        is_logical(x = x, allow_zero_length = allow_zero_length, allow_NA = allow_NA)))
+        is_logical(x = x, allow_zerolength = allow_zerolength, allow_NA = allow_NA)))
     }
   }
 }
 
-# x for which return of is_logical() is equal to argument 'allow_zero_length'
+# x for which return of is_logical() is equal to argument 'allow_zerolength'
 for(allow_NA in false_true) {
   expect_silent(expect_true(
-    is_logical(x = logical(0), allow_zero_length = TRUE, allow_NA = allow_NA)))
+    is_logical(x = logical(0), allow_zerolength = TRUE, allow_NA = allow_NA)))
   expect_silent(expect_false(
-    is_logical(x = logical(0), allow_zero_length = FALSE, allow_NA = allow_NA)))
+    is_logical(x = logical(0), allow_zerolength = FALSE, allow_NA = allow_NA)))
 }
 
 # x for which return of is_logical() is equal to argument 'allow_NA'
-for(allow_zero_length in false_true) {
+for(allow_zerolength in false_true) {
   expect_silent(expect_true(
-    is_logical(x = NA, allow_zero_length = allow_zero_length, allow_NA = TRUE)))
+    is_logical(x = NA, allow_zerolength = allow_zerolength, allow_NA = TRUE)))
   expect_silent(expect_false(
-    is_logical(x = NA, allow_zero_length = allow_zero_length, allow_NA = FALSE)))
+    is_logical(x = NA, allow_zerolength = allow_zerolength, allow_NA = FALSE)))
 }
 
 # Arguments that should result in an error.
 for(allow_NA in false_true) {
-  expect_error(is_logical(x = TRUE, allow_zero_length = NA, allow_NA = allow_NA),
-               pattern = "!is.na(allow_zero_length) is not TRUE", fixed = TRUE)
+  expect_error(is_logical(x = TRUE, allow_zerolength = NA, allow_NA = allow_NA),
+               pattern = "!is.na(allow_zerolength) is not TRUE", fixed = TRUE)
 }
 
-for(allow_zero_length in false_true) {
-  expect_error(is_logical(x = TRUE, allow_zero_length = allow_zero_length, allow_NA = NA),
+for(allow_zerolength in false_true) {
+  expect_error(is_logical(x = TRUE, allow_zerolength = allow_zerolength, allow_NA = NA),
                pattern = "!is.na(allow_NA) is not TRUE", fixed = TRUE)
 }
 
 
 #### Remove objects used in tests ####
-rm(allow_NA, allow_zero_length, false_true, x)
+rm(allow_NA, allow_zerolength, false_true, x)

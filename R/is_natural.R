@@ -1,47 +1,49 @@
-#' Check that x is nearly equal to natural numbers
+#' Check that `x` is nearly equal to natural numbers
 #'
 #' Test element-wise near-equality to natural numbers while allowing for small
 #' numeric errors.
 #'
-#' @inheritParams is_logical
+#' @inheritParams is_number x allow_zerolength allow_NA
 #' @param strict Exclude zero from the natural numbers?
 #' @param tol A small [positive][is_positive()] number. Numbers that differ less
 #' than `tol` are considered equal.
 #' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
 #'
 #' @details
-#' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). Zero is
-#' considered a natural number if argument `strict` is `FALSE`. `integer(0)` and
-#' `numeric(0)` are considered natural numbers if argument `allow_zero_length` is
-#' `TRUE`. [Inf], [NaN], [NULL], and numbers that are [too large][.Machine] to
-#' be represented as [integers][integer] are **never** considered natural
-#' numbers in this implementation.
-#'
-#' If `allow_NA` is `TRUE`, `is_natural()` and `all_natural()` return `TRUE` for
-#' `NA_integer_` and `NA_real_` but not for the other [NA]s or [NaN].
-#'
-#' `is_natural()`, `all_natural()` and `make_natural()` allow for small numeric
-#' errors when
-#' comparing numbers. Such numeric errors can arise because of rounding or
+#' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). These
+#' functions allow for small numeric errors when comparing numbers to the
+#' natural numbers. Such numeric errors can arise because of rounding or
 #' representation error. As the `Note` at [`==`] warns, `x == round(x)` does
 #' **not** allow for such errors but tests exact equality.
 #'
+#' Zero is considered a natural number if argument `strict` is `FALSE`, but even
+#' then small negative numbers are **not** considered natural numbers.
+#'
+#' `integer(0)` and `numeric(0)` are considered natural numbers if argument
+#' `allow_zerolength` is `TRUE`.
+#'
+#' `NA_integer_` and `NA_real_` are considered natural numbers if `allow_NA` is
+#' `TRUE` (`NA_complex_` is even then  **not** considered a natural number
+#' because its mode is `complex` instead of `numeric`).
+#'
+#' [NULL], [NaN], negative numbers, `Inf`, and numbers that are
+#' [too large][.Machine] to be represented as [integers][integer] are **never**
+#' considered natural numbers.
+#'
 #' @returns
-#' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if
-#' `x` is a vector of the appropriate length with only natural numbers. For
+#' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
+#' is a vector of the appropriate length with only natural numbers. For
 #' `make_natural()`: `x`, [rounded][round] to a whole number and coerced to
 #' [integer] type.
 #'
 #' @section Notes:
 #' `make_natural(x, all = FALSE)` and `make_natural(x, all = TRUE)` throw an
 #' error if `x` is not natural according to `is_natural(x)` or `all_natural(x)`,
-#' respectively.
+#' respectively. Assign their result to `x` without the need to use
+#' [stopifnot()].
 #'
-#' Use of `is_natural(x)` or `all_natural(x)` inside [stopifnot()] should be
-#' followed by assigning the rounded value to the argument:
-#' `x <- as.integer(round(x))`. Alternatively, use `make_natural(x)` and assign
-#' the result to `x` (then there is no need to use [stopifnot()]:
-#' `make_natural()` throws an error if `x` is not natural).
+#' Alternatively, use `is_natural(x)` or `all_natural(x)` inside [stopifnot()],
+#' followed by assigning the rounded value to `x`: `x <- as.integer(round(x))`.
 #'
 #' @section Programming notes:
 #' The code of `is_natural()` and `all_natural()` is partly based on the example
@@ -62,7 +64,7 @@
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality.
 #'
-#' The vignettes *Design choices regarding function input*:
+#' The vignettes *Design choices*:
 #' `vignette("design_choices", package = "checkinput")` and
 #' *Type coercion in vectors*:
 #' `vignette("type_coercion", package = "checkinput")`.
@@ -123,25 +125,25 @@
 #' try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 #'
 #' @export
-is_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
-                       tol = .Machine$double.eps^0.5) {
-  all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+is_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
+                       allow_NA = FALSE, tol = .Machine$double.eps^0.5) {
+  all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
               allow_NA = allow_NA, tol = tol) &&
     length(x) <= 1L
 }
 
 #' @rdname is_natural
 #' @export
-all_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
-                        tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_zero_length), is_logical(allow_NA),
-            is_positive(tol), tol < 0.5)
+all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
+                        allow_NA = FALSE, tol = .Machine$double.eps^0.5) {
+  stopifnot(is_logical(strict), is_logical(allow_zerolength),
+            is_logical(allow_NA), is_positive(tol), tol < 0.5)
 
   if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
     return(FALSE)
   }
 
-  if(!allow_zero_length && length(x) == 0L) {
+  if(!allow_zerolength && length(x) == 0L) {
     return(FALSE)
   }
 
@@ -163,18 +165,19 @@ all_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = 
 
 #' @rdname is_natural
 #' @export
-make_natural <- function(x, strict = TRUE, allow_zero_length = FALSE, allow_NA = FALSE,
-                         all = FALSE, tol = .Machine$double.eps^0.5) {
+make_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
+                         allow_NA = FALSE, all = FALSE,
+                         tol = .Machine$double.eps^0.5) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all))
 
   if(all) {
-    if(!all_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+    if(!all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
                     allow_NA = allow_NA, tol = tol)) {
       stop("checkinput::all_natural(", name_x, ") is not TRUE")
     }
   } else {
-    if(!is_natural(x = x, strict = strict, allow_zero_length = allow_zero_length,
+    if(!is_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
                    allow_NA = allow_NA, tol = tol)) {
       stop("checkinput::is_natural(", name_x, ") is not TRUE")
     }

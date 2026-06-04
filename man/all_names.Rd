@@ -2,12 +2,12 @@
 % Please edit documentation in R/all_names.R
 \name{all_names}
 \alias{all_names}
-\title{Check that names are syntactically valid and unadjusted}
+\title{Check that \code{x} contains syntactically valid, unadjusted names}
 \usage{
 all_names(x, allow_underscores = TRUE)
 }
 \arguments{
-\item{x}{Vector of names to test.}
+\item{x}{object to test.}
 
 \item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
 }
@@ -43,16 +43,16 @@ syntactically invalid by \code{\link[=make.names]{make.names()}}.
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name contains
 a pattern suggesting it originally was syntactically invalid and has been
-\strong{adjusted} into a syntactically valid name, or has been adjusted to make names
-\link[=make.unique]{unique}. Such adjustments usually occur silently, for example
-when data is read into \R, such that it should \strong{not} be assumed that column
-names after reading data into \R are the same as the column names before
-reading data into \R. The identification of suspicious names is partly based
-on the assumption that names originally did not contain dots, see the first
-item in the list below.
+\strong{adjusted} into a syntactically valid name, or has been adjusted to make
+names \link[=make.unique]{unique}. Such adjustments usually occur silently, for
+example when data is read into \R, such that it should \strong{not} be assumed
+that column names after reading data into \R are the same as the column names
+before reading data into \R. The identification of suspicious names is partly
+based on the assumption that names originally did not contain dots, see the
+first item in the list below.
 
 \code{all_names()} \strong{tries} to recognise adjustments made by \code{\link[=make.names]{make.names()}},
-which is used by \code{\link[=data.frame]{data.frame()}}, \link[utils:read.csv]{read.csv()}, and
+which is used by \code{\link[=data.frame]{data.frame()}}, \code{\link[utils:read.csv]{utils::read.csv()}}, and
 \code{data.table::fread(x, header = TRUE, check.names = TRUE)}; and adjustments
 made by \code{vctrs::vec_as_names(x, repair = "universal")}, which is used
 throughout the \href{https://tidyverse.org/}{tidyverse}:
@@ -61,16 +61,14 @@ throughout the \href{https://tidyverse.org/}{tidyverse}:
 letter, number, dot or underscore): \code{make.names()} and
 \code{vctrs::vec_as_names(x, repair = "universal")} replace such characters with
 a dot. Their identification is based on the assumption that names
-originally did \strong{not} contain dots, which is good practice preventing names
-containing a dot from being confused with \link[=UseMethod]{methods} used on
-\link[=is.object]{classed objects}, even though that advice is not strictly
+originally did \strong{not} contain dots, which is good practice preventing
+names containing a dot from being confused with \link[=UseMethod]{methods} used
+on \link[=is.object]{classed objects}, even though that advice is not strictly
 followed in base-\R, e.g., in the function name \code{\link[=data.frame]{data.frame()}}.
 \item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
 appends a dot followed by a number;
 \code{vctrs::vec_as_names(x, repair = "universal")} appends three dots followed
-by a number. It is \strong{not} checked if a complete sequence of suspicious
-names is present, e.g., \code{a.2} will be flagged as suspicious even if \code{a} and
-\code{a.1} are absent.
+by a number.
 \item adjustments to make \link{reserved} words valid: \code{make.names()} appends a dot;
 \code{vctrs::vec_as_names(x, repair = "universal")} prepends a dot.
 \item adjustments to make names that did not start with a letter, nor with a dot
@@ -79,7 +77,10 @@ not followed by a number, syntactically valid: \code{make.names()} prepends \cod
 \item adjustments to name unnamed columns: \code{data.frame()} uses pattern \code{V1},
 \code{V2}, \code{V3} if a matrix without column names is converted to a data frame,
 and \code{read.csv(..., header = FALSE)} uses the same pattern for data without
-column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}.
+column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1},
+\code{X.2}. It is \strong{not} checked if a complete sequence of suspicious names is
+present, e.g., \code{V3} will be flagged as suspicious even if \code{V1} and \code{V2} are
+absent.
 }
 
 Names containing underscores (\verb{_}) are by default \strong{allowed} by \code{all_names()}
@@ -141,7 +142,7 @@ on the syntactical validity of names.
 \code{\link[=names]{names()}} to get or set object names; \code{janitor::make_clean_names()} to adjust
 names, e.g., through adjusting case and transliterating non-ASCII characters.
 
-The vignette \emph{Design choices regarding function input}:
+The vignette \emph{Design choices}:
 \code{vignette("design_choices", package = "checkinput")}.
 
 Other collections of checks on type and length:
