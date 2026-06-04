@@ -37,7 +37,7 @@ is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignette \emph{Design choices regarding function input}:
+The vignette \emph{Design choices}:
 \code{vignette("design_choices", package = "checkinput")}.
 
 Other collections of checks on type and length:

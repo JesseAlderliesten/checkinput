@@ -96,10 +96,9 @@ is_positive(x = 0) # FALSE
 
 }
 \seealso{
-The vignettes \emph{Design choices regarding function input}:
+The vignettes \emph{Design choices}:
 \code{vignette("design_choices", package = "checkinput")} and
-\emph{Type coercion in vectors}:
-\code{vignette("type_coercion", package = "checkinput")}.
+\emph{Type coercion}: \code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

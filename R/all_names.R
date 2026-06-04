@@ -101,7 +101,7 @@
 #' [names()] to get or set object names; `janitor::make_clean_names()` to adjust
 #' names, e.g., through adjusting case and transliterating non-ASCII characters.
 #'
-#' The vignette *Design choices regarding function input*:
+#' The vignette *Design choices*:
 #' `vignette("design_choices", package = "checkinput")`.
 #'
 #' @family

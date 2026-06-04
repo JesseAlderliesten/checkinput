@@ -142,7 +142,7 @@ on the syntactical validity of names.
 \code{\link[=names]{names()}} to get or set object names; \code{janitor::make_clean_names()} to adjust
 names, e.g., through adjusting case and transliterating non-ASCII characters.
 
-The vignette \emph{Design choices regarding function input}:
+The vignette \emph{Design choices}:
 \code{vignette("design_choices", package = "checkinput")}.
 
 Other collections of checks on type and length:

@@ -39,10 +39,9 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The vignettes *Design choices regarding function input*:
+#' The vignettes *Design choices*:
 #' `vignette("design_choices", package = "checkinput")` and
-#' *Type coercion in vectors*:
-#' `vignette("type_coercion", package = "checkinput")`.
+#' *Type coercion*: `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_number(x = 1) # TRUE

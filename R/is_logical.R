@@ -20,7 +20,7 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The vignette *Design choices regarding function input*:
+#' The vignette *Design choices*:
 #' `vignette("design_choices", package = "checkinput")`.
 #'
 #' @examples
