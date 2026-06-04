@@ -2,8 +2,7 @@
 #'
 #' Check that `x` is a valid path, possibly containing a valid filename.
 #'
-#' @param x [character string][is_character()] with the path, possibly
-#' containing a valid filename.
+#' @inheritParams is_logical
 #'
 #' @details
 #' `is_path()` is intended to be used to check for valid paths before creating a
@@ -12,7 +11,8 @@
 #' - `x` should be a [character string][is_character()].
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`ASCII` octal codes 000 through 037 and 177,
-#'   see `help("regex")`).
+#'   see `help("regex")`). Although `:` is allowed by `is_path()` outside a
+#'   filename, Windows will only allow colons to indicate volume names like `C:\`.
 #' - path components (i.e., parts separated by file separators `/` or `\\`)
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of

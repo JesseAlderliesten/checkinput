@@ -7,8 +7,7 @@
 is_path(x)
 }
 \arguments{
-\item{x}{\link[=is_character]{character string} with the path, possibly
-containing a valid filename.}
+\item{x}{object to test.}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a valid path, possibly containing a
@@ -24,7 +23,8 @@ directory or a file. Therefore it imposes the following restrictions:
 \item \code{x} should be a \link[=is_character]{character string}.
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\code{ASCII} octal codes 000 through 037 and 177,
-see \code{help("regex")}).
+see \code{help("regex")}). Although \code{:} is allowed by \code{is_path()} outside a
+filename, Windows will only allow colons to indicate volume names like \verb{C:\\}.
 \item path components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
