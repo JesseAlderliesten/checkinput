@@ -2,12 +2,12 @@
 % Please edit documentation in R/all_names.R
 \name{all_names}
 \alias{all_names}
-\title{Check that names are syntactically valid and unadjusted}
+\title{Check that \code{x} contains syntactically valid, unadjusted names}
 \usage{
 all_names(x, allow_underscores = TRUE)
 }
 \arguments{
-\item{x}{Vector of names to test.}
+\item{x}{object to test.}
 
 \item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
 }
@@ -68,9 +68,7 @@ followed in base-\R, e.g., in the function name \code{\link[=data.frame]{data.fr
 \item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
 appends a dot followed by a number;
 \code{vctrs::vec_as_names(x, repair = "universal")} appends three dots followed
-by a number. It is \strong{not} checked if a complete sequence of suspicious
-names is present, e.g., \code{a.2} will be flagged as suspicious even if \code{a} and
-\code{a.1} are absent.
+by a number.
 \item adjustments to make \link{reserved} words valid: \code{make.names()} appends a dot;
 \code{vctrs::vec_as_names(x, repair = "universal")} prepends a dot.
 \item adjustments to make names that did not start with a letter, nor with a dot
@@ -80,6 +78,9 @@ not followed by a number, syntactically valid: \code{make.names()} prepends \cod
 \code{V2}, \code{V3} if a matrix without column names is converted to a data frame,
 and \code{read.csv(..., header = FALSE)} uses the same pattern for data without
 column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}.
+It is \strong{not} checked if a complete sequence of suspicious names is
+present, e.g., \code{V3} will be flagged as suspicious even if \code{V1} and \code{V2} are
+absent.
 }
 
 Names containing underscores (\verb{_}) are by default \strong{allowed} by \code{all_names()}

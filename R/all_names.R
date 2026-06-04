@@ -1,9 +1,9 @@
-#' Check that names are syntactically valid and unadjusted
+#' Check that `x` contains syntactically valid, unadjusted names
 #'
 #' Check that `x` is a character vector with unique, syntactically valid names
 #' that do not suggest they were adjusted or automatically created.
 #'
-#' @param x Vector of names to test.
+#' @inheritParams is_logical
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
 #'
 #' @details
@@ -52,9 +52,7 @@
 #' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
 #'   appends a dot followed by a number;
 #'   `vctrs::vec_as_names(x, repair = "universal")` appends three dots followed
-#'   by a number. It is **not** checked if a complete sequence of suspicious
-#'   names is present, e.g., `a.2` will be flagged as suspicious even if `a` and
-#'   `a.1` are absent.
+#'   by a number.
 #' - adjustments to make [reserved] words valid: `make.names()` appends a dot;
 #'   `vctrs::vec_as_names(x, repair = "universal")` prepends a dot.
 #' - adjustments to make names that did not start with a letter, nor with a dot
@@ -64,6 +62,9 @@
 #'   `V2`, `V3` if a matrix without column names is converted to a data frame,
 #'   and `read.csv(..., header = FALSE)` uses the same pattern for data without
 #'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
+#'   It is **not** checked if a complete sequence of suspicious names is
+#'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
+#'   absent.
 #'
 #' Names containing underscores (`_`) are by default **allowed** by `all_names()`
 #' because names containing underscores are not syntactically invalid. However,
