@@ -67,8 +67,7 @@ str(c(num, zerochar)) # chr "314", not num 314
 
 }
 \seealso{
-The vignette \emph{Type coercion}:
-\code{vignette("type_coercion", package = "checkinput")}.
+Vignette \emph{Type coercion}: \code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

@@ -41,8 +41,7 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The vignette *Type coercion*:
-#' `vignette("type_coercion", package = "checkinput")`.
+#' Vignette *Type coercion*: `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_zerolength(x = character(0)) # TRUE

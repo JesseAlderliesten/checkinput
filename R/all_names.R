@@ -41,30 +41,38 @@
 #' made by `vctrs::vec_as_names(x, repair = "universal")`, which is used
 #' throughout the [tidyverse](https://tidyverse.org/):
 #' - adjustments to replace invalid characters (i.e., characters that are not a
-#'   letter, number, dot or underscore): `make.names()` and
-#'   `vctrs::vec_as_names(x, repair = "universal")` replace such characters with
-#'   a dot. Their identification is based on the assumption that names
-#'   originally did **not** contain dots, which is good practice preventing
-#'   names containing a dot from being confused with [methods][UseMethod] used
-#'   on [classed objects][is.object], even though that advice is not strictly
-#'   followed in base-\R, e.g., in the function name [data.frame()].
-#' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
-#'   appends a dot followed by a number;
-#'   `vctrs::vec_as_names(x, repair = "universal")` appends three dots followed
-#'   by a number. `make.names()` does **not** adjust the first instance of a
-#'   duplicate, whereas `vctrs::vec_as_names()` **does** adjust it:
+#'   letter, number, dot or underscore):
+#'   - `make.names()` and `vctrs::vec_as_names(x, repair = "universal")` replace
+#'     such characters with a dot
+#'   - Their identification is based on the assumption that names originally did
+#'     **not** contain dots, which is good practice preventing names containing
+#'     a dot from being confused with [methods][UseMethod] used on
+#'     [classed objects][is.object], even though that advice is not strictly
+#'     followed in base-\R, e.g., in the function name [data.frame()].
+#' - adjustments to make duplicated names unique:
+#'   - `make.names(x, unique = TRUE)` appends a dot followed by a number
+#'   - `vctrs::vec_as_names(x, repair = "universal")` appends three dots
+#'     followed by a number.
+#'
+#'   `make.names()` does **not** adjust the first instance of a duplicate,
+#'   whereas `vctrs::vec_as_names()` **does** adjust it:
 #'   `make.names(c("a", "a"), unique = TRUE)` returns `c("a", "a.1")`, whereas
 #'   `vctrs::vec_as_names(c("a", "a"), repair = "universal")` returns
 #'   `c("a...1", "a...2")`.
-#' - adjustments to make [reserved] words valid: `make.names()` appends a dot;
-#'   `vctrs::vec_as_names(x, repair = "universal")` prepends a dot.
+#' - adjustments to make [reserved] words valid:
+#'   - `make.names()` appends a dot
+#'   - `vctrs::vec_as_names(x, repair = "universal")` prepends a dot
 #' - adjustments to make names that did not start with a letter, nor with a dot
-#'   not followed by a number, syntactically valid: `make.names()` prepends `X`;
-#'   `vctrs::vec_as_names(x, repair = "universal")` prepends one or more dots.
-#' - adjustments to name unnamed columns: `data.frame()` uses pattern `X1`, `X2`,
-#'   `X3`; `as.data.frame()` and `read.csv(..., header = FALSE)` use pattern
-#'   `V1`, `V2`, `V3`; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`,
-#'   `X.2`. It is **not** checked if a complete sequence of suspicious names is
+#'   not followed by a number, syntactically valid:
+#'   - `make.names()` prepends `X`
+#'   - `vctrs::vec_as_names(x, repair = "universal")` prepends one or more dots
+#' - adjustments to name unnamed columns:
+#'   - `data.frame()` uses pattern `X1`, `X2`, `X3`
+#'   - `as.data.frame()` and `read.csv(..., header = FALSE)` use pattern `V1`,
+#'     `V2`, `V3`
+#'   - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
+#'
+#'   It is **not** checked if a complete sequence of suspicious names is
 #'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
 #'   absent.
 #'
