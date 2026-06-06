@@ -1,5 +1,11 @@
 # Changelog
 
+## checkinput 1.0.0
+
+#### Documentation
+
+- Update `NEWS`.
+
 ## checkinput 0.12.0
 
 #### Breaking changes
@@ -35,13 +41,6 @@
 
 - `is_path("C:")` would warn that filename should not contain `:`.
 
-#### Documentation
-
-- [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md):
-  document that
-  [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-  warns about dropping names.
-
 ## checkinput 0.9.0
 
 #### Breaking changes
@@ -65,22 +64,10 @@
 
 #### Breaking changes
 
-- [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md)
-  now includes the used call instead of hardcoded `x` in suggestions to
-  make names valid.
-- [`is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md),
-  [`is_character()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
-  [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
-  [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
-  [`all_numbers()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
-  [`is_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
-  [`all_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
-  [`is_positive()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
-  [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
-  [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
-  and
-  [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
-  renamed argument `allow_zero` to `allow_zero_length`.
+- [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
+  include the used call instead of hardcoded `x` in suggestions to make
+  names valid.
+- Rename argument `allow_zero` to `allow_zero_length`.
 
 ## checkinput 0.7.0
 
@@ -89,27 +76,6 @@
 - [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
   change default `all` from `TRUE` to `FALSE` because it will be used
   more often with scalar input.
-
-## checkinput 0.6.5
-
-#### Documentation
-
-- [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md):
-  clearer title and description.
-
-## checkinput 0.6.4
-
-#### Documentation
-
-- Vignette `design_choices`: shorten name to `Design choices`.
-- Fix links to vignettes.
-
-## checkinput 0.6.2
-
-#### Documentation
-
-- Vignettes: explain notation. Rely on `pkgdown` to create links to
-  functions.
 
 ## checkinput 0.6.0
 
@@ -138,9 +104,9 @@
 
 #### Breaking changes
 
-- Dependency `R` \>= 4.0.0 increased to `R` \>= 4.1.0, which is required
+- Dependency `R >= 4.0.0` increased to `R >= 4.1.0`, which is required
   to pass the R CMD check on Ubuntu-latest: `rmarkdown` \> `bslib` \>
-  `sass` \> `fs` needs `R` \>= 4.1 and `rappdirs` needs `R` \>= 4.1.
+  `sass` \> `fs` needs `R >= 4.1` and `rappdirs` needs `R >= 4.1.0`.
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   wrap text of warnings. Use `deparse1(substitute(x))` to get the
   offending values instead of literal `'x'` in the text of warnings or
@@ -159,7 +125,7 @@
 
 #### Breaking changes
 
-- Depend on `R` \>= 4.0.0 to be able to use
+- Depend on `R >= 4.0.0` to be able to use
   [`deparse1()`](https://rdrr.io/r/base/deparse.html).
 
 #### Added functions
@@ -208,17 +174,13 @@
   documentation of
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  remove argument `allow_susp` and never allows suspicious names because
-  allowing them amounts to only checking for syntactically invalid
-  names, for which
-  [`make.names()`](https://rdrr.io/r/base/make.names.html) can be used
-  directly; do not try to identify which functions might have changed a
-  name because that is very ambiguous; also check for suspicious names
-  that might have been created by
+  remove argument `allow_susp` and never allows suspicious names; do not
+  try to identify which functions might have changed a name because that
+  is very ambiguous; also check for suspicious names that might have
+  been created by
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) or
   [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html);
-  consider the reserved words `...` and `..1` invalid and, when
-  appropriate, note that
+  consider the reserved words `...` and `..1` invalid and note that
   [`make.names()`](https://rdrr.io/r/base/make.names.html) does not
   adjust them; existing checks are now more specific: they check that
   names which apparently have been made valid indeed contain an invalid
@@ -235,12 +197,12 @@
 #### Documentation
 
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  major updates and restructuring. Update and add examples.
+  major update and restructuring. Add examples.
 - `README`: add a reference to my repository `checkrpkgs`. Clarify that
   functions **do** throw errors about invalid input to arguments other
   than `x`.
-- Vignette `design_choices`: clarified that functions **do** throw
-  errors about invalid input to arguments other than `x`.
+- Vignette `design_choices`: clarify that functions **do** throw errors
+  about invalid input to arguments other than `x`.
 
 ## checkinput 0.0.5
 
@@ -249,14 +211,10 @@
 - `README`: mention vignettes and introduce design choices.
 - Remove `Notes` about legacy code.
 - Move `To do` points and `Wishlist` to GitHub issues.
-- Move information about correct input to the vignette `design_choices`
-  that is linked in the `See also` sections of the relevant functions.
-  The vignette also contains a section about getting a named boolean
-  vector as output. Both sections are also mentioned in the `README`.
+- Move information about correct input to the vignette `design_choices`.
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) also calls
-  [`make.names()`](https://rdrr.io/r/base/make.names.html). Move section
-  on how to get a boolean vector to the vignette on design choices.
+  [`make.names()`](https://rdrr.io/r/base/make.names.html).
 - [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md):
   document that a zero-row data frame is not a zero-length object.
 
@@ -270,7 +228,3 @@
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md)
   by removing checking for non-ASCII characters and never allow names
   that are duplicated or consist only of dots.
-
-## checkinput 0.0.3
-
-`NEWS` for this and earlier versions has not been tracked.
