@@ -87,7 +87,7 @@ warn_suspicious <- "Names are suspicious: "
 warn_syntax <- "are syntactically invalid: "
 warn_undersc <- paste0("contain underscores \\(which are not allowed if",
                        " 'allow_underscores' is FALSE):\n")
-note_mknm_dots <- paste0("\n\\(it does not recognise names that consist of only",
+note_mknm_dots <- paste0("\n\\(it does not adjust names that consist of only",
                          " dots, or two dots followed by digits)")
 
 
@@ -132,6 +132,13 @@ expect_warning(
 expect_warning(
   expect_false(all_names(13)),
   pattern = "'x' is not a character vector: 13", strict = TRUE, fixed = TRUE)
+
+
+#### Test documentation ####
+expect_identical(make.names(c("...", "..3"), unique = TRUE), c("...", "..3"))
+expect_identical(make.names(c("a", "a"), unique = TRUE), c("a", "a.1"))
+expect_identical(colnames(data.frame(t(1:3))), c("X1", "X2", "X3"))
+expect_identical(colnames(as.data.frame(t(1:3))), c("V1", "V2", "V3"))
 
 
 #### Test some sets ####

@@ -22,9 +22,8 @@
 #' enforced by `all_names()`.
 #'
 #' Names that consist of only dots, or consist of two dots followed by a number,
-#' are not allowed by `all_names()` (nor by `vctrs::vec_as_names()`): they are
-#' listed as [reserved] words even though they are not recognised as
-#' syntactically invalid by [make.names()].
+#' are not allowed by `all_names()` (nor by `vctrs::vec_as_names()`) even though
+#' they are not adjusted by [make.names()]: they are listed as [reserved] words.
 #'
 #' Suspicious names are not allowed by `all_names()`. A suspicious name contains
 #' a pattern suggesting it originally was syntactically invalid and has been
@@ -52,16 +51,19 @@
 #' - adjustments to make duplicated names unique: `make.names(x, unique = TRUE)`
 #'   appends a dot followed by a number;
 #'   `vctrs::vec_as_names(x, repair = "universal")` appends three dots followed
-#'   by a number.
+#'   by a number. `make.names()` does **not** adjust the first instance of a
+#'   duplicate, whereas `vctrs::vec_as_names()` **does** adjust it:
+#'   `make.names(c("a", "a"), unique = TRUE)` returns `c("a", "a.1")`, whereas
+#'   `vctrs::vec_as_names(c("a", "a"), repair = "universal")` returns
+#'   `c("a...1", "a...2")`.
 #' - adjustments to make [reserved] words valid: `make.names()` appends a dot;
 #'   `vctrs::vec_as_names(x, repair = "universal")` prepends a dot.
 #' - adjustments to make names that did not start with a letter, nor with a dot
 #'   not followed by a number, syntactically valid: `make.names()` prepends `X`;
 #'   `vctrs::vec_as_names(x, repair = "universal")` prepends one or more dots.
-#' - adjustments to name unnamed columns: `data.frame()` uses pattern `V1`,
-#'   `V2`, `V3` if a matrix without column names is converted to a data frame,
-#'   and `read.csv(..., header = FALSE)` uses the same pattern for data without
-#'   column names; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`,
+#' - adjustments to name unnamed columns: `data.frame()` uses pattern `X1`, `X2`,
+#'   `X3`; `as.data.frame()` and `read.csv(..., header = FALSE)` use pattern
+#'   `V1`, `V2`, `V3`; `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`,
 #'   `X.2`. It is **not** checked if a complete sequence of suspicious names is
 #'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
 #'   absent.
@@ -267,7 +269,7 @@ all_names <- function(x, allow_underscores = TRUE) {
       c(any(bool_onlydots), any(bool_patterndots))], collapse = ", or ")
     # note_dots will be '""' which has length 1 if none is TRUE
     if(nchar(note_dots) > 0L) {
-      note_dots <- paste0("\n(it does not recognise names that consist of ",
+      note_dots <- paste0("\n(it does not adjust names that consist of ",
                           note_dots, ")")
     }
 
