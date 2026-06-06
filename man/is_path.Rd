@@ -4,10 +4,13 @@
 \alias{is_path}
 \title{Check that \code{x} is a valid path}
 \usage{
-is_path(x)
+is_path(x, require_sep = TRUE)
 }
 \arguments{
 \item{x}{object to check.}
+
+\item{require_sep}{should \code{x} include a file separator? Ignored if \code{x} is
+\code{"."} or \code{".."}.}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a valid path, possibly containing a
@@ -41,44 +44,36 @@ terms listed in the second point above), and in addition should \strong{not}
 contain \code{:} \strong{nor} start with a space or a hyphen (\code{-}).
 }
 
-These restrictions on \code{x} consider characters and words that are not allowed
+These restrictions on \code{x} consider characters and path components that are not allowed
 in Windows and thus would lead to an error when used to create a directory or
 file; characters that are silently removed in Windows and thus would lead to
 a mismatch between the created directory and the returned path when used to
 create a directory; and characters that might give problems when used in the
 shell.
 
-\code{is_path()} allows some patterns that will not occur in real (i.e., existing)
-paths or filenames:
+\code{is_path()} is lenient with respect to file separators (i.e., \code{/} or \verb{\\\\}):
 \itemize{
-\item \code{x} does \strong{not} have to contain a file separator (i.e., \code{/} or \verb{\\\\}). This
-makes it possible to use \code{is_path()} to check that input to \code{\link[fs:path]{fs::path()}}
-only contains allowed characters.
-\item \code{x} does \strong{not} have to point to an existing directory (see the previous
-point).
-\item \code{x} might contain repeated file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
-will be treated as if they were only a single file separator.
-\item \code{x} might contain trailing file separators, even though these might be
-ignored or removed in some operations (e.g., they are removed by
-\code{\link[=file.path]{file.path()}} and \code{\link[fs:path]{fs::path()}})
-.
+\item \code{x} does \strong{not} have to contain any file separator if \code{require_sep} is
+\code{FALSE}, such that \code{is_path(x, require_sep = FALSE)} can be used to check
+that filenames only contain allowed characters.
+\item \code{x} might contain trailing file separators, although these might be ignored
+or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}} and
+\code{\link[fs:path]{fs::path()}}).
+\item \code{x} might contain successive file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
+should be treated by the operating system as if they were only a single
+file separator.
 }
+
+\code{is_path()} does \strong{not} check that the path in \code{x} points to an existing
+file or folder, \strong{nor} that such a file or folder can be created.
 }
 \section{Notes on paths}{
 
 The file separator is a backslash (\verb{\\}) on Windows but a forward slash (\code{/})
-on other operating systems (\link[=.Platform]{.Platform$file.sep} gives the file
-separator used on the current platform).
-
-Furthermore, the backslash is used
-as \link[=regex]{escape character} in \R, such that backslashes need to be escaped
-in \R code by doubling them (use \code{cat(x)} to see how \code{x} would be printed).
-Thus, a check on the presence of repeated slashes and backslashes in
-\link[=is_character]{string} \code{string} would use
-\code{grepl(pattern = "//", x = string, fixed = TRUE)} and
-\code{grepl(pattern = "\\\\\\\\", x = string, fixed = TRUE)}. The message to point out
-their presence would be written as \code{message("Repeated '/' or '\\\\'")} which
-would be printed as \verb{Repeated '/' or '\\'}.
+on other operating systems: \link[=.Platform]{.Platform$file.sep} gives the file
+separator used on the current platform. Furthermore, the backslash is used as
+\link[=regex]{escape character} in \R, such that backslashes need to be escaped in
+\R code by doubling them. Use \code{cat(x)} to see how \code{x} would be printed.
 }
 
 \section{Programming notes}{
@@ -107,21 +102,21 @@ from the Posix standard
 }
 
 \examples{
-is_path(getwd())
-is_path(fs::path_wd("abcd"))
-is_path(fs::path_wd("ab|cd"))
+is_path(getwd()) # TRUE
+is_path(fs::path_wd("abcd")) # TRUE
+is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 
-is_path(fs::path_wd("abcd.txt"))
-is_path(fs::path_wd("abcd.txt.gz"))
-is_path(fs::path_wd("abcd.gz"))
+is_path(fs::path_wd("abcd.txt")) # TRUE
+is_path(fs::path_wd("abcd.txt.gz")) # TRUE
+is_path(fs::path_wd("abcd.gz")) # TRUE
 
 # ':' is allowed in paths but not in filenames
 is_path(fs::path_wd("ab:cd")) # TRUE
-is_path(fs::path_wd("ab:cd.txt")) # FALSE
+is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 
 # Other illegal characters are not allowed in either paths or filenames
-is_path(fs::path_wd("ab|cd")) # FALSE
-is_path(fs::path_wd("ab|cd.txt")) # FALSE
+is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
+is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 
 }
 \seealso{

@@ -3,6 +3,8 @@
 #' Check that `x` is a valid path, possibly containing a valid filename.
 #'
 #' @inheritParams is_logical x
+#' @param require_sep should `x` include a file separator? Ignored if `x` is
+#' `"."` or `".."`.
 #'
 #' @details
 #' `is_path()` is intended to be used to check for valid paths before creating a
@@ -28,45 +30,37 @@
 #'   terms listed in the second point above), and in addition should **not**
 #'   contain `:` **nor** start with a space or a hyphen (`-`).
 #'
-#' These restrictions on `x` consider characters and words that are not allowed
+#' These restrictions on `x` consider characters and path components that are not allowed
 #' in Windows and thus would lead to an error when used to create a directory or
 #' file; characters that are silently removed in Windows and thus would lead to
 #' a mismatch between the created directory and the returned path when used to
 #' create a directory; and characters that might give problems when used in the
 #' shell.
 #'
-#' `is_path()` allows some patterns that will not occur in real (i.e., existing)
-#' paths or filenames:
+#' `is_path()` is lenient with respect to file separators (i.e., `/` or `\\`):
+#' -  `x` does **not** have to contain any file separator if `require_sep` is
+#'   `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to check
+#'   that filenames only contain allowed characters.
+#' - `x` might contain trailing file separators, although these might be ignored
+#'   or removed in some operations (e.g., they are removed by [file.path()] and
+#'   [fs::path()]).
+#' - `x` might contain successive file separators (e.g., `//` or `\\\\`): these
+#'   should be treated by the operating system as if they were only a single
+#'   file separator.
 #'
-#' - `x` does **not** have to contain a file separator (i.e., `/` or `\\`). This
-#'   makes it possible to use `is_path()` to check that input to [fs::path()]
-#'   only contains allowed characters.
-#' - `x` does **not** have to point to an existing directory (see the previous
-#'   point).
-#' - `x` might contain repeated file separators (e.g., `//` or `\\\\`): these
-#'   will be treated as if they were only a single file separator.
-#' - `x` might contain trailing file separators, even though these might be
-#'   ignored or removed in some operations (e.g., they are removed by
-#'   [file.path()] and [fs::path()])
-#'   .
+#' `is_path()` does **not** check that the path in `x` points to an existing
+#' file or folder, **nor** that such a file or folder can be created.
+#'
 #' @returns
 #' `TRUE` or `FALSE` indicating if `x` is a valid path, possibly containing a
 #' valid filename.
 #'
 #' @section Notes on paths:
 #' The file separator is a backslash (`\`) on Windows but a forward slash (`/`)
-#' on other operating systems ([.Platform$file.sep][.Platform] gives the file
-#' separator used on the current platform).
-#'
-#' Furthermore, the backslash is used
-#' as [escape character][regex] in \R, such that backslashes need to be escaped
-#' in \R code by doubling them (use `cat(x)` to see how `x` would be printed).
-#' Thus, a check on the presence of repeated slashes and backslashes in
-#' [string][is_character()] `string` would use
-#' `grepl(pattern = "//", x = string, fixed = TRUE)` and
-#' `grepl(pattern = "\\\\", x = string, fixed = TRUE)`. The message to point out
-#' their presence would be written as `message("Repeated '/' or '\\'")` which
-#' would be printed as `Repeated '/' or '\'`.
+#' on other operating systems: [.Platform$file.sep][.Platform] gives the file
+#' separator used on the current platform. Furthermore, the backslash is used as
+#' [escape character][regex] in \R, such that backslashes need to be escaped in
+#' \R code by doubling them. Use `cat(x)` to see how `x` would be printed.
 #'
 #' @section Programming notes:
 #' The output of `tempdir()` during R cmd checks on MacOS contains duplicated
@@ -105,24 +99,25 @@
 #' collections of checks on type and length
 #'
 #' @examples
-#' is_path(getwd())
-#' is_path(fs::path_wd("abcd"))
-#' is_path(fs::path_wd("ab|cd"))
+#' is_path(getwd()) # TRUE
+#' is_path(fs::path_wd("abcd")) # TRUE
+#' is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 #'
-#' is_path(fs::path_wd("abcd.txt"))
-#' is_path(fs::path_wd("abcd.txt.gz"))
-#' is_path(fs::path_wd("abcd.gz"))
+#' is_path(fs::path_wd("abcd.txt")) # TRUE
+#' is_path(fs::path_wd("abcd.txt.gz")) # TRUE
+#' is_path(fs::path_wd("abcd.gz")) # TRUE
 #'
 #' # ':' is allowed in paths but not in filenames
 #' is_path(fs::path_wd("ab:cd")) # TRUE
-#' is_path(fs::path_wd("ab:cd.txt")) # FALSE
+#' is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 #'
 #' # Other illegal characters are not allowed in either paths or filenames
-#' is_path(fs::path_wd("ab|cd")) # FALSE
-#' is_path(fs::path_wd("ab|cd.txt")) # FALSE
+#' is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
+#' is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 #'
 #' @export
-is_path <- function(x) {
+is_path <- function(x, require_sep = TRUE) {
+  stopifnot(is_logical(require_sep))
   arg_name <- paste_quoted(deparse1(substitute(x)))
 
   if(!is_character(x)) {
@@ -137,7 +132,7 @@ is_path <- function(x) {
   # Notes:
   # - split = c("/", "\\") does not work because that recycles 'split' along 'x'
   # - fs::path_split() does not work because it tidies the path using
-  #   fs::path_tidy() before splitting, which removes repeated slashes
+  #   fs::path_tidy() before splitting, which removes successive slashes
   # - The if-else construct is needed because strsplit() discards empty quotes
   #   in the input.
   path_comp <- unlist(strsplit(x = x, split = "/", fixed = TRUE))
@@ -180,6 +175,14 @@ is_path <- function(x) {
     path_ok <- FALSE
     warning("Components of ", arg_name,
             " should not end with ' ' or '.' (i.e., a space or a dot):\n", x)
+  }
+
+  if(require_sep && !(x %in% c(".", "..")) &&
+     !grepl(pattern = "/", x = x, fixed = TRUE) &&
+     !grepl(pattern = "\\", x = x, fixed = TRUE)) {
+    path_ok <- FALSE
+    warning(paste_quoted(deparse(substitute(x))), " should contain file",
+            " separators ('/' or '\\') if 'require_sep' is 'TRUE'):\n", x)
   }
 
   filename <- basename(x)
