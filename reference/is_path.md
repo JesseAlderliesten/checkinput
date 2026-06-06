@@ -5,7 +5,7 @@ Check that `x` is a valid path, possibly containing a valid filename.
 ## Usage
 
 ``` r
-is_path(x)
+is_path(x, require_sep = TRUE)
 ```
 
 ## Arguments
@@ -13,6 +13,11 @@ is_path(x)
 - x:
 
   object to check.
+
+- require_sep:
+
+  should `x` include a file separator? Ignored if `x` is `"."` or
+  `".."`.
 
 ## Value
 
@@ -29,8 +34,8 @@ restrictions:
   string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md).
 
 - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
-  `>`, nor any of the control characters (`ASCII` octal codes 000
-  through 037 and 177, see
+  `>`, nor any of the control characters (`[:cntrl:]`, with `ASCII`
+  octal codes 000 through 037 and 177, see
   [`help("regex")`](https://rdrr.io/r/base/regex.html)). Although `:` is
   allowed by `is_path()` outside a filename, Windows will only allow
   colons to indicate volume names like `C:\`.
@@ -55,50 +60,42 @@ restrictions:
   above), and in addition should **not** contain `:` **nor** start with
   a space or a hyphen (`-`).
 
-These restrictions on `x` consider characters and words that are not
-allowed in Windows and thus would lead to an error when used to create a
-directory or file; characters that are silently removed in Windows and
-thus would lead to a mismatch between the created directory and the
-returned path when used to create a directory; and characters that might
-give problems when used in the shell.
+These restrictions on `x` consider characters and path components that
+are not allowed in Windows and thus would lead to an error when used to
+create a directory or file; characters that are silently removed in
+Windows and thus would lead to a mismatch between the created directory
+and the returned path when used to create a directory; and characters
+that might give problems when used in the shell.
 
-`is_path()` allows some patterns that will not occur in real (i.e.,
-existing) paths or filenames:
+`is_path()` is lenient with respect to file separators (i.e., `/` or
+`\\`):
 
-- `x` does **not** have to contain a file separator (i.e., `/` or `\\`).
-  This makes it possible to use `is_path()` to check that input to
-  [`fs::path()`](https://fs.r-lib.org/reference/path.html) only contains
-  allowed characters.
+- `x` does **not** have to contain any file separator if `require_sep`
+  is `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to
+  check that filenames only contain allowed characters.
 
-- `x` does **not** have to point to an existing directory (see the
-  previous point).
-
-- `x` might contain repeated file separators (e.g., `//` or `\\\\`):
-  these will be treated as if they were only a single file separator.
-
-- `x` might contain trailing file separators, even though these might be
+- `x` might contain trailing file separators, although these might be
   ignored or removed in some operations (e.g., they are removed by
   [`file.path()`](https://rdrr.io/r/base/file.path.html) and
-  [`fs::path()`](https://fs.r-lib.org/reference/path.html)) .
+  [`fs::path()`](https://fs.r-lib.org/reference/path.html)).
+
+- `x` might contain successive file separators (e.g., `//` or `\\\\`):
+  these should be treated by the operating system as if they were only a
+  single file separator.
+
+`is_path()` does **not** check that the path in `x` points to an
+existing file or folder, **nor** that such a file or folder can be
+created.
 
 ## Notes on paths
 
 The file separator is a backslash (`\`) on Windows but a forward slash
-(`/`) on other operating systems
-([.Platform\$file.sep](https://rdrr.io/r/base/Platform.html) gives the
-file separator used on the current platform).
-
-Furthermore, the backslash is used as [escape
-character](https://rdrr.io/r/base/regex.html) in R, such that
-backslashes need to be escaped in R code by doubling them (use `cat(x)`
-to see how `x` would be printed). Thus, a check on the presence of
-repeated slashes and backslashes in
-[string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
-`string` would use `grepl(pattern = "//", x = string, fixed = TRUE)` and
-`grepl(pattern = "\\\\", x = string, fixed = TRUE)`. The message to
-point out their presence would be written as
-`message("Repeated '/' or '\\'")` which would be printed as
-`Repeated '/' or '\'`.
+(`/`) on other operating systems:
+[.Platform\$file.sep](https://rdrr.io/r/base/Platform.html) gives the
+file separator used on the current platform. Furthermore, the backslash
+is used as [escape character](https://rdrr.io/r/base/regex.html) in R,
+such that backslashes need to be escaped in R code by doubling them. Use
+`cat(x)` to see how `x` would be printed.
 
 ## Programming notes
 
@@ -155,36 +152,36 @@ Other collections of checks on type and length:
 ## Examples
 
 ``` r
-is_path(getwd())
+is_path(getwd()) # TRUE
 #> [1] TRUE
-is_path(fs::path_wd("abcd"))
+is_path(fs::path_wd("abcd")) # TRUE
 #> [1] TRUE
-is_path(fs::path_wd("ab|cd"))
+is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 #> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd
 #> [1] FALSE
 
-is_path(fs::path_wd("abcd.txt"))
+is_path(fs::path_wd("abcd.txt")) # TRUE
 #> [1] TRUE
-is_path(fs::path_wd("abcd.txt.gz"))
+is_path(fs::path_wd("abcd.txt.gz")) # TRUE
 #> [1] TRUE
-is_path(fs::path_wd("abcd.gz"))
+is_path(fs::path_wd("abcd.gz")) # TRUE
 #> [1] TRUE
 
 # ':' is allowed in paths but not in filenames
 is_path(fs::path_wd("ab:cd")) # TRUE
 #> [1] TRUE
-is_path(fs::path_wd("ab:cd.txt")) # FALSE
+is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 #> Warning: The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt
 #> [1] FALSE
 
 # Other illegal characters are not allowed in either paths or filenames
-is_path(fs::path_wd("ab|cd")) # FALSE
+is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 #> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd
 #> [1] FALSE
-is_path(fs::path_wd("ab|cd.txt")) # FALSE
+is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 #> Warning: 'fs::path_wd("ab|cd.txt")' should not contain '"', '*', '?', '|', '<' or '>':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt
 #> [1] FALSE

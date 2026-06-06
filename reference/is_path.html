@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_path</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_path</span><span class="op">(</span><span class="va">x</span>, require_sep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -59,6 +59,11 @@
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>object to check.</p></dd>
+
+
+<dt id="arg-require-sep">require_sep<a class="anchor" aria-label="anchor" href="#arg-require-sep"></a></dt>
+<dd><p>should <code>x</code> include a file separator? Ignored if <code>x</code> is
+<code>"."</code> or <code>".."</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -71,7 +76,8 @@ valid filename.</p>
     <p><code>is_path()</code> is intended to be used to check for valid paths before creating a
 directory or a file. Therefore it imposes the following restrictions:</p><ul><li><p><code>x</code> should be a non-empty <a href="all_characters.html">character string</a>.</p></li>
 <li><p><code>x</code> should <strong>not</strong> contain the characters <code>"</code>, <code>*</code>, <code>?</code>, <code>|</code>, <code>&lt;</code>, <code>&gt;</code>, nor
-any of the control characters (<code>ASCII</code> octal codes 000 through 037 and 177,
+any of the control characters (<code>[:cntrl:]</code>, with <code>ASCII</code> octal codes 000
+through 037 and 177,
 see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code>). Although <code>:</code> is allowed by <code>is_path()</code> outside a
 filename, Windows will only allow colons to indicate volume names like <code>C:\</code>.</p></li>
 <li><p>path components (i.e., parts separated by file separators <code>/</code> or <code>\\</code>)
@@ -88,41 +94,33 @@ the last slash is considered the filename, which <strong>should</strong> adhere 
 restrictions listed above (although it <strong>may</strong> contain the Windows-reserved
 terms listed in the second point above), and in addition should <strong>not</strong>
 contain <code>:</code> <strong>nor</strong> start with a space or a hyphen (<code>-</code>).</p></li>
-</ul><p>These restrictions on <code>x</code> consider characters and words that are not allowed
+</ul><p>These restrictions on <code>x</code> consider characters and path components that are not allowed
 in Windows and thus would lead to an error when used to create a directory or
 file; characters that are silently removed in Windows and thus would lead to
 a mismatch between the created directory and the returned path when used to
 create a directory; and characters that might give problems when used in the
 shell.</p>
-<p><code>is_path()</code> allows some patterns that will not occur in real (i.e., existing)
-paths or filenames:</p><ul><li><p><code>x</code> does <strong>not</strong> have to contain a file separator (i.e., <code>/</code> or <code>\\</code>). This
-makes it possible to use <code>is_path()</code> to check that input to <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>
-only contains allowed characters.</p></li>
-<li><p><code>x</code> does <strong>not</strong> have to point to an existing directory (see the previous
-point).</p></li>
-<li><p><code>x</code> might contain repeated file separators (e.g., <code>//</code> or <code>\\\\</code>): these
-will be treated as if they were only a single file separator.</p></li>
-<li><p><code>x</code> might contain trailing file separators, even though these might be
-ignored or removed in some operations (e.g., they are removed by
-<code><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path()</a></code> and <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>)
-.</p></li>
-</ul></div>
+<p><code>is_path()</code> is lenient with respect to file separators (i.e., <code>/</code> or <code>\\</code>):</p><ul><li><p><code>x</code> does <strong>not</strong> have to contain any file separator if <code>require_sep</code> is
+<code>FALSE</code>, such that <code>is_path(x, require_sep = FALSE)</code> can be used to check
+that filenames only contain allowed characters.</p></li>
+<li><p><code>x</code> might contain trailing file separators, although these might be ignored
+or removed in some operations (e.g., they are removed by <code><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path()</a></code> and
+<code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>).</p></li>
+<li><p><code>x</code> might contain successive file separators (e.g., <code>//</code> or <code>\\\\</code>): these
+should be treated by the operating system as if they were only a single
+file separator.</p></li>
+</ul><p><code>is_path()</code> does <strong>not</strong> check that the path in <code>x</code> points to an existing
+file or folder, <strong>nor</strong> that such a file or folder can be created.</p>
+    </div>
     <div class="section level2">
     <h2 id="notes-on-paths">Notes on paths<a class="anchor" aria-label="anchor" href="#notes-on-paths"></a></h2>
 
 
 <p>The file separator is a backslash (<code>\</code>) on Windows but a forward slash (<code>/</code>)
-on other operating systems (<a href="https://rdrr.io/r/base/Platform.html" class="external-link">.Platform$file.sep</a> gives the file
-separator used on the current platform).</p>
-<p>Furthermore, the backslash is used
-as <a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in <span style="R">R</span>, such that backslashes need to be escaped
-in <span style="R">R</span> code by doubling them (use <code>cat(x)</code> to see how <code>x</code> would be printed).
-Thus, a check on the presence of repeated slashes and backslashes in
-<a href="all_characters.html">string</a> <code>string</code> would use
-<code>grepl(pattern = "//", x = string, fixed = TRUE)</code> and
-<code>grepl(pattern = "\\\\", x = string, fixed = TRUE)</code>. The message to point out
-their presence would be written as <code>message("Repeated '/' or '\\'")</code> which
-would be printed as <code>Repeated '/' or '\'</code>.</p>
+on other operating systems: <a href="https://rdrr.io/r/base/Platform.html" class="external-link">.Platform$file.sep</a> gives the file
+separator used on the current platform. Furthermore, the backslash is used as
+<a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in <span style="R">R</span>, such that backslashes need to be escaped in
+<span style="R">R</span> code by doubling them. Use <code>cat(x)</code> to see how <code>x</code> would be printed.</p>
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
@@ -173,36 +171,36 @@ file separators in the <a href="https://happygitwithr.com/shell" class="external
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE, warning about '|'</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '&lt;' or '&gt;':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.txt"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.txt.gz"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.txt.gz"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.gz"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.gz"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ':' is allowed in paths but not in filenames</span></span></span>
 <span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE, warning about ':'</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Other illegal characters are not allowed in either paths or filenames</span></span></span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE, warning about '|'</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '&lt;' or '&gt;':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab|cd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE, warning about '|'</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'fs::path_wd("ab|cd.txt")' should not contain '"', '*', '?', '|', '&lt;' or '&gt;':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>

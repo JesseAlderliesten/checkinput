@@ -1,5 +1,14 @@
 # Changelog
 
+## checkinput 0.12.0
+
+#### Breaking changes
+
+- [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
+  add argument `require_sep` to facilitate checking filenames.
+- Remove dependency `progutils` from `Suggests` to prevent dependency
+  conflicts because `progutils` itself depends on `checkinput`.
+
 ## checkinput 0.11.0
 
 #### Breaking changes

@@ -48,10 +48,10 @@ would only allow digits and unaccented Latin letters, but that is
 
 Names that consist of only dots, or consist of two dots followed by a
 number, are not allowed by `all_names()` (nor by
-[`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html)):
-they are listed as [reserved](https://rdrr.io/r/base/Reserved.html)
-words even though they are not recognised as syntactically invalid by
-[`make.names()`](https://rdrr.io/r/base/make.names.html).
+[`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html))
+even though they are not adjusted by
+[`make.names()`](https://rdrr.io/r/base/make.names.html): they are
+listed as [reserved](https://rdrr.io/r/base/Reserved.html) words.
 
 Suspicious names are not allowed by `all_names()`. A suspicious name
 contains a pattern suggesting it originally was syntactically invalid
@@ -89,6 +89,13 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   `make.names(x, unique = TRUE)` appends a dot followed by a number;
   `vctrs::vec_as_names(x, repair = "universal")` appends three dots
   followed by a number.
+  [`make.names()`](https://rdrr.io/r/base/make.names.html) does **not**
+  adjust the first instance of a duplicate, whereas
+  [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html)
+  **does** adjust it: `make.names(c("a", "a"), unique = TRUE)` returns
+  `c("a", "a.1")`, whereas
+  `vctrs::vec_as_names(c("a", "a"), repair = "universal")` returns
+  `c("a...1", "a...2")`.
 
 - adjustments to make [reserved](https://rdrr.io/r/base/Reserved.html)
   words valid: [`make.names()`](https://rdrr.io/r/base/make.names.html)
@@ -103,12 +110,13 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
 
 - adjustments to name unnamed columns:
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) uses pattern
-  `V1`, `V2`, `V3` if a matrix without column names is converted to a
-  data frame, and `read.csv(..., header = FALSE)` uses the same pattern
-  for data without column names; `read.csv(..., header = TRUE)` uses
-  pattern `X`, `X.1`, `X.2`. It is **not** checked if a complete
-  sequence of suspicious names is present, e.g., `V3` will be flagged as
-  suspicious even if `V1` and `V2` are absent.
+  `X1`, `X2`, `X3`;
+  [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) and
+  `read.csv(..., header = FALSE)` use pattern `V1`, `V2`, `V3`;
+  `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`. It is
+  **not** checked if a complete sequence of suspicious names is present,
+  e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
+  absent.
 
 Names containing underscores (`_`) are by default **allowed** by
 `all_names()` because names containing underscores are not syntactically
@@ -173,7 +181,7 @@ invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
 all_names(x = invalid_names) # FALSE
 #> Warning: Names are syntactically invalid: 'ab#cd', 'for', '""' (i.e., an empty string); and consist of only dots, which is a reserved word: '..'; and consist of two dots followed by digits, which is a reserved word: '..23'.
 #> Use 'invalid_names <- make.names(invalid_names, unique = TRUE)' to create unique, syntactically valid names
-#> (it does not recognise names that consist of only dots, or two dots followed by digits)!
+#> (it does not adjust names that consist of only dots, or two dots followed by digits)!
 #> [1] FALSE
 
 # Names that have been made valid are suspicious
