@@ -12,7 +12,8 @@
 #'
 #' - `x` should be a non-empty [character string][is_character()].
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
-#'   any of the control characters (`ASCII` octal codes 000 through 037 and 177,
+#'   any of the control characters (`[:cntrl:]`, with `ASCII` octal codes 000
+#'   through 037 and 177,
 #'   see `help("regex")`). Although `:` is allowed by `is_path()` outside a
 #'   filename, Windows will only allow colons to indicate volume names like `C:\`.
 #' - path components (i.e., parts separated by file separators `/` or `\\`)
