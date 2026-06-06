@@ -18,8 +18,8 @@
 #' values.
 #'
 #' @section Notes:
-#' An error occurs if multiple arguments are provided because then `x` probably
-#' was accidentally not [combined][c()]. For example, the call
+#' An error is thrown if multiple arguments are provided because then `x`
+#' probably was accidentally not [combined][c()]. For example, the call
 #' `paste_quoted("a", "b")` will return the error `unused argument ("b")`. The
 #' probably intended call is `paste_quoted(c("a", "b"))`, returning `"'a', 'b'"`.
 #'
