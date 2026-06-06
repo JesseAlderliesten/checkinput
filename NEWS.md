@@ -1,3 +1,9 @@
+# checkinput devel
+
+### Documentation
+- Update `NEWS`.
+
+
 # checkinput 0.12.0
 
 ### Breaking changes
@@ -28,9 +34,6 @@
 ### Bugfixes
 - `is_path("C:")` would warn that filename should not contain `:`.
 
-### Documentation
-- `paste_quoted()`: document that `paste_quoted()` warns about dropping names.
-
 
 # checkinput 0.9.0
 
@@ -49,12 +52,9 @@
 # checkinput 0.8.0
 
 ### Breaking changes
-- `all_names()` now includes the used call instead of hardcoded `x` in
-  suggestions to make names valid.
-- `is_logical()`, `is_character()` `all_characters()`, `is_number()`,
-  `all_numbers()`, `is_nonnegative()`, `all_nonnegative()`, `is_positive()`,
-  `is_natural()`, `all_natural()` and `make_natural()`: renamed argument
-  `allow_zero` to `allow_zero_length`.
+- `all_names()`: include the used call instead of hardcoded `x` in suggestions
+  to make names valid.
+- Rename argument `allow_zero` to `allow_zero_length`.
 
 
 # checkinput 0.7.0
@@ -62,25 +62,6 @@
 ### Breaking changes
 - `make_natural()`: change default `all` from `TRUE` to `FALSE` because it will
   be used more often with scalar input.
-
-
-# checkinput 0.6.5
-
-### Documentation
-- `paste_quoted()`: clearer title and description.
-
-
-# checkinput 0.6.4
-
-### Documentation
-- Vignette `design_choices`: shorten name to `Design choices`.
-- Fix links to vignettes.
-
-
-# checkinput 0.6.2
-
-### Documentation
-- Vignettes: explain notation. Rely on `pkgdown` to create links to functions.
 
 
 # checkinput 0.6.0
@@ -103,9 +84,9 @@
 # checkinput 0.4.0
 
 ### Breaking changes
-- Dependency `R` >= 4.0.0 increased to `R` >= 4.1.0, which is required to pass
+- Dependency `R >= 4.0.0` increased to `R >= 4.1.0`, which is required to pass
   the R CMD check on Ubuntu-latest: `rmarkdown` > `bslib` > `sass` > `fs` needs
-  `R` >= 4.1 and `rappdirs` needs `R` >= 4.1.
+  `R >= 4.1` and `rappdirs` needs `R >= 4.1.0`.
 - `all_names()`: wrap text of warnings. Use `deparse1(substitute(x))` to get the
   offending values instead of literal `'x'` in the text of warnings or errors.
 - `is_nonnegative()`, `all_nonnegative()`, `is_positive()`: call `is_number()`
@@ -116,7 +97,7 @@
 # checkinput 0.3.0
 
 ### Breaking changes
-- Depend on `R` >= 4.0.0 to be able to use `deparse1()`.
+- Depend on `R >= 4.0.0` to be able to use `deparse1()`.
 
 ### Added functions
 - `make_natural()`: use `is_natural()` or `all_natural()` to round values, while
@@ -151,16 +132,14 @@
 ### Breaking changes
 - Add dependency `vctrs` to `Suggests` because it is used in documentation of
   `all_names()`.
-- `all_names()`: remove argument `allow_susp` and never allows suspicious names
-  because allowing them amounts to only checking for syntactically invalid names,
-  for which `make.names()` can be used directly; do not try to identify which
-  functions might have changed a name because that is very ambiguous; also check
-  for suspicious names that might have been created by `data.frame()` or
-  `vctrs::vec_as_names()`; consider the reserved words `...` and `..1` invalid
-  and, when appropriate, note that `make.names()` does not adjust them; existing
-  checks are now more specific: they check that names which apparently have been
-  made valid indeed contain an invalid part, and that the first digit of numbers
-  added to duplicated names is non-zero.
+- `all_names()`: remove argument `allow_susp` and never allows suspicious names;
+  do not try to identify which functions might have changed a name because that
+  is very ambiguous; also check for suspicious names that might have been
+  created by `data.frame()` or `vctrs::vec_as_names()`; consider the reserved
+  words `...` and `..1` invalid and note that `make.names()` does not adjust
+  them; existing checks are now more specific: they check that names which
+  apparently have been made valid indeed contain an invalid part, and that the
+  first digit of numbers added to duplicated names is non-zero.
 - `is_number()` and derived functions gain arguments `allow_zero`, `allow_NA`
   and `allow_NaN` (with default `FALSE`, in contrast to the previously implicit
   `TRUE`), to resolve the contradiction that using `is_number()` returned `TRUE`
@@ -168,10 +147,10 @@
   and thus to an error.
 
 ### Documentation
-- `all_names()`: major updates and restructuring. Update and add examples.
+- `all_names()`: major update and restructuring. Add examples.
 - `README`: add a reference to my repository `checkrpkgs`. Clarify that
   functions **do** throw errors about invalid input to arguments other than `x`.
-- Vignette `design_choices`: clarified that functions **do** throw errors about
+- Vignette `design_choices`: clarify that functions **do** throw errors about
   invalid input to arguments other than `x`.
 
 
@@ -181,12 +160,8 @@
 - `README`: mention vignettes and introduce design choices.
 - Remove `Notes` about legacy code.
 - Move `To do` points and `Wishlist` to GitHub issues.
-- Move information about correct input to the vignette `design_choices` that is
-  linked in the `See also` sections of the relevant functions. The vignette also
-  contains a section about getting a named boolean vector as output. Both
-  sections are also mentioned in the `README`.
-- `all_names()`: `data.frame()` also calls `make.names()`. Move section on how
-  to get a boolean vector to the vignette on design choices.
+- Move information about correct input to the vignette `design_choices`.
+- `all_names()`: `data.frame()` also calls `make.names()`.
 - `is_zerolength()`: document that a zero-row data frame is not a zero-length
   object.
 
@@ -198,8 +173,3 @@
   for them, as well as for non-atomic input.
 - Simplify `all_names()` by removing checking for non-ASCII characters and never
   allow names that are duplicated or consist only of dots.
-
-
-# checkinput 0.0.3
-
-`NEWS` for this and earlier versions has not been tracked.
