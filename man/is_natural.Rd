@@ -37,7 +37,7 @@ make_natural(
 \item{strict}{Exclude zero from the natural numbers?}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zerolength} \code{x} of the correct type?}
+\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 
@@ -83,7 +83,8 @@ respectively. Therefore, their result can be assigned to \code{x} without the ne
 to use \code{\link[=stopifnot]{stopifnot()}}.
 
 Alternatively, use \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}},
-followed by assigning the rounded value to \code{x}: \code{x <- as.integer(round(x))}.
+followed by assigning the rounded value to \code{x} after converting it to type
+\code{integer}: \code{x <- as.integer(round(x))}.
 }
 
 \section{Programming notes}{

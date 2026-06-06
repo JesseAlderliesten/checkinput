@@ -112,12 +112,12 @@ shows how to get a named boolean vector indicating for each element of
 
 `checkinput` also contains a [vignette about type
 coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
-in relation to the checking:
+in relation to checking function input:
 `vignette("type_coercion", package = "checkinput")`.
 
 ### Function overview
 
-The check functions in `checkinput` can be divided into grouped based on
+The check functions in `checkinput` can be divided into groups based on
 the kind of **input** for which they return `TRUE`:
 
 - zero-length values: `is_zerolength()`
@@ -134,10 +134,11 @@ string.
 
 ## Similar packages
 
-Functions of `checkinput` use arguments to determine which special
-values should be allowed, making them more flexible than functions in
-similar packages. Nevertheless, the following similar packages are worth
-looking into:
+Functions of `checkinput` use arguments to determine if special values
+like `NA`s and zero-length values should be allowed, making them more
+flexible than functions in similar packages that require a different
+function to include these special values. Nevertheless, the following
+similar packages are worth looking into:
 
 - [arkhe](https://CRAN.R-project.org/package=arkhe): tools for cleaning
   rectangular data.

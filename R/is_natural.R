@@ -41,7 +41,8 @@
 #' to use [stopifnot()].
 #'
 #' Alternatively, use `is_natural(x)` or `all_natural(x)` inside [stopifnot()],
-#' followed by assigning the rounded value to `x`: `x <- as.integer(round(x))`.
+#' followed by assigning the rounded value to `x` after converting it to type
+#' `integer`: `x <- as.integer(round(x))`.
 #'
 #' @section Programming notes:
 #' The code of `is_natural()` and `all_natural()` is partly based on the example

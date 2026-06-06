@@ -57,30 +57,48 @@ made by \code{vctrs::vec_as_names(x, repair = "universal")}, which is used
 throughout the \href{https://tidyverse.org/}{tidyverse}:
 \itemize{
 \item adjustments to replace invalid characters (i.e., characters that are not a
-letter, number, dot or underscore): \code{make.names()} and
-\code{vctrs::vec_as_names(x, repair = "universal")} replace such characters with
-a dot. Their identification is based on the assumption that names
-originally did \strong{not} contain dots, which is good practice preventing
-names containing a dot from being confused with \link[=UseMethod]{methods} used
-on \link[=is.object]{classed objects}, even though that advice is not strictly
+letter, number, dot or underscore):
+\itemize{
+\item \code{make.names()} and \code{vctrs::vec_as_names(x, repair = "universal")} replace
+such characters with a dot
+\item Their identification is based on the assumption that names originally did
+\strong{not} contain dots, which is good practice preventing names containing
+a dot from being confused with \link[=UseMethod]{methods} used on
+\link[=is.object]{classed objects}, even though that advice is not strictly
 followed in base-\R, e.g., in the function name \code{\link[=data.frame]{data.frame()}}.
-\item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
-appends a dot followed by a number;
-\code{vctrs::vec_as_names(x, repair = "universal")} appends three dots followed
-by a number. \code{make.names()} does \strong{not} adjust the first instance of a
-duplicate, whereas \code{vctrs::vec_as_names()} \strong{does} adjust it:
+}
+\item adjustments to make duplicated names unique:
+\itemize{
+\item \code{make.names(x, unique = TRUE)} appends a dot followed by a number
+\item \code{vctrs::vec_as_names(x, repair = "universal")} appends three dots
+followed by a number.
+}
+
+\code{make.names()} does \strong{not} adjust the first instance of a duplicate,
+whereas \code{vctrs::vec_as_names()} \strong{does} adjust it:
 \code{make.names(c("a", "a"), unique = TRUE)} returns \code{c("a", "a.1")}, whereas
 \code{vctrs::vec_as_names(c("a", "a"), repair = "universal")} returns
 \code{c("a...1", "a...2")}.
-\item adjustments to make \link{reserved} words valid: \code{make.names()} appends a dot;
-\code{vctrs::vec_as_names(x, repair = "universal")} prepends a dot.
+\item adjustments to make \link{reserved} words valid:
+\itemize{
+\item \code{make.names()} appends a dot
+\item \code{vctrs::vec_as_names(x, repair = "universal")} prepends a dot
+}
 \item adjustments to make names that did not start with a letter, nor with a dot
-not followed by a number, syntactically valid: \code{make.names()} prepends \code{X};
-\code{vctrs::vec_as_names(x, repair = "universal")} prepends one or more dots.
-\item adjustments to name unnamed columns: \code{data.frame()} uses pattern \code{X1}, \code{X2},
-\code{X3}; \code{as.data.frame()} and \code{read.csv(..., header = FALSE)} use pattern
-\code{V1}, \code{V2}, \code{V3}; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1},
-\code{X.2}. It is \strong{not} checked if a complete sequence of suspicious names is
+not followed by a number, syntactically valid:
+\itemize{
+\item \code{make.names()} prepends \code{X}
+\item \code{vctrs::vec_as_names(x, repair = "universal")} prepends one or more dots
+}
+\item adjustments to name unnamed columns:
+\itemize{
+\item \code{data.frame()} uses pattern \code{X1}, \code{X2}, \code{X3}
+\item \code{as.data.frame()} and \code{read.csv(..., header = FALSE)} use pattern \code{V1},
+\code{V2}, \code{V3}
+\item \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}.
+}
+
+It is \strong{not} checked if a complete sequence of suspicious names is
 present, e.g., \code{V3} will be flagged as suspicious even if \code{V1} and \code{V2} are
 absent.
 }
