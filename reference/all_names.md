@@ -75,20 +75,26 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
 
 - adjustments to replace invalid characters (i.e., characters that are
   not a letter, number, dot or underscore):
-  [`make.names()`](https://rdrr.io/r/base/make.names.html) and
-  `vctrs::vec_as_names(x, repair = "universal")` replace such characters
-  with a dot. Their identification is based on the assumption that names
-  originally did **not** contain dots, which is good practice preventing
-  names containing a dot from being confused with
-  [methods](https://rdrr.io/r/base/UseMethod.html) used on [classed
-  objects](https://rdrr.io/r/base/is.object.html), even though that
-  advice is not strictly followed in base-R, e.g., in the function name
-  [`data.frame()`](https://rdrr.io/r/base/data.frame.html).
+
+  - [`make.names()`](https://rdrr.io/r/base/make.names.html) and
+    `vctrs::vec_as_names(x, repair = "universal")` replace such
+    characters with a dot
+
+  - Their identification is based on the assumption that names
+    originally did **not** contain dots, which is good practice
+    preventing names containing a dot from being confused with
+    [methods](https://rdrr.io/r/base/UseMethod.html) used on [classed
+    objects](https://rdrr.io/r/base/is.object.html), even though that
+    advice is not strictly followed in base-R, e.g., in the function
+    name [`data.frame()`](https://rdrr.io/r/base/data.frame.html).
 
 - adjustments to make duplicated names unique:
-  `make.names(x, unique = TRUE)` appends a dot followed by a number;
-  `vctrs::vec_as_names(x, repair = "universal")` appends three dots
-  followed by a number.
+
+  - `make.names(x, unique = TRUE)` appends a dot followed by a number
+
+  - `vctrs::vec_as_names(x, repair = "universal")` appends three dots
+    followed by a number.
+
   [`make.names()`](https://rdrr.io/r/base/make.names.html) does **not**
   adjust the first instance of a duplicate, whereas
   [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html)
@@ -98,25 +104,35 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   `c("a...1", "a...2")`.
 
 - adjustments to make [reserved](https://rdrr.io/r/base/Reserved.html)
-  words valid: [`make.names()`](https://rdrr.io/r/base/make.names.html)
-  appends a dot; `vctrs::vec_as_names(x, repair = "universal")` prepends
-  a dot.
+  words valid:
+
+  - [`make.names()`](https://rdrr.io/r/base/make.names.html) appends a
+    dot
+
+  - `vctrs::vec_as_names(x, repair = "universal")` prepends a dot
 
 - adjustments to make names that did not start with a letter, nor with a
   dot not followed by a number, syntactically valid:
-  [`make.names()`](https://rdrr.io/r/base/make.names.html) prepends `X`;
-  `vctrs::vec_as_names(x, repair = "universal")` prepends one or more
-  dots.
+
+  - [`make.names()`](https://rdrr.io/r/base/make.names.html) prepends
+    `X`
+
+  - `vctrs::vec_as_names(x, repair = "universal")` prepends one or more
+    dots
 
 - adjustments to name unnamed columns:
-  [`data.frame()`](https://rdrr.io/r/base/data.frame.html) uses pattern
-  `X1`, `X2`, `X3`;
-  [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) and
-  `read.csv(..., header = FALSE)` use pattern `V1`, `V2`, `V3`;
-  `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`. It is
-  **not** checked if a complete sequence of suspicious names is present,
-  e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
-  absent.
+
+  - [`data.frame()`](https://rdrr.io/r/base/data.frame.html) uses
+    pattern `X1`, `X2`, `X3`
+
+  - [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) and
+    `read.csv(..., header = FALSE)` use pattern `V1`, `V2`, `V3`
+
+  - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
+
+  It is **not** checked if a complete sequence of suspicious names is
+  present, e.g., `V3` will be flagged as suspicious even if `V1` and
+  `V2` are absent.
 
 Names containing underscores (`_`) are by default **allowed** by
 `all_names()` because names containing underscores are not syntactically

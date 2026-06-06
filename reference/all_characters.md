@@ -34,7 +34,7 @@ is_character(
 - allow_zerolength:
 
   `TRUE` or `FALSE`: allow
-  [zerolength](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
   `x` of the correct type?
 
 - allow_NA:

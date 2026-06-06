@@ -93,7 +93,7 @@ numeric errors.</p>
 
 <dt id="arg-allow-zerolength">allow_zerolength<a class="anchor" aria-label="anchor" href="#arg-allow-zerolength"></a></dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code>: allow
-<a href="is_zerolength.html">zerolength</a> <code>x</code> of the correct type?</p></dd>
+<a href="is_zerolength.html">zero-length</a> <code>x</code> of the correct type?</p></dd>
 
 
 <dt id="arg-allow-na">allow_NA<a class="anchor" aria-label="anchor" href="#arg-allow-na"></a></dt>
@@ -142,7 +142,8 @@ error if <code>x</code> is not natural according to <code>is_natural(x)</code> o
 respectively. Therefore, their result can be assigned to <code>x</code> without the need
 to use <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>.</p>
 <p>Alternatively, use <code>is_natural(x)</code> or <code>all_natural(x)</code> inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>,
-followed by assigning the rounded value to <code>x</code>: <code>x &lt;- as.integer(round(x))</code>.</p>
+followed by assigning the rounded value to <code>x</code> after converting it to type
+<code>integer</code>: <code>x &lt;- as.integer(round(x))</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>

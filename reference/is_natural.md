@@ -45,7 +45,7 @@ make_natural(
 - allow_zerolength:
 
   `TRUE` or `FALSE`: allow
-  [zerolength](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
   `x` of the correct type?
 
 - allow_NA:
@@ -105,7 +105,8 @@ to `x` without the need to use
 
 Alternatively, use `is_natural(x)` or `all_natural(x)` inside
 [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html), followed by
-assigning the rounded value to `x`: `x <- as.integer(round(x))`.
+assigning the rounded value to `x` after converting it to type
+`integer`: `x <- as.integer(round(x))`.
 
 ## Programming notes
 

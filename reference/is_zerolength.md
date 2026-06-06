@@ -64,7 +64,7 @@ highest type of the components in the hierarchy `NULL` \< `raw` \<
 
 ## See also
 
-The vignette *Type coercion*:
+Vignette *Type coercion*:
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:

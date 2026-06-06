@@ -36,7 +36,7 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 - allow_zerolength:
 
   `TRUE` or `FALSE`: allow
-  [zerolength](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
   `x` of the correct type?
 
 - allow_NA:

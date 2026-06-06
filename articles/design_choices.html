@@ -101,19 +101,19 @@ For example, <code><a href="../reference/is_logical.html">checkinput::is_logical
 <code>FALSE</code> for <code>logical(0)</code> because zero-length
 <code>x</code> is usually unwanted in function arguments, whereas
 <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code> returns <code>TRUE</code> for
-<code>logical(0)</code>.</p>
+<code>logical(0)</code> because it has <code>type</code> logical.</p>
 </div>
 <div class="section level2">
 <h2 id="length-of-x">Length of x<a class="anchor" aria-label="anchor" href="#length-of-x"></a>
 </h2>
 <p>By default, the check functions starting with <code>is_</code> only
-returns <code>TRUE</code> for <code>x</code> of length one (with the
+return <code>TRUE</code> for <code>x</code> of length one (with the
 obvious exception of <code>is_zerolength(x)</code>) and the check
-functions starting with <code>all_</code> only returns <code>TRUE</code>
-for <code>x</code> of length larger than zero. Set argument
-<code>allow_zero</code> to <code>TRUE</code> to also return
+functions starting with <code>all_</code> return <code>TRUE</code> for
+<code>x</code> of length larger than zero. Set argument
+<code>allow_zero</code> to <code>TRUE</code> to let them also return
 <code>TRUE</code> for zero-length <code>x</code> of the correct type.
-See <code>help("Is_zerolength")</code> and
+See <code><a href="../reference/is_zerolength.html">help("is_zerolength")</a></code> and
 <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code> for a
 discussion of some issues with zero-length input.</p>
 </div>
@@ -123,10 +123,10 @@ discussion of some issues with zero-length input.</p>
 <p>By default, functions of <code>checkinput</code> return
 <code>FALSE</code> for <code>x</code> containing <code>NA</code>s or
 <code>NaN</code>s. Set argument <code>allow_NA</code> to
-<code>TRUE</code> to return <code>TRUE</code> for <code>x</code>
-containing <code>NA</code>s of the correct type, and set argument
-<code>allow_NaN</code> in functions like <code>is_number(x)</code> and
-<code>is_natural(x)</code> to <code>TRUE</code> to return
+<code>TRUE</code> to let them return <code>TRUE</code> for
+<code>x</code> containing <code>NA</code>s of the correct type, and set
+argument <code>allow_NaN</code> in functions like
+<code>is_number(x)</code> to <code>TRUE</code> to let them return
 <code>TRUE</code> for <code>x</code> containing <code>NaN</code>s.</p>
 </div>
 <div class="section level2">
@@ -138,15 +138,14 @@ indicating for each element of <code>x</code> if it <code>TRUE</code> or
 <code>FALSE</code> according to the check functions, use
 <code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_&lt;func&gt;)</code>
 instead of <code>all_&lt;func&gt;(x)</code>, where
-<code>all_&lt;func&gt;</code> should be replace with the relevant
+<code>all_&lt;func&gt;</code> should be replaced with the relevant
 function name. For example, to check which elements of <code>x</code>
 are valid names, use
 <code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_names)</code>
 instead of <code>all_names(x)</code>. Other function arguments passed to
 <code><a href="../reference/all_names.html">all_names()</a></code>, e.g., <code>allow_underscores = FALSE</code>
-to change the default <code>TRUE</code> for
-<code>allow_underscores</code> to <code>FALSE</code>, should be placed
-behind argument <code>x</code>.</p>
+to not allow underscores, should be placed behind argument
+<code>x</code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

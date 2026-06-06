@@ -24,26 +24,27 @@ than the equivalent functions in base R because the functions of
 by default returns `FALSE` for `logical(0)` because zero-length `x` is
 usually unwanted in function arguments, whereas
 [`base::is.logical()`](https://rdrr.io/r/base/logical.html) returns
-`TRUE` for `logical(0)`.
+`TRUE` for `logical(0)` because it has `type` logical.
 
 ## Length of x
 
-By default, the check functions starting with `is_` only returns `TRUE`
+By default, the check functions starting with `is_` only return `TRUE`
 for `x` of length one (with the obvious exception of `is_zerolength(x)`)
-and the check functions starting with `all_` only returns `TRUE` for `x`
-of length larger than zero. Set argument `allow_zero` to `TRUE` to also
-return `TRUE` for zero-length `x` of the correct type. See
-`help("Is_zerolength")` and
+and the check functions starting with `all_` return `TRUE` for `x` of
+length larger than zero. Set argument `allow_zero` to `TRUE` to let them
+also return `TRUE` for zero-length `x` of the correct type. See
+[`help("is_zerolength")`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+and
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
 for a discussion of some issues with zero-length input.
 
 ## NAs and NaNs in x
 
 By default, functions of `checkinput` return `FALSE` for `x` containing
-`NA`s or `NaN`s. Set argument `allow_NA` to `TRUE` to return `TRUE` for
-`x` containing `NA`s of the correct type, and set argument `allow_NaN`
-in functions like `is_number(x)` and `is_natural(x)` to `TRUE` to return
-`TRUE` for `x` containing `NaN`s.
+`NA`s or `NaN`s. Set argument `allow_NA` to `TRUE` to let them return
+`TRUE` for `x` containing `NA`s of the correct type, and set argument
+`allow_NaN` in functions like `is_number(x)` to `TRUE` to let them
+return `TRUE` for `x` containing `NaN`s.
 
 ## Return
 
@@ -51,10 +52,10 @@ The check functions of `checkinput` return either `TRUE` or `FALSE`. To
 get a named boolean vector indicating for each element of `x` if it
 `TRUE` or `FALSE` according to the check functions, use
 `vapply(X = x, FUN.VALUE = logical(1), FUN = all_<func>)` instead of
-`all_<func>(x)`, where `all_<func>` should be replace with the relevant
+`all_<func>(x)`, where `all_<func>` should be replaced with the relevant
 function name. For example, to check which elements of `x` are valid
 names, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names)`
 instead of `all_names(x)`. Other function arguments passed to
 [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),
-e.g., `allow_underscores = FALSE` to change the default `TRUE` for
-`allow_underscores` to `FALSE`, should be placed behind argument `x`.
+e.g., `allow_underscores = FALSE` to not allow underscores, should be
+placed behind argument `x`.

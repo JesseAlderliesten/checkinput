@@ -90,8 +90,8 @@ in the hierarchy <code>NULL</code> &lt; <code>raw</code> &lt;
 is combined in a vector with character <code>"nco"</code>, such that
 <code>c(314, "nco")</code> results in the character vector
 <code>c("314", "nco")</code>. This also holds for the logical
-<code>NA</code>, which will be coerced to <code>NA_character_</code>,
-even though it is also printed as <code>NA</code>.</p>
+<code>NA</code>, which will be coerced to <code>NA_character_</code>
+that is printed as <code>NA</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num</span> <span class="op">&lt;-</span> <span class="fl">314</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">num</span><span class="op">)</span></span>
@@ -118,24 +118,23 @@ even though it is also printed as <code>NA</code>.</p>
 </h2>
 <p>As a consequence of type coercion, code like
 <code>all_characters(c(x, y))</code> does <strong>not</strong> check if
-all elements in <code>x</code> and <code>y</code> are character:
-<code>x</code> and <code>y</code> will be coerced to the highest of
-their types before the check is performed, such that
-<code>all_characters(c(x, y))</code> checks if any of <code>x</code> or
-<code>y</code> is character <strong>and</strong> none of <code>x</code>
-or <code>y</code> is of a higher type.</p>
-<p>To check if all elements in <code>x</code> and <code>y</code> are
-character, use
+all elements in <code>x</code> and <code>y</code> have type
+<code>character</code>: <code>x</code> and <code>y</code> will be
+coerced to the highest of their types before the check is performed,
+such that <code>all_characters(c(x, y))</code> checks if any of
+<code>x</code> or <code>y</code> has type character <strong>and</strong>
+none of <code>x</code> or <code>y</code> has a higher type.</p>
+<p>To check if all elements in <code>x</code> and <code>y</code> have
+type <code>character</code>, use
 <code>all_characters(x) &amp;&amp; all_characters(y)</code> or, to
 generalise more easily to more than two objects,
 <code>all(unlist(lapply(X = list(x, y), FUN = all_characters)))</code>.
 Other function arguments passed to <code><a href="../reference/all_characters.html">all_characters()</a></code>, e.g.,
-<code>allow_empty = TRUE</code> to change the default <code>TRUE</code>
-for <code>allow_empty</code> to <code>FALSE</code>, should be placed
-behind argument <code>x</code>.</p>
-<p>Elements of a list can contain objects of different types but using
+<code>allow_empty = TRUE</code> to allow empty quotes (i.e.,
+<code>""</code>), should be placed behind argument <code>x</code>.</p>
+<p>Elements of a list can have different types but using
 <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on a list creates a vector in which all elements
-of the list are coerced to a single type, such that
+of the list are coerced to the highest of their types, such that
 <code>all_characters(unlist(z))</code> does <strong>not</strong> check
 if all elements of list <code>z</code> are character but if any element
 of <code>z</code> is a character <strong>and</strong> none of the

@@ -130,12 +130,12 @@
 <h3 id="design-choices">Design choices<a class="anchor" aria-label="anchor" href="#design-choices"></a>
 </h3>
 <p>The check functions of <code>checkinput</code> return either <code>TRUE</code> or <code>FALSE</code> and do <strong>not</strong> throw errors for any input to <code>x</code>. Errors <strong>are</strong> thrown about invalid input to arguments other than <code>x</code>, e.g., when values other than <code>TRUE</code> or <code>FALSE</code> are used for <code>allow_NA</code>. This is explained in the <a href="https://jessealderliesten.github.io/checkinput/articles/design_choices.html">vignette about design choices</a>: <code><a href="articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>. That vignette also shows how to get a named boolean vector indicating for each element of <code>x</code> if it is <code>TRUE</code> or <code>FALSE</code> according to the check functions.</p>
-<p><code>checkinput</code> also contains a <a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html">vignette about type coercion</a> in relation to the checking: <code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
+<p><code>checkinput</code> also contains a <a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html">vignette about type coercion</a> in relation to checking function input: <code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="function-overview">Function overview<a class="anchor" aria-label="anchor" href="#function-overview"></a>
 </h3>
-<p>The check functions in <code>checkinput</code> can be divided into grouped based on the kind of <strong>input</strong> for which they return <code>TRUE</code>:</p>
+<p>The check functions in <code>checkinput</code> can be divided into groups based on the kind of <strong>input</strong> for which they return <code>TRUE</code>:</p>
 <ul>
 <li>zero-length values: <code><a href="reference/is_zerolength.html">is_zerolength()</a></code>
 </li>
@@ -152,7 +152,7 @@
 <div class="section level2">
 <h2 id="similar-packages">Similar packages<a class="anchor" aria-label="anchor" href="#similar-packages"></a>
 </h2>
-<p>Functions of <code>checkinput</code> use arguments to determine which special values should be allowed, making them more flexible than functions in similar packages. Nevertheless, the following similar packages are worth looking into:</p>
+<p>Functions of <code>checkinput</code> use arguments to determine if special values like <code>NA</code>s and zero-length values should be allowed, making them more flexible than functions in similar packages that require a different function to include these special values. Nevertheless, the following similar packages are worth looking into:</p>
 <ul>
 <li>
 <a href="https://CRAN.R-project.org/package=arkhe" class="external-link">arkhe</a>: tools for cleaning rectangular data.</li>

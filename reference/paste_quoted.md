@@ -40,7 +40,9 @@ For example, the call `paste_quoted("a", "b")` will return the error
 
 `paste_quoted()` drops [names](https://rdrr.io/r/base/names.html) of
 `x`, which is pointed out in a
-[warning](https://rdrr.io/r/base/warning.html) if `x` has names.
+[warning](https://rdrr.io/r/base/warning.html) if `x` has names. Use
+[`unname()`](https://rdrr.io/r/base/unname.html) on named `x` to prevent
+these warnings.
 
 ## See also
 

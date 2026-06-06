@@ -87,7 +87,8 @@ probably was accidentally not <a href="https://rdrr.io/r/base/c.html" class="ext
 <code>paste_quoted("a", "b")</code> will return the error <code>unused argument ("b")</code>. The
 probably intended call is <code>paste_quoted(c("a", "b"))</code>, returning <code>"'a', 'b'"</code>.</p>
 <p><code>paste_quoted()</code> drops <a href="https://rdrr.io/r/base/names.html" class="external-link">names</a> of <code>x</code>, which is pointed out in a
-<a href="https://rdrr.io/r/base/warning.html" class="external-link">warning</a> if <code>x</code> has names.</p>
+<a href="https://rdrr.io/r/base/warning.html" class="external-link">warning</a> if <code>x</code> has names. Use <code><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname()</a></code> on named <code>x</code> to prevent
+these warnings.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

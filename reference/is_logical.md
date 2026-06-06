@@ -17,7 +17,7 @@ is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 - allow_zerolength:
 
   `TRUE` or `FALSE`: allow
-  [zerolength](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
   `x` of the correct type?
 
 - allow_NA:
@@ -27,8 +27,8 @@ is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 
 ## Value
 
-`TRUE` or `FALSE` indicating if `x` is a length-one logical vector only
-containing allowed values.
+`TRUE` or `FALSE` indicating if `x` is a logical vector of the correct
+length with only allowed values.
 
 ## Details
 

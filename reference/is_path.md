@@ -36,9 +36,9 @@ restrictions:
 - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
   `>`, nor any of the control characters (`[:cntrl:]`, with `ASCII`
   octal codes 000 through 037 and 177, see
-  [`help("regex")`](https://rdrr.io/r/base/regex.html)). Although `:` is
-  allowed by `is_path()` outside a filename, Windows will only allow
-  colons to indicate volume names like `C:\`.
+  [`help("regex")`](https://rdrr.io/r/base/regex.html)). Although colons
+  (`:`) outside a filename are allowed by `is_path()`, Windows will only
+  allow colons to indicate volume names like `C:\`.
 
 - path components (i.e., parts separated by file separators `/` or `\\`)
   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`,
@@ -56,9 +56,9 @@ restrictions:
   current implementation does not distinguish those from each other),
   the part after the last slash is considered the filename, which
   **should** adhere to the restrictions listed above (although it
-  **may** contain the Windows-reserved terms listed in the second point
-  above), and in addition should **not** contain `:` **nor** start with
-  a space or a hyphen (`-`).
+  **may** contain the Windows-reserved terms listed above), and in
+  addition should **not** contain a colon (`:`) **nor** start with a
+  space or a hyphen (`-`).
 
 These restrictions on `x` consider characters and path components that
 are not allowed in Windows and thus would lead to an error when used to
@@ -72,7 +72,8 @@ that might give problems when used in the shell.
 
 - `x` does **not** have to contain any file separator if `require_sep`
   is `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to
-  check that filenames only contain allowed characters.
+  check that filenames only contain allowed characters (given that `x`
+  contains a file extension).
 
 - `x` might contain trailing file separators, although these might be
   ignored or removed in some operations (e.g., they are removed by
@@ -95,12 +96,13 @@ The file separator is a backslash (`\`) on Windows but a forward slash
 file separator used on the current platform. Furthermore, the backslash
 is used as [escape character](https://rdrr.io/r/base/regex.html) in R,
 such that backslashes need to be escaped in R code by doubling them. Use
-`cat(x)` to see how `x` would be printed.
+`cat(x)` to omit the escape-characters to see how `x` would be printed.
 
 ## Programming notes
 
 The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
-R cmd checks on MacOS contains duplicated forward slashes (e.g.,
+[R CMD checks](https://r-pkgs.org/R-CMD-check.html) on MacOS contains
+successive forward slashes (e.g.,
 `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier
 versions of `is_path()` (then in package `progutils`) led to spurious
 warnings about duplicated file separators.
@@ -129,7 +131,7 @@ various operations on paths;
 [`fs::path_sanitize()`](https://fs.r-lib.org/reference/path_sanitize.html)
 to **remove** invalid characters from potential paths;
 [`utils::file_test()`](https://rdrr.io/r/utils/filetest.html) and
-references there on file existence and permissions;
+references there on checking file existence and permissions;
 [`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
 to create a file path, creating the directory if it does not yet exist;
 [`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
@@ -138,7 +140,7 @@ to create a directory if it does not yet exist;
 to check if a file exists and is a unique match to a pattern.
 
 Section 'Paths in the shell' in the vignette *Git and GitHub* of package
-`checkrpkgs`: `vignette("git_github", package = "checkrpkgs")` on paths
+`checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths
 and file separators in the [shell](https://happygitwithr.com/shell).
 
 Other collections of checks on type and length:

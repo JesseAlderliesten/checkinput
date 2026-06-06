@@ -13,8 +13,7 @@ the components in the hierarchy `NULL` \< `raw` \< `logical` \<
 numeric `314` will be coerced to character `"314"` when it is combined
 in a vector with character `"nco"`, such that `c(314, "nco")` results in
 the character vector `c("314", "nco")`. This also holds for the logical
-`NA`, which will be coerced to `NA_character_`, even though it is also
-printed as `NA`.
+`NA`, which will be coerced to `NA_character_` that is printed as `NA`.
 
 ``` r
 
@@ -42,26 +41,27 @@ logiNA_char[1]
 ## Consequences for checks
 
 As a consequence of type coercion, code like `all_characters(c(x, y))`
-does **not** check if all elements in `x` and `y` are character: `x` and
-`y` will be coerced to the highest of their types before the check is
-performed, such that `all_characters(c(x, y))` checks if any of `x` or
-`y` is character **and** none of `x` or `y` is of a higher type.
+does **not** check if all elements in `x` and `y` have type `character`:
+`x` and `y` will be coerced to the highest of their types before the
+check is performed, such that `all_characters(c(x, y))` checks if any of
+`x` or `y` has type character **and** none of `x` or `y` has a higher
+type.
 
-To check if all elements in `x` and `y` are character, use
+To check if all elements in `x` and `y` have type `character`, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily
 to more than two objects,
 `all(unlist(lapply(X = list(x, y), FUN = all_characters)))`. Other
 function arguments passed to
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
-e.g., `allow_empty = TRUE` to change the default `TRUE` for
-`allow_empty` to `FALSE`, should be placed behind argument `x`.
+e.g., `allow_empty = TRUE` to allow empty quotes (i.e., `""`), should be
+placed behind argument `x`.
 
-Elements of a list can contain objects of different types but using
+Elements of a list can have different types but using
 [`unlist()`](https://rdrr.io/r/base/unlist.html) on a list creates a
-vector in which all elements of the list are coerced to a single type,
-such that `all_characters(unlist(z))` does **not** check if all elements
-of list `z` are character but if any element of `z` is a character
-**and** none of the elements of `z` is of a higher type.
+vector in which all elements of the list are coerced to the highest of
+their types, such that `all_characters(unlist(z))` does **not** check if
+all elements of list `z` are character but if any element of `z` is a
+character **and** none of the elements of `z` is of a higher type.
 
 ``` r
 
