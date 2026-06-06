@@ -33,7 +33,8 @@ probably was accidentally not \link[=c]{combined}. For example, the call
 probably intended call is \code{paste_quoted(c("a", "b"))}, returning \code{"'a', 'b'"}.
 
 \code{paste_quoted()} drops \link{names} of \code{x}, which is pointed out in a
-\link{warning} if \code{x} has names.
+\link{warning} if \code{x} has names. Use \code{\link[=unname]{unname()}} on named \code{x} to prevent
+these warnings.
 }
 
 \examples{

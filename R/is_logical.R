@@ -4,7 +4,7 @@
 #'
 #' @param x object to check.
 #' @param allow_zerolength `TRUE` or `FALSE`: allow
-#' [zerolength][is_zerolength()] `x` of the correct type?
+#' [zero-length][is_zerolength()] `x` of the correct type?
 #' @param allow_NA `TRUE` or `FALSE`: allow [NA]s of the correct type in `x`?
 #'
 #' @details
@@ -12,8 +12,8 @@
 #' [zero-length][is_zerolength()] `x` if `allow_zerolength` is `TRUE`, and for
 #' logical-type `NA` if `allow_NA` is `TRUE`.
 #'
-#' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
-#' only containing allowed values.
+#' @returns `TRUE` or `FALSE` indicating if `x` is a logical vector of the
+#' correct length with only allowed values.
 #'
 #' @family
 #' collections of checks on type and length

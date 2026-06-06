@@ -27,8 +27,9 @@ directory or a file. Therefore it imposes the following restrictions:
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\verb{[:cntrl:]}, with \code{ASCII} octal codes 000
 through 037 and 177,
-see \code{help("regex")}). Although \code{:} is allowed by \code{is_path()} outside a
-filename, Windows will only allow colons to indicate volume names like \verb{C:\\}.
+see \code{help("regex")}). Although colons (\code{:}) outside a filename are allowed
+by \code{is_path()}, Windows will only allow colons to indicate volume names
+like \verb{C:\\}.
 \item path components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
@@ -41,8 +42,8 @@ and \code{".."} that are allowed as first component to indicate the
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
 restrictions listed above (although it \strong{may} contain the Windows-reserved
-terms listed in the second point above), and in addition should \strong{not}
-contain \code{:} \strong{nor} start with a space or a hyphen (\code{-}).
+terms listed above), and in addition should \strong{not}
+contain a colon (\code{:}) \strong{nor} start with a space or a hyphen (\code{-}).
 }
 
 These restrictions on \code{x} consider characters and path components that are not allowed
@@ -56,7 +57,8 @@ shell.
 \itemize{
 \item \code{x} does \strong{not} have to contain any file separator if \code{require_sep} is
 \code{FALSE}, such that \code{is_path(x, require_sep = FALSE)} can be used to check
-that filenames only contain allowed characters.
+that filenames only contain allowed characters (given that \code{x} contains a
+file extension).
 \item \code{x} might contain trailing file separators, although these might be ignored
 or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}} and
 \code{\link[fs:path]{fs::path()}}).
@@ -74,12 +76,14 @@ The file separator is a backslash (\verb{\\}) on Windows but a forward slash (\c
 on other operating systems: \link[=.Platform]{.Platform$file.sep} gives the file
 separator used on the current platform. Furthermore, the backslash is used as
 \link[=regex]{escape character} in \R, such that backslashes need to be escaped in
-\R code by doubling them. Use \code{cat(x)} to see how \code{x} would be printed.
+\R code by doubling them. Use \code{cat(x)} to omit the escape-characters to see
+how \code{x} would be printed.
 }
 
 \section{Programming notes}{
 
-The output of \code{tempdir()} during R cmd checks on MacOS contains duplicated
+The output of \code{tempdir()} during
+\href{https://r-pkgs.org/R-CMD-check.html}{R CMD checks} on MacOS contains successive
 forward slashes (e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR})
 which in earlier versions of \code{is_path()} (then in package \code{progutils}) led to
 spurious warnings about duplicated file separators.
@@ -123,7 +127,8 @@ is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 \seealso{
 \code{\link[fs:path_math]{fs::path_math()}} for various operations on paths;
 \code{\link[fs:path_sanitize]{fs::path_sanitize()}} to \strong{remove} invalid characters from potential paths;
-\code{\link[utils:file_test]{utils::file_test()}} and references there on file existence and permissions;
+\code{\link[utils:file_test]{utils::file_test()}} and references there on checking file existence and
+permissions;
 \code{progutils::create_file_path()} to create a file path, creating the directory
 if it does not yet exist;
 \code{progutils::create_dir()} to create a directory if it does not yet exist;
@@ -131,7 +136,7 @@ if it does not yet exist;
 to a pattern.
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
-\code{checkrpkgs}: \code{vignette("git_github", package = "checkrpkgs")} on paths and
+\code{checkrpkgs} (\code{vignette("git_github", package = "checkrpkgs")}) on paths and
 file separators in the \href{https://happygitwithr.com/shell}{shell}.
 
 Other collections of checks on type and length:

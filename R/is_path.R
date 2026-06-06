@@ -14,8 +14,9 @@
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`[:cntrl:]`, with `ASCII` octal codes 000
 #'   through 037 and 177,
-#'   see `help("regex")`). Although `:` is allowed by `is_path()` outside a
-#'   filename, Windows will only allow colons to indicate volume names like `C:\`.
+#'   see `help("regex")`). Although colons (`:`) outside a filename are allowed
+#'   by `is_path()`, Windows will only allow colons to indicate volume names
+#'   like `C:\`.
 #' - path components (i.e., parts separated by file separators `/` or `\\`)
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of
@@ -28,8 +29,8 @@
 #'   implementation does not distinguish those from each other), the part after
 #'   the last slash is considered the filename, which **should** adhere to the
 #'   restrictions listed above (although it **may** contain the Windows-reserved
-#'   terms listed in the second point above), and in addition should **not**
-#'   contain `:` **nor** start with a space or a hyphen (`-`).
+#'   terms listed above), and in addition should **not**
+#'   contain a colon (`:`) **nor** start with a space or a hyphen (`-`).
 #'
 #' These restrictions on `x` consider characters and path components that are not allowed
 #' in Windows and thus would lead to an error when used to create a directory or
@@ -41,7 +42,8 @@
 #' `is_path()` is lenient with respect to file separators (i.e., `/` or `\\`):
 #' -  `x` does **not** have to contain any file separator if `require_sep` is
 #'   `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to check
-#'   that filenames only contain allowed characters.
+#'   that filenames only contain allowed characters (given that `x` contains a
+#'   file extension).
 #' - `x` might contain trailing file separators, although these might be ignored
 #'   or removed in some operations (e.g., they are removed by [file.path()] and
 #'   [fs::path()]).
@@ -61,10 +63,12 @@
 #' on other operating systems: [.Platform$file.sep][.Platform] gives the file
 #' separator used on the current platform. Furthermore, the backslash is used as
 #' [escape character][regex] in \R, such that backslashes need to be escaped in
-#' \R code by doubling them. Use `cat(x)` to see how `x` would be printed.
+#' \R code by doubling them. Use `cat(x)` to omit the escape-characters to see
+#' how `x` would be printed.
 #'
 #' @section Programming notes:
-#' The output of `tempdir()` during R cmd checks on MacOS contains duplicated
+#' The output of `tempdir()` during
+#' [R CMD checks](https://r-pkgs.org/R-CMD-check.html) on MacOS contains successive
 #' forward slashes (e.g., `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
 #' which in earlier versions of `is_path()` (then in package `progutils`) led to
 #' spurious warnings about duplicated file separators.
@@ -85,7 +89,8 @@
 #' @seealso
 #' [fs::path_math()] for various operations on paths;
 #' [fs::path_sanitize()] to **remove** invalid characters from potential paths;
-#' [utils::file_test()] and references there on file existence and permissions;
+#' [utils::file_test()] and references there on checking file existence and
+#' permissions;
 #' `progutils::create_file_path()` to create a file path, creating the directory
 #' if it does not yet exist;
 #' `progutils::create_dir()` to create a directory if it does not yet exist;
@@ -93,7 +98,7 @@
 #' to a pattern.
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
-#' `checkrpkgs`: `vignette("git_github", package = "checkrpkgs")` on paths and
+#' `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths and
 #' file separators in the [shell](https://happygitwithr.com/shell).
 #'
 #' @family

@@ -24,7 +24,8 @@
 #' probably intended call is `paste_quoted(c("a", "b"))`, returning `"'a', 'b'"`.
 #'
 #' `paste_quoted()` drops [names][names()] of `x`, which is pointed out in a
-#' [warning][warning()] if `x` has names.
+#' [warning][warning()] if `x` has names. Use [unname()] on named `x` to prevent
+#' these warnings.
 #'
 #' @seealso
 #' [toString()] which can be used instead of `paste(x, collapse = ", ")`;
