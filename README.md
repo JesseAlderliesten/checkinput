@@ -100,20 +100,19 @@ try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
 
 ### Design choices
 
-The `is_<func>(x, ...)` and `all_<func>(x, ...)` functions of
-`checkinput` return either `TRUE` or `FALSE` and do **not** throw errors
-for any input to `x`. Errors **are** thrown about invalid input to
-arguments other than `x`, e.g., when values other than `TRUE` or `FALSE`
-are used for `allow_NA`. This is explained in the [vignette about design
+The check functions of `checkinput` return either `TRUE` or `FALSE` and
+do **not** throw errors for any input to `x`. Errors **are** thrown
+about invalid input to arguments other than `x`, e.g., when values other
+than `TRUE` or `FALSE` are used for `allow_NA`. This is explained in the
+[vignette about design
 choices](https://jessealderliesten.github.io/checkinput/articles/design_choices.html):
 `vignette("design_choices", package = "checkinput")`. That vignette also
 shows how to get a named boolean vector indicating for each element of
-`x` if it is `TRUE` or `FALSE` according to `is_<func>(x)` or
-`all_<func>(x)`.
+`x` if it is `TRUE` or `FALSE` according to the check functions.
 
 `checkinput` also contains a [vignette about type
 coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
-in relation to the testing of vectors:
+in relation to the checking:
 `vignette("type_coercion", package = "checkinput")`.
 
 ### Function overview
@@ -125,13 +124,13 @@ the kind of **input** for which they return `TRUE`:
 - logical values: `is_logical()`
 - characters: `is_character()`, `all_characters()`, `is_path()`,
   `all_names()`
-- numbers: checks `is_number()`, `all_numbers()`, `is_nonnegative()`,
+- numbers: `is_number()`, `all_numbers()`, `is_nonnegative()`,
   `all_nonnegative()`, `is_positive()`, `is_natural()`, `all_natural()`
 
 Besides these check functions, `checkinput` contains utility-functions:
-`make_natural()` which **returns** a natural number if the input is
-nearly equal to such a number, and `paste_quoted()` which **returns** a
-character string.
+`make_natural()` which returns a natural number if the input is nearly
+equal to such a number, and `paste_quoted()` which returns a character
+string.
 
 ## Similar packages
 
