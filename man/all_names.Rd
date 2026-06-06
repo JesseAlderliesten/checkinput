@@ -37,9 +37,8 @@ would only allow digits and unaccented Latin letters, but that is \strong{not}
 enforced by \code{all_names()}.
 
 Names that consist of only dots, or consist of two dots followed by a number,
-are not allowed by \code{all_names()} (nor by \code{vctrs::vec_as_names()}): they are
-listed as \link{reserved} words even though they are not recognised as
-syntactically invalid by \code{\link[=make.names]{make.names()}}.
+are not allowed by \code{all_names()} (nor by \code{vctrs::vec_as_names()}) even though
+they are not adjusted by \code{\link[=make.names]{make.names()}}: they are listed as \link{reserved} words.
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name contains
 a pattern suggesting it originally was syntactically invalid and has been
@@ -68,16 +67,19 @@ followed in base-\R, e.g., in the function name \code{\link[=data.frame]{data.fr
 \item adjustments to make duplicated names unique: \code{make.names(x, unique = TRUE)}
 appends a dot followed by a number;
 \code{vctrs::vec_as_names(x, repair = "universal")} appends three dots followed
-by a number.
+by a number. \code{make.names()} does \strong{not} adjust the first instance of a
+duplicate, whereas \code{vctrs::vec_as_names()} \strong{does} adjust it:
+\code{make.names(c("a", "a"), unique = TRUE)} returns \code{c("a", "a.1")}, whereas
+\code{vctrs::vec_as_names(c("a", "a"), repair = "universal")} returns
+\code{c("a...1", "a...2")}.
 \item adjustments to make \link{reserved} words valid: \code{make.names()} appends a dot;
 \code{vctrs::vec_as_names(x, repair = "universal")} prepends a dot.
 \item adjustments to make names that did not start with a letter, nor with a dot
 not followed by a number, syntactically valid: \code{make.names()} prepends \code{X};
 \code{vctrs::vec_as_names(x, repair = "universal")} prepends one or more dots.
-\item adjustments to name unnamed columns: \code{data.frame()} uses pattern \code{V1},
-\code{V2}, \code{V3} if a matrix without column names is converted to a data frame,
-and \code{read.csv(..., header = FALSE)} uses the same pattern for data without
-column names; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1},
+\item adjustments to name unnamed columns: \code{data.frame()} uses pattern \code{X1}, \code{X2},
+\code{X3}; \code{as.data.frame()} and \code{read.csv(..., header = FALSE)} use pattern
+\code{V1}, \code{V2}, \code{V3}; \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1},
 \code{X.2}. It is \strong{not} checked if a complete sequence of suspicious names is
 present, e.g., \code{V3} will be flagged as suspicious even if \code{V1} and \code{V2} are
 absent.

@@ -153,10 +153,10 @@ try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 
 }
 \seealso{
-\code{\link[progutils:are_equal]{progutils::are_equal()}} to check for element-wise near-equality of numbers;
+\code{progutils::are_equal()} to check for element-wise near-equality of numbers;
 \code{\link[=all.equal]{all.equal()}} to check more generally for near-equality; \code{\link[=identical]{identical()}} to
 check for exact equality and \link{Comparison} to do so using binary operators;
-\code{\link[=match]{match()}} and \code{\link[progutils:not_in]{progutils::not_in()}} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
+\code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality.
 
 Other collections of checks on type and length:

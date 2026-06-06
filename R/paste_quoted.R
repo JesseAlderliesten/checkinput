@@ -27,9 +27,11 @@
 #' [warning][warning()] if `x` has names.
 #'
 #' @seealso
-#' [toString()] which can be used instead of `paste(x, collapse = ", ")`,
-#' [sQuote()] to use fancy quotes, [paste0()], [progutils::unpaste_unquote()]
-#' for the approximate opposite of `paste_quoted()`.
+#' [toString()] which can be used instead of `paste(x, collapse = ", ")`;
+#' [sQuote()] to use fancy quotes;
+#' [paste0()];
+#' `progutils::unpaste_unquote()` for the approximate opposite of `paste_quoted()`;
+#' `progutils::vect_to_char()` to preserve names of numeric `x`
 #'
 #' @family functions to modify character vectors
 #'

@@ -55,10 +55,10 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' [progutils::are_equal()] to check for element-wise near-equality of numbers;
+#' `progutils::are_equal()` to check for element-wise near-equality of numbers;
 #' [all.equal()] to check more generally for near-equality; [identical()] to
 #' check for exact equality and [Comparison] to do so using binary operators;
-#' [match()] and [progutils::not_in()] to compare character vectors; [\R FAQ 7.31](
+#' [match()] and `progutils::not_in()` to compare character vectors; [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality.
 #'
