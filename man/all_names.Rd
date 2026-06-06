@@ -7,7 +7,7 @@
 all_names(x, allow_underscores = TRUE)
 }
 \arguments{
-\item{x}{object to test.}
+\item{x}{object to check.}
 
 \item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
 }
@@ -141,9 +141,6 @@ on the syntactical validity of names.
 
 \code{\link[=names]{names()}} to get or set object names; \code{janitor::make_clean_names()} to adjust
 names, e.g., through adjusting case and transliterating non-ASCII characters.
-
-The vignette \emph{Design choices}:
-\code{vignette("design_choices", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

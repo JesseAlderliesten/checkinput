@@ -7,7 +7,7 @@
 is_zerolength(x)
 }
 \arguments{
-\item{x}{object to test.}
+\item{x}{object to check.}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a zero-length object.
@@ -20,7 +20,7 @@ Check that \code{x} is a zero-length object
 \link[=length]{Zero-length} objects can have different \link[=typeof]{types}: NULL
 (\link{NULL}), logical (\code{logical(0)}), integer (\code{integer(0)}), double
 (\code{numeric(0)}), complex (\code{complex(0)}), character (\code{character(0)}), and list
-(\code{\link[=list]{list()}} and \code{\link[=data.frame]{data.frame()}}). \code{""} is not a zero-length object: it has a
+(\code{\link[=list]{list()}} and \code{\link[=data.frame]{data.frame()}}). \code{""} is \strong{not} a zero-length object: it has a
 \code{length} of one despite its \link[=nchar]{width} of zero characters. A data frame
 with zero rows is \strong{not} a zero-length object: it has \code{length} equal to the
 number of columns. In contrast, a \link{matrix} with zero rows \strong{is} a
@@ -28,7 +28,7 @@ zero-length object, see the \code{Examples}.
 
 \code{\link[=is.null]{is.null()}} should be used to check that an object is \code{NULL} and, more
 generally, \verb{isTRUE(all.equal(x, <zero-length object>))} should be used to
-check equality to a zero-length object. Testing equality should \strong{not} be
+check equality to a zero-length object. Checking equality should \strong{not} be
 done by using \link[=Comparison]{==} because that leads to \code{logical(0)} if any of
 the sides contains a zero-length object, which gives an error when used as
 complete \link[=Control]{conditional statement}.
@@ -39,7 +39,7 @@ case for \code{all(numeric(0))} and \code{all(character(0))} that get coerced to
 
 Although zero-length objects are discarded when combined into a vector with
 other values, their types \strong{are} taken into account for type coercion, see
-the vignette \emph{Type coercion in vectors}:
+the vignette \emph{Type coercion}:
 \code{vignette("type_coercion", package = "checkinput")}. For example, numeric
 \code{314} will be coerced to character \code{"314"} when it is combined into a vector
 with zero-length \code{character(0)}, such that \code{c(314, character(0))} results in
@@ -67,9 +67,8 @@ str(c(num, zerochar)) # chr "314", not num 314
 
 }
 \seealso{
-The vignettes \emph{Design choices}:
-\code{vignette("design_choices", package = "checkinput")} and
-\emph{Type coercion}: \code{vignette("type_coercion", package = "checkinput")}.
+The vignette \emph{Type coercion}:
+\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

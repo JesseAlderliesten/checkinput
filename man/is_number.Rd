@@ -6,7 +6,7 @@
 \alias{is_nonnegative}
 \alias{all_nonnegative}
 \alias{is_positive}
-\title{Check that \code{x} is numeric}
+\title{Check that \code{x} contains numbers}
 \usage{
 is_number(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
@@ -29,27 +29,26 @@ all_nonnegative(
 is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 }
 \arguments{
-\item{x}{object to test.}
+\item{x}{object to check.}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
+\link[=is_zerolength]{zerolength} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 
 \item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \link{NaN}s?}
 }
 \value{
-\code{TRUE} or \code{FALSE} indicating if \code{x} is a numeric vector of the correct length
-only containing allowed numbers.
+\code{TRUE} or \code{FALSE} indicating if \code{x} is a vector of the correct length only
+containing allowed numbers.
 }
 \description{
-Check that \code{x} is a numeric vector of the correct length with numbers of the
-correct sign.
+Check that \code{x} is a vector of the correct length with numbers of the correct
+sign.
 }
 \details{
 \code{is_number()}, \code{all_numbers()}, \code{all_nonnegative()} and \code{is_nonnegative()}
-return \code{TRUE} for zero, whereas \code{is_positive()} returns \code{FALSE} for zero. All
-these functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct sign.
+return \code{TRUE} for zero, whereas \code{is_positive()} returns \code{FALSE} for zero.
 
 \code{is_number()}, \code{is_nonnegative()}, and \code{is_positive()} return \code{TRUE} for \code{x}
 with length one. \code{all_numbers()} and \code{all_nonnegative()} return \code{TRUE} for
@@ -57,19 +56,18 @@ with length one. \code{all_numbers()} and \code{all_nonnegative()} return \code{
 numeric-type \link[=is_zerolength]{zero-length} \code{x} if \code{allow_zerolength} is
 \code{TRUE}.
 
-All these functions return \code{TRUE} for \code{NA_integer_} and \code{NA_real_} if
-\code{allow_NA} is \code{TRUE}. Even then they return \code{FALSE} for \code{NA_complex_} because
-its mode is \code{complex} instead of \code{numeric}.
-
-All these functions return \code{TRUE} for \link{NaN} (which has \link{mode} \code{numeric},
-despite meaning 'not a number') if \code{allow_NaN} is \code{TRUE}.
+All these functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct
+sign, for \code{NA_integer_} and \code{NA_real_} if \code{allow_NA} is \code{TRUE} (even then
+they return \code{FALSE} for \code{NA_complex_} because its mode is \code{complex} instead
+of \code{numeric}), and for \link{NaN} (which has \link{mode} \code{numeric}, despite meaning
+'not a number') if \code{allow_NaN} is \code{TRUE}.
 }
 \section{Programming notes}{
 
-\code{\link[=is.numeric]{is.numeric()}} tests the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for
+\code{\link[=is.numeric]{is.numeric()}} checks the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for
 floating-point numbers such as \code{3.2} and integers such as \code{3L}. In contrast,
 \code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
-would test the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
+would check the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
 but \code{integer} for integers (see the \verb{Note on names} in \code{\link[=is.numeric]{is.numeric()}}).
 }
 
@@ -96,10 +94,6 @@ is_positive(x = 0) # FALSE
 
 }
 \seealso{
-The vignettes \emph{Design choices}:
-\code{vignette("design_choices", package = "checkinput")} and
-\emph{Type coercion}: \code{vignette("type_coercion", package = "checkinput")}.
-
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},
 \code{\link[=all_names]{all_names()}},

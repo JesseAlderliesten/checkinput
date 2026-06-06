@@ -8,7 +8,7 @@
 #' [Zero-length][length()] objects can have different [types][typeof()]: NULL
 #' ([NULL]), logical (`logical(0)`), integer (`integer(0)`), double
 #' (`numeric(0)`), complex (`complex(0)`), character (`character(0)`), and list
-#' ([list()] and [data.frame()]). `""` is not a zero-length object: it has a
+#' ([list()] and [data.frame()]). `""` is **not** a zero-length object: it has a
 #' `length` of one despite its [width][nchar()] of zero characters. A data frame
 #' with zero rows is **not** a zero-length object: it has `length` equal to the
 #' number of columns. In contrast, a [matrix][matrix()] with zero rows **is** a
@@ -16,7 +16,7 @@
 #'
 #' [is.null()] should be used to check that an object is `NULL` and, more
 #' generally, `isTRUE(all.equal(x, <zero-length object>))` should be used to
-#' check equality to a zero-length object. Testing equality should **not** be
+#' check equality to a zero-length object. Checking equality should **not** be
 #' done by using [==][Comparison] because that leads to `logical(0)` if any of
 #' the sides contains a zero-length object, which gives an error when used as
 #' complete [conditional statement][Control].
@@ -27,7 +27,7 @@
 #'
 #' Although zero-length objects are discarded when combined into a vector with
 #' other values, their types **are** taken into account for type coercion, see
-#' the vignette *Type coercion in vectors*:
+#' the vignette *Type coercion*:
 #' `vignette("type_coercion", package = "checkinput")`. For example, numeric
 #' `314` will be coerced to character `"314"` when it is combined into a vector
 #' with zero-length `character(0)`, such that `c(314, character(0))` results in
@@ -41,9 +41,8 @@
 #' collections of checks on type and length
 #'
 #' @seealso
-#' The vignettes *Design choices*:
-#' `vignette("design_choices", package = "checkinput")` and
-#' *Type coercion*: `vignette("type_coercion", package = "checkinput")`.
+#' The vignette *Type coercion*:
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_zerolength(x = character(0)) # TRUE

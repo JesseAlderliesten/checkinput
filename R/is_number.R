@@ -1,15 +1,14 @@
-#' Check that `x` is numeric
+#' Check that `x` contains numbers
 #'
-#' Check that `x` is a numeric vector of the correct length with numbers of the
-#' correct sign.
+#' Check that `x` is a vector of the correct length with numbers of the correct
+#' sign.
 #'
 #' @inheritParams is_logical x allow_zerolength allow_NA
 #' @param allow_NaN `TRUE` or `FALSE`: allow [NaN]s?
 #'
 #' @details
 #' `is_number()`, `all_numbers()`, `all_nonnegative()` and `is_nonnegative()`
-#' return `TRUE` for zero, whereas `is_positive()` returns `FALSE` for zero. All
-#' these functions return `TRUE` for `-Inf` and `Inf` if it has the correct sign.
+#' return `TRUE` for zero, whereas `is_positive()` returns `FALSE` for zero.
 #'
 #' `is_number()`, `is_nonnegative()`, and `is_positive()` return `TRUE` for `x`
 #' with length one. `all_numbers()` and `all_nonnegative()` return `TRUE` for
@@ -17,31 +16,25 @@
 #' numeric-type [zero-length][is_zerolength()] `x` if `allow_zerolength` is
 #' `TRUE`.
 #'
-#' All these functions return `TRUE` for `NA_integer_` and `NA_real_` if
-#' `allow_NA` is `TRUE`. Even then they return `FALSE` for `NA_complex_` because
-#' its mode is `complex` instead of `numeric`.
-#'
-#' All these functions return `TRUE` for [NaN] (which has [mode] `numeric`,
-#' despite meaning 'not a number') if `allow_NaN` is `TRUE`.
+#' All these functions return `TRUE` for `-Inf` and `Inf` if it has the correct
+#' sign, for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then
+#' they return `FALSE` for `NA_complex_` because its mode is `complex` instead
+#' of `numeric`), and for [NaN] (which has [mode] `numeric`, despite meaning
+#' 'not a number') if `allow_NaN` is `TRUE`.
 #'
 #' @returns
-#' `TRUE` or `FALSE` indicating if `x` is a numeric vector of the correct length
-#' only containing allowed numbers.
+#' `TRUE` or `FALSE` indicating if `x` is a vector of the correct length only
+#' containing allowed numbers.
 #'
 #' @section Programming notes:
-#' [is.numeric()] tests the [mode()] of `x`, which is `numeric` for
+#' [is.numeric()] checks the [mode()] of `x`, which is `numeric` for
 #' floating-point numbers such as `3.2` and integers such as `3L`. In contrast,
 #' `class(x) == "numeric"` (or, more robust, `inherits(x = x, what = "numeric")`)
-#' would test the [class()] of `x` which is `numeric` for floating-point numbers
+#' would check the [class()] of `x` which is `numeric` for floating-point numbers
 #' but `integer` for integers (see the `Note on names` in [is.numeric()]).
 #'
 #' @family
 #' collections of checks on type and length
-#'
-#' @seealso
-#' The vignettes *Design choices*:
-#' `vignette("design_choices", package = "checkinput")` and
-#' *Type coercion*: `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_number(x = 1) # TRUE

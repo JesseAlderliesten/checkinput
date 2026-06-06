@@ -1,6 +1,6 @@
 #' Check that `x` is nearly equal to natural numbers
 #'
-#' Test element-wise near-equality to natural numbers while allowing for small
+#' Check element-wise near-equality to natural numbers while allowing for small
 #' numeric errors.
 #'
 #' @inheritParams is_number x allow_zerolength allow_NA
@@ -10,21 +10,19 @@
 #' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
 #'
 #' @details
-#' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). These
-#' functions allow for small numeric errors when comparing numbers to the
-#' natural numbers. Such numeric errors can arise because of rounding or
-#' representation error. As the `Note` at [`==`] warns, `x == round(x)` does
-#' **not** allow for such errors but tests exact equality.
+#' Natural numbers are the positive integers (`1`, `2`, `3`, etc.).
+#' `is_natural()` and `all_natural()` allow for small numeric errors when
+#' comparing numbers to the natural numbers. Such numeric errors can arise
+#' because of rounding or representation error. As the `Note` at [`==`] warns,
+#' `x == round(x)` does **not** allow for such errors but checks exact equality.
 #'
 #' Zero is considered a natural number if argument `strict` is `FALSE`, but even
 #' then small negative numbers are **not** considered natural numbers.
 #'
 #' `integer(0)` and `numeric(0)` are considered natural numbers if argument
-#' `allow_zerolength` is `TRUE`.
-#'
-#' `NA_integer_` and `NA_real_` are considered natural numbers if `allow_NA` is
-#' `TRUE` (`NA_complex_` is even then  **not** considered a natural number
-#' because its mode is `complex` instead of `numeric`).
+#' `allow_zerolength` is `TRUE`, and `NA_integer_` and `NA_real_` are considered
+#' natural numbers if `allow_NA` is `TRUE` (even then `NA_complex_` is **not**
+#' considered a natural number because its mode is `complex` instead of `numeric`).
 #'
 #' [NULL], [NaN], negative numbers, `Inf`, and numbers that are
 #' [too large][.Machine] to be represented as [integers][integer] are **never**
@@ -39,8 +37,8 @@
 #' @section Notes:
 #' `make_natural(x, all = FALSE)` and `make_natural(x, all = TRUE)` throw an
 #' error if `x` is not natural according to `is_natural(x)` or `all_natural(x)`,
-#' respectively. Assign their result to `x` without the need to use
-#' [stopifnot()].
+#' respectively. Therefore, their result can be assigned to `x` without the need
+#' to use [stopifnot()].
 #'
 #' Alternatively, use `is_natural(x)` or `all_natural(x)` inside [stopifnot()],
 #' followed by assigning the rounded value to `x`: `x <- as.integer(round(x))`.
@@ -63,11 +61,6 @@
 #' [match()] and [progutils::not_in()] to compare character vectors; [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality.
-#'
-#' The vignettes *Design choices*:
-#' `vignette("design_choices", package = "checkinput")` and
-#' *Type coercion in vectors*:
-#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_natural(x = 5 + 1e-10) # TRUE
