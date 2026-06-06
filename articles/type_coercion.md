@@ -3,10 +3,11 @@
 ## Introduction
 
 Objects in R are converted (‘coerced’) to a common type when combined in
-a vector. The type of the vector, and thus of all its components, will
-be the highest type of the components in the hierarchy `NULL` \< `raw`
-\< `logical` \< `integer` \< `double` \< `complex` \< `character` \<
-`list` \< `expression`, see the section `Details` in
+a vector (see [`help("c")`](https://rdrr.io/r/base/c.html)). The type of
+the vector, and thus of all its components, will be the highest type of
+the components in the hierarchy `NULL` \< `raw` \< `logical` \<
+`integer` \< `double` \< `complex` \< `character` \< `list` \<
+`expression`, see the section `Details` in
 [`help("c")`](https://rdrr.io/r/base/c.html) and the section `Value` in
 [`help("typeof")`](https://rdrr.io/r/base/typeof.html). For example,
 numeric `314` will be coerced to character `"314"` when it is combined
@@ -40,12 +41,11 @@ logiNA_char[1]
 
 ## Consequences for checks
 
-As a consequence of type coercion in a vector, code like
-`all_characters(c(x, y))` does **not** check if all elements in `x` and
-`y` are character: `x` and `y` will be coerced to the highest of their
-types before the check is performed, such that `all_characters(c(x, y))`
-tests if any of `x` or `y` is character **and** none of `x` or `y` is of
-a higher type.
+As a consequence of type coercion, code like `all_characters(c(x, y))`
+does **not** check if all elements in `x` and `y` are character: `x` and
+`y` will be coerced to the highest of their types before the check is
+performed, such that `all_characters(c(x, y))` checks if any of `x` or
+`y` is character **and** none of `x` or `y` is of a higher type.
 
 To check if all elements in `x` and `y` are character, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily

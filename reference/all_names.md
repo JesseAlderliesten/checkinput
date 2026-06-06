@@ -13,7 +13,7 @@ all_names(x, allow_underscores = TRUE)
 
 - x:
 
-  object to test.
+  object to check.
 
 - allow_underscores:
 
@@ -148,9 +148,6 @@ on the syntactical validity of names.
 [`names()`](https://rdrr.io/r/base/names.html) to get or set object
 names; `janitor::make_clean_names()` to adjust names, e.g., through
 adjusting case and transliterating non-ASCII characters.
-
-The vignette *Design choices*:
-[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

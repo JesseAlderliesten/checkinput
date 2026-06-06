@@ -73,7 +73,7 @@ values.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>object to test.</p></dd>
+<dd><p>object to check.</p></dd>
 
 
 <dt id="arg-allow-empty">allow_empty<a class="anchor" aria-label="anchor" href="#arg-allow-empty"></a></dt>
@@ -82,7 +82,7 @@ values.</p>
 
 <dt id="arg-allow-zerolength">allow_zerolength<a class="anchor" aria-label="anchor" href="#arg-allow-zerolength"></a></dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code>: allow
-<a href="is_zerolength.html">zero-length</a> <code>x</code> of the correct type?</p></dd>
+<a href="is_zerolength.html">zerolength</a> <code>x</code> of the correct type?</p></dd>
 
 
 <dt id="arg-allow-na">allow_NA<a class="anchor" aria-label="anchor" href="#arg-allow-na"></a></dt>
@@ -97,20 +97,16 @@ correct length with only allowed values.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>is_character()</code> and <code>all_characters()</code> return <code>TRUE</code> for empty strings
-(<code>""</code>) if <code>allow_empty</code> is <code>TRUE</code>.</p>
+(<code>""</code>) if <code>allow_empty</code> is <code>TRUE</code>, and for <code>NA_character_</code> if <code>allow_NA</code> is
+<code>TRUE</code>.</p>
 <p><code>is_character()</code> returns <code>TRUE</code> for <code>x</code> with length one and <code>all_characters()</code>
 returns <code>TRUE</code> for <code>x</code> with length larger than zero. Both functions return
-<code>TRUE</code> for numeric-type <a href="is_zerolength.html">zero-length</a> <code>x</code> if
+<code>TRUE</code> for character-type <a href="is_zerolength.html">zero-length</a> <code>x</code> if
 <code>allow_zerolength</code> is <code>TRUE</code>.</p>
-<p><code>is_character()</code> and <code>all_characters()</code> return <code>TRUE</code> for <code>NA_character_</code> if
-<code>allow_NA</code> is <code>TRUE</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>The vignettes <em>Design choices</em>:
-<code><a href="../articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code> and <em>Type coercion</em>:
-<code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
-<p>Other collections of checks on type and length:
+    <div class="dont-index"><p>Other collections of checks on type and length:
 <code><a href="all_names.html">all_names()</a></code>,
 <code><a href="is_logical.html">is_logical()</a></code>,
 <code><a href="is_natural.html">is_natural()</a></code>,

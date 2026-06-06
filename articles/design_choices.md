@@ -4,21 +4,13 @@
 
 This vignette explains the design choices of `checkinput`. It also shows
 how to get a named boolean vector indicating for each element of `x` if
-it is `TRUE` or `FALSE` according to `is_<func>(x)` or `all_<func>(x)`.
-
-Text between angled brackets (`<...>`) is used to refer to text that
-should be replaced with specific text to get working code. For example,
-`is_<func>(x)` is used as a place holder to refer to a function name and
-should be replaced with `is_character(x)` if you want to consider the
-function that checks if `x` is a single character string, and with
-`is_logical(x)` if you want to consider the function that checks if `x`
-is a single logical value.
+it is `TRUE` or `FALSE` according to the check functions.
 
 ## Type of x
 
-The `is_<func>(x, ...)` and `all_<func>(x, ...)` functions of
-`checkinput` return either `TRUE` or `FALSE` and do **not** throw errors
-for any input to `x`: throwing an error about `x` is deferred to
+The check functions of `checkinput` return either `TRUE` or `FALSE` and
+do **not** throw errors for any input to `x`: throwing an error about
+`x` is deferred to
 [`base::stopifnot()`](https://rdrr.io/r/base/stopifnot.html) in which
 calls to functions from `checkinput` are typically wrapped when they are
 used inside other functions. Errors **are** thrown about invalid input
@@ -36,11 +28,12 @@ usually unwanted in function arguments, whereas
 
 ## Length of x
 
-By default, `is_<func>(x)` of `checkinput` only returns `TRUE` for `x`
-of length one (with the obvious exception of `is_zerolength(x)`) and
-`all_<func>(x)` only returns `TRUE` for `x` of length larger than zero.
-Set argument `allow_zero` to `TRUE` to also return `TRUE` for
-zero-length `x` of the correct type. See `help("Is_zerolength")` and
+By default, the check functions starting with `is_` only returns `TRUE`
+for `x` of length one (with the obvious exception of `is_zerolength(x)`)
+and the check functions starting with `all_` only returns `TRUE` for `x`
+of length larger than zero. Set argument `allow_zero` to `TRUE` to also
+return `TRUE` for zero-length `x` of the correct type. See
+`help("Is_zerolength")` and
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
 for a discussion of some issues with zero-length input.
 
@@ -54,12 +47,12 @@ in functions like `is_number(x)` and `is_natural(x)` to `TRUE` to return
 
 ## Return
 
-The `is_<func>(x)` and `all_<func>(x)` functions of `checkinput` always
-return either `TRUE` or `FALSE`. To get a named boolean vector
-indicating for each element of `x` if it `TRUE` or `FALSE` according to
-`is_<func>(x)` or `all_<func>(x)`, use
+The check functions of `checkinput` return either `TRUE` or `FALSE`. To
+get a named boolean vector indicating for each element of `x` if it
+`TRUE` or `FALSE` according to the check functions, use
 `vapply(X = x, FUN.VALUE = logical(1), FUN = all_<func>)` instead of
-`all_<func>(x)`. For example, to check which elements of `x` are valid
+`all_<func>(x)`, where `all_<func>` should be replace with the relevant
+function name. For example, to check which elements of `x` are valid
 names, use `vapply(X = x, FUN.VALUE = logical(1), FUN = all_names)`
 instead of `all_names(x)`. Other function arguments passed to
 [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),

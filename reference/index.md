@@ -32,7 +32,7 @@
   [`is_positive()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   :
 
-  Check that `x` is numeric
+  Check that `x` contains numbers
 
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md)
   :

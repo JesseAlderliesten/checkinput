@@ -58,7 +58,7 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>object to test.</p></dd>
+<dd><p>object to check.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -122,11 +122,7 @@ Thus, a check on the presence of repeated slashes and backslashes in
 <code>grepl(pattern = "//", x = string, fixed = TRUE)</code> and
 <code>grepl(pattern = "\\\\", x = string, fixed = TRUE)</code>. The message to point out
 their presence would be written as <code>message("Repeated '/' or '\\'")</code> which
-would be printed as <code>Repeated '/' or '\'</code>. This makes it cumbersome to get
-the correct type and number of slashes to compare with the path recorded in a
-message, such that it is more robust to check only for fixed parts of the
-message (e.g., <code>"Repeated"</code>), possibly followed by a check like
-<code>tinytest::expect_true(fs::dir_exists(string))</code>.</p>
+would be printed as <code>Repeated '/' or '\'</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>

@@ -58,7 +58,7 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>object to test.</p></dd>
+<dd><p>object to check.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -72,14 +72,14 @@
 <p><a href="https://rdrr.io/r/base/length.html" class="external-link">Zero-length</a> objects can have different <a href="https://rdrr.io/r/base/typeof.html" class="external-link">types</a>: NULL
 (<a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a>), logical (<code>logical(0)</code>), integer (<code>integer(0)</code>), double
 (<code>numeric(0)</code>), complex (<code>complex(0)</code>), character (<code>character(0)</code>), and list
-(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>). <code>""</code> is not a zero-length object: it has a
+(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>). <code>""</code> is <strong>not</strong> a zero-length object: it has a
 <code>length</code> of one despite its <a href="https://rdrr.io/r/base/nchar.html" class="external-link">width</a> of zero characters. A data frame
 with zero rows is <strong>not</strong> a zero-length object: it has <code>length</code> equal to the
 number of columns. In contrast, a <a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a> with zero rows <strong>is</strong> a
 zero-length object, see the <code>Examples</code>.</p>
 <p><code><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null()</a></code> should be used to check that an object is <code>NULL</code> and, more
 generally, <code>isTRUE(all.equal(x, &lt;zero-length object&gt;))</code> should be used to
-check equality to a zero-length object. Testing equality should <strong>not</strong> be
+check equality to a zero-length object. Checking equality should <strong>not</strong> be
 done by using <a href="https://rdrr.io/r/base/Comparison.html" class="external-link">==</a> because that leads to <code>logical(0)</code> if any of
 the sides contains a zero-length object, which gives an error when used as
 complete <a href="https://rdrr.io/r/base/Control.html" class="external-link">conditional statement</a>.</p>
@@ -88,7 +88,7 @@ case for <code>all(numeric(0))</code> and <code>all(character(0))</code> that ge
 <code>logical</code>.</p>
 <p>Although zero-length objects are discarded when combined into a vector with
 other values, their types <strong>are</strong> taken into account for type coercion, see
-the vignette <em>Type coercion in vectors</em>:
+the vignette <em>Type coercion</em>:
 <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>. For example, numeric
 <code>314</code> will be coerced to character <code>"314"</code> when it is combined into a vector
 with zero-length <code>character(0)</code>, such that <code>c(314, character(0))</code> results in
@@ -100,9 +100,8 @@ the vector is the highest type of the components in the hierarchy <code>NULL</co
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>The vignettes <em>Design choices</em>:
-<code><a href="../articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code> and
-<em>Type coercion</em>: <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
+    <div class="dont-index"><p>The vignette <em>Type coercion</em>:
+<code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
 <p>Other collections of checks on type and length:
 <code><a href="all_characters.html">all_characters()</a></code>,
 <code><a href="all_names.html">all_names()</a></code>,

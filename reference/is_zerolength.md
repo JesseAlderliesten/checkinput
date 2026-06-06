@@ -12,7 +12,7 @@ is_zerolength(x)
 
 - x:
 
-  object to test.
+  object to check.
 
 ## Value
 
@@ -26,8 +26,8 @@ different [types](https://rdrr.io/r/base/typeof.html): NULL
 integer (`integer(0)`), double (`numeric(0)`), complex (`complex(0)`),
 character (`character(0)`), and list
 ([`list()`](https://rdrr.io/r/base/list.html) and
-[`data.frame()`](https://rdrr.io/r/base/data.frame.html)). `""` is not a
-zero-length object: it has a `length` of one despite its
+[`data.frame()`](https://rdrr.io/r/base/data.frame.html)). `""` is
+**not** a zero-length object: it has a `length` of one despite its
 [width](https://rdrr.io/r/base/nchar.html) of zero characters. A data
 frame with zero rows is **not** a zero-length object: it has `length`
 equal to the number of columns. In contrast, a
@@ -37,7 +37,7 @@ zero-length object, see the `Examples`.
 [`is.null()`](https://rdrr.io/r/base/NULL.html) should be used to check
 that an object is `NULL` and, more generally,
 `isTRUE(all.equal(x, <zero-length object>))` should be used to check
-equality to a zero-length object. Testing equality should **not** be
+equality to a zero-length object. Checking equality should **not** be
 done by using [==](https://rdrr.io/r/base/Comparison.html) because that
 leads to `logical(0)` if any of the sides contains a zero-length object,
 which gives an error when used as complete [conditional
@@ -50,7 +50,7 @@ statement](https://rdrr.io/r/base/Control.html).
 
 Although zero-length objects are discarded when combined into a vector
 with other values, their types **are** taken into account for type
-coercion, see the vignette *Type coercion in vectors*:
+coercion, see the vignette *Type coercion*:
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 For example, numeric `314` will be coerced to character `"314"` when it
 is combined into a vector with zero-length `character(0)`, such that
@@ -64,9 +64,7 @@ highest type of the components in the hierarchy `NULL` \< `raw` \<
 
 ## See also
 
-The vignettes *Design choices*:
-[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
-and *Type coercion*:
+The vignette *Type coercion*:
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:

@@ -99,20 +99,20 @@ try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
 
 ### Design choices
 
-The `is_<func>(x, ...)` and `all_<func>(x, ...)` functions of
-`checkinput` return either `TRUE` or `FALSE` and do **not** throw errors
-for any input to `x`. Errors **are** thrown about invalid input to
-arguments other than `x`, e.g., when values other than `TRUE` or `FALSE`
-are used for `allow_NA`. This is explained in the [vignette about design
+The check functions of `checkinput` return either `TRUE` or `FALSE` and
+do **not** throw errors for any input to `x`. Errors **are** thrown
+about invalid input to arguments other than `x`, e.g., when values other
+than `TRUE` or `FALSE` are used for `allow_NA`. This is explained in the
+[vignette about design
 choices](https://jessealderliesten.github.io/checkinput/articles/design_choices.html):
 [`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md).
 That vignette also shows how to get a named boolean vector indicating
-for each element of `x` if it is `TRUE` or `FALSE` according to
-`is_<func>(x)` or `all_<func>(x)`.
+for each element of `x` if it is `TRUE` or `FALSE` according to the
+check functions.
 
 `checkinput` also contains a [vignette about type
 coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
-in relation to the testing of vectors:
+in relation to the checking:
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 ### Function overview
@@ -129,7 +129,7 @@ the kind of **input** for which they return `TRUE`:
   [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
   [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md),
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md)
-- numbers: checks
+- numbers:
   [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
   [`all_numbers()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
   [`is_nonnegative()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md),
@@ -140,10 +140,10 @@ the kind of **input** for which they return `TRUE`:
 
 Besides these check functions, `checkinput` contains utility-functions:
 [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
-which **returns** a natural number if the input is nearly equal to such
-a number, and
+which returns a natural number if the input is nearly equal to such a
+number, and
 [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-which **returns** a character string.
+which returns a character string.
 
 ## Similar packages
 
@@ -199,7 +199,7 @@ looking into:
   [`is_positive()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   :
 
-  Check that `x` is numeric
+  Check that `x` contains numbers
 
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md)
   :

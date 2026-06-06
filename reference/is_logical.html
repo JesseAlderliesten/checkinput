@@ -58,12 +58,12 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>object to test.</p></dd>
+<dd><p>object to check.</p></dd>
 
 
 <dt id="arg-allow-zerolength">allow_zerolength<a class="anchor" aria-label="anchor" href="#arg-allow-zerolength"></a></dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code>: allow
-<a href="is_zerolength.html">zero-length</a> <code>x</code> of the correct type?</p></dd>
+<a href="is_zerolength.html">zerolength</a> <code>x</code> of the correct type?</p></dd>
 
 
 <dt id="arg-allow-na">allow_NA<a class="anchor" aria-label="anchor" href="#arg-allow-na"></a></dt>
@@ -77,15 +77,13 @@ only containing allowed values.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>is_logical()</code> returns <code>TRUE</code> for <code>x</code> with length one, and for logical-type
-<a href="is_zerolength.html">zero-length</a> <code>x</code> if <code>allow_zerolength</code> is <code>TRUE</code>.</p>
-<p><code>is_logical()</code> returns <code>TRUE</code> for (logical-type) <code>NA</code> if <code>allow_NA</code> is <code>TRUE</code>.</p>
+    <p><code>is_logical()</code> returns <code>TRUE</code> for <code>x</code> with length one, for logical-type
+<a href="is_zerolength.html">zero-length</a> <code>x</code> if <code>allow_zerolength</code> is <code>TRUE</code>, and for
+logical-type <code>NA</code> if <code>allow_NA</code> is <code>TRUE</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>The vignette <em>Design choices</em>:
-<code><a href="../articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>.</p>
-<p>Other collections of checks on type and length:
+    <div class="dont-index"><p>Other collections of checks on type and length:
 <code><a href="all_characters.html">all_characters()</a></code>,
 <code><a href="all_names.html">all_names()</a></code>,
 <code><a href="is_natural.html">is_natural()</a></code>,

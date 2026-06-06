@@ -129,8 +129,8 @@
 <div class="section level3">
 <h3 id="design-choices">Design choices<a class="anchor" aria-label="anchor" href="#design-choices"></a>
 </h3>
-<p>The <code>is_&lt;func&gt;(x, ...)</code> and <code>all_&lt;func&gt;(x, ...)</code> functions of <code>checkinput</code> return either <code>TRUE</code> or <code>FALSE</code> and do <strong>not</strong> throw errors for any input to <code>x</code>. Errors <strong>are</strong> thrown about invalid input to arguments other than <code>x</code>, e.g., when values other than <code>TRUE</code> or <code>FALSE</code> are used for <code>allow_NA</code>. This is explained in the <a href="https://jessealderliesten.github.io/checkinput/articles/design_choices.html">vignette about design choices</a>: <code><a href="articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>. That vignette also shows how to get a named boolean vector indicating for each element of <code>x</code> if it is <code>TRUE</code> or <code>FALSE</code> according to <code>is_&lt;func&gt;(x)</code> or <code>all_&lt;func&gt;(x)</code>.</p>
-<p><code>checkinput</code> also contains a <a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html">vignette about type coercion</a> in relation to the testing of vectors: <code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
+<p>The check functions of <code>checkinput</code> return either <code>TRUE</code> or <code>FALSE</code> and do <strong>not</strong> throw errors for any input to <code>x</code>. Errors <strong>are</strong> thrown about invalid input to arguments other than <code>x</code>, e.g., when values other than <code>TRUE</code> or <code>FALSE</code> are used for <code>allow_NA</code>. This is explained in the <a href="https://jessealderliesten.github.io/checkinput/articles/design_choices.html">vignette about design choices</a>: <code><a href="articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>. That vignette also shows how to get a named boolean vector indicating for each element of <code>x</code> if it is <code>TRUE</code> or <code>FALSE</code> according to the check functions.</p>
+<p><code>checkinput</code> also contains a <a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html">vignette about type coercion</a> in relation to the checking: <code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="function-overview">Function overview<a class="anchor" aria-label="anchor" href="#function-overview"></a>
@@ -143,10 +143,10 @@
 </li>
 <li>characters: <code><a href="reference/all_characters.html">is_character()</a></code>, <code><a href="reference/all_characters.html">all_characters()</a></code>, <code><a href="reference/is_path.html">is_path()</a></code>, <code><a href="reference/all_names.html">all_names()</a></code>
 </li>
-<li>numbers: checks <code><a href="reference/is_number.html">is_number()</a></code>, <code><a href="reference/is_number.html">all_numbers()</a></code>, <code><a href="reference/is_number.html">is_nonnegative()</a></code>, <code><a href="reference/is_number.html">all_nonnegative()</a></code>, <code><a href="reference/is_number.html">is_positive()</a></code>, <code><a href="reference/is_natural.html">is_natural()</a></code>, <code><a href="reference/is_natural.html">all_natural()</a></code>
+<li>numbers: <code><a href="reference/is_number.html">is_number()</a></code>, <code><a href="reference/is_number.html">all_numbers()</a></code>, <code><a href="reference/is_number.html">is_nonnegative()</a></code>, <code><a href="reference/is_number.html">all_nonnegative()</a></code>, <code><a href="reference/is_number.html">is_positive()</a></code>, <code><a href="reference/is_natural.html">is_natural()</a></code>, <code><a href="reference/is_natural.html">all_natural()</a></code>
 </li>
 </ul>
-<p>Besides these check functions, <code>checkinput</code> contains utility-functions: <code><a href="reference/is_natural.html">make_natural()</a></code> which <strong>returns</strong> a natural number if the input is nearly equal to such a number, and <code><a href="reference/paste_quoted.html">paste_quoted()</a></code> which <strong>returns</strong> a character string.</p>
+<p>Besides these check functions, <code>checkinput</code> contains utility-functions: <code><a href="reference/is_natural.html">make_natural()</a></code> which returns a natural number if the input is nearly equal to such a number, and <code><a href="reference/paste_quoted.html">paste_quoted()</a></code> which returns a character string.</p>
 </div>
 </div>
 <div class="section level2">

@@ -32,7 +32,7 @@ non-logical `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`; for
 
 ## Notes
 
-An error occurs if multiple arguments are provided because then `x`
+An error is thrown if multiple arguments are provided because then `x`
 probably was accidentally not [combined](https://rdrr.io/r/base/c.html).
 For example, the call `paste_quoted("a", "b")` will return the error
 `unused argument ("b")`. The probably intended call is

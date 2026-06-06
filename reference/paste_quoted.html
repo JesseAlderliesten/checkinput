@@ -82,8 +82,8 @@ is <code>"'NA_character_'"</code>).</p>
     <h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a></h2>
 
 
-<p>An error occurs if multiple arguments are provided because then <code>x</code> probably
-was accidentally not <a href="https://rdrr.io/r/base/c.html" class="external-link">combined</a>. For example, the call
+<p>An error is thrown if multiple arguments are provided because then <code>x</code>
+probably was accidentally not <a href="https://rdrr.io/r/base/c.html" class="external-link">combined</a>. For example, the call
 <code>paste_quoted("a", "b")</code> will return the error <code>unused argument ("b")</code>. The
 probably intended call is <code>paste_quoted(c("a", "b"))</code>, returning <code>"'a', 'b'"</code>.</p>
 <p><code>paste_quoted()</code> drops <a href="https://rdrr.io/r/base/names.html" class="external-link">names</a> of <code>x</code>, which is pointed out in a

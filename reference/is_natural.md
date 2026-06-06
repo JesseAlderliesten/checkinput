@@ -1,6 +1,6 @@
 # Check that `x` is nearly equal to natural numbers
 
-Test element-wise near-equality to natural numbers while allowing for
+Check element-wise near-equality to natural numbers while allowing for
 small numeric errors.
 
 ## Usage
@@ -36,7 +36,7 @@ make_natural(
 
 - x:
 
-  object to test.
+  object to check.
 
 - strict:
 
@@ -45,7 +45,7 @@ make_natural(
 - allow_zerolength:
 
   `TRUE` or `FALSE`: allow
-  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  [zerolength](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
   `x` of the correct type?
 
 - allow_NA:
@@ -73,22 +73,21 @@ whole number and coerced to
 
 ## Details
 
-Natural numbers are the positive integers (`1`, `2`, `3`, etc.). These
-functions allow for small numeric errors when comparing numbers to the
-natural numbers. Such numeric errors can arise because of rounding or
-representation error. As the `Note` at
+Natural numbers are the positive integers (`1`, `2`, `3`, etc.).
+`is_natural()` and `all_natural()` allow for small numeric errors when
+comparing numbers to the natural numbers. Such numeric errors can arise
+because of rounding or representation error. As the `Note` at
 [`==`](https://rdrr.io/r/base/Comparison.html) warns, `x == round(x)`
-does **not** allow for such errors but tests exact equality.
+does **not** allow for such errors but checks exact equality.
 
 Zero is considered a natural number if argument `strict` is `FALSE`, but
 even then small negative numbers are **not** considered natural numbers.
 
 `integer(0)` and `numeric(0)` are considered natural numbers if argument
-`allow_zerolength` is `TRUE`.
-
-`NA_integer_` and `NA_real_` are considered natural numbers if
-`allow_NA` is `TRUE` (`NA_complex_` is even then **not** considered a
-natural number because its mode is `complex` instead of `numeric`).
+`allow_zerolength` is `TRUE`, and `NA_integer_` and `NA_real_` are
+considered natural numbers if `allow_NA` is `TRUE` (even then
+`NA_complex_` is **not** considered a natural number because its mode is
+`complex` instead of `numeric`).
 
 [NULL](https://rdrr.io/r/base/NULL.html),
 [NaN](https://rdrr.io/r/base/is.finite.html), negative numbers, `Inf`,
@@ -100,8 +99,9 @@ to be represented as [integers](https://rdrr.io/r/base/integer.html) are
 
 `make_natural(x, all = FALSE)` and `make_natural(x, all = TRUE)` throw
 an error if `x` is not natural according to `is_natural(x)` or
-`all_natural(x)`, respectively. Assign their result to `x` without the
-need to use [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html).
+`all_natural(x)`, respectively. Therefore, their result can be assigned
+to `x` without the need to use
+[`stopifnot()`](https://rdrr.io/r/base/stopifnot.html).
 
 Alternatively, use `is_natural(x)` or `all_natural(x)` inside
 [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html), followed by
@@ -132,11 +132,6 @@ to do so using binary operators;
 to compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 for background on numerical equality.
-
-The vignettes *Design choices*:
-[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
-and *Type coercion in vectors*:
-[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

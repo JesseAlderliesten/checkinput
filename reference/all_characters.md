@@ -25,7 +25,7 @@ is_character(
 
 - x:
 
-  object to test.
+  object to check.
 
 - allow_empty:
 
@@ -34,7 +34,7 @@ is_character(
 - allow_zerolength:
 
   `TRUE` or `FALSE`: allow
-  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  [zerolength](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
   `x` of the correct type?
 
 - allow_NA:
@@ -50,23 +50,16 @@ length with only allowed values.
 ## Details
 
 `is_character()` and `all_characters()` return `TRUE` for empty strings
-(`""`) if `allow_empty` is `TRUE`.
+(`""`) if `allow_empty` is `TRUE`, and for `NA_character_` if `allow_NA`
+is `TRUE`.
 
 `is_character()` returns `TRUE` for `x` with length one and
 `all_characters()` returns `TRUE` for `x` with length larger than zero.
-Both functions return `TRUE` for numeric-type
+Both functions return `TRUE` for character-type
 [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
 `x` if `allow_zerolength` is `TRUE`.
 
-`is_character()` and `all_characters()` return `TRUE` for
-`NA_character_` if `allow_NA` is `TRUE`.
-
 ## See also
-
-The vignettes *Design choices*:
-[`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md)
-and *Type coercion*:
-[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 Other collections of checks on type and length:
 [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),

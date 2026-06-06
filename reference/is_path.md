@@ -12,7 +12,7 @@ is_path(x)
 
 - x:
 
-  object to test.
+  object to check.
 
 ## Value
 
@@ -98,11 +98,7 @@ repeated slashes and backslashes in
 `grepl(pattern = "\\\\", x = string, fixed = TRUE)`. The message to
 point out their presence would be written as
 `message("Repeated '/' or '\\'")` which would be printed as
-`Repeated '/' or '\'`. This makes it cumbersome to get the correct type
-and number of slashes to compare with the path recorded in a message,
-such that it is more robust to check only for fixed parts of the message
-(e.g., `"Repeated"`), possibly followed by a check like
-`tinytest::expect_true(fs::dir_exists(string))`.
+`Repeated '/' or '\'`.
 
 ## Programming notes
 
