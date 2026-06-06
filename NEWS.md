@@ -1,4 +1,4 @@
-# checkinput devel
+# checkinput 1.0.0
 
 ### Documentation
 - Update `NEWS`.
