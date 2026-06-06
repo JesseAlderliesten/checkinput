@@ -2,26 +2,21 @@
 #'
 #' Check that `x` is a length-one logical vector with only allowed values.
 #'
-#' @param x object to test.
+#' @param x object to check.
 #' @param allow_zerolength `TRUE` or `FALSE`: allow
-#' [zero-length][is_zerolength()] `x` of the correct type?
+#' [zerolength][is_zerolength()] `x` of the correct type?
 #' @param allow_NA `TRUE` or `FALSE`: allow [NA]s of the correct type in `x`?
 #'
 #' @details
-#' `is_logical()` returns `TRUE` for `x` with length one, and for logical-type
-#' [zero-length][is_zerolength()] `x` if `allow_zerolength` is `TRUE`.
-#'
-#' `is_logical()` returns `TRUE` for (logical-type) `NA` if `allow_NA` is `TRUE`.
+#' `is_logical()` returns `TRUE` for `x` with length one, for logical-type
+#' [zero-length][is_zerolength()] `x` if `allow_zerolength` is `TRUE`, and for
+#' logical-type `NA` if `allow_NA` is `TRUE`.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a length-one logical vector
 #' only containing allowed values.
 #'
 #' @family
 #' collections of checks on type and length
-#'
-#' @seealso
-#' The vignette *Design choices*:
-#' `vignette("design_choices", package = "checkinput")`.
 #'
 #' @examples
 #' is_logical(TRUE) # TRUE

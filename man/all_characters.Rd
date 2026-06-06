@@ -20,12 +20,12 @@ is_character(
 )
 }
 \arguments{
-\item{x}{object to test.}
+\item{x}{object to check.}
 
 \item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
+\link[=is_zerolength]{zerolength} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 }
@@ -39,15 +39,13 @@ values.
 }
 \details{
 \code{is_character()} and \code{all_characters()} return \code{TRUE} for empty strings
-(\code{""}) if \code{allow_empty} is \code{TRUE}.
+(\code{""}) if \code{allow_empty} is \code{TRUE}, and for \code{NA_character_} if \code{allow_NA} is
+\code{TRUE}.
 
 \code{is_character()} returns \code{TRUE} for \code{x} with length one and \code{all_characters()}
 returns \code{TRUE} for \code{x} with length larger than zero. Both functions return
-\code{TRUE} for numeric-type \link[=is_zerolength]{zero-length} \code{x} if
+\code{TRUE} for character-type \link[=is_zerolength]{zero-length} \code{x} if
 \code{allow_zerolength} is \code{TRUE}.
-
-\code{is_character()} and \code{all_characters()} return \code{TRUE} for \code{NA_character_} if
-\code{allow_NA} is \code{TRUE}.
 }
 \examples{
 is_character("a") # TRUE
@@ -60,10 +58,6 @@ is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignettes \emph{Design choices}:
-\code{vignette("design_choices", package = "checkinput")} and \emph{Type coercion}:
-\code{vignette("type_coercion", package = "checkinput")}.
-
 Other collections of checks on type and length:
 \code{\link[=all_names]{all_names()}},
 \code{\link[=is_logical]{is_logical()}},

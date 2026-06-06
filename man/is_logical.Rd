@@ -7,10 +7,10 @@
 is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 }
 \arguments{
-\item{x}{object to test.}
+\item{x}{object to check.}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
+\link[=is_zerolength]{zerolength} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 }
@@ -22,10 +22,9 @@ only containing allowed values.
 Check that \code{x} is a length-one logical vector with only allowed values.
 }
 \details{
-\code{is_logical()} returns \code{TRUE} for \code{x} with length one, and for logical-type
-\link[=is_zerolength]{zero-length} \code{x} if \code{allow_zerolength} is \code{TRUE}.
-
-\code{is_logical()} returns \code{TRUE} for (logical-type) \code{NA} if \code{allow_NA} is \code{TRUE}.
+\code{is_logical()} returns \code{TRUE} for \code{x} with length one, for logical-type
+\link[=is_zerolength]{zero-length} \code{x} if \code{allow_zerolength} is \code{TRUE}, and for
+logical-type \code{NA} if \code{allow_NA} is \code{TRUE}.
 }
 \examples{
 is_logical(TRUE) # TRUE
@@ -37,9 +36,6 @@ is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 
 }
 \seealso{
-The vignette \emph{Design choices}:
-\code{vignette("design_choices", package = "checkinput")}.
-
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},
 \code{\link[=all_names]{all_names()}},

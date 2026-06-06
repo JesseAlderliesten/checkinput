@@ -27,8 +27,8 @@ is \code{"'NA_character_'"}).
 }
 \section{Notes}{
 
-An error occurs if multiple arguments are provided because then \code{x} probably
-was accidentally not \link[=c]{combined}. For example, the call
+An error is thrown if multiple arguments are provided because then \code{x}
+probably was accidentally not \link[=c]{combined}. For example, the call
 \code{paste_quoted("a", "b")} will return the error \verb{unused argument ("b")}. The
 probably intended call is \code{paste_quoted(c("a", "b"))}, returning \code{"'a', 'b'"}.
 

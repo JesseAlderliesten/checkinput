@@ -8,26 +8,19 @@
 #'
 #' @details
 #' `is_character()` and `all_characters()` return `TRUE` for empty strings
-#' (`""`) if `allow_empty` is `TRUE`.
+#' (`""`) if `allow_empty` is `TRUE`, and for `NA_character_` if `allow_NA` is
+#' `TRUE`.
 #'
 #' `is_character()` returns `TRUE` for `x` with length one and `all_characters()`
 #' returns `TRUE` for `x` with length larger than zero. Both functions return
-#' `TRUE` for numeric-type [zero-length][is_zerolength()] `x` if
+#' `TRUE` for character-type [zero-length][is_zerolength()] `x` if
 #' `allow_zerolength` is `TRUE`.
-#'
-#' `is_character()` and `all_characters()` return `TRUE` for `NA_character_` if
-#' `allow_NA` is `TRUE`.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
 #' correct length with only allowed values.
 #'
 #' @family
 #' collections of checks on type and length
-#'
-#' @seealso
-#' The vignettes *Design choices*:
-#' `vignette("design_choices", package = "checkinput")` and *Type coercion*:
-#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @examples
 #' is_character("a") # TRUE

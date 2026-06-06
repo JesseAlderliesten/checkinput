@@ -101,9 +101,6 @@
 #' [names()] to get or set object names; `janitor::make_clean_names()` to adjust
 #' names, e.g., through adjusting case and transliterating non-ASCII characters.
 #'
-#' The vignette *Design choices*:
-#' `vignette("design_choices", package = "checkinput")`.
-#'
 #' @family
 #' collections of checks on type and length
 #'
@@ -180,7 +177,7 @@ all_names <- function(x, allow_underscores = TRUE) {
   # - Argument 'allow_' of make.names() is 'TRUE' because names containing
   #   underscores will be catched below.
   # - make.names() replaces empty names ('""') with "X", so there is no need to
-  #   separately test for these.
+  #   separately check for these.
   # - Although make.names() replaces NAs in 'x' with "NA.", equality tests using
   #   '==' or '!=' on the NAs in 'x' will still return NA (see section 'Details'
   #   in ?'=='). Therefore argument 'na.rm' in any() is set to TRUE to prevent

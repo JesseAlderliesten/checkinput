@@ -32,12 +32,12 @@ make_natural(
 )
 }
 \arguments{
-\item{x}{object to test.}
+\item{x}{object to check.}
 
 \item{strict}{Exclude zero from the natural numbers?}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
+\link[=is_zerolength]{zerolength} \code{x} of the correct type?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
 
@@ -53,25 +53,23 @@ is a vector of the appropriate length with only natural numbers. For
 \link{integer} type.
 }
 \description{
-Test element-wise near-equality to natural numbers while allowing for small
+Check element-wise near-equality to natural numbers while allowing for small
 numeric errors.
 }
 \details{
-Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). These
-functions allow for small numeric errors when comparing numbers to the
-natural numbers. Such numeric errors can arise because of rounding or
-representation error. As the \code{Note} at \code{\link{==}} warns, \code{x == round(x)} does
-\strong{not} allow for such errors but tests exact equality.
+Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.).
+\code{is_natural()} and \code{all_natural()} allow for small numeric errors when
+comparing numbers to the natural numbers. Such numeric errors can arise
+because of rounding or representation error. As the \code{Note} at \code{\link{==}} warns,
+\code{x == round(x)} does \strong{not} allow for such errors but checks exact equality.
 
 Zero is considered a natural number if argument \code{strict} is \code{FALSE}, but even
 then small negative numbers are \strong{not} considered natural numbers.
 
 \code{integer(0)} and \code{numeric(0)} are considered natural numbers if argument
-\code{allow_zerolength} is \code{TRUE}.
-
-\code{NA_integer_} and \code{NA_real_} are considered natural numbers if \code{allow_NA} is
-\code{TRUE} (\code{NA_complex_} is even then  \strong{not} considered a natural number
-because its mode is \code{complex} instead of \code{numeric}).
+\code{allow_zerolength} is \code{TRUE}, and \code{NA_integer_} and \code{NA_real_} are considered
+natural numbers if \code{allow_NA} is \code{TRUE} (even then \code{NA_complex_} is \strong{not}
+considered a natural number because its mode is \code{complex} instead of \code{numeric}).
 
 \link{NULL}, \link{NaN}, negative numbers, \code{Inf}, and numbers that are
 \link[=.Machine]{too large} to be represented as \link[=integer]{integers} are \strong{never}
@@ -81,8 +79,8 @@ considered natural numbers.
 
 \code{make_natural(x, all = FALSE)} and \code{make_natural(x, all = TRUE)} throw an
 error if \code{x} is not natural according to \code{is_natural(x)} or \code{all_natural(x)},
-respectively. Assign their result to \code{x} without the need to use
-\code{\link[=stopifnot]{stopifnot()}}.
+respectively. Therefore, their result can be assigned to \code{x} without the need
+to use \code{\link[=stopifnot]{stopifnot()}}.
 
 Alternatively, use \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}},
 followed by assigning the rounded value to \code{x}: \code{x <- as.integer(round(x))}.
@@ -160,11 +158,6 @@ try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 check for exact equality and \link{Comparison} to do so using binary operators;
 \code{\link[=match]{match()}} and \code{\link[progutils:not_in]{progutils::not_in()}} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality.
-
-The vignettes \emph{Design choices}:
-\code{vignette("design_choices", package = "checkinput")} and
-\emph{Type coercion in vectors}:
-\code{vignette("type_coercion", package = "checkinput")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

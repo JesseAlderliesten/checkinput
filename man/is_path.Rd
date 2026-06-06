@@ -7,7 +7,7 @@
 is_path(x)
 }
 \arguments{
-\item{x}{object to test.}
+\item{x}{object to check.}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a valid path, possibly containing a
@@ -78,11 +78,7 @@ Thus, a check on the presence of repeated slashes and backslashes in
 \code{grepl(pattern = "//", x = string, fixed = TRUE)} and
 \code{grepl(pattern = "\\\\\\\\", x = string, fixed = TRUE)}. The message to point out
 their presence would be written as \code{message("Repeated '/' or '\\\\'")} which
-would be printed as \verb{Repeated '/' or '\\'}. This makes it cumbersome to get
-the correct type and number of slashes to compare with the path recorded in a
-message, such that it is more robust to check only for fixed parts of the
-message (e.g., \code{"Repeated"}), possibly followed by a check like
-\code{tinytest::expect_true(fs::dir_exists(string))}.
+would be printed as \verb{Repeated '/' or '\\'}.
 }
 
 \section{Programming notes}{
