@@ -43,8 +43,9 @@ paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 
 }
 \seealso{
-\code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")},
-\code{\link[=sQuote]{sQuote()}} to use fancy quotes, \code{\link[=paste0]{paste0()}}, \code{\link[progutils:unpaste_unquote]{progutils::unpaste_unquote()}}
-for the approximate opposite of \code{paste_quoted()}.
+\code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")};
+\code{\link[=sQuote]{sQuote()}} to use fancy quotes;
+\code{\link[=paste0]{paste0()}};
+\code{progutils::unpaste_unquote()} for the approximate opposite of \code{paste_quoted()}
 }
 \concept{functions to modify character vectors}

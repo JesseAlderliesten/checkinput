@@ -86,10 +86,10 @@
 #' [fs::path_math()] for various operations on paths;
 #' [fs::path_sanitize()] to **remove** invalid characters from potential paths;
 #' [utils::file_test()] and references there on file existence and permissions;
-#' [progutils::create_file_path()] to create a file path, creating the directory
+#' `progutils::create_file_path()` to create a file path, creating the directory
 #' if it does not yet exist;
-#' [progutils::create_dir()] to create a directory if it does not yet exist;
-#' [progutils::get_file_path()] to check if a file exists and is a unique match
+#' `progutils::create_dir()` to create a directory if it does not yet exist;
+#' `progutils::get_file_path()` to check if a file exists and is a unique match
 #' to a pattern.
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package

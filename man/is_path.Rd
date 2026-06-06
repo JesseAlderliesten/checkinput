@@ -124,10 +124,10 @@ is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 \code{\link[fs:path_math]{fs::path_math()}} for various operations on paths;
 \code{\link[fs:path_sanitize]{fs::path_sanitize()}} to \strong{remove} invalid characters from potential paths;
 \code{\link[utils:file_test]{utils::file_test()}} and references there on file existence and permissions;
-\code{\link[progutils:create_file_path]{progutils::create_file_path()}} to create a file path, creating the directory
+\code{progutils::create_file_path()} to create a file path, creating the directory
 if it does not yet exist;
-\code{\link[progutils:create_dir]{progutils::create_dir()}} to create a directory if it does not yet exist;
-\code{\link[progutils:get_file_path]{progutils::get_file_path()}} to check if a file exists and is a unique match
+\code{progutils::create_dir()} to create a directory if it does not yet exist;
+\code{progutils::get_file_path()} to check if a file exists and is a unique match
 to a pattern.
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
