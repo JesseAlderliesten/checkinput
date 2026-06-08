@@ -135,7 +135,7 @@ string.
 ## Similar packages
 
 Functions of `checkinput` use arguments to determine if special values
-like `NA`s and zero-length values should be allowed, making them more
+like \[NA\]s and zero-length values should be allowed, making them more
 flexible than functions in similar packages that require a different
 function to include these special values. Nevertheless, the following
 similar packages are worth looking into:
@@ -152,3 +152,12 @@ similar packages are worth looking into:
   function arguments
 - [erify](https://CRAN.R-project.org/package=erify): check arguments and
   generate readable error messages
+
+## License
+
+This project is licensed under the terms of the [MIT
+License](/LICENSE.md).
+
+## Citation
+
+Please cite this project [as described here](/CITATION.cff).
