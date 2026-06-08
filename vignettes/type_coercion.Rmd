@@ -91,7 +91,7 @@ all(unlist(lapply(X = z, FUN = all_characters)))
 
 
 ## Zero-length values
-Although zero-length objects (see `help("Is_zerolength")`) are discarded when
+Although zero-length objects (see `help("is_zerolength")`) are discarded when
 combined
 into a vector with other values, their types are taken into account for type
 coercion. For example, numeric `314` will be coerced to character `"314"` when
