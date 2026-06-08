@@ -110,12 +110,14 @@ all(unlist(lapply(X = z, FUN = all_characters)))
 
 ## Zero-length values
 
-Although zero-length objects (see `help("Is_zerolength")`) are discarded
-when combined into a vector with other values, their types are taken
-into account for type coercion. For example, numeric `314` will be
-coerced to character `"314"` when it is combined into a vector with
-zero-length `character(0)`, such that `c(314, character(0))` results in
-the character string `"314"`, **not** in the numeric value `314`.
+Although zero-length objects (see
+[`help("is_zerolength")`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md))
+are discarded when combined into a vector with other values, their types
+are taken into account for type coercion. For example, numeric `314`
+will be coerced to character `"314"` when it is combined into a vector
+with zero-length `character(0)`, such that `c(314, character(0))`
+results in the character string `"314"`, **not** in the numeric value
+`314`.
 
 ``` r
 

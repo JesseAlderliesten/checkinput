@@ -5,6 +5,7 @@
 #### Documentation
 
 - Update `NEWS`.
+- Add links license and citation file.
 
 ## checkinput 0.12.0
 
