@@ -21,15 +21,6 @@
 
 - Rename argument `allow_zero_length` to `allow_zerolength`.
 
-#### Documentation
-
-- `README`: add section `Function overview`.
-- [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
-  Document that `:` outside filenames should only be used to indicate
-  volume names.
-- Consistently document which values are allowed.
-- Vignette `Type coercion in vectors`: shorten name to `Type coercion`.
-
 ## checkinput 0.10.0
 
 #### Breaking changes
@@ -153,19 +144,6 @@
   [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
   but test if `x` has a length of at most one.
 
-## checkinput 0.1.0
-
-#### Documentation
-
-- Vignettes: add hyperlinks from the vignettes to the help-pages of
-  functions. No need to put output in comments because the output is
-  automatically shown together with the code. Use `<funcname>` instead
-  of `<func>` or `<function>` to align with usage in the vignettes of
-  `checkrpkgs`.
-- `README`: use `<funcname>` instead of `<func>` or `<function>` to
-  align with usage in the vignettes of `checkrpkgs`. Define variables to
-  write more succinct code.
-
 ## checkinput 0.0.6
 
 #### Breaking changes
@@ -174,18 +152,14 @@
   documentation of
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  remove argument `allow_susp` and never allows suspicious names; do not
-  try to identify which functions might have changed a name because that
-  is very ambiguous; also check for suspicious names that might have
-  been created by
+  remove argument `allow_susp` and never allows suspicious names; also
+  check for suspicious names that might have been created by
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) or
   [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html);
-  consider the reserved words `...` and `..1` invalid and note that
-  [`make.names()`](https://rdrr.io/r/base/make.names.html) does not
-  adjust them; existing checks are now more specific: they check that
-  names which apparently have been made valid indeed contain an invalid
-  part, and that the first digit of numbers added to duplicated names is
-  non-zero.
+  consider the reserved words `...` and `..1` invalid; make existing
+  checks are now more specific: check that names which apparently have
+  been made valid indeed contain an invalid part, and that the first
+  digit of numbers added to duplicated names is non-zero.
 - [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   and derived functions gain arguments `allow_zero`, `allow_NA` and
   `allow_NaN` (with default `FALSE`, in contrast to the previously
@@ -193,30 +167,6 @@
   [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   returned `TRUE` for these values but using them in conditional
   statements led to `logical(0)` and thus to an error.
-
-#### Documentation
-
-- [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  major update and restructuring. Add examples.
-- `README`: add a reference to my repository `checkrpkgs`. Clarify that
-  functions **do** throw errors about invalid input to arguments other
-  than `x`.
-- Vignette `design_choices`: clarify that functions **do** throw errors
-  about invalid input to arguments other than `x`.
-
-## checkinput 0.0.5
-
-#### Documentation
-
-- `README`: mention vignettes and introduce design choices.
-- Remove `Notes` about legacy code.
-- Move `To do` points and `Wishlist` to GitHub issues.
-- Move information about correct input to the vignette `design_choices`.
-- [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  [`data.frame()`](https://rdrr.io/r/base/data.frame.html) also calls
-  [`make.names()`](https://rdrr.io/r/base/make.names.html).
-- [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md):
-  document that a zero-row data frame is not a zero-length object.
 
 ## checkinput 0.0.4
 

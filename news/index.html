@@ -65,15 +65,6 @@
 <h4 id="breaking-changes-0-11-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-11-0"></a></h4>
 <ul><li>Rename argument <code>allow_zero_length</code> to <code>allow_zerolength</code>.</li>
 </ul></div>
-<div class="section level4">
-<h4 id="documentation-0-11-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-11-0"></a></h4>
-<ul><li>
-<code>README</code>: add section <code>Function overview</code>.</li>
-<li>
-<code><a href="../reference/is_path.html">is_path()</a></code>: Document that <code>:</code> outside filenames should only be used to indicate volume names.</li>
-<li>Consistently document which values are allowed.</li>
-<li>Vignette <code>Type coercion in vectors</code>: shorten name to <code>Type coercion</code>.</li>
-</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.10.0" id="checkinput-0100">checkinput 0.10.0<a class="anchor" aria-label="anchor" href="#checkinput-0100"></a></h2>
@@ -171,46 +162,14 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0" id="checkinput-010">checkinput 0.1.0<a class="anchor" aria-label="anchor" href="#checkinput-010"></a></h2>
-<div class="section level4">
-<h4 id="documentation-0-1-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-1-0"></a></h4>
-<ul><li>Vignettes: add hyperlinks from the vignettes to the help-pages of functions. No need to put output in comments because the output is automatically shown together with the code. Use <code>&lt;funcname&gt;</code> instead of <code>&lt;func&gt;</code> or <code>&lt;function&gt;</code> to align with usage in the vignettes of <code>checkrpkgs</code>.</li>
-<li>
-<code>README</code>: use <code>&lt;funcname&gt;</code> instead of <code>&lt;func&gt;</code> or <code>&lt;function&gt;</code> to align with usage in the vignettes of <code>checkrpkgs</code>. Define variables to write more succinct code.</li>
-</ul></div>
-</div>
-    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.6" id="checkinput-006">checkinput 0.0.6<a class="anchor" aria-label="anchor" href="#checkinput-006"></a></h2>
 <div class="section level4">
 <h4 id="breaking-changes-0-0-6">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-0-6"></a></h4>
 <ul><li>Add dependency <code>vctrs</code> to <code>Suggests</code> because it is used in documentation of <code><a href="../reference/all_names.html">all_names()</a></code>.</li>
 <li>
-<code><a href="../reference/all_names.html">all_names()</a></code>: remove argument <code>allow_susp</code> and never allows suspicious names; do not try to identify which functions might have changed a name because that is very ambiguous; also check for suspicious names that might have been created by <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>; consider the reserved words <code>...</code> and <code>..1</code> invalid and note that <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> does not adjust them; existing checks are now more specific: they check that names which apparently have been made valid indeed contain an invalid part, and that the first digit of numbers added to duplicated names is non-zero.</li>
+<code><a href="../reference/all_names.html">all_names()</a></code>: remove argument <code>allow_susp</code> and never allows suspicious names; also check for suspicious names that might have been created by <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>; consider the reserved words <code>...</code> and <code>..1</code> invalid; make existing checks are now more specific: check that names which apparently have been made valid indeed contain an invalid part, and that the first digit of numbers added to duplicated names is non-zero.</li>
 <li>
 <code><a href="../reference/is_number.html">is_number()</a></code> and derived functions gain arguments <code>allow_zero</code>, <code>allow_NA</code> and <code>allow_NaN</code> (with default <code>FALSE</code>, in contrast to the previously implicit <code>TRUE</code>), to resolve the contradiction that using <code><a href="../reference/is_number.html">is_number()</a></code> returned <code>TRUE</code> for these values but using them in conditional statements led to <code>logical(0)</code> and thus to an error.</li>
-</ul></div>
-<div class="section level4">
-<h4 id="documentation-0-0-6">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-0-6"></a></h4>
-<ul><li>
-<code><a href="../reference/all_names.html">all_names()</a></code>: major update and restructuring. Add examples.</li>
-<li>
-<code>README</code>: add a reference to my repository <code>checkrpkgs</code>. Clarify that functions <strong>do</strong> throw errors about invalid input to arguments other than <code>x</code>.</li>
-<li>Vignette <code>design_choices</code>: clarify that functions <strong>do</strong> throw errors about invalid input to arguments other than <code>x</code>.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.5" id="checkinput-005">checkinput 0.0.5<a class="anchor" aria-label="anchor" href="#checkinput-005"></a></h2>
-<div class="section level4">
-<h4 id="documentation-0-0-5">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-0-5"></a></h4>
-<ul><li>
-<code>README</code>: mention vignettes and introduce design choices.</li>
-<li>Remove <code>Notes</code> about legacy code.</li>
-<li>Move <code>To do</code> points and <code>Wishlist</code> to GitHub issues.</li>
-<li>Move information about correct input to the vignette <code>design_choices</code>.</li>
-<li>
-<code><a href="../reference/all_names.html">all_names()</a></code>: <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> also calls <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>.</li>
-<li>
-<code><a href="../reference/is_zerolength.html">is_zerolength()</a></code>: document that a zero-row data frame is not a zero-length object.</li>
 </ul></div>
 </div>
     <div class="section level2">
