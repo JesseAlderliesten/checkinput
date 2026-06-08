@@ -17,13 +17,6 @@
 ### Breaking changes
 - Rename argument `allow_zero_length` to `allow_zerolength`.
 
-### Documentation
-- `README`: add section `Function overview`.
-- `is_path()`: Document that `:` outside filenames should only be used to
-  indicate volume names.
-- Consistently document which values are allowed.
-- Vignette `Type coercion in vectors`: shorten name to `Type coercion`.
-
 
 # checkinput 0.10.0
 
@@ -115,29 +108,15 @@
 - `is_natural`: as `all_natural()` but test if `x` has a length of at most one.
 
 
-# checkinput 0.1.0
-
-### Documentation
-- Vignettes: add hyperlinks from the vignettes to the help-pages of functions.
-  No need to put output in comments because the output is automatically shown
-  together with the code. Use `<funcname>` instead of `<func>` or `<function>`
-  to align with usage in the vignettes of `checkrpkgs`. 
-- `README`: use `<funcname>` instead of `<func>` or `<function>` to align with
-  usage in the vignettes of `checkrpkgs`. Define variables to write more
-  succinct code.
-
-
 # checkinput 0.0.6
 
 ### Breaking changes
 - Add dependency `vctrs` to `Suggests` because it is used in documentation of
   `all_names()`.
 - `all_names()`: remove argument `allow_susp` and never allows suspicious names;
-  do not try to identify which functions might have changed a name because that
-  is very ambiguous; also check for suspicious names that might have been
-  created by `data.frame()` or `vctrs::vec_as_names()`; consider the reserved
-  words `...` and `..1` invalid and note that `make.names()` does not adjust
-  them; existing checks are now more specific: they check that names which
+  also check for suspicious names that might have been created by `data.frame()`
+  or `vctrs::vec_as_names()`; consider the reserved words `...` and `..1`
+  invalid; make existing checks are now more specific: check that names which
   apparently have been made valid indeed contain an invalid part, and that the
   first digit of numbers added to duplicated names is non-zero.
 - `is_number()` and derived functions gain arguments `allow_zero`, `allow_NA`
@@ -145,25 +124,6 @@
   `TRUE`), to resolve the contradiction that using `is_number()` returned `TRUE`
   for these values but using them in conditional statements led to `logical(0)`
   and thus to an error.
-
-### Documentation
-- `all_names()`: major update and restructuring. Add examples.
-- `README`: add a reference to my repository `checkrpkgs`. Clarify that
-  functions **do** throw errors about invalid input to arguments other than `x`.
-- Vignette `design_choices`: clarify that functions **do** throw errors about
-  invalid input to arguments other than `x`.
-
-
-# checkinput 0.0.5
-
-### Documentation
-- `README`: mention vignettes and introduce design choices.
-- Remove `Notes` about legacy code.
-- Move `To do` points and `Wishlist` to GitHub issues.
-- Move information about correct input to the vignette `design_choices`.
-- `all_names()`: `data.frame()` also calls `make.names()`.
-- `is_zerolength()`: document that a zero-row data frame is not a zero-length
-  object.
 
 
 # checkinput 0.0.4
