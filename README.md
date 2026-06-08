@@ -98,7 +98,7 @@ try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
 #>   is_nonnegative(age) is not TRUE
 ```
 
-### Design choices
+## Design choices
 
 The check functions of `checkinput` return either `TRUE` or `FALSE` and
 do **not** throw errors for any input to `x`. Errors **are** thrown
@@ -115,7 +115,7 @@ coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.
 in relation to checking function input:
 `vignette("type_coercion", package = "checkinput")`.
 
-### Function overview
+## Function overview
 
 The check functions in `checkinput` can be divided into groups based on
 the kind of **input** for which they return `TRUE`:
@@ -132,7 +132,16 @@ Besides these check functions, `checkinput` contains utility-functions:
 equal to such a number, and `paste_quoted()` which returns a character
 string.
 
-## Similar packages
+## License
+
+This project is licensed under the terms of the [MIT
+License](/LICENSE.md).
+
+## Citation
+
+Please cite this project [as described here](/CITATION.cff).
+
+# Similar packages
 
 Functions of `checkinput` use arguments to determine if special values
 like \[NA\]s and zero-length values should be allowed, making them more
@@ -152,12 +161,3 @@ similar packages are worth looking into:
   function arguments
 - [erify](https://CRAN.R-project.org/package=erify): check arguments and
   generate readable error messages
-
-## License
-
-This project is licensed under the terms of the [MIT
-License](/LICENSE.md).
-
-## Citation
-
-Please cite this project [as described here](/CITATION.cff).
