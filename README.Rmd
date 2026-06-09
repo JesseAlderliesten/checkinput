@@ -130,12 +130,14 @@ Besides these check functions, `checkinput` contains utility-functions:
 such a number, and `paste_quoted()` which returns a character string.
 
 ## License
-This project is licensed under the terms of the [MIT License](/LICENSE.md).
+This project is licensed under the terms of the [MIT License](LICENSE.md).
 
 ## Citation
-Please cite this project [as described here](/CITATION.cff).
+```{r, echo = FALSE, comment = ""}
+citation(basename(getwd()))
+```
 
-# Similar packages
+## Similar packages
 Functions of `checkinput` use arguments to determine if special values like
 [NA]s and zero-length values should be allowed, making them more flexible than
 functions in similar packages that require a different function to include these

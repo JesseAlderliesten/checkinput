@@ -135,13 +135,27 @@ string.
 ## License
 
 This project is licensed under the terms of the [MIT
-License](/LICENSE.md).
+License](LICENSE.md).
 
 ## Citation
 
-Please cite this project [as described here](/CITATION.cff).
+    To cite package 'checkinput' in publications use:
 
-# Similar packages
+      Alderliesten J (2026). _checkinput: Check Function Input_. R package
+      version 1.0.0, commit a3f2c67ac7c2905a810ce917edd4502de6c7f5bd,
+      <https://github.com/JesseAlderliesten/checkinput>.
+
+    A BibTeX entry for LaTeX users is
+
+      @Manual{,
+        title = {checkinput: Check Function Input},
+        author = {Jesse Alderliesten},
+        year = {2026},
+        note = {R package version 1.0.0, commit a3f2c67ac7c2905a810ce917edd4502de6c7f5bd},
+        url = {https://github.com/JesseAlderliesten/checkinput},
+      }
+
+## Similar packages
 
 Functions of `checkinput` use arguments to determine if special values
 like \[NA\]s and zero-length values should be allowed, making them more
