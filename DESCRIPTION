@@ -2,22 +2,24 @@ Package: checkinput
 Title: Check Function Input
 Version: 1.0.0
 Authors@R: 
-    person("Jesse", "Alderliesten", email = "jessealderliesten@hotmail.com",
-    role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1132-4310"))
-Description: Utility functions to write more-concise checks of function input,
-    with arguments to set the allowed types of input.
+    person("Jesse", "Alderliesten", , "jessealderliesten@hotmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-1132-4310"))
+Description: Utility functions to write more-concise checks of function
+    input, with arguments to set the allowed types of input.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+URL: https://github.com/JesseAlderliesten/checkinput,
+    https://jessealderliesten.github.io/checkinput/
+BugReports: https://github.com/JesseAlderliesten/checkinput/issues
+Depends: 
+    R (>= 4.1.0)
 Imports: 
     fs
 Suggests: 
     knitr,
     rmarkdown,
     tinytest (>= 1.4.1)
-URL: https://github.com/JesseAlderliesten/checkinput, https://jessealderliesten.github.io/checkinput/
-BugReports: https://github.com/JesseAlderliesten/checkinput/issues
-VignetteBuilder: knitr
-Depends: 
-    R (>= 4.1.0)
+VignetteBuilder: 
+    knitr
 Config/roxygen2/version: 8.0.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
