@@ -104,8 +104,9 @@ The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
 [R CMD checks](https://r-pkgs.org/R-CMD-check.html) on MacOS contains
 successive forward slashes (e.g.,
 `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier
-versions of `is_path()` (then in package `progutils`) led to spurious
-warnings about duplicated file separators.
+versions of `is_path()` (then in package
+[progutils](https://jessealderliesten.github.io/progutils/)) led to
+spurious warnings about duplicated file separators.
 
 ## References
 
