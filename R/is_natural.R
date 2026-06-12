@@ -147,8 +147,8 @@ all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
     return(FALSE)
   }
 
-  # If 'allow_NA' is FALSE, NaNs have been catched above with the condition
-  # '!allow_NA && anyNA(x)'
+  # If 'allow_NA' is FALSE, NaNs have been catched above
+  # through the condition '!allow_NA && anyNA(x)'
   if(any(x > .Machine$integer.max | is.nan(x) | is.infinite(x) | x < 0 |
          (strict & x < 0.5), na.rm = TRUE)) {
     return(FALSE)

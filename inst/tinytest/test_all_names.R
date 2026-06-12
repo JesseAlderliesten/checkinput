@@ -35,24 +35,24 @@ x_mknm_csv_q <- paste_quoted(x_mknm_csv)
 # c("X.0", "X.00", "X.03"): started with a dot followed by a number;
 # c("X.0a", "X.03a"): started with a dot followed by a number;
 # c("FALSE.", "for.", "NA.", "TRUE.", "while."): were reserved words
-x_mknm_F <- make.names(
+x_mknm_false <- make.names(
   c(".0", ".00", ".03", ".03a", ".0a", "_", "_.", "_3b", "_ab", "0", "0.33cc",
     "0.3cc", "00", "00cc", "013", "03", "033", "033cc", "03cc", "0cc", "1", "3",
     "33", "33cc", "3cc", "FALSE", "for", "NA", "TRUE", "while"))
 # "TRUE..1": a reserved word; c(".X.1", ".X.2", "X..1", "X..2", "XX.1", "XX.2",
 # "a..1", "a..2", "A.X.1", "A.X.2", "X.X.1", "X.X.2", "Xa.1", "Xa.2")
-x_mknm_T <- make.names(names = rep(x = x_dupl, each = 3L), unique = TRUE)
-x_mknm_T <- c(make.names(rep(TRUE, 2L), unique = TRUE)[-1L],
-              x_mknm_T[!(x_mknm_T %in% x_dupl)], "c..1", "c..314")
-x_mknm_T_q <- paste_quoted(x_mknm_T)
+x_mknm_true <- make.names(names = rep(x = x_dupl, each = 3L), unique = TRUE)
+x_mknm_true <- c(make.names(rep(TRUE, 2L), unique = TRUE)[-1L],
+              x_mknm_true[!(x_mknm_true %in% x_dupl)], "c..1", "c..314")
+x_mknm_true_q <- paste_quoted(x_mknm_true)
 # Partly from help(vctrs::vec_as_names) and their test suite
-x_mknm_T_vcsnm <- c(
+x_mknm_true_vcsnm <- c(
   # or vctrs::vec_as_names(as.character(c(1:3)), repair = "universal")
   make.names(rep("..", 4L), unique = TRUE)[-1L], # c("...1", "...2", "...3")
   # or vctrs::vec_as_names(rep("if", 2L), repair = "universal")
   make.names(rep("&if<=", 3L), unique = TRUE)[-1L], # c(".if...1", ".if...2")
   "a...2", "X...11")
-x_mknm_T_vcsnm_q <- paste_quoted(x_mknm_T_vcsnm)
+x_mknm_true_vcsnm_q <- paste_quoted(x_mknm_true_vcsnm)
 x_mknm_vcsnm <- "X0...11"
 x_susp_dot <- c("..a..", ".a", ".a.", ".V1", ".V234", "a...03", "V1.", "V234.",
                 "X..", "X..X", "X.A", "X.a2", "X.b.", "X.X.X")
@@ -170,7 +170,8 @@ expect_silent(expect_true(all_names(x = "abc123")))
 
 #### Tests ####
 ##### Non-character-vector #####
-for(x in list(NA, data.frame(a = "nco"), as.matrix(data.frame(a = "nco")),
+for(x in list(NA, data.frame(a = "nco", stringsAsFactors = FALSE),
+              as.matrix(data.frame(a = "nco", stringsAsFactors = FALSE)),
               list(a = 314), list(), 314)) {
   expect_warning(
     expect_false(all_names(x = x)),
@@ -297,13 +298,13 @@ expect_warning(
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = x_mknm_F)),
-  pattern = paste0(warn_suspicious, paste_quoted(x_mknm_F)),
+  expect_false(all_names(x = x_mknm_false)),
+  pattern = paste0(warn_suspicious, paste_quoted(x_mknm_false)),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = x_mknm_T)),
-  pattern = paste0(warn_suspicious, x_mknm_T_q),
+  expect_false(all_names(x = x_mknm_true)),
+  pattern = paste0(warn_suspicious, x_mknm_true_q),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
@@ -317,8 +318,8 @@ expect_warning(
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = x_mknm_T_vcsnm)),
-  pattern = paste0(warn_suspicious, x_mknm_T_vcsnm_q),
+  expect_false(all_names(x = x_mknm_true_vcsnm)),
+  pattern = paste0(warn_suspicious, x_mknm_true_vcsnm_q),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
@@ -339,23 +340,23 @@ expect_warning(
 ##### Mix #####
 expect_warning(
   expect_false(
-    all_names(x = c(x_invld, x_vld, x_vld_undersc, x_mknm, x_mknm_csv, x_mknm_T,
-                    x_mknm_T_vcsnm, x_vcsnm), allow_underscores = TRUE)
+    all_names(x = c(x_invld, x_vld, x_vld_undersc, x_mknm, x_mknm_csv, x_mknm_true,
+                    x_mknm_true_vcsnm, x_vcsnm), allow_underscores = TRUE)
   ),
   pattern = paste0(warn_syntax, x_invld_q, "; and are suspicious: ",
-                   x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_T_q, ", ",
-                   x_mknm_T_vcsnm_q, ", ", x_vcsnm_q, use_mknm_mult),
+                   x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_true_q, ", ",
+                   x_mknm_true_vcsnm_q, ", ", x_vcsnm_q, use_mknm_mult),
   strict = TRUE, fixed = FALSE)
 
-if(any(grepl(pattern = "_", x = c(x_mknm_q, x_mknm_csv_q, x_mknm_T_q,
-                                  x_mknm_T_vcsnm_q), fixed = FALSE))) {
+if(any(grepl(pattern = "_", x = c(x_mknm_q, x_mknm_csv_q, x_mknm_true_q,
+                                  x_mknm_true_vcsnm_q), fixed = TRUE))) {
   warning("Next test will fail because some sets contain underscores that are",
           " not removed when listing suspicious names.")
 }
 
 expect_warning(
   expect_false(
-    all_names(x = c(x_vld, x_mknm, x_mknm_csv, x_mknm_T, x_mknm_T_vcsnm,
+    all_names(x = c(x_vld, x_mknm, x_mknm_csv, x_mknm_true, x_mknm_true_vcsnm,
                     x_vcsnm, x_vld_undersc, x_invld), allow_underscores = FALSE)
   ),
   pattern = paste0(
@@ -363,12 +364,12 @@ expect_warning(
     paste_quoted(
       # x_invld should NOT be included here, because those are returned as
       # invalid, not as containing underscores!
-      grep(pattern = "_", x = c(x_vld, x_mknm, x_mknm_csv, x_mknm_T,
-                                x_mknm_T_vcsnm, x_vcsnm, x_vld_undersc),
-           value = TRUE, fixed = FALSE)),
-    "; and are suspicious: ", x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_T_q,
-    ", ", x_mknm_T_vcsnm_q, ", ",
-    paste_quoted(grep(pattern = "_", x = x_vcsnm, value = TRUE, fixed = FALSE,
+      grep(pattern = "_", x = c(x_vld, x_mknm, x_mknm_csv, x_mknm_true,
+                                x_mknm_true_vcsnm, x_vcsnm, x_vld_undersc),
+           value = TRUE, fixed = TRUE)),
+    "; and are suspicious: ", x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_true_q,
+    ", ", x_mknm_true_vcsnm_q, ", ",
+    paste_quoted(grep(pattern = "_", x = x_vcsnm, value = TRUE, fixed = TRUE,
                       invert = TRUE)),
     use_mknm_undersc_mult),
   strict = TRUE, fixed = FALSE)
@@ -387,6 +388,7 @@ rm(invalid_names, note_mknm_dots, use_mknm, use_mknm_mult, use_mknm_undersc,
    warn_dots_pattern, warn_dupl, warn_suspicious, warn_syntax, warn_undersc, x,
    x_csv_df, x_dupl, x_invld, x_invld_caught, x_invld_empty_q, x_invld_mn_made,
    x_invld_q, x_invld_vcsnm_repaired, x_mknm, x_mknm_csv, x_mknm_csv_q,
-   x_mknm_F, x_mknm_q, x_mknm_T, x_mknm_T_q, x_mknm_T_vcsnm, x_mknm_T_vcsnm_q,
+   x_mknm_false, x_mknm_q, x_mknm_true, x_mknm_true_q, x_mknm_true_vcsnm,
+   x_mknm_true_vcsnm_q,
    x_mknm_vcsnm, x_susp_dot, x_susp_example, x_susp_undersc, x_susp_undersc_q,
    x_vcsnm, x_vcsnm_q, x_vld, x_vld_undersc)
