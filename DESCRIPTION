@@ -23,4 +23,3 @@ VignetteBuilder:
 Config/roxygen2/version: 8.0.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Language: en-GB
