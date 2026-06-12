@@ -70,7 +70,8 @@
 #' The output of `tempdir()` during
 #' [R CMD checks](https://r-pkgs.org/R-CMD-check.html) on MacOS contains successive
 #' forward slashes (e.g., `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
-#' which in earlier versions of `is_path()` (then in package `progutils`) led to
+#' which in earlier versions of [checkinput::is_path()] (then in package
+#' [progutils](https://jessealderliesten.github.io/progutils/)) led to
 #' spurious warnings about duplicated file separators.
 #'
 #' @section References:
@@ -231,7 +232,7 @@ is_path <- function(x, require_sep = TRUE) {
        endsWith(x = filename_no_ext, suffix = ".") ||
        filename_dot) {
       path_ok <- FALSE
-      warning("The filename (", paste_quoted(filename), ") in ", arg_name,
+      warning("The filename (", paste_quoted(filename_no_ext), ") in ", arg_name,
               " should not end with ' ' or '.' (i.e., a space or a dot):\n", x)
     }
   }

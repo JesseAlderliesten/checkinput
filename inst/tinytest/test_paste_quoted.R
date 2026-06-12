@@ -25,7 +25,7 @@ expect_identical(paste_quoted(NULL), "'NULL'") # Also mentioned in the 'Note'
 # 'Note'
 expect_identical(paste_quoted(logical(0)), "'logical(0)'")
 expect_silent(expect_identical(paste_quoted(c("a", "b")), "'a', 'b'"))
-expect_identical(toString(c("a", "b")), paste(c("a", "b"), collapse = ", "))
+expect_identical(toString(c("a", "b")), paste0(c("a", "b"), collapse = ", "))
 
 
 #### Tests ####

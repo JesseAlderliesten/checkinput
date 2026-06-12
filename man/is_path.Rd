@@ -85,7 +85,8 @@ how \code{x} would be printed.
 The output of \code{tempdir()} during
 \href{https://r-pkgs.org/R-CMD-check.html}{R CMD checks} on MacOS contains successive
 forward slashes (e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR})
-which in earlier versions of \code{is_path()} (then in package \code{progutils}) led to
+which in earlier versions of \code{\link[=is_path]{is_path()}} (then in package
+\href{https://jessealderliesten.github.io/progutils/}{progutils}) led to
 spurious warnings about duplicated file separators.
 }
 

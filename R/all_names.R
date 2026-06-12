@@ -267,10 +267,10 @@ all_names <- function(x, allow_underscores = TRUE) {
   }
 
   if(length(warn_text) > 0L) {
-    warn_text <- paste0("Names ", paste0(warn_text, collapse = "; and "))
+    warn_text <- paste("Names", paste(warn_text, collapse = "; and "))
   }
 
-  warn_text <- paste0(c(warn_text_zerolength, warn_text), collapse = " and ")
+  warn_text <- paste(c(warn_text_zerolength, warn_text), collapse = " and ")
 
   if(suggest_make_names) {
     note_dots <- paste(c("only dots", "two dots followed by digits")[
@@ -283,12 +283,16 @@ all_names <- function(x, allow_underscores = TRUE) {
 
     if(allow_underscores) {
       warn_text <- paste0(
-        warn_text, ".\nUse '", if(length_name_x == 1L) {paste0(name_x, " <- ")},
+        warn_text, ".\nUse '",
+        if(length_name_x == 1L) {
+          paste0(name_x, " <- ")
+          },
         "make.names(", name_x,
         ", unique = TRUE)' to create unique, syntactically valid names",
         if(length(warn_text_dots) > 0L) {
           note_dots
-        }, "!")
+        },
+        "!")
     } else {
       warn_text <- paste0(
         warn_text, ".\nUse '", if(length_name_x == 1L) {paste0(name_x, " <- ")},
@@ -303,7 +307,6 @@ all_names <- function(x, allow_underscores = TRUE) {
 
   # Another early return occurs if 'x' is not a character vector and not NULL.
   if(length(warn_text) > 1L || nchar(warn_text) > 0L) {
-    chars_ok <- FALSE
     warning(x = warn_text)
     return(FALSE)
   }
