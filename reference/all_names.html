@@ -9,7 +9,7 @@ that do not suggest they were adjusted or automatically created."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,14 +84,14 @@ will preserve duplicated column names, and operations involving syntactically
 invalid names might, by definition, give undocumented results.</p>
 <p><a href="https://rdrr.io/r/base/make.names.html" class="external-link">Syntactically valid</a> names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
-number; and are not <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words such as <a href="https://rdrr.io/r/base/Control.html" class="external-link">for</a> or any of the <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a>s. The
+number; and are not <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words such as <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">for</a></code> or any of the <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>s. The
 definition of <strong>letter</strong> depends on the current <a href="https://rdrr.io/r/base/locales.html" class="external-link">locale</a>. A
 conservative check for names that are syntactically valid on all locales
 would only allow digits and unaccented Latin letters, but that is <strong>not</strong>
 enforced by <code>all_names()</code>.</p>
 <p>Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by <code>all_names()</code> (nor by <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>) even though
-they are not adjusted by <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>: they are listed as <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words.</p>
+they are not adjusted by <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>: they are <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words.</p>
 <p>Suspicious names are not allowed by <code>all_names()</code>. A suspicious name contains
 a pattern suggesting it originally was syntactically invalid and has been
 <strong>adjusted</strong> into a syntactically valid name, or has been adjusted to make
@@ -111,17 +111,19 @@ such characters with a dot</p></li>
 <li><p>Their identification is based on the assumption that names originally did
 <strong>not</strong> contain dots, which is good practice preventing names containing
 a dot from being confused with <a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">methods</a> used on
-<a href="https://rdrr.io/r/base/is.object.html" class="external-link">classed objects</a>, even though that advice is not strictly
-followed in base-<span style="R">R</span>, e.g., in the function name <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>.</p></li>
+<a href="https://rdrr.io/r/base/is.object.html" class="external-link">classed objects</a>, even though that practice is not strictly
+followed in base <span style="R">R</span>, e.g., in the function name <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>.</p></li>
 </ul></li>
 <li><p>adjustments to make duplicated names unique:</p><ul><li><p><code>make.names(x, unique = TRUE)</code> appends a dot followed by a number</p></li>
 <li><p><code>vctrs::vec_as_names(x, repair = "universal")</code> appends three dots
 followed by a number.</p></li>
 </ul><p><code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> does <strong>not</strong> adjust the first instance of a duplicate,
 whereas <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code> <strong>does</strong> adjust it:
-<code>make.names(c("a", "a"), unique = TRUE)</code> returns <code>c("a", "a.1")</code>, whereas
-<code>vctrs::vec_as_names(c("a", "a"), repair = "universal")</code> returns
-<code>c("a...1", "a...2")</code>.</p></li>
+<code>make.names(c("a", "b", "c", "b", "a"), unique = TRUE)</code> returns
+<code>c("a", "b", "c", "b.1", "a.1")</code>, whereas
+<code>vctrs::vec_as_names(c("a", "b", "c", "b", "a"), repair = "universal")</code>
+returns <code>c("a...1", "b...2", "c", "b...4", "a...5")</code>, with <code>...&lt;number&gt;</code>
+indicating the position in the vector</p></li>
 <li><p>adjustments to make <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words valid:</p><ul><li><p><code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> appends a dot</p></li>
 <li><p><code>vctrs::vec_as_names(x, repair = "universal")</code> prepends a dot</p></li>
 </ul></li>
@@ -132,7 +134,7 @@ not followed by a number, syntactically valid:</p><ul><li><p><code><a href="http
 <li><p>adjustments to name unnamed columns:</p><ul><li><p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> uses pattern <code>X1</code>, <code>X2</code>, <code>X3</code></p></li>
 <li><p><code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> and <code>read.csv(..., header = FALSE)</code> use pattern <code>V1</code>,
 <code>V2</code>, <code>V3</code></p></li>
-<li><p><code>read.csv(..., header = TRUE)</code> uses pattern <code>X</code>, <code>X.1</code>, <code>X.2</code>.</p></li>
+<li><p><code>read.csv(..., header = TRUE)</code> uses pattern <code>X</code>, <code>X.1</code>, <code>X.2</code></p></li>
 </ul><p>It is <strong>not</strong> checked if a complete sequence of suspicious names is
 present, e.g., <code>V3</code> will be flagged as suspicious even if <code>V1</code> and <code>V2</code> are
 absent.</p></li>
@@ -148,19 +150,19 @@ will be concatenated to create an ID-tag, separating the parts by underscores.</
 
 <p>The patterns used to identify suspicious names are created using
 <a href="https://rdrr.io/r/base/regex.html" class="external-link">regular expressions</a> with the following elements:</p><ul><li><p>require a pattern to start at the beginning of a string (<code>^</code>) or reach the
-end of a string (<code>$</code>);</p></li>
+end of a string (<code>$</code>)</p></li>
 <li><p>specify characters that should be present: a dot (<code>\\.</code> or, if <code>fixed</code> is
 <code>TRUE</code>, <code>.</code>), an underscore (<code>_</code>), any digit (<code>[0-9]</code>), digits one to nine
-(<code>[1-9]</code>), characters <code>V</code> or <code>X</code>);</p></li>
+(<code>[1-9]</code>), characters <code>V</code> or <code>X</code>)</p></li>
 <li><p>indicate presence: present zero or more times (<code>*</code>); present one or more
-times (<code>+</code>).</p></li>
+times (<code>+</code>)</p></li>
 </ul><p>Multiple patterns can be combined using <code>|</code>, the normal operator indicating
 <a href="https://rdrr.io/r/base/Logic.html" class="external-link">logical OR</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Section <code>Details</code> of <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>, section <code>Names and Identifiers</code> of
-<a href="https://rdrr.io/r/base/Quotes.html" class="external-link">Quotes</a>, and the <a href="https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f" class="external-link"><span style="R">R</span> FAQ about valid names</a>
+<code><a href="https://rdrr.io/r/base/Quotes.html" class="external-link">Quotes()</a></code>, and the <a href="https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f" class="external-link"><span style="R">R</span> FAQ about valid names</a>
 on the syntactical validity of names.</p>
 <p><code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code> to get or set object names; <code>janitor::make_clean_names()</code> to adjust
 names, e.g., through adjusting case and transliterating non-ASCII characters.</p>

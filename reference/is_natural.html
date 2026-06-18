@@ -9,7 +9,7 @@ numeric errors."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +97,7 @@ numeric errors.</p>
 
 
 <dt id="arg-allow-na">allow_NA<a class="anchor" aria-label="anchor" href="#arg-allow-na"></a></dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a>s of the correct type in <code>x</code>?</p></dd>
+<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a> of the correct type in <code>x</code>?</p></dd>
 
 
 <dt id="arg-tol">tol<a class="anchor" aria-label="anchor" href="#arg-tol"></a></dt>
@@ -129,7 +129,7 @@ then small negative numbers are <strong>not</strong> considered natural numbers.
 <code>allow_zerolength</code> is <code>TRUE</code>, and <code>NA_integer_</code> and <code>NA_real_</code> are considered
 natural numbers if <code>allow_NA</code> is <code>TRUE</code> (even then <code>NA_complex_</code> is <strong>not</strong>
 considered a natural number because its mode is <code>complex</code> instead of <code>numeric</code>).</p>
-<p><a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a>, <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a>, negative numbers, <code>Inf</code>, and numbers that are
+<p><code><a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a></code>, <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a></code>, negative numbers, <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">Inf</a></code>, and numbers that are
 <a href="https://rdrr.io/r/base/zMachine.html" class="external-link">too large</a> to be represented as <a href="https://rdrr.io/r/base/integer.html" class="external-link">integers</a> are <strong>never</strong>
 considered natural numbers.</p>
     </div>
@@ -159,7 +159,7 @@ a whole number) but rather that <code>x</code> is of <a href="https://rdrr.io/r/
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="https://jessealderliesten.github.io/progutils/reference/are_equal.html" class="external-link">progutils::are_equal()</a></code> to check for element-wise near-equality of numbers;
 <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code> to check more generally for near-equality; <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code> to
-check for exact equality and <a href="https://rdrr.io/r/base/Comparison.html" class="external-link">Comparison</a> to do so using binary operators;
+check for exact equality and <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">Comparison</a></code> to do so using binary operators;
 <code><a href="https://rdrr.io/r/base/match.html" class="external-link">match()</a></code> and <code><a href="https://jessealderliesten.github.io/progutils/reference/not_in.html" class="external-link">progutils::not_in()</a></code> to compare character vectors; <a href="https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f" class="external-link"><span style="R">R</span> FAQ 7.31</a>
 for background on numerical equality.</p>
 <p>Other collections of checks on type and length:

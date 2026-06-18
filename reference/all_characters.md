@@ -39,7 +39,7 @@ is_character(
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html)s of the
+  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html) of the
   correct type in `x`?
 
 ## Value

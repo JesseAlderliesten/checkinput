@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,14 +118,14 @@ that is printed as <code>NA</code>.</p>
 </h2>
 <p>As a consequence of type coercion, code like
 <code>all_characters(c(x, y))</code> does <strong>not</strong> check if
-all elements in <code>x</code> and <code>y</code> have type
-<code>character</code>: <code>x</code> and <code>y</code> will be
-coerced to the highest of their types before the check is performed,
-such that <code>all_characters(c(x, y))</code> checks if any of
-<code>x</code> or <code>y</code> has type character <strong>and</strong>
-none of <code>x</code> or <code>y</code> has a higher type.</p>
+all elements in <code>x</code> and <code>y</code> have type character:
+<code>x</code> and <code>y</code> will be coerced to the highest of
+their types before the check is performed, such that
+<code>all_characters(c(x, y))</code> checks if any of <code>x</code> or
+<code>y</code> has type character <strong>and</strong> none of
+<code>x</code> or <code>y</code> has a higher type.</p>
 <p>To check if all elements in <code>x</code> and <code>y</code> have
-type <code>character</code>, use
+type character, use
 <code>all_characters(x) &amp;&amp; all_characters(y)</code> or, to
 generalise more easily to more than two objects,
 <code>all(unlist(lapply(X = list(x, y), FUN = all_characters)))</code>.

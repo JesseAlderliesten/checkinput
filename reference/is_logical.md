@@ -22,7 +22,7 @@ is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html)s of the
+  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html) of the
   correct type in `x`?
 
 ## Value
@@ -32,7 +32,8 @@ length with only allowed values.
 
 ## Details
 
-`is_logical()` returns `TRUE` for `x` with length one, for logical-type
+`is_logical()` returns `TRUE` for logical-type `x` of length one, for
+logical-type
 [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
 `x` if `allow_zerolength` is `TRUE`, and for logical-type `NA` if
 `allow_NA` is `TRUE`.

@@ -9,7 +9,7 @@ sign."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,11 +88,11 @@ sign.</p>
 
 
 <dt id="arg-allow-na">allow_NA<a class="anchor" aria-label="anchor" href="#arg-allow-na"></a></dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a>s of the correct type in <code>x</code>?</p></dd>
+<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a> of the correct type in <code>x</code>?</p></dd>
 
 
 <dt id="arg-allow-nan">allow_NaN<a class="anchor" aria-label="anchor" href="#arg-allow-nan"></a></dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a>s?</p></dd>
+<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a></code>?</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -106,15 +106,16 @@ containing allowed numbers.</p>
 return <code>TRUE</code> for zero, whereas <code>is_positive()</code> returns <code>FALSE</code> for zero.</p>
 <p><code>is_number()</code>, <code>is_nonnegative()</code>, and <code>is_positive()</code> return <code>TRUE</code> for <code>x</code>
 with length one. <code>all_numbers()</code> and <code>all_nonnegative()</code> return <code>TRUE</code> for
-<code>x</code> with length larger than zero. All these functions return <code>TRUE</code> for
-numeric-type <a href="is_zerolength.html">zero-length</a> <code>x</code> if <code>allow_zerolength</code> is
-<code>TRUE</code>.</p>
-<p>All these functions return <code>TRUE</code> for <code>-Inf</code> and <code>Inf</code> if it has the correct
-sign, for <code>NA_integer_</code> and <code>NA_real_</code> if <code>allow_NA</code> is <code>TRUE</code> (even then
-they return <code>FALSE</code> for <code>NA_complex_</code> because its mode is <code>complex</code> instead
-of <code>numeric</code>), and for <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a> (which has <a href="https://rdrr.io/r/base/mode.html" class="external-link">mode</a> <code>numeric</code>, despite meaning
-'not a number') if <code>allow_NaN</code> is <code>TRUE</code>.</p>
-    </div>
+<code>x</code> with length larger than zero.</p>
+<p>All these functions return <code>TRUE</code>:</p><ul><li><p>for numeric-type <a href="is_zerolength.html">zero-length</a> <code>x</code> if <code>allow_zerolength</code>
+is <code>TRUE</code>.</p></li>
+<li><p>for <code>-Inf</code> and <code>Inf</code> if it has the correct sign</p></li>
+<li><p>for <code>NA_integer_</code> and <code>NA_real_</code> if <code>allow_NA</code> is <code>TRUE</code> (even then they
+return <code>FALSE</code> for <code>NA_complex_</code> because that has mode is <code>complex</code> instead
+of <code>numeric</code>)</p></li>
+<li><p>for <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a></code> (which has <a href="https://rdrr.io/r/base/mode.html" class="external-link">mode</a> <code>numeric</code>, despite meaning 'not a number') if
+<code>allow_NaN</code> is <code>TRUE</code>.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
 

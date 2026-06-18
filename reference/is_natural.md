@@ -50,7 +50,7 @@ make_natural(
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html)s of the
+  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html) of the
   correct type in `x`?
 
 - tol:
@@ -89,11 +89,12 @@ considered natural numbers if `allow_NA` is `TRUE` (even then
 `NA_complex_` is **not** considered a natural number because its mode is
 `complex` instead of `numeric`).
 
-[NULL](https://rdrr.io/r/base/NULL.html),
-[NaN](https://rdrr.io/r/base/is.finite.html), negative numbers, `Inf`,
-and numbers that are [too large](https://rdrr.io/r/base/zMachine.html)
-to be represented as [integers](https://rdrr.io/r/base/integer.html) are
-**never** considered natural numbers.
+[`NULL`](https://rdrr.io/r/base/NULL.html),
+[`NaN`](https://rdrr.io/r/base/is.finite.html), negative numbers,
+[`Inf`](https://rdrr.io/r/base/is.finite.html), and numbers that are
+[too large](https://rdrr.io/r/base/zMachine.html) to be represented as
+[integers](https://rdrr.io/r/base/integer.html) are **never** considered
+natural numbers.
 
 ## Notes
 
@@ -126,9 +127,9 @@ to check for element-wise near-equality of numbers;
 [`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check more
 generally for near-equality;
 [`identical()`](https://rdrr.io/r/base/identical.html) to check for
-exact equality and [Comparison](https://rdrr.io/r/base/Comparison.html)
-to do so using binary operators;
-[`match()`](https://rdrr.io/r/base/match.html) and
+exact equality and
+[`Comparison`](https://rdrr.io/r/base/Comparison.html) to do so using
+binary operators; [`match()`](https://rdrr.io/r/base/match.html) and
 [`progutils::not_in()`](https://jessealderliesten.github.io/progutils/reference/not_in.html)
 to compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)

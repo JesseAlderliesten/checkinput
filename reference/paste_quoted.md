@@ -24,11 +24,11 @@ some special values.
 
 ## Details
 
-`paste_quoted()` returns `NULL` as `"'NULL'"`, other zero-length objects
-as `"'<class>(0)'"` (e.g., `"'logical(0)'"`), `""` as `'""'`, and
-non-logical `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`; for
-[factors](https://rdrr.io/r/base/factor.html) this is
-`"'NA_character_'"`).
+`NULL` is returned as `"'NULL'"`, other zero-length objects are returned
+as `"'<class>(0)'"` (e.g., `"'logical(0)'"`), `""` as `'""'`, logical
+`NA` as `"'NA'"`, and non-logical `NA`s as `"'NA_<class>_'"` (e.g.,
+`"'NA_real_'"`; for [factors](https://rdrr.io/r/base/factor.html) this
+is `"'NA_character_'"`).
 
 ## Notes
 
@@ -48,8 +48,9 @@ these warnings.
 
 [`toString()`](https://rdrr.io/r/base/toString.html) which can be used
 instead of `paste(x, collapse = ", ")`;
-[`sQuote()`](https://rdrr.io/r/base/sQuote.html) to use fancy quotes;
-[`paste0()`](https://rdrr.io/r/base/paste.html);
+[`Quotes`](https://rdrr.io/r/base/Quotes.html) and
+[`sQuote()`](https://rdrr.io/r/base/sQuote.html) for documentation on
+quotes; [`paste0()`](https://rdrr.io/r/base/paste.html);
 [`progutils::unpaste_unquote()`](https://jessealderliesten.github.io/progutils/reference/unpaste_unquote.html)
 for the approximate opposite of `paste_quoted()`;
 [`progutils::vect_to_char()`](https://jessealderliesten.github.io/progutils/reference/vect_to_char.html)

@@ -31,7 +31,7 @@ creating a directory or a file. Therefore it imposes the following
 restrictions:
 
 - `x` should be a non-empty [character
-  string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md).
+  string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
 
 - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
   `>`, nor any of the control characters (`[:cntrl:]`, with `ASCII`
@@ -45,12 +45,12 @@ restrictions:
   `NUL`, `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive
   variants of these names, or these names followed by an extension.
 
-- path components should **not** end with a space.
+- path components should **not** end with a space
 
 - path components should **not** end with a dot, with the exception of
   `"."` and `".."` that are allowed as first component to indicate the
   [working directory](https://rdrr.io/r/base/getwd.html) and the parent
-  directory, respectively.
+  directory, respectively
 
 - If `x` contains a file extension (or compression extension, the
   current implementation does not distinguish those from each other),
@@ -61,8 +61,8 @@ restrictions:
   space or a hyphen (`-`).
 
 These restrictions on `x` consider characters and path components that
-are not allowed in Windows and thus would lead to an error when used to
-create a directory or file; characters that are silently removed in
+are **not** allowed in Windows and thus would lead to an error when used
+to create a directory or file; characters that are silently removed in
 Windows and thus would lead to a mismatch between the created directory
 and the returned path when used to create a directory; and characters
 that might give problems when used in the shell.
@@ -101,7 +101,7 @@ such that backslashes need to be escaped in R code by doubling them. Use
 ## Programming notes
 
 The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
-[R CMD checks](https://r-pkgs.org/R-CMD-check.html) on MacOS contains
+[`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains
 successive forward slashes (e.g.,
 `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier
 versions of `is_path()` (then in package
@@ -110,19 +110,18 @@ spurious warnings about duplicated file separators.
 
 ## References
 
-- Naming files, paths, and namespaces from
+- `Naming files, paths, and namespaces` from
   [Microsoft](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file)
 
 - Entries
-  [Filename](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
-  [Portable
-  filenames](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
+  [`Filename`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
+  [`Portable filenames`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
   and
-  [Pathname](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
+  [`Pathname`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
   from the Posix standard
   [POSIX.1-2024](https://pubs.opengroup.org/onlinepubs/9799919799/)
 
-- Comparison of file systems from
+- `Comparison of file systems` from
   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 
 ## See also

@@ -38,13 +38,13 @@ and
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
 for a discussion of some issues with zero-length input.
 
-## NAs and NaNs in x
+## `NA` and `NaN` in x
 
 By default, functions of `checkinput` return `FALSE` for `x` containing
-`NA`s or `NaN`s. Set argument `allow_NA` to `TRUE` to let them return
-`TRUE` for `x` containing `NA`s of the correct type, and set argument
+`NA` or `NaN`. Set argument `allow_NA` to `TRUE` to let them return
+`TRUE` for `x` containing `NA` of the correct type, and set argument
 `allow_NaN` in functions like `is_number(x)` to `TRUE` to let them
-return `TRUE` for `x` containing `NaN`s.
+return `TRUE` for `x` containing `NaN`.
 
 ## Return
 

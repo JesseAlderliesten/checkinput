@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,15 +72,16 @@
 <p><a href="https://rdrr.io/r/base/length.html" class="external-link">Zero-length</a> objects can have different <a href="https://rdrr.io/r/base/typeof.html" class="external-link">types</a>: NULL
 (<a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a>), logical (<code>logical(0)</code>), integer (<code>integer(0)</code>), double
 (<code>numeric(0)</code>), complex (<code>complex(0)</code>), character (<code>character(0)</code>), and list
-(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>). <code>""</code> is <strong>not</strong> a zero-length object: it has a
+(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>).</p>
+<p><code>""</code> is <strong>not</strong> a zero-length object: it has a
 <code>length</code> of one despite its <a href="https://rdrr.io/r/base/nchar.html" class="external-link">width</a> of zero characters. A data frame
 with zero rows is <strong>not</strong> a zero-length object: it has <code>length</code> equal to the
-number of columns. In contrast, a <a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a> with zero rows <strong>is</strong> a
+number of columns. In contrast, a <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></code> with zero rows <strong>is</strong> a
 zero-length object, see the <code>Examples</code>.</p>
 <p><code><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null()</a></code> should be used to check that an object is <code>NULL</code> and, more
 generally, <code>isTRUE(all.equal(x, &lt;zero-length object&gt;))</code> should be used to
 check equality to a zero-length object. Checking equality should <strong>not</strong> be
-done by using <a href="https://rdrr.io/r/base/Comparison.html" class="external-link">==</a> because that leads to <code>logical(0)</code> if any of
+done by using <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">==</a></code> because that leads to <code>logical(0)</code> if any of
 the sides contains a zero-length object, which gives an error when used as
 complete <a href="https://rdrr.io/r/base/Control.html" class="external-link">conditional statement</a>.</p>
 <p><code>all(logical(0))</code> returns <code>TRUE</code>, see the <code>Note</code> in <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. This is also the
@@ -92,11 +93,7 @@ the vignette <em>Type coercion</em>:
 <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>. For example, numeric
 <code>314</code> will be coerced to character <code>"314"</code> when it is combined into a vector
 with zero-length <code>character(0)</code>, such that <code>c(314, character(0))</code> results in
-the character string <code>"314"</code>, not in the numeric value <code>314</code>. If zero-length
-objects are combined into a vector with only zero-length values, the type of
-the vector is the highest type of the components in the hierarchy <code>NULL</code> &lt;
-<code>raw</code> &lt; <code>logical</code> &lt; <code>integer</code> &lt; <code>double</code> &lt; <code>complex</code> &lt; <code>character</code> &lt; <code>list</code> &lt;
-<code>expression</code>, see the section <code>Details</code> in <code><a href="https://rdrr.io/r/base/c.html" class="external-link">help(c)</a></code>.</p>
+the character string <code>"314"</code>, <strong>not</strong> in the numeric value <code>314</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

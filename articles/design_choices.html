@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,16 +118,17 @@ See <code><a href="../reference/is_zerolength.html">help("is_zerolength")</a></c
 discussion of some issues with zero-length input.</p>
 </div>
 <div class="section level2">
-<h2 id="nas-and-nans-in-x">NAs and NaNs in x<a class="anchor" aria-label="anchor" href="#nas-and-nans-in-x"></a>
+<h2 id="na-and-nan-in-x">
+<code>NA</code> and <code>NaN</code> in x<a class="anchor" aria-label="anchor" href="#na-and-nan-in-x"></a>
 </h2>
 <p>By default, functions of <code>checkinput</code> return
-<code>FALSE</code> for <code>x</code> containing <code>NA</code>s or
-<code>NaN</code>s. Set argument <code>allow_NA</code> to
+<code>FALSE</code> for <code>x</code> containing <code>NA</code> or
+<code>NaN</code>. Set argument <code>allow_NA</code> to
 <code>TRUE</code> to let them return <code>TRUE</code> for
-<code>x</code> containing <code>NA</code>s of the correct type, and set
+<code>x</code> containing <code>NA</code> of the correct type, and set
 argument <code>allow_NaN</code> in functions like
 <code>is_number(x)</code> to <code>TRUE</code> to let them return
-<code>TRUE</code> for <code>x</code> containing <code>NaN</code>s.</p>
+<code>TRUE</code> for <code>x</code> containing <code>NaN</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="return">Return<a class="anchor" aria-label="anchor" href="#return"></a>

@@ -41,13 +41,13 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html)s of the
+  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html) of the
   correct type in `x`?
 
 - allow_NaN:
 
   `TRUE` or `FALSE`: allow
-  [NaN](https://rdrr.io/r/base/is.finite.html)s?
+  [`NaN`](https://rdrr.io/r/base/is.finite.html)?
 
 ## Value
 
@@ -62,18 +62,23 @@ returns `FALSE` for zero.
 
 `is_number()`, `is_nonnegative()`, and `is_positive()` return `TRUE` for
 `x` with length one. `all_numbers()` and `all_nonnegative()` return
-`TRUE` for `x` with length larger than zero. All these functions return
-`TRUE` for numeric-type
-[zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-`x` if `allow_zerolength` is `TRUE`.
+`TRUE` for `x` with length larger than zero.
 
-All these functions return `TRUE` for `-Inf` and `Inf` if it has the
-correct sign, for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE`
-(even then they return `FALSE` for `NA_complex_` because its mode is
-`complex` instead of `numeric`), and for
-[NaN](https://rdrr.io/r/base/is.finite.html) (which has
-[mode](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning 'not
-a number') if `allow_NaN` is `TRUE`.
+All these functions return `TRUE`:
+
+- for numeric-type
+  [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  `x` if `allow_zerolength` is `TRUE`.
+
+- for `-Inf` and `Inf` if it has the correct sign
+
+- for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then
+  they return `FALSE` for `NA_complex_` because that has mode is
+  `complex` instead of `numeric`)
+
+- for [`NaN`](https://rdrr.io/r/base/is.finite.html) (which has
+  [mode](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning
+  'not a number') if `allow_NaN` is `TRUE`.
 
 ## Programming notes
 
