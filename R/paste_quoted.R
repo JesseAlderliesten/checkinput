@@ -4,11 +4,10 @@
 #' a single character string.
 #'
 #' @details
-#' `paste_quoted()` returns `NULL` as `"'NULL'"`, other zero-length objects as
+#' `NULL` is returned as `"'NULL'"`, other zero-length objects are returned as
 #' `"'<class>(0)'"` (e.g., `"'logical(0)'"`), `""` as `'""'`, logical `NA` as
-#' `"'NA'"`, and non-logical
-#' `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`; for [factors][factor] this
-#' is `"'NA_character_'"`).
+#' `"'NA'"`, and non-logical `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`;
+#' for [factors][factor] this is `"'NA_character_'"`).
 #'
 #' @param x Dimensionless atomic object to be converted to a single character
 #' string.

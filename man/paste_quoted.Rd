@@ -20,11 +20,10 @@ Quote elements of a dimensionless atomic object and concatenate the result to
 a single character string.
 }
 \details{
-\code{paste_quoted()} returns \code{NULL} as \code{"'NULL'"}, other zero-length objects as
+\code{NULL} is returned as \code{"'NULL'"}, other zero-length objects are returned as
 \code{"'<class>(0)'"} (e.g., \code{"'logical(0)'"}), \code{""} as \code{'""'}, logical \code{NA} as
-\code{"'NA'"}, and non-logical
-\code{NA}s as \code{"'NA_<class>_'"} (e.g., \code{"'NA_real_'"}; for \link[=factor]{factors} this
-is \code{"'NA_character_'"}).
+\code{"'NA'"}, and non-logical \code{NA}s as \code{"'NA_<class>_'"} (e.g., \code{"'NA_real_'"};
+for \link[=factor]{factors} this is \code{"'NA_character_'"}).
 }
 \section{Notes}{
 
