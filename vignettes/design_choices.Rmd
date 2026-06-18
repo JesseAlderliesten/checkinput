@@ -47,12 +47,12 @@ return `TRUE` for zero-length `x` of the correct type. See
 `help("is_zerolength")` and `vignette("type_coercion", package = "checkinput")`
 for a discussion of some issues with zero-length input.
 
-## NAs and NaNs in x
-By default, functions of `checkinput` return `FALSE` for `x` containing `NA`s or
-`NaN`s. Set argument `allow_NA` to `TRUE` to let them return `TRUE` for `x`
-containing `NA`s of
+## `NA` and `NaN` in x
+By default, functions of `checkinput` return `FALSE` for `x` containing `NA` or
+`NaN`. Set argument `allow_NA` to `TRUE` to let them return `TRUE` for `x`
+containing `NA` of
 the correct type, and set argument `allow_NaN` in functions like `is_number(x)`
-to `TRUE` to let them return `TRUE` for `x` containing `NaN`s.
+to `TRUE` to let them return `TRUE` for `x` containing `NaN`.
 
 ## Return
 The check functions of `checkinput` return either

@@ -4,7 +4,7 @@
 #' sign.
 #'
 #' @inheritParams is_logical x allow_zerolength allow_NA
-#' @param allow_NaN `TRUE` or `FALSE`: allow [NaN]s?
+#' @param allow_NaN `TRUE` or `FALSE`: allow [`NaN`]?
 #'
 #' @details
 #' `is_number()`, `all_numbers()`, `all_nonnegative()` and `is_nonnegative()`
@@ -12,15 +12,18 @@
 #'
 #' `is_number()`, `is_nonnegative()`, and `is_positive()` return `TRUE` for `x`
 #' with length one. `all_numbers()` and `all_nonnegative()` return `TRUE` for
-#' `x` with length larger than zero. All these functions return `TRUE` for
-#' numeric-type [zero-length][is_zerolength()] `x` if `allow_zerolength` is
-#' `TRUE`.
+#' `x` with length larger than zero.
 #'
-#' All these functions return `TRUE` for `-Inf` and `Inf` if it has the correct
-#' sign, for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then
-#' they return `FALSE` for `NA_complex_` because its mode is `complex` instead
-#' of `numeric`), and for [NaN] (which has [mode] `numeric`, despite meaning
-#' 'not a number') if `allow_NaN` is `TRUE`.
+#' All these functions return `TRUE`:
+#'
+#' - for numeric-type [zero-length][is_zerolength()] `x` if `allow_zerolength`
+#'   is `TRUE`.
+#' - for `-Inf` and `Inf` if it has the correct sign
+#' - for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then they
+#'   return `FALSE` for `NA_complex_` because that has mode is `complex` instead
+#'   of `numeric`)
+#' - for [`NaN`] (which has [mode] `numeric`, despite meaning 'not a number') if
+#'   `allow_NaN` is `TRUE`.
 #'
 #' @returns
 #' `TRUE` or `FALSE` indicating if `x` is a vector of the correct length only

@@ -30,7 +30,7 @@ invalid names might, by definition, give undocumented results.
 
 \link[=make.names]{Syntactically valid} names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
-number; and are not \link{reserved} words such as \link{for} or any of the \link{NA}s. The
+number; and are not \link{reserved} words such as \code{\link{for}} or any of the \code{\link{NA}}s. The
 definition of \strong{letter} depends on the current \link[=locales]{locale}. A
 conservative check for names that are syntactically valid on all locales
 would only allow digits and unaccented Latin letters, but that is \strong{not}
@@ -38,7 +38,7 @@ enforced by \code{all_names()}.
 
 Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by \code{all_names()} (nor by \code{vctrs::vec_as_names()}) even though
-they are not adjusted by \code{\link[=make.names]{make.names()}}: they are listed as \link{reserved} words.
+they are not adjusted by \code{\link[=make.names]{make.names()}}: they are \link{reserved} words.
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name contains
 a pattern suggesting it originally was syntactically invalid and has been
@@ -64,8 +64,8 @@ such characters with a dot
 \item Their identification is based on the assumption that names originally did
 \strong{not} contain dots, which is good practice preventing names containing
 a dot from being confused with \link[=UseMethod]{methods} used on
-\link[=is.object]{classed objects}, even though that advice is not strictly
-followed in base-\R, e.g., in the function name \code{\link[=data.frame]{data.frame()}}.
+\link[=is.object]{classed objects}, even though that practice is not strictly
+followed in base \R, e.g., in the function name \code{\link[=data.frame]{data.frame()}}.
 }
 \item adjustments to make duplicated names unique:
 \itemize{
@@ -76,9 +76,11 @@ followed by a number.
 
 \code{make.names()} does \strong{not} adjust the first instance of a duplicate,
 whereas \code{vctrs::vec_as_names()} \strong{does} adjust it:
-\code{make.names(c("a", "a"), unique = TRUE)} returns \code{c("a", "a.1")}, whereas
-\code{vctrs::vec_as_names(c("a", "a"), repair = "universal")} returns
-\code{c("a...1", "a...2")}.
+\code{make.names(c("a", "b", "c", "b", "a"), unique = TRUE)} returns
+\code{c("a", "b", "c", "b.1", "a.1")}, whereas
+\code{vctrs::vec_as_names(c("a", "b", "c", "b", "a"), repair = "universal")}
+returns \code{c("a...1", "b...2", "c", "b...4", "a...5")}, with \verb{...<number>}
+indicating the position in the vector
 \item adjustments to make \link{reserved} words valid:
 \itemize{
 \item \code{make.names()} appends a dot
@@ -95,7 +97,7 @@ not followed by a number, syntactically valid:
 \item \code{data.frame()} uses pattern \code{X1}, \code{X2}, \code{X3}
 \item \code{as.data.frame()} and \code{read.csv(..., header = FALSE)} use pattern \code{V1},
 \code{V2}, \code{V3}
-\item \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}.
+\item \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}
 }
 
 It is \strong{not} checked if a complete sequence of suspicious names is
@@ -115,12 +117,12 @@ The patterns used to identify suspicious names are created using
 \link[base:regex]{regular expressions} with the following elements:
 \itemize{
 \item require a pattern to start at the beginning of a string (\code{^}) or reach the
-end of a string (\code{$});
+end of a string (\code{$})
 \item specify characters that should be present: a dot (\verb{\\\\.} or, if \code{fixed} is
 \code{TRUE}, \code{.}), an underscore (\verb{_}), any digit (\verb{[0-9]}), digits one to nine
-(\verb{[1-9]}), characters \code{V} or \code{X});
+(\verb{[1-9]}), characters \code{V} or \code{X})
 \item indicate presence: present zero or more times (\code{*}); present one or more
-times (\code{+}).
+times (\code{+})
 }
 
 Multiple patterns can be combined using \code{|}, the normal operator indicating
@@ -156,7 +158,7 @@ all_names(13) # FALSE: 'x' is not a character vector
 }
 \seealso{
 Section \code{Details} of \code{\link[=make.names]{make.names()}}, section \verb{Names and Identifiers} of
-\link{Quotes}, and the \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{\R FAQ about valid names}
+\code{\link[=Quotes]{Quotes()}}, and the \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f}{\R FAQ about valid names}
 on the syntactical validity of names.
 
 \code{\link[=names]{names()}} to get or set object names; \code{janitor::make_clean_names()} to adjust

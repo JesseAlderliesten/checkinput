@@ -5,10 +5,11 @@
 #' @param x object to check.
 #' @param allow_zerolength `TRUE` or `FALSE`: allow
 #' [zero-length][is_zerolength()] `x` of the correct type?
-#' @param allow_NA `TRUE` or `FALSE`: allow [NA]s of the correct type in `x`?
+#' @param allow_NA `TRUE` or `FALSE`: allow [NA] of the correct type in `x`?
 #'
 #' @details
-#' `is_logical()` returns `TRUE` for `x` with length one, for logical-type
+#' `is_logical()` returns `TRUE` for logical-type `x` of length one, for
+#' logical-type
 #' [zero-length][is_zerolength()] `x` if `allow_zerolength` is `TRUE`, and for
 #' logical-type `NA` if `allow_NA` is `TRUE`.
 #'

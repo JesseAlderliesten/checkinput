@@ -1,3 +1,9 @@
+# checkinput 1.0.1
+
+### Documentation
+- Stylistic updates.
+
+
 # checkinput 1.0.0
 
 ### Documentation
@@ -79,7 +85,7 @@
 
 ### Breaking changes
 - Dependency `R >= 4.0.0` increased to `R >= 4.1.0`, which is required to pass
-  the R CMD check on Ubuntu-latest: `rmarkdown` > `bslib` > `sass` > `fs` needs
+  the `R CMD check` on Ubuntu-latest: `rmarkdown` > `bslib` > `sass` > `fs` needs
   `R >= 4.1` and `rappdirs` needs `R >= 4.1.0`.
 - `all_names()`: wrap text of warnings. Use `deparse1(substitute(x))` to get the
   offending values instead of literal `'x'` in the text of warnings or errors.

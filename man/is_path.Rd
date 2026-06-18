@@ -23,7 +23,7 @@ Check that \code{x} is a valid path, possibly containing a valid filename.
 \code{is_path()} is intended to be used to check for valid paths before creating a
 directory or a file. Therefore it imposes the following restrictions:
 \itemize{
-\item \code{x} should be a non-empty \link[=is_character]{character string}.
+\item \code{x} should be a non-empty \link[=is_character]{character string}
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\verb{[:cntrl:]}, with \code{ASCII} octal codes 000
 through 037 and 177,
@@ -34,10 +34,10 @@ like \verb{C:\\}.
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
 these names, or these names followed by an extension.
-\item path components should \strong{not} end with a space.
+\item path components should \strong{not} end with a space
 \item path components should \strong{not} end with a dot, with the exception of \code{"."}
 and \code{".."} that are allowed as first component to indicate the
-\link[=getwd]{working directory} and the parent directory, respectively.
+\link[=getwd]{working directory} and the parent directory, respectively
 \item If \code{x} contains a file extension (or compression extension, the current
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
@@ -46,7 +46,8 @@ terms listed above), and in addition should \strong{not}
 contain a colon (\code{:}) \strong{nor} start with a space or a hyphen (\code{-}).
 }
 
-These restrictions on \code{x} consider characters and path components that are not allowed
+These restrictions on \code{x} consider characters and path components that are
+\strong{not} allowed
 in Windows and thus would lead to an error when used to create a directory or
 file; characters that are silently removed in Windows and thus would lead to
 a mismatch between the created directory and the returned path when used to
@@ -82,8 +83,8 @@ how \code{x} would be printed.
 
 \section{Programming notes}{
 
-The output of \code{tempdir()} during
-\href{https://r-pkgs.org/R-CMD-check.html}{R CMD checks} on MacOS contains successive
+The output of \code{\link[=tempdir]{tempdir()}} during
+\href{https://r-pkgs.org/R-CMD-check.html}{\verb{R CMD checks}} on MacOS contains successive
 forward slashes (e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR})
 which in earlier versions of \code{\link[=is_path]{is_path()}} (then in package
 \href{https://jessealderliesten.github.io/progutils/}{progutils}) led to
@@ -93,16 +94,16 @@ spurious warnings about duplicated file separators.
 \section{References}{
 
 \itemize{
-\item Naming files, paths, and namespaces from
+\item \verb{Naming files, paths, and namespaces} from
 \href{https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file}{Microsoft}
 \item Entries
-\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146}{Filename},
-\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264}{Portable filenames}
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146}{\code{Filename}},
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264}{\verb{Portable filenames}}
 and
-\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254}{Pathname}
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254}{\code{Pathname}}
 from the Posix standard
 \href{https://pubs.opengroup.org/onlinepubs/9799919799/}{POSIX.1-2024}
-\item Comparison of file systems from
+\item \verb{Comparison of file systems} from
 \href{https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits}{Wikipedia}
 }
 }

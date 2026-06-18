@@ -20,10 +20,10 @@ Quote elements of a dimensionless atomic object and concatenate the result to
 a single character string.
 }
 \details{
-\code{paste_quoted()} returns \code{NULL} as \code{"'NULL'"}, other zero-length objects as
-\code{"'<class>(0)'"} (e.g., \code{"'logical(0)'"}), \code{""} as \code{'""'}, and non-logical
-\code{NA}s as \code{"'NA_<class>_'"} (e.g., \code{"'NA_real_'"}; for \link[=factor]{factors} this
-is \code{"'NA_character_'"}).
+\code{NULL} is returned as \code{"'NULL'"}, other zero-length objects are returned as
+\code{"'<class>(0)'"} (e.g., \code{"'logical(0)'"}), \code{""} as \code{'""'}, logical \code{NA} as
+\code{"'NA'"}, and non-logical \code{NA}s as \code{"'NA_<class>_'"} (e.g., \code{"'NA_real_'"};
+for \link[=factor]{factors} this is \code{"'NA_character_'"}).
 }
 \section{Notes}{
 
@@ -45,7 +45,7 @@ paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 }
 \seealso{
 \code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")};
-\code{\link[=sQuote]{sQuote()}} to use fancy quotes;
+\code{\link{Quotes}} and \code{\link[=sQuote]{sQuote()}} for documentation on quotes;
 \code{\link[=paste0]{paste0()}};
 \code{progutils::unpaste_unquote()} for the approximate opposite of \code{paste_quoted()};
 \code{progutils::vect_to_char()} to preserve names of numeric \code{x}

@@ -52,11 +52,11 @@ logiNA_char[1]
 ## Consequences for checks
 As a consequence of type coercion, code like
 `all_characters(c(x, y))` does **not** check if all elements in `x` and `y` have
-type `character`: `x` and `y` will be coerced to the highest of their types
+type character: `x` and `y` will be coerced to the highest of their types
 before the check is performed, such that `all_characters(c(x, y))` checks if any
 of `x` or `y` has type character **and** none of `x` or `y` has a higher type.
 
-To check if all elements in `x` and `y` have type `character`, use
+To check if all elements in `x` and `y` have type character, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily to more
 than two objects, `all(unlist(lapply(X = list(x, y), FUN = all_characters)))`.
 Other function arguments passed to `all_characters()`, e.g., `allow_empty = TRUE`
