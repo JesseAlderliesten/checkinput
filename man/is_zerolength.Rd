@@ -20,16 +20,18 @@ Check that \code{x} is a zero-length object
 \link[=length]{Zero-length} objects can have different \link[=typeof]{types}: NULL
 (\link{NULL}), logical (\code{logical(0)}), integer (\code{integer(0)}), double
 (\code{numeric(0)}), complex (\code{complex(0)}), character (\code{character(0)}), and list
-(\code{\link[=list]{list()}} and \code{\link[=data.frame]{data.frame()}}). \code{""} is \strong{not} a zero-length object: it has a
+(\code{\link[=list]{list()}} and \code{\link[=data.frame]{data.frame()}}).
+
+\code{""} is \strong{not} a zero-length object: it has a
 \code{length} of one despite its \link[=nchar]{width} of zero characters. A data frame
 with zero rows is \strong{not} a zero-length object: it has \code{length} equal to the
-number of columns. In contrast, a \link{matrix} with zero rows \strong{is} a
+number of columns. In contrast, a \code{\link{matrix}} with zero rows \strong{is} a
 zero-length object, see the \code{Examples}.
 
 \code{\link[=is.null]{is.null()}} should be used to check that an object is \code{NULL} and, more
 generally, \verb{isTRUE(all.equal(x, <zero-length object>))} should be used to
 check equality to a zero-length object. Checking equality should \strong{not} be
-done by using \link[=Comparison]{==} because that leads to \code{logical(0)} if any of
+done by using \code{\link[=Comparison]{==}} because that leads to \code{logical(0)} if any of
 the sides contains a zero-length object, which gives an error when used as
 complete \link[=Control]{conditional statement}.
 
@@ -43,11 +45,7 @@ the vignette \emph{Type coercion}:
 \code{vignette("type_coercion", package = "checkinput")}. For example, numeric
 \code{314} will be coerced to character \code{"314"} when it is combined into a vector
 with zero-length \code{character(0)}, such that \code{c(314, character(0))} results in
-the character string \code{"314"}, not in the numeric value \code{314}. If zero-length
-objects are combined into a vector with only zero-length values, the type of
-the vector is the highest type of the components in the hierarchy \code{NULL} <
-\code{raw} < \code{logical} < \code{integer} < \code{double} < \code{complex} < \code{character} < \code{list} <
-\code{expression}, see the section \code{Details} in \code{help(c)}.
+the character string \code{"314"}, \strong{not} in the numeric value \code{314}.
 }
 
 \examples{

@@ -10,7 +10,7 @@
 #' `is_path()` is intended to be used to check for valid paths before creating a
 #' directory or a file. Therefore it imposes the following restrictions:
 #'
-#' - `x` should be a non-empty [character string][is_character()].
+#' - `x` should be a non-empty [character string][is_character()]
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`[:cntrl:]`, with `ASCII` octal codes 000
 #'   through 037 and 177,
@@ -21,10 +21,10 @@
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of
 #'   these names, or these names followed by an extension.
-#' - path components should **not** end with a space.
+#' - path components should **not** end with a space
 #' - path components should **not** end with a dot, with the exception of `"."`
 #'   and `".."` that are allowed as first component to indicate the
-#'   [working directory][getwd()] and the parent directory, respectively.
+#'   [working directory][getwd()] and the parent directory, respectively
 #' - If `x` contains a file extension (or compression extension, the current
 #'   implementation does not distinguish those from each other), the part after
 #'   the last slash is considered the filename, which **should** adhere to the
@@ -32,7 +32,8 @@
 #'   terms listed above), and in addition should **not**
 #'   contain a colon (`:`) **nor** start with a space or a hyphen (`-`).
 #'
-#' These restrictions on `x` consider characters and path components that are not allowed
+#' These restrictions on `x` consider characters and path components that are
+#' **not** allowed
 #' in Windows and thus would lead to an error when used to create a directory or
 #' file; characters that are silently removed in Windows and thus would lead to
 #' a mismatch between the created directory and the returned path when used to
@@ -67,24 +68,24 @@
 #' how `x` would be printed.
 #'
 #' @section Programming notes:
-#' The output of `tempdir()` during
-#' [R CMD checks](https://r-pkgs.org/R-CMD-check.html) on MacOS contains successive
+#' The output of [tempdir()] during
+#' [`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains successive
 #' forward slashes (e.g., `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
 #' which in earlier versions of [checkinput::is_path()] (then in package
 #' [progutils](https://jessealderliesten.github.io/progutils/)) led to
 #' spurious warnings about duplicated file separators.
 #'
 #' @section References:
-#' - Naming files, paths, and namespaces from
+#' - `Naming files, paths, and namespaces` from
 #'   [Microsoft](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file)
 #' - Entries
-#'   [Filename](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
-#'   [Portable filenames](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
+#'   [`Filename`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
+#'   [`Portable filenames`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
 #'   and
-#'   [Pathname](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
+#'   [`Pathname`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
 #'   from the Posix standard
 #'   [POSIX.1-2024](https://pubs.opengroup.org/onlinepubs/9799919799/)
-#' - Comparison of file systems from
+#' - `Comparison of file systems` from
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso

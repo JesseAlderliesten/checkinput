@@ -24,7 +24,7 @@
 #' natural numbers if `allow_NA` is `TRUE` (even then `NA_complex_` is **not**
 #' considered a natural number because its mode is `complex` instead of `numeric`).
 #'
-#' [NULL], [NaN], negative numbers, `Inf`, and numbers that are
+#' [`NULL`], [`NaN`], negative numbers, [`Inf`][is.finite], and numbers that are
 #' [too large][.Machine] to be represented as [integers][integer] are **never**
 #' considered natural numbers.
 #'
@@ -58,7 +58,7 @@
 #' @seealso
 #' `progutils::are_equal()` to check for element-wise near-equality of numbers;
 #' [all.equal()] to check more generally for near-equality; [identical()] to
-#' check for exact equality and [Comparison] to do so using binary operators;
+#' check for exact equality and [`Comparison`] to do so using binary operators;
 #' [match()] and `progutils::not_in()` to compare character vectors; [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality.
@@ -141,13 +141,13 @@ all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
     return(FALSE)
   }
 
-  # It is not a problem that 'anyNA' also returns TRUE for NaNs: NaNs are never
+  # It is not a problem that 'anyNA' also returns TRUE for NaN: NaN is never
   # allowed.
   if(!allow_NA && anyNA(x)) {
     return(FALSE)
   }
 
-  # If 'allow_NA' is FALSE, NaNs have been catched above
+  # If 'allow_NA' is FALSE, NaN has been catched above
   # through the condition '!allow_NA && anyNA(x)'
   if(any(x > .Machine$integer.max | is.nan(x) | is.infinite(x) | x < 0 |
          (strict & x < 0.5), na.rm = TRUE)) {

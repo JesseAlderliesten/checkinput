@@ -34,9 +34,9 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct type?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA}s of the correct type in \code{x}?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA} of the correct type in \code{x}?}
 
-\item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \link{NaN}s?}
+\item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \code{\link{NaN}}?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a vector of the correct length only
@@ -52,15 +52,19 @@ return \code{TRUE} for zero, whereas \code{is_positive()} returns \code{FALSE} f
 
 \code{is_number()}, \code{is_nonnegative()}, and \code{is_positive()} return \code{TRUE} for \code{x}
 with length one. \code{all_numbers()} and \code{all_nonnegative()} return \code{TRUE} for
-\code{x} with length larger than zero. All these functions return \code{TRUE} for
-numeric-type \link[=is_zerolength]{zero-length} \code{x} if \code{allow_zerolength} is
-\code{TRUE}.
+\code{x} with length larger than zero.
 
-All these functions return \code{TRUE} for \code{-Inf} and \code{Inf} if it has the correct
-sign, for \code{NA_integer_} and \code{NA_real_} if \code{allow_NA} is \code{TRUE} (even then
-they return \code{FALSE} for \code{NA_complex_} because its mode is \code{complex} instead
-of \code{numeric}), and for \link{NaN} (which has \link{mode} \code{numeric}, despite meaning
-'not a number') if \code{allow_NaN} is \code{TRUE}.
+All these functions return \code{TRUE}:
+\itemize{
+\item for numeric-type \link[=is_zerolength]{zero-length} \code{x} if \code{allow_zerolength}
+is \code{TRUE}.
+\item for \code{-Inf} and \code{Inf} if it has the correct sign
+\item for \code{NA_integer_} and \code{NA_real_} if \code{allow_NA} is \code{TRUE} (even then they
+return \code{FALSE} for \code{NA_complex_} because that has mode is \code{complex} instead
+of \code{numeric})
+\item for \code{\link{NaN}} (which has \link{mode} \code{numeric}, despite meaning 'not a number') if
+\code{allow_NaN} is \code{TRUE}.
+}
 }
 \section{Programming notes}{
 

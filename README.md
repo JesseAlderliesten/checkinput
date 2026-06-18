@@ -158,7 +158,7 @@ License](LICENSE.md).
 ## Similar packages
 
 Functions of `checkinput` use arguments to determine if special values
-like \[NA\]s and zero-length values should be allowed, making them more
+like `NA` and zero-length values should be allowed, making them more
 flexible than functions in similar packages that require a different
 function to include these special values. Nevertheless, the following
 similar packages are worth looking into:

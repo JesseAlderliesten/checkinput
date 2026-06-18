@@ -15,7 +15,7 @@
 #'
 #' [Syntactically valid][make.names()] names only consist of letters, numbers,
 #' dots and underscores; start with a letter, or with a dot not followed by a
-#' number; and are not [reserved] words such as [for] or any of the [NA]s. The
+#' number; and are not [reserved] words such as [`for`] or any of the [`NA`]s. The
 #' definition of **letter** depends on the current [locale][locales]. A
 #' conservative check for names that are syntactically valid on all locales
 #' would only allow digits and unaccented Latin letters, but that is **not**
@@ -23,7 +23,7 @@
 #'
 #' Names that consist of only dots, or consist of two dots followed by a number,
 #' are not allowed by `all_names()` (nor by `vctrs::vec_as_names()`) even though
-#' they are not adjusted by [make.names()]: they are listed as [reserved] words.
+#' they are not adjusted by [make.names()]: they are [reserved] words.
 #'
 #' Suspicious names are not allowed by `all_names()`. A suspicious name contains
 #' a pattern suggesting it originally was syntactically invalid and has been
@@ -47,8 +47,8 @@
 #'   - Their identification is based on the assumption that names originally did
 #'     **not** contain dots, which is good practice preventing names containing
 #'     a dot from being confused with [methods][UseMethod] used on
-#'     [classed objects][is.object], even though that advice is not strictly
-#'     followed in base-\R, e.g., in the function name [data.frame()].
+#'     [classed objects][is.object], even though that practice is not strictly
+#'     followed in base \R, e.g., in the function name [data.frame()].
 #' - adjustments to make duplicated names unique:
 #'   - `make.names(x, unique = TRUE)` appends a dot followed by a number
 #'   - `vctrs::vec_as_names(x, repair = "universal")` appends three dots
@@ -56,9 +56,11 @@
 #'
 #'   `make.names()` does **not** adjust the first instance of a duplicate,
 #'   whereas `vctrs::vec_as_names()` **does** adjust it:
-#'   `make.names(c("a", "a"), unique = TRUE)` returns `c("a", "a.1")`, whereas
-#'   `vctrs::vec_as_names(c("a", "a"), repair = "universal")` returns
-#'   `c("a...1", "a...2")`.
+#'   `make.names(c("a", "b", "c", "b", "a"), unique = TRUE)` returns
+#'   `c("a", "b", "c", "b.1", "a.1")`, whereas
+#'   `vctrs::vec_as_names(c("a", "b", "c", "b", "a"), repair = "universal")`
+#'   returns `c("a...1", "b...2", "c", "b...4", "a...5")`, with `...<number>`
+#'   indicating the position in the vector
 #' - adjustments to make [reserved] words valid:
 #'   - `make.names()` appends a dot
 #'   - `vctrs::vec_as_names(x, repair = "universal")` prepends a dot
@@ -70,7 +72,7 @@
 #'   - `data.frame()` uses pattern `X1`, `X2`, `X3`
 #'   - `as.data.frame()` and `read.csv(..., header = FALSE)` use pattern `V1`,
 #'     `V2`, `V3`
-#'   - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`.
+#'   - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`
 #'
 #'   It is **not** checked if a complete sequence of suspicious names is
 #'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
@@ -92,19 +94,19 @@
 #' The patterns used to identify suspicious names are created using
 #' [regular expressions][base::regex] with the following elements:
 #' - require a pattern to start at the beginning of a string (`^`) or reach the
-#'   end of a string (`$`);
+#'   end of a string (`$`)
 #' - specify characters that should be present: a dot (`\\.` or, if `fixed` is
 #'   `TRUE`, `.`), an underscore (`_`), any digit (`[0-9]`), digits one to nine
-#'   (`[1-9]`), characters `V` or `X`);
+#'   (`[1-9]`), characters `V` or `X`)
 #' - indicate presence: present zero or more times (`*`); present one or more
-#'   times (`+`).
+#'   times (`+`)
 #'
 #' Multiple patterns can be combined using `|`, the normal operator indicating
-#' [logical OR][|].
+#' [logical `OR`][|].
 #'
 #' @seealso
 #' Section `Details` of [make.names()], section `Names and Identifiers` of
-#' [Quotes], and the [\R FAQ about valid names](
+#' [Quotes()], and the [\R FAQ about valid names](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f)
 #' on the syntactical validity of names.
 #'
