@@ -102,7 +102,7 @@
 #'   times (`+`)
 #'
 #' Multiple patterns can be combined using `|`, the normal operator indicating
-#' [logical `OR`][|].
+#' [logical OR][|].
 #'
 #' @seealso
 #' Section `Details` of [make.names()], section `Names and Identifiers` of

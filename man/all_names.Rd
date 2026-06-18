@@ -126,7 +126,7 @@ times (\code{+})
 }
 
 Multiple patterns can be combined using \code{|}, the normal operator indicating
-\link[=|]{logical \code{OR}}.
+\link[=|]{logical OR}.
 }
 
 \examples{
