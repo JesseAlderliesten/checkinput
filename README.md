@@ -2,7 +2,8 @@
 <!-- badges: start -->
 
 ![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput?color=blue)
-[![R-CMD-check](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml)
+[![R-CMD-check](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-standard.yaml)
+[![R-CMD-check-no-suggests](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml)
 <!-- badges: end -->
 
 # checkinput
@@ -142,8 +143,7 @@ License](LICENSE.md).
     To cite package 'checkinput' in publications use:
 
       Alderliesten J (2026). _checkinput: Check Function Input_. R package
-      version 1.0.0, commit a3f2c67ac7c2905a810ce917edd4502de6c7f5bd,
-      <https://github.com/JesseAlderliesten/checkinput>.
+      version 1.0.1, <https://github.com/JesseAlderliesten/checkinput>.
 
     A BibTeX entry for LaTeX users is
 
@@ -151,7 +151,7 @@ License](LICENSE.md).
         title = {checkinput: Check Function Input},
         author = {Jesse Alderliesten},
         year = {2026},
-        note = {R package version 1.0.0, commit a3f2c67ac7c2905a810ce917edd4502de6c7f5bd},
+        note = {R package version 1.0.1},
         url = {https://github.com/JesseAlderliesten/checkinput},
       }
 
@@ -163,15 +163,15 @@ flexible than functions in similar packages that require a different
 function to include these special values. Nevertheless, the following
 similar packages are worth looking into:
 
-- [arkhe](https://CRAN.R-project.org/package=arkhe): tools for cleaning
-  rectangular data.
-- [assertable](https://CRAN.R-project.org/package=assertable): verbose
+- [`arkhe`](https://CRAN.R-project.org/package=arkhe): tools for
+  cleaning rectangular data.
+- [`assertable`](https://CRAN.R-project.org/package=assertable): verbose
   assertions for tabular data (data.frames and data.tables).
-- [assertthat](https://CRAN.R-project.org/package=assertthat): easy pre
-  and post assertions.
-- [checkmate](https://CRAN.R-project.org/package=checkmate): fast and
+- [`assertthat`](https://CRAN.R-project.org/package=assertthat): easy
+  pre and post assertions.
+- [`checkmate`](https://CRAN.R-project.org/package=checkmate): fast and
   versatile argument checks
-- [chk](https://CRAN.R-project.org/package=chk): check user-supplied
+- [`chk`](https://CRAN.R-project.org/package=chk): check user-supplied
   function arguments
-- [erify](https://CRAN.R-project.org/package=erify): check arguments and
-  generate readable error messages
+- [`erify`](https://CRAN.R-project.org/package=erify): check arguments
+  and generate readable error messages
