@@ -1,9 +1,5 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 
-# This workflow combines elements of check-standard.yaml and
-# check-no-suggests.yaml to check if the package functions correctly without the
-# dependencies listed in 'Suggests' which I use for documentation.
-
 # NOTE: This workflow only directly installs "hard" dependencies, i.e. Depends,
 # Imports, and LinkingTo dependencies. Notably, Suggests dependencies are never
 # installed, with the exception of knitr, rcmdcheck, rmarkdown, and tinytest.
@@ -13,18 +9,19 @@
 # Modifications:
 # - not run GHA on 'push': it should be sufficient to run R CMD check locally
 #   before pushing and run GHA on pull requests.
-# - run GHA every Saturday on 04:23 UTC: added 'schedule: - cron: "23 4 * * 6"'
-# - enable manually triggering GHA: added 'workflow_dispatch:' at 'on:' (see
-#   https://docs.github.com/en/actions/reference/workflows-and-actions and
-#   https://docs.github.com/en/actions/how-tos/manage-workflow-runs).
-# - run GHA with the currently released version of R and R version 4.1.0
-#   (miniimum version used as dependency) on macOS, Windows, and Ubuntu. In
-#   addition, run GHA with the devel-version of R on Ubuntu.
+# - run GHA every Saturday on 04:23 UTC
+# - enable manually triggering GHA
+# - run GHA with the currently released version of R and R version 4.1.0 (the
+#   minimum R version required by dependency checkinput) on macOS, Windows, and
+#   Ubuntu. In addition, run GHA with the development version of R on Ubuntu.
 # - allow 'tinytest' instead of 'testthat' because that is the package I use for
 #   the tests.
 
-# Need help debugging build failures? Start at
-# https://github.com/r-lib/actions#where-to-find-help
+# For help debugging build failures, see https://r-pkgs.org/R-CMD-check.html and
+# https://github.com/r-lib/actions#where-to-find-help. For more background,
+# including an explanation of the syntax used in this file, see
+# https://docs.github.com/en/actions/reference/workflows-and-actions and
+# https://docs.github.com/en/actions/how-tos/manage-workflow-runs.
 
 on:
   pull_request:
@@ -59,7 +56,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -67,7 +64,6 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
-          use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

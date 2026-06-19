@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 ![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput?color=blue)
-[![R-CMD-check](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml)
+[![R-CMD-check](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-standard.yaml)
+[![R-CMD-check-no-suggests](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml)
 <!-- badges: end -->
 
 
@@ -144,15 +145,15 @@ functions in similar packages that require a different function to include these
 special values. Nevertheless, the following similar packages are worth looking
 into:
 
-- [arkhe](https://CRAN.R-project.org/package=arkhe): tools for cleaning
+- [`arkhe`](https://CRAN.R-project.org/package=arkhe): tools for cleaning
   rectangular data.
-- [assertable](https://CRAN.R-project.org/package=assertable): verbose
+- [`assertable`](https://CRAN.R-project.org/package=assertable): verbose
   assertions for tabular data (data.frames and data.tables).
-- [assertthat](https://CRAN.R-project.org/package=assertthat): easy pre and post
+- [`assertthat`](https://CRAN.R-project.org/package=assertthat): easy pre and post
   assertions.
-- [checkmate](https://CRAN.R-project.org/package=checkmate): fast and versatile
+- [`checkmate`](https://CRAN.R-project.org/package=checkmate): fast and versatile
   argument checks
-- [chk](https://CRAN.R-project.org/package=chk): check user-supplied function
+- [`chk`](https://CRAN.R-project.org/package=chk): check user-supplied function
   arguments
-- [erify](https://CRAN.R-project.org/package=erify): check arguments and
+- [`erify`](https://CRAN.R-project.org/package=erify): check arguments and
   generate readable error messages
