@@ -39,8 +39,8 @@ invalid names might, by definition, give undocumented results.
 consist of letters, numbers, dots and underscores; start with a letter,
 or with a dot not followed by a number; and are not
 [reserved](https://rdrr.io/r/base/Reserved.html) words such as
-[`for`](https://rdrr.io/r/base/Control.html) or any of the
-[`NA`](https://rdrr.io/r/base/NA.html)s. The definition of **letter**
+[`for`](https://rdrr.io/r/base/Control.html) or
+[`NA`](https://rdrr.io/r/base/NA.html). The definition of **letter**
 depends on the current [locale](https://rdrr.io/r/base/locales.html). A
 conservative check for names that are syntactically valid on all locales
 would only allow digits and unaccented Latin letters, but that is

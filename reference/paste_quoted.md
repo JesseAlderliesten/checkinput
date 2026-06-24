@@ -1,7 +1,7 @@
 # Quote and concatenate `x` to a string
 
-Quote elements of a dimensionless atomic object and concatenate the
-result to a single character string.
+Quote elements of a a vector and concatenate the result to a single
+character string.
 
 ## Usage
 
@@ -24,11 +24,20 @@ some special values.
 
 ## Details
 
-`NULL` is returned as `"'NULL'"`, other zero-length objects are returned
-as `"'<class>(0)'"` (e.g., `"'logical(0)'"`), `""` as `'""'`, logical
-`NA` as `"'NA'"`, and non-logical `NA`s as `"'NA_<class>_'"` (e.g.,
-`"'NA_real_'"`; for [factors](https://rdrr.io/r/base/factor.html) this
-is `"'NA_character_'"`).
+Some values are handled specially to print clearer:
+
+- `NULL` is returned as `"'NULL'"`
+
+- non-`NULL` zero-length objects are returned as `"'<class>(0)'"` (e.g.,
+  `"'logical(0)'"`)
+
+- `""` is returned as `'""'`
+
+- logical `NA` is returned as `"'NA'"`
+
+- non-logical `NA` is returned as `"'NA_<class>_'"` (e.g.,
+  `"'NA_real_'"`; for [factors](https://rdrr.io/r/base/factor.html) this
+  is `"'NA_character_'"`).
 
 ## Notes
 
@@ -46,13 +55,13 @@ these warnings.
 
 ## See also
 
-[`toString()`](https://rdrr.io/r/base/toString.html) which can be used
-instead of `paste(x, collapse = ", ")`;
+[`toString()`](https://rdrr.io/r/base/toString.html) which is shorthand
+for `paste(x, collapse = ", ")`;
 [`Quotes`](https://rdrr.io/r/base/Quotes.html) and
 [`sQuote()`](https://rdrr.io/r/base/sQuote.html) for documentation on
 quotes; [`paste0()`](https://rdrr.io/r/base/paste.html);
 [`progutils::unpaste_unquote()`](https://jessealderliesten.github.io/progutils/reference/unpaste_unquote.html)
-for the approximate opposite of `paste_quoted()`;
+for the approximate reverse of `paste_quoted()`;
 [`progutils::vect_to_char()`](https://jessealderliesten.github.io/progutils/reference/vect_to_char.html)
 to preserve names of numeric `x`
 

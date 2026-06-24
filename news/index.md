@@ -1,5 +1,17 @@
 # Changelog
 
+## checkinput 1.1.0
+
+#### Breaking changes
+
+- Dependency `fs`: require minimum version `1.2.4` because `path_wd()`
+  is used.
+
+#### Documentation
+
+- Stylistic updates, adding more links to
+  [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md).
+
 ## checkinput 1.0.1
 
 #### Documentation

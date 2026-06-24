@@ -73,8 +73,8 @@ All these functions return `TRUE`:
 - for `-Inf` and `Inf` if it has the correct sign
 
 - for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then
-  they return `FALSE` for `NA_complex_` because that has mode is
-  `complex` instead of `numeric`)
+  they return `FALSE` for `NA_complex_` because that has mode `complex`
+  instead of `numeric`)
 
 - for [`NaN`](https://rdrr.io/r/base/is.finite.html) (which has
   [mode](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning

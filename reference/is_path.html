@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,15 +155,22 @@ from the Posix standard
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math()</a></code> for various operations on paths;
+    <div class="dont-index"><p><code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code> to construct file paths in a platform-independent way,
+<code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_abs()</a></code> to make paths absolute and normalised, and <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math()</a></code>
+for more operations on paths;
 <code><a href="https://fs.r-lib.org/reference/path_sanitize.html" class="external-link">fs::path_sanitize()</a></code> to <strong>remove</strong> invalid characters from potential paths;
 <code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and references there on checking file existence and
 permissions;
-<code><a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link">progutils::create_file_path()</a></code> to create a file path, creating the directory
-if it does not yet exist;
-<code><a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link">progutils::create_dir()</a></code> to create a directory if it does not yet exist;
-<code><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link">progutils::get_file_path()</a></code> to check if a file exists and is a unique match
-to a pattern.</p>
+<a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link"><code><a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link">progutils::create_file_path()</a></code></a>
+to create a file path, creating the directory if it does not yet exist;
+<a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link"><code><a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link">progutils::create_dir()</a></code></a>
+to create a directory if it does not yet exist;
+<a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link"><code><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link">progutils::get_file_path()</a></code></a>
+to check if a file exists and is a unique match to a pattern, and
+<code><a href="https://fs.r-lib.org/reference/file_access.html" class="external-link">fs::file_exists()</a></code> and <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files()</a></code> (which <strong>includes</strong> directories) to do
+so without checking they are a unique match to a pattern;
+<code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code> and <code><a href="https://rdrr.io/r/base/file.access.html" class="external-link">file.access()</a></code> to extract information about files or
+directories;</p>
 <p>Section 'Paths in the shell' in the vignette <em>Git and GitHub</em> of package
 <code>checkrpkgs</code> (<code>vignette("git_github", package = "checkrpkgs")</code>) on paths and
 file separators in the <a href="https://happygitwithr.com/shell" class="external-link">shell</a>.</p>

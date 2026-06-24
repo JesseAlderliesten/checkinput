@@ -126,18 +126,29 @@ spurious warnings about duplicated file separators.
 
 ## See also
 
+[`fs::path()`](https://fs.r-lib.org/reference/path.html) to construct
+file paths in a platform-independent way,
+[`fs::path_abs()`](https://fs.r-lib.org/reference/path_math.html) to
+make paths absolute and normalised, and
 [`fs::path_math()`](https://fs.r-lib.org/reference/path_math.html) for
-various operations on paths;
+more operations on paths;
 [`fs::path_sanitize()`](https://fs.r-lib.org/reference/path_sanitize.html)
 to **remove** invalid characters from potential paths;
 [`utils::file_test()`](https://rdrr.io/r/utils/filetest.html) and
 references there on checking file existence and permissions;
-[`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
+[[`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
 to create a file path, creating the directory if it does not yet exist;
-[`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
+[[`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
 to create a directory if it does not yet exist;
-[`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
-to check if a file exists and is a unique match to a pattern.
+[[`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
+to check if a file exists and is a unique match to a pattern, and
+[`fs::file_exists()`](https://fs.r-lib.org/reference/file_access.html)
+and [`list.files()`](https://rdrr.io/r/base/list.files.html) (which
+**includes** directories) to do so without checking they are a unique
+match to a pattern;
+[`file.info()`](https://rdrr.io/r/base/file.info.html) and
+[`file.access()`](https://rdrr.io/r/base/file.access.html) to extract
+information about files or directories;
 
 Section 'Paths in the shell' in the vignette *Git and GitHub* of package
 `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths
