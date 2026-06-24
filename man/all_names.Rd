@@ -30,7 +30,7 @@ invalid names might, by definition, give undocumented results.
 
 \link[=make.names]{Syntactically valid} names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
-number; and are not \link{reserved} words such as \code{\link{for}} or any of the \code{\link{NA}}s. The
+number; and are not \link{reserved} words such as \code{\link{for}} or \code{\link{NA}}. The
 definition of \strong{letter} depends on the current \link[=locales]{locale}. A
 conservative check for names that are syntactically valid on all locales
 would only allow digits and unaccented Latin letters, but that is \strong{not}

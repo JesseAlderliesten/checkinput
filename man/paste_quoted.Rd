@@ -16,14 +16,20 @@ quotes, separated by commas. See \code{Details} on the handling of some special
 values.
 }
 \description{
-Quote elements of a dimensionless atomic object and concatenate the result to
-a single character string.
+Quote elements of a a vector and concatenate the result to a single character
+string.
 }
 \details{
-\code{NULL} is returned as \code{"'NULL'"}, other zero-length objects are returned as
-\code{"'<class>(0)'"} (e.g., \code{"'logical(0)'"}), \code{""} as \code{'""'}, logical \code{NA} as
-\code{"'NA'"}, and non-logical \code{NA}s as \code{"'NA_<class>_'"} (e.g., \code{"'NA_real_'"};
+Some values are handled specially to print clearer:
+\itemize{
+\item \code{NULL} is returned as \code{"'NULL'"}
+\item non-\code{NULL} zero-length objects are returned as \code{"'<class>(0)'"} (e.g.,
+\code{"'logical(0)'"})
+\item \code{""} is returned as \code{'""'}
+\item logical \code{NA} is returned as \code{"'NA'"}
+\item non-logical \code{NA} is returned as \code{"'NA_<class>_'"} (e.g., \code{"'NA_real_'"};
 for \link[=factor]{factors} this is \code{"'NA_character_'"}).
+}
 }
 \section{Notes}{
 
@@ -47,7 +53,7 @@ paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 \code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")};
 \code{\link{Quotes}} and \code{\link[=sQuote]{sQuote()}} for documentation on quotes;
 \code{\link[=paste0]{paste0()}};
-\code{progutils::unpaste_unquote()} for the approximate opposite of \code{paste_quoted()};
+\code{progutils::unpaste_unquote()} for the approximate reverse of \code{paste_quoted()};
 \code{progutils::vect_to_char()} to preserve names of numeric \code{x}
 }
 \concept{functions to modify character vectors}

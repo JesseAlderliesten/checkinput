@@ -1,13 +1,18 @@
 #' Quote and concatenate `x` to a string
 #'
-#' Quote elements of a dimensionless atomic object and concatenate the result to
-#' a single character string.
+#' Quote elements of a a vector and concatenate the result to a single character
+#' string.
 #'
 #' @details
-#' `NULL` is returned as `"'NULL'"`, other zero-length objects are returned as
-#' `"'<class>(0)'"` (e.g., `"'logical(0)'"`), `""` as `'""'`, logical `NA` as
-#' `"'NA'"`, and non-logical `NA`s as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`;
-#' for [factors][factor] this is `"'NA_character_'"`).
+#' Some values are handled specially to print clearer:
+#'
+#' - `NULL` is returned as `"'NULL'"`
+#' - non-`NULL` zero-length objects are returned as `"'<class>(0)'"` (e.g.,
+#'   `"'logical(0)'"`)
+#' - `""` is returned as `'""'`
+#' - logical `NA` is returned as `"'NA'"`
+#' - non-logical `NA` is returned as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`;
+#'   for [factors][factor] this is `"'NA_character_'"`).
 #'
 #' @param x Dimensionless atomic object to be converted to a single character
 #' string.
@@ -31,7 +36,7 @@
 #' [toString()] which can be used instead of `paste(x, collapse = ", ")`;
 #' [`Quotes`] and [sQuote()] for documentation on quotes;
 #' [paste0()];
-#' `progutils::unpaste_unquote()` for the approximate opposite of `paste_quoted()`;
+#' `progutils::unpaste_unquote()` for the approximate reverse of `paste_quoted()`;
 #' `progutils::vect_to_char()` to preserve names of numeric `x`
 #'
 #' @family functions to modify character vectors

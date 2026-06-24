@@ -20,7 +20,7 @@
 #'   is `TRUE`.
 #' - for `-Inf` and `Inf` if it has the correct sign
 #' - for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then they
-#'   return `FALSE` for `NA_complex_` because that has mode is `complex` instead
+#'   return `FALSE` for `NA_complex_` because that has mode `complex` instead
 #'   of `numeric`)
 #' - for [`NaN`] (which has [mode] `numeric`, despite meaning 'not a number') if
 #'   `allow_NaN` is `TRUE`.
