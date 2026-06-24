@@ -50,7 +50,7 @@ paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 
 }
 \seealso{
-\code{\link[=toString]{toString()}} which can be used instead of \code{paste(x, collapse = ", ")};
+\code{\link[=toString]{toString()}} which is shorthand for \code{paste(x, collapse = ", ")};
 \code{\link{Quotes}} and \code{\link[=sQuote]{sQuote()}} for documentation on quotes;
 \code{\link[=paste0]{paste0()}};
 \code{progutils::unpaste_unquote()} for the approximate reverse of \code{paste_quoted()};

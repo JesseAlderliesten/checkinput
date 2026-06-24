@@ -33,7 +33,7 @@
 #' these warnings.
 #'
 #' @seealso
-#' [toString()] which can be used instead of `paste(x, collapse = ", ")`;
+#' [toString()] which is shorthand for `paste(x, collapse = ", ")`;
 #' [`Quotes`] and [sQuote()] for documentation on quotes;
 #' [paste0()];
 #' `progutils::unpaste_unquote()` for the approximate reverse of `paste_quoted()`;
