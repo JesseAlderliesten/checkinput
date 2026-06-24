@@ -1,6 +1,6 @@
 Package: checkinput
 Title: Check Function Input
-Version: 1.0.1
+Version: 1.1.0
 Authors@R: 
     person("Jesse", "Alderliesten", , "jessealderliesten@hotmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-1132-4310"))
@@ -13,7 +13,7 @@ BugReports: https://github.com/JesseAlderliesten/checkinput/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
-    fs
+    fs (>= 1.2.4)
 Suggests: 
     knitr,
     rmarkdown,

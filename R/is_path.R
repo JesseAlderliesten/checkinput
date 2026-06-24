@@ -89,15 +89,22 @@
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso
-#' [fs::path_math()] for various operations on paths;
+#' [fs::path()] to construct file paths in a platform-independent way,
+#' [fs::path_abs()] to make paths absolute and normalised, and [fs::path_math()]
+#' for more operations on paths;
 #' [fs::path_sanitize()] to **remove** invalid characters from potential paths;
 #' [utils::file_test()] and references there on checking file existence and
 #' permissions;
-#' `progutils::create_file_path()` to create a file path, creating the directory
-#' if it does not yet exist;
-#' `progutils::create_dir()` to create a directory if it does not yet exist;
-#' `progutils::get_file_path()` to check if a file exists and is a unique match
-#' to a pattern.
+#' [`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
+#' to create a file path, creating the directory if it does not yet exist;
+#' [`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
+#' to create a directory if it does not yet exist;
+#' [`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
+#' to check if a file exists and is a unique match to a pattern, and
+#' [fs::file_exists()] and [list.files()] (which **includes** directories) to do
+#' so without checking they are a unique match to a pattern;
+#' [file.info()] and [file.access()] to extract information about files or
+#' directories;
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
 #' `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths and

@@ -60,7 +60,7 @@ All these functions return \code{TRUE}:
 is \code{TRUE}.
 \item for \code{-Inf} and \code{Inf} if it has the correct sign
 \item for \code{NA_integer_} and \code{NA_real_} if \code{allow_NA} is \code{TRUE} (even then they
-return \code{FALSE} for \code{NA_complex_} because that has mode is \code{complex} instead
+return \code{FALSE} for \code{NA_complex_} because that has mode \code{complex} instead
 of \code{numeric})
 \item for \code{\link{NaN}} (which has \link{mode} \code{numeric}, despite meaning 'not a number') if
 \code{allow_NaN} is \code{TRUE}.

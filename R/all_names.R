@@ -15,7 +15,7 @@
 #'
 #' [Syntactically valid][make.names()] names only consist of letters, numbers,
 #' dots and underscores; start with a letter, or with a dot not followed by a
-#' number; and are not [reserved] words such as [`for`] or any of the [`NA`]s. The
+#' number; and are not [reserved] words such as [`for`] or [`NA`]. The
 #' definition of **letter** depends on the current [locale][locales]. A
 #' conservative check for names that are syntactically valid on all locales
 #' would only allow digits and unaccented Latin letters, but that is **not**
