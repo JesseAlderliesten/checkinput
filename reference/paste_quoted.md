@@ -60,10 +60,9 @@ for `paste(x, collapse = ", ")`;
 [`Quotes`](https://rdrr.io/r/base/Quotes.html) and
 [`sQuote()`](https://rdrr.io/r/base/sQuote.html) for documentation on
 quotes; [`paste0()`](https://rdrr.io/r/base/paste.html);
-[`progutils::unpaste_unquote()`](https://jessealderliesten.github.io/progutils/reference/unpaste_unquote.html)
-for the approximate reverse of `paste_quoted()`;
-[`progutils::vect_to_char()`](https://jessealderliesten.github.io/progutils/reference/vect_to_char.html)
-to preserve names of numeric `x`
+`progutils::unpaste_unquote()` for the approximate reverse of
+`paste_quoted()`; `progutils::vect_to_char()` to preserve names of
+numeric `x`
 
 ## Examples
 

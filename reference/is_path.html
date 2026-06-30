@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,12 +75,16 @@ valid filename.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>is_path()</code> is intended to be used to check for valid paths before creating a
 directory or a file. Therefore it imposes the following restrictions:</p><ul><li><p><code>x</code> should be a non-empty <a href="all_characters.html">character string</a></p></li>
+<li><p><code>x</code> should end in a slash if it is only a volume name: <code>C:\</code>, <strong>not</strong> <code>C:</code>.</p></li>
+<li><p><code>x</code> should <strong>not</strong> be a relative path of the form <code>D:path</code> or <code>d:path</code>:
+such paths are not guaranteed to work with functions like <code><a href="https://rdrr.io/r/base/files.html" class="external-link">file.create()</a></code>.
+Use <code>D:./path</code> or <code>d:./path</code> instead.</p></li>
 <li><p><code>x</code> should <strong>not</strong> contain the characters <code>"</code>, <code>*</code>, <code>?</code>, <code>|</code>, <code>&lt;</code>, <code>&gt;</code>, nor
 any of the control characters (<code>[:cntrl:]</code>, with <code>ASCII</code> octal codes 000
 through 037 and 177,
-see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code>). Although colons (<code>:</code>) outside a filename are allowed
-by <code>is_path()</code>, Windows will only allow colons to indicate volume names
-like <code>C:\</code>.</p></li>
+see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code>).</p></li>
+<li><p><code>x</code> should <strong>not</strong> contain colons (<code>:</code>) after the first path component
+(Windows only allows colons to indicate volume names like <code>C:\</code>).</p></li>
 <li><p>path components (i.e., parts separated by file separators <code>/</code> or <code>\\</code>)
 should <strong>not</strong> be the Windows-reserved terms <code>CON</code>, <code>PRN</code>, <code>AUX</code>, <code>NUL</code>,
 <code>COM&lt;non-zero digit&gt;</code>, <code>LPT&lt;non-zero digit&gt;</code>, case-insensitive variants of
@@ -94,7 +98,8 @@ implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which <strong>should</strong> adhere to the
 restrictions listed above (although it <strong>may</strong> contain the Windows-reserved
 terms listed above), and in addition should <strong>not</strong>
-contain a colon (<code>:</code>) <strong>nor</strong> start with a space or a hyphen (<code>-</code>).</p></li>
+contain a colon (<code>:</code>), <strong>not</strong> start with a space or a hyphen (<code>-</code>),
+<strong>nor</strong> end with a slash or backslash.</p></li>
 </ul><p>These restrictions on <code>x</code> consider characters and path components that are
 <strong>not</strong> allowed
 in Windows and thus would lead to an error when used to create a directory or
@@ -104,9 +109,10 @@ create a directory; and characters that might give problems when used in the
 shell.</p>
 <p><code>is_path()</code> is lenient with respect to file separators (i.e., <code>/</code> or <code>\\</code>):</p><ul><li><p><code>x</code> does <strong>not</strong> have to contain any file separator if <code>require_sep</code> is
 <code>FALSE</code>, such that <code>is_path(x, require_sep = FALSE)</code> can be used to check
-that filenames only contain allowed characters (given that <code>x</code> contains a
+that filename <code>x</code> only contains allowed characters (given that it ends in a
 file extension).</p></li>
-<li><p><code>x</code> might contain trailing file separators, although these might be ignored
+<li><p><code>x</code> might contain trailing file separators if it does <strong>not</strong> end in a
+file extension, although these trailing file separators might be ignored
 or removed in some operations (e.g., they are removed by <code><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path()</a></code> and
 <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>).</p></li>
 <li><p><code>x</code> might contain successive file separators (e.g., <code>//</code> or <code>\\\\</code>): these
@@ -155,22 +161,22 @@ from the Posix standard
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code> to construct file paths in a platform-independent way,
-<code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_abs()</a></code> to make paths absolute and normalised, and <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math()</a></code>
-for more operations on paths;
-<code><a href="https://fs.r-lib.org/reference/path_sanitize.html" class="external-link">fs::path_sanitize()</a></code> to <strong>remove</strong> invalid characters from potential paths;
-<code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and references there on checking file existence and
-permissions;
-<a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link"><code><a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link">progutils::create_file_path()</a></code></a>
+    <div class="dont-index"><p><code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code> to construct file paths in a platform-independent way;
+<code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_abs()</a></code> to make paths absolute and normalised;
+<code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_math()</a></code> for even more operations on paths;
+<code><a href="https://fs.r-lib.org/reference/path_sanitize.html" class="external-link">fs::path_sanitize()</a></code> to <strong>remove</strong> invalid characters from potential paths</p>
+<p><a href="https://jessealderliesten.github.io/progutils/reference/create_file_path.html" class="external-link"><code>progutils::create_file_path()</code></a>
 to create a file path, creating the directory if it does not yet exist;
-<a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link"><code><a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link">progutils::create_dir()</a></code></a>
-to create a directory if it does not yet exist;
-<a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link"><code><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link">progutils::get_file_path()</a></code></a>
+<a href="https://jessealderliesten.github.io/progutils/reference/create_dir.html" class="external-link"><code>progutils::create_dir()</code></a>
+to create a directory if it does not yet exist</p>
+<p><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link"><code>progutils::get_file_path()</code></a>
 to check if a file exists and is a unique match to a pattern, and
 <code><a href="https://fs.r-lib.org/reference/file_access.html" class="external-link">fs::file_exists()</a></code> and <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files()</a></code> (which <strong>includes</strong> directories) to do
 so without checking they are a unique match to a pattern;
+<code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and references there on checking file existence and
+permissions;
 <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code> and <code><a href="https://rdrr.io/r/base/file.access.html" class="external-link">file.access()</a></code> to extract information about files or
-directories;</p>
+directories</p>
 <p>Section 'Paths in the shell' in the vignette <em>Git and GitHub</em> of package
 <code>checkrpkgs</code> (<code>vignette("git_github", package = "checkrpkgs")</code>) on paths and
 file separators in the <a href="https://happygitwithr.com/shell" class="external-link">shell</a>.</p>
@@ -201,10 +207,16 @@ file separators in the <a href="https://happygitwithr.com/shell" class="external
 <span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"abcd.gz"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ':' is allowed in paths but not in filenames</span></span></span>
-<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
+<span class="r-in"><span><span class="co"># ':' is only allowed in the first path component</span></span></span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="st">"D:/"</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE, warning about ':'</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Components 9 of 'fs::path_wd("ab:cd")' should not contain ':':</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="fu">is_path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path_wd</a></span><span class="op">(</span><span class="st">"ab:cd.txt"</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE, warning about ':'</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Components 9 of 'fs::path_wd("ab:cd.txt")' should not contain ':':</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>

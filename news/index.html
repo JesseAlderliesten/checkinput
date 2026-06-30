@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,14 @@
       <small>Source: <a href="https://github.com/JesseAlderliesten/checkinput/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.0" id="checkinput-120">checkinput 1.2.0<a class="anchor" aria-label="anchor" href="#checkinput-120"></a></h2>
+<div class="section level4">
+<h4 id="breaking-changes-1-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-2-0"></a></h4>
+<ul><li>
+<code><a href="../reference/is_path.html">is_path()</a></code>: colons are only allowed in the first path component. File names should not end with a slash or backslash. Paths should end in a slash if they only are volume names. Relative paths like <code>"D:ab/c"</code> are not allowed.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="checkinput-110">checkinput 1.1.0<a class="anchor" aria-label="anchor" href="#checkinput-110"></a></h2>
 <div class="section level4">
@@ -133,7 +141,7 @@
 <div class="section level4">
 <h4 id="breaking-changes-0-6-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-6-0"></a></h4>
 <ul><li>Use <code>roxygen2</code> version 8.0.0.</li>
-<li>Replace the non-exported function <code><a href="../reference/paste_quoted.html">paste_quoted()</a></code> by the full function from <code><a href="https://jessealderliesten.github.io/checkinput/reference/paste_quoted.html">progutils::paste_quoted()</a></code> and export it.</li>
+<li>Replace the non-exported function <code><a href="../reference/paste_quoted.html">paste_quoted()</a></code> by the full function from <code>progutils::paste_quoted()</code> and export it.</li>
 </ul></div>
 </div>
     <div class="section level2">

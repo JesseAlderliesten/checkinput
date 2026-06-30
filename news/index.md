@@ -1,5 +1,14 @@
 # Changelog
 
+## checkinput 1.2.0
+
+#### Breaking changes
+
+- [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
+  colons are only allowed in the first path component. File names should
+  not end with a slash or backslash. Paths should end in a slash if they
+  only are volume names. Relative paths like `"D:ab/c"` are not allowed.
+
 ## checkinput 1.1.0
 
 #### Breaking changes
@@ -94,9 +103,7 @@
 - Use `roxygen2` version 8.0.0.
 - Replace the non-exported function
   [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-  by the full function from
-  [`progutils::paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.html)
-  and export it.
+  by the full function from `progutils::paste_quoted()` and export it.
 
 ## checkinput 0.5.0
 

@@ -33,12 +33,21 @@ restrictions:
 - `x` should be a non-empty [character
   string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
 
+- `x` should end in a slash if it is only a volume name: `C:\`, **not**
+  `C:`.
+
+- `x` should **not** be a relative path of the form `D:path` or
+  `d:path`: such paths are not guaranteed to work with functions like
+  [`file.create()`](https://rdrr.io/r/base/files.html). Use `D:./path`
+  or `d:./path` instead.
+
 - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
   `>`, nor any of the control characters (`[:cntrl:]`, with `ASCII`
   octal codes 000 through 037 and 177, see
-  [`help("regex")`](https://rdrr.io/r/base/regex.html)). Although colons
-  (`:`) outside a filename are allowed by `is_path()`, Windows will only
-  allow colons to indicate volume names like `C:\`.
+  [`help("regex")`](https://rdrr.io/r/base/regex.html)).
+
+- `x` should **not** contain colons (`:`) after the first path component
+  (Windows only allows colons to indicate volume names like `C:\`).
 
 - path components (i.e., parts separated by file separators `/` or `\\`)
   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`,
@@ -57,8 +66,8 @@ restrictions:
   the part after the last slash is considered the filename, which
   **should** adhere to the restrictions listed above (although it
   **may** contain the Windows-reserved terms listed above), and in
-  addition should **not** contain a colon (`:`) **nor** start with a
-  space or a hyphen (`-`).
+  addition should **not** contain a colon (`:`), **not** start with a
+  space or a hyphen (`-`), **nor** end with a slash or backslash.
 
 These restrictions on `x` consider characters and path components that
 are **not** allowed in Windows and thus would lead to an error when used
@@ -72,10 +81,11 @@ that might give problems when used in the shell.
 
 - `x` does **not** have to contain any file separator if `require_sep`
   is `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to
-  check that filenames only contain allowed characters (given that `x`
-  contains a file extension).
+  check that filename `x` only contains allowed characters (given that
+  it ends in a file extension).
 
-- `x` might contain trailing file separators, although these might be
+- `x` might contain trailing file separators if it does **not** end in a
+  file extension, although these trailing file separators might be
   ignored or removed in some operations (e.g., they are removed by
   [`file.path()`](https://rdrr.io/r/base/file.path.html) and
   [`fs::path()`](https://fs.r-lib.org/reference/path.html)).
@@ -127,28 +137,30 @@ spurious warnings about duplicated file separators.
 ## See also
 
 [`fs::path()`](https://fs.r-lib.org/reference/path.html) to construct
-file paths in a platform-independent way,
+file paths in a platform-independent way;
 [`fs::path_abs()`](https://fs.r-lib.org/reference/path_math.html) to
-make paths absolute and normalised, and
+make paths absolute and normalised;
 [`fs::path_math()`](https://fs.r-lib.org/reference/path_math.html) for
-more operations on paths;
+even more operations on paths;
 [`fs::path_sanitize()`](https://fs.r-lib.org/reference/path_sanitize.html)
-to **remove** invalid characters from potential paths;
-[`utils::file_test()`](https://rdrr.io/r/utils/filetest.html) and
-references there on checking file existence and permissions;
-[[`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
+to **remove** invalid characters from potential paths
+
+[`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
 to create a file path, creating the directory if it does not yet exist;
-[[`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
-to create a directory if it does not yet exist;
-[[`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
+[`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
+to create a directory if it does not yet exist
+
+[`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
 to check if a file exists and is a unique match to a pattern, and
 [`fs::file_exists()`](https://fs.r-lib.org/reference/file_access.html)
 and [`list.files()`](https://rdrr.io/r/base/list.files.html) (which
 **includes** directories) to do so without checking they are a unique
 match to a pattern;
+[`utils::file_test()`](https://rdrr.io/r/utils/filetest.html) and
+references there on checking file existence and permissions;
 [`file.info()`](https://rdrr.io/r/base/file.info.html) and
 [`file.access()`](https://rdrr.io/r/base/file.access.html) to extract
-information about files or directories;
+information about files or directories
 
 Section 'Paths in the shell' in the vignette *Git and GitHub* of package
 `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths
@@ -181,10 +193,16 @@ is_path(fs::path_wd("abcd.txt.gz")) # TRUE
 is_path(fs::path_wd("abcd.gz")) # TRUE
 #> [1] TRUE
 
-# ':' is allowed in paths but not in filenames
-is_path(fs::path_wd("ab:cd")) # TRUE
+# ':' is only allowed in the first path component
+is_path("D:/") # TRUE
 #> [1] TRUE
+is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
+#> Warning: Components 9 of 'fs::path_wd("ab:cd")' should not contain ':':
+#> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd
+#> [1] FALSE
 is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
+#> Warning: Components 9 of 'fs::path_wd("ab:cd.txt")' should not contain ':':
+#> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt
 #> Warning: The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':
 #> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt
 #> [1] FALSE
