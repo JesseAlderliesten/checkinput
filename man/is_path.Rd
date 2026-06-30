@@ -24,12 +24,16 @@ Check that \code{x} is a valid path, possibly containing a valid filename.
 directory or a file. Therefore it imposes the following restrictions:
 \itemize{
 \item \code{x} should be a non-empty \link[=is_character]{character string}
+\item \code{x} should end in a slash if it is only a volume name: \verb{C:\\}, \strong{not} \verb{C:}.
+\item \code{x} should \strong{not} be a relative path of the form \code{D:path} or \code{d:path}:
+such paths are not guaranteed to work with functions like \code{file.create()}.
+Use \code{D:./path} or \code{d:./path} instead.
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\verb{[:cntrl:]}, with \code{ASCII} octal codes 000
 through 037 and 177,
-see \code{help("regex")}). Although colons (\code{:}) outside a filename are allowed
-by \code{is_path()}, Windows will only allow colons to indicate volume names
-like \verb{C:\\}.
+see \code{help("regex")}).
+\item \code{x} should \strong{not} contain colons (\code{:}) after the first path component
+(Windows only allows colons to indicate volume names like \verb{C:\\}).
 \item path components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
@@ -43,7 +47,8 @@ implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
 restrictions listed above (although it \strong{may} contain the Windows-reserved
 terms listed above), and in addition should \strong{not}
-contain a colon (\code{:}) \strong{nor} start with a space or a hyphen (\code{-}).
+contain a colon (\code{:}), \strong{not} start with a space or a hyphen (\code{-}),
+\strong{nor} end with a slash or backslash.
 }
 
 These restrictions on \code{x} consider characters and path components that are
@@ -58,9 +63,10 @@ shell.
 \itemize{
 \item \code{x} does \strong{not} have to contain any file separator if \code{require_sep} is
 \code{FALSE}, such that \code{is_path(x, require_sep = FALSE)} can be used to check
-that filenames only contain allowed characters (given that \code{x} contains a
+that filename \code{x} only contains allowed characters (given that it ends in a
 file extension).
-\item \code{x} might contain trailing file separators, although these might be ignored
+\item \code{x} might contain trailing file separators if it does \strong{not} end in a
+file extension, although these trailing file separators might be ignored
 or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}} and
 \code{\link[fs:path]{fs::path()}}).
 \item \code{x} might contain successive file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
@@ -117,8 +123,9 @@ is_path(fs::path_wd("abcd.txt")) # TRUE
 is_path(fs::path_wd("abcd.txt.gz")) # TRUE
 is_path(fs::path_wd("abcd.gz")) # TRUE
 
-# ':' is allowed in paths but not in filenames
-is_path(fs::path_wd("ab:cd")) # TRUE
+# ':' is only allowed in the first path component
+is_path("D:/") # TRUE
+is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
 is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 
 # Other illegal characters are not allowed in either paths or filenames
@@ -127,22 +134,24 @@ is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 
 }
 \seealso{
-\code{\link[fs:path]{fs::path()}} to construct file paths in a platform-independent way,
-\code{\link[fs:path_abs]{fs::path_abs()}} to make paths absolute and normalised, and \code{\link[fs:path_math]{fs::path_math()}}
-for more operations on paths;
-\code{\link[fs:path_sanitize]{fs::path_sanitize()}} to \strong{remove} invalid characters from potential paths;
-\code{\link[utils:file_test]{utils::file_test()}} and references there on checking file existence and
-permissions;
+\code{\link[fs:path]{fs::path()}} to construct file paths in a platform-independent way;
+\code{\link[fs:path_abs]{fs::path_abs()}} to make paths absolute and normalised;
+\code{\link[fs:path_math]{fs::path_math()}} for even more operations on paths;
+\code{\link[fs:path_sanitize]{fs::path_sanitize()}} to \strong{remove} invalid characters from potential paths
+
 \href{https://jessealderliesten.github.io/progutils/reference/create_file_path.html}{\code{progutils::create_file_path()}}
 to create a file path, creating the directory if it does not yet exist;
 \href{https://jessealderliesten.github.io/progutils/reference/create_dir.html}{\code{progutils::create_dir()}}
-to create a directory if it does not yet exist;
+to create a directory if it does not yet exist
+
 \href{https://jessealderliesten.github.io/progutils/reference/get_file_path.html}{\code{progutils::get_file_path()}}
 to check if a file exists and is a unique match to a pattern, and
 \code{\link[fs:file_exists]{fs::file_exists()}} and \code{\link[=list.files]{list.files()}} (which \strong{includes} directories) to do
 so without checking they are a unique match to a pattern;
+\code{\link[utils:file_test]{utils::file_test()}} and references there on checking file existence and
+permissions;
 \code{\link[=file.info]{file.info()}} and \code{\link[=file.access]{file.access()}} to extract information about files or
-directories;
+directories
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
 \code{checkrpkgs} (\code{vignette("git_github", package = "checkrpkgs")}) on paths and

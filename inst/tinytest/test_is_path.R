@@ -18,8 +18,10 @@ expect_true(is_path(fs::path_wd("abcd.txt")))
 expect_true(is_path(fs::path_wd("abcd.txt.gz")))
 expect_true(is_path(fs::path_wd("abcd.gz")))
 
-expect_silent(
-  expect_true(is_path(fs::path_wd("ab:cd"))))
+expect_silent(expect_true(is_path("D:/")))
+expect_warning(
+  expect_false(is_path(fs::path_wd("ab:cd"))),
+  pattern = "should not contain ':'", fixed = TRUE)
 expect_warning(
   expect_false(is_path(fs::path_wd("ab:cd.txt"))),
   pattern = "should not contain ':'", fixed = TRUE)
@@ -60,6 +62,33 @@ expect_silent(expect_true(is_path("abcd", require_sep = FALSE)))
 expect_silent(expect_true(is_path("abcd.gz", require_sep = FALSE)))
 expect_silent(expect_true(is_path("abc.tx#", require_sep = FALSE)))
 
+##### Relative paths #####
+# See also section 'Illegal characters' below
+expect_silent(expect_true(is_path("D:/")))
+expect_silent(expect_true(is_path("D:/ab")))
+expect_silent(expect_true(is_path("D:\\")))
+expect_silent(expect_true(is_path("D:\\ab")))
+expect_silent(expect_true(is_path("d:/")))
+expect_silent(expect_true(is_path("d:/ab")))
+expect_silent(expect_true(is_path("d:\\")))
+expect_silent(expect_true(is_path("d:\\ab")))
+
+# fs::path_ext_remove(filename) normalizes "C:" to "C:/", which in earlier
+# versions led to the erroneous warning that the filename should not contain ':'.
+expect_warning(
+  expect_false(is_path("D:", require_sep = FALSE)),
+  pattern = "should end in a slash", fixed = TRUE)
+expect_warning(
+  expect_false(is_path("D:abc", require_sep = FALSE)),
+  pattern = "form of relative path", fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path("d:", require_sep = FALSE)),
+  pattern = "should end in a slash", fixed = TRUE)
+expect_warning(
+  expect_false(is_path("d:abc", require_sep = FALSE)),
+  pattern = "form of relative path", fixed = TRUE)
+
 ##### Illegal characters #####
 for(illegal_char in illegal_chars) {
   expect_warning(
@@ -70,13 +99,34 @@ for(illegal_char in illegal_chars) {
     pattern = "should not contain '\"', '*'", fixed = TRUE)
 }
 
+# See also section 'Relative paths' above
+expect_silent(expect_true(is_path("ab:cd/efgh/file.txt", require_sep = FALSE)))
+
 expect_warning(
-  expect_false(is_path("ab:cd.txt", require_sep = FALSE)),
+  expect_false(is_path("abcd/ef:gh/file.txt", require_sep = FALSE)),
   pattern = "should not contain ':'", fixed = TRUE)
 
-# fs::path_ext_remove(filename) normalized "C:" to "C:/" leading to the
-# erroneous warning that the filename should not contain ':'.
-expect_silent(expect_true(is_path("C:", require_sep = FALSE)))
+expect_warning(
+  expect_false(is_path("abcd/efgh/fi:le.txt", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
+
+expect_silent(expect_true(is_path("ab:cd/efgh", require_sep = FALSE)))
+
+expect_warning(
+  expect_false(is_path("abcd/ef:gh", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
+
+expect_silent(expect_true(is_path("ab:cd/file.txt", require_sep = FALSE)))
+
+expect_warning(
+  expect_false(is_path("abcd/fi:le.txt", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
+
+expect_silent(expect_true(is_path("ab:cd", require_sep = FALSE)))
+
+expect_warning(
+  expect_false(is_path("fi:le.txt", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
 
 for(control_char in paste0("\005", "\025", "\035", "\177")) {
   expect_warning(
@@ -123,7 +173,7 @@ for(Windows_allowed in c("COM", "COM0", "LPT", "LPT0")) {
 }
 
 ##### Spaces and dots #####
-# Path elements should not end with a space
+# Path components should not end with a space
 expect_true(is_path(fs::path("a b", "def"), require_sep = FALSE))
 
 expect_true(is_path(fs::path("a  b", "def"), require_sep = FALSE))
@@ -165,7 +215,7 @@ expect_warning(
   expect_false(is_path(fs::path("ab", ".", "def"), require_sep = FALSE)),
   pattern = warn_space_dot, fixed = TRUE)
 
-# Path elements should not end with a dot
+# Path components should not end with a dot
 expect_warning(
   expect_false(is_path("ab.", require_sep = FALSE)),
   pattern = "should not end with ' ' or '.'", fixed = TRUE)
@@ -241,12 +291,24 @@ expect_silent(
 # the paths will end in a slash)
 path_in <- fs::path_wd("subdir", "filename.txt")
 if(endsWith(path_in, suffix = "/")) {
-  expect_true(is_path(path_in, require_sep = FALSE))
+  expect_warning(
+    expect_false(is_path(path_in, require_sep = FALSE)),
+    pattern = "should not end with a slash or backslash",
+    strict = TRUE, fixed = TRUE)
 } else {
-  expect_true(is_path(paste0(path_in, "/"), require_sep = FALSE))
+  expect_warning(
+    expect_false(is_path(paste0(path_in, "/"), require_sep = FALSE)),
+    pattern = "should not end with a slash or backslash",
+    strict = TRUE, fixed = TRUE)
 }
 
-expect_true(is_path(paste0(fs::path_wd("subdir", "filename.txt"), "\\")))
+expect_warning(
+  expect_false(is_path(paste0(fs::path_wd("subdir", "filename.txt"), "/"))),
+  pattern = "should not end with a slash or backslash", strict = TRUE, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(paste0(fs::path_wd("subdir", "filename.txt"), "\\"))),
+  pattern = "should not end with a slash or backslash", strict = TRUE, fixed = TRUE)
 
 ##### Non-character input #####
 expect_warning(

@@ -11,12 +11,16 @@
 #' directory or a file. Therefore it imposes the following restrictions:
 #'
 #' - `x` should be a non-empty [character string][is_character()]
+#' - `x` should end in a slash if it is only a volume name: `C:\`, **not** `C:`.
+#' - `x` should **not** be a relative path of the form `D:path` or `d:path`:
+#'   such paths are not guaranteed to work with functions like `file.create()`.
+#'   Use `D:./path` or `d:./path` instead.
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`[:cntrl:]`, with `ASCII` octal codes 000
 #'   through 037 and 177,
-#'   see `help("regex")`). Although colons (`:`) outside a filename are allowed
-#'   by `is_path()`, Windows will only allow colons to indicate volume names
-#'   like `C:\`.
+#'   see `help("regex")`).
+#' - `x` should **not** contain colons (`:`) after the first path component
+#'   (Windows only allows colons to indicate volume names like `C:\`).
 #' - path components (i.e., parts separated by file separators `/` or `\\`)
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of
@@ -30,7 +34,8 @@
 #'   the last slash is considered the filename, which **should** adhere to the
 #'   restrictions listed above (although it **may** contain the Windows-reserved
 #'   terms listed above), and in addition should **not**
-#'   contain a colon (`:`) **nor** start with a space or a hyphen (`-`).
+#'   contain a colon (`:`), **not** start with a space or a hyphen (`-`),
+#'   **nor** end with a slash or backslash.
 #'
 #' These restrictions on `x` consider characters and path components that are
 #' **not** allowed
@@ -41,11 +46,13 @@
 #' shell.
 #'
 #' `is_path()` is lenient with respect to file separators (i.e., `/` or `\\`):
+#'
 #' -  `x` does **not** have to contain any file separator if `require_sep` is
 #'   `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to check
-#'   that filenames only contain allowed characters (given that `x` contains a
+#'   that filename `x` only contains allowed characters (given that it ends in a
 #'   file extension).
-#' - `x` might contain trailing file separators, although these might be ignored
+#' - `x` might contain trailing file separators if it does **not** end in a
+#'   file extension, although these trailing file separators might be ignored
 #'   or removed in some operations (e.g., they are removed by [file.path()] and
 #'   [fs::path()]).
 #' - `x` might contain successive file separators (e.g., `//` or `\\\\`): these
@@ -89,22 +96,24 @@
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso
-#' [fs::path()] to construct file paths in a platform-independent way,
-#' [fs::path_abs()] to make paths absolute and normalised, and [fs::path_math()]
-#' for more operations on paths;
-#' [fs::path_sanitize()] to **remove** invalid characters from potential paths;
-#' [utils::file_test()] and references there on checking file existence and
-#' permissions;
+#' [fs::path()] to construct file paths in a platform-independent way;
+#' [fs::path_abs()] to make paths absolute and normalised;
+#' [fs::path_math()] for even more operations on paths;
+#' [fs::path_sanitize()] to **remove** invalid characters from potential paths
+#'
 #' [`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
 #' to create a file path, creating the directory if it does not yet exist;
 #' [`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
-#' to create a directory if it does not yet exist;
+#' to create a directory if it does not yet exist
+#'
 #' [`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
 #' to check if a file exists and is a unique match to a pattern, and
 #' [fs::file_exists()] and [list.files()] (which **includes** directories) to do
 #' so without checking they are a unique match to a pattern;
+#' [utils::file_test()] and references there on checking file existence and
+#' permissions;
 #' [file.info()] and [file.access()] to extract information about files or
-#' directories;
+#' directories
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
 #' `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths and
@@ -122,8 +131,9 @@
 #' is_path(fs::path_wd("abcd.txt.gz")) # TRUE
 #' is_path(fs::path_wd("abcd.gz")) # TRUE
 #'
-#' # ':' is allowed in paths but not in filenames
-#' is_path(fs::path_wd("ab:cd")) # TRUE
+#' # ':' is only allowed in the first path component
+#' is_path("D:/") # TRUE
+#' is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
 #' is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 #'
 #' # Other illegal characters are not allowed in either paths or filenames
@@ -133,7 +143,8 @@
 #' @export
 is_path <- function(x, require_sep = TRUE) {
   stopifnot(is_logical(require_sep))
-  arg_name <- paste_quoted(deparse1(substitute(x)))
+  arg_deparsed <- deparse1(substitute(x))
+  arg_name <- paste_quoted(arg_deparsed)
 
   if(!is_character(x)) {
     warning(arg_name,
@@ -144,19 +155,27 @@ is_path <- function(x, require_sep = TRUE) {
 
   path_ok <- TRUE
 
-  # Notes:
-  # - split = c("/", "\\") does not work because that recycles 'split' along 'x'
-  # - fs::path_split() does not work because it tidies the path using
-  #   fs::path_tidy() before splitting, which removes successive slashes
-  # - The if-else construct is needed because strsplit() discards empty quotes
-  #   in the input.
-  path_comp <- unlist(strsplit(x = x, split = "/", fixed = TRUE))
-  if(any(!nzchar(path_comp))) {
-    path_comp <- c(unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE)),
-                   "")
-  } else {
-    path_comp <- unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE))
+  # Path should end in a slash if it is only a volume name.
+  if(grepl(pattern = "^.:$", x = x)) {
+    path_ok <- FALSE
+    warning(arg_name, "(", x, ") should end in a slash if it is only a volume",
+            "name:\n", fs::path(x))
   }
+
+  # Path with a colon as second character should be followed by a character that
+  # is not a path separator
+  if(grepl(pattern = "^.:[^/\\]+", x = x)) {
+    path_ok <- FALSE
+    warning("The form of relative path ", arg_name, " is invalid:\n", x)
+  }
+
+  # Notes:
+  # - base::split(x = x, f = c("/", "\\")) does not work because that recycles
+  #   'split' along 'x'
+  # - fs::path_split() removes successive and trailing slashes before splitting.
+  #   That is not a problem because such slashes are allowed by 'is_path()'
+  #   because the operating system should ignore those anyway.
+  path_comp <- fs::path_split(path = x)[[1]]
 
   if(grepl(pattern = '["*?|<>]', x = x)) {
     path_ok <- FALSE
@@ -178,6 +197,15 @@ is_path <- function(x, require_sep = TRUE) {
     warning("Components of ", arg_name,
             " should not contain Windows-reserved names (",
             paste_quoted(reserved_comp), "):\n", x)
+  }
+
+  ind_colon <- grep(pattern = ":", x = path_comp, fixed = TRUE)
+  # colons are allowed in the first path component
+  if(any(ind_colon > 1L)) {
+    path_ok <- FALSE
+    ind_colon <- ind_colon[ind_colon > 1L]
+    warning("Components ", paste(ind_colon, collapse = " and "), " of ",
+            arg_name, " should not contain ':':\n", x)
   }
 
   bool_path_dot <- endsWith(x = path_comp, suffix = ".")
@@ -211,6 +239,12 @@ is_path <- function(x, require_sep = TRUE) {
     grepl(pattern = "\\.([^.]+)$", x = filename, perl = TRUE)
 
   if(has_file_ext) {
+    if(endsWith(x, suffix = "/") || endsWith(x, suffix = "\\")) {
+      path_ok <- FALSE
+      warning("The filename (", paste_quoted(filename), ") in ", arg_name,
+              " should not end with a slash or backslash:\n", x)
+    }
+
     if(length(filename_no_ext) == 0L || !nzchar(filename_no_ext)) {
       path_ok <- FALSE
       warning("filename without extension (", paste_quoted(filename_no_ext),
