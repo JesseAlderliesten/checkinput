@@ -128,22 +128,24 @@ is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 
 }
 \seealso{
-\code{\link[fs:path]{fs::path()}} to construct file paths in a platform-independent way,
-\code{\link[fs:path_abs]{fs::path_abs()}} to make paths absolute and normalised, and \code{\link[fs:path_math]{fs::path_math()}}
-for more operations on paths;
-\code{\link[fs:path_sanitize]{fs::path_sanitize()}} to \strong{remove} invalid characters from potential paths;
-\code{\link[utils:file_test]{utils::file_test()}} and references there on checking file existence and
-permissions;
+\code{\link[fs:path]{fs::path()}} to construct file paths in a platform-independent way;
+\code{\link[fs:path_abs]{fs::path_abs()}} to make paths absolute and normalised;
+\code{\link[fs:path_math]{fs::path_math()}} for even more operations on paths;
+\code{\link[fs:path_sanitize]{fs::path_sanitize()}} to \strong{remove} invalid characters from potential paths
+
 \href{https://jessealderliesten.github.io/progutils/reference/create_file_path.html}{\code{progutils::create_file_path()}}
 to create a file path, creating the directory if it does not yet exist;
 \href{https://jessealderliesten.github.io/progutils/reference/create_dir.html}{\code{progutils::create_dir()}}
-to create a directory if it does not yet exist;
+to create a directory if it does not yet exist
+
 \href{https://jessealderliesten.github.io/progutils/reference/get_file_path.html}{\code{progutils::get_file_path()}}
 to check if a file exists and is a unique match to a pattern, and
 \code{\link[fs:file_exists]{fs::file_exists()}} and \code{\link[=list.files]{list.files()}} (which \strong{includes} directories) to do
 so without checking they are a unique match to a pattern;
+\code{\link[utils:file_test]{utils::file_test()}} and references there on checking file existence and
+permissions;
 \code{\link[=file.info]{file.info()}} and \code{\link[=file.access]{file.access()}} to extract information about files or
-directories;
+directories
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
 \code{checkrpkgs} (\code{vignette("git_github", package = "checkrpkgs")}) on paths and

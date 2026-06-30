@@ -89,22 +89,24 @@
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso
-#' [fs::path()] to construct file paths in a platform-independent way,
-#' [fs::path_abs()] to make paths absolute and normalised, and [fs::path_math()]
-#' for more operations on paths;
-#' [fs::path_sanitize()] to **remove** invalid characters from potential paths;
-#' [utils::file_test()] and references there on checking file existence and
-#' permissions;
+#' [fs::path()] to construct file paths in a platform-independent way;
+#' [fs::path_abs()] to make paths absolute and normalised;
+#' [fs::path_math()] for even more operations on paths;
+#' [fs::path_sanitize()] to **remove** invalid characters from potential paths
+#'
 #' [`progutils::create_file_path()`](https://jessealderliesten.github.io/progutils/reference/create_file_path.html)
 #' to create a file path, creating the directory if it does not yet exist;
 #' [`progutils::create_dir()`](https://jessealderliesten.github.io/progutils/reference/create_dir.html)
-#' to create a directory if it does not yet exist;
+#' to create a directory if it does not yet exist
+#'
 #' [`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
 #' to check if a file exists and is a unique match to a pattern, and
 #' [fs::file_exists()] and [list.files()] (which **includes** directories) to do
 #' so without checking they are a unique match to a pattern;
+#' [utils::file_test()] and references there on checking file existence and
+#' permissions;
 #' [file.info()] and [file.access()] to extract information about files or
-#' directories;
+#' directories
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
 #' `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths and
@@ -146,18 +148,12 @@ is_path <- function(x, require_sep = TRUE) {
   path_ok <- TRUE
 
   # Notes:
-  # - split = c("/", "\\") does not work because that recycles 'split' along 'x'
-  # - fs::path_split() does not work because it tidies the path using
-  #   fs::path_tidy() before splitting, which removes successive slashes
-  # - The if-else construct is needed because strsplit() discards empty quotes
-  #   in the input.
-  path_comp <- unlist(strsplit(x = x, split = "/", fixed = TRUE))
-  if(any(!nzchar(path_comp))) {
-    path_comp <- c(unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE)),
-                   "")
-  } else {
-    path_comp <- unlist(strsplit(x = path_comp, split = "\\", fixed = TRUE))
-  }
+  # - base::split(x = x, f = c("/", "\\")) does not work because that recycles
+  #   'split' along 'x'
+  # - fs::path_split() removes successive and trailing slashes before splitting.
+  #   That is not a problem because such slashes are allowed by 'is_path()'
+  #   because the operating system should ignore those anyway.
+  path_comp <- fs::path_split(path = x)[[1]]
 
   if(grepl(pattern = '["*?|<>]', x = x)) {
     path_ok <- FALSE
