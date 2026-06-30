@@ -11,6 +11,10 @@
 #' directory or a file. Therefore it imposes the following restrictions:
 #'
 #' - `x` should be a non-empty [character string][is_character()]
+#' - `x` should end in a slash if it is only a volume name: `C:\`, **not** `C:`.
+#' - `x` should **not** be a relative path of the form `D:path` or `d:path`:
+#'   such paths are not guaranteed to work with functions like `file.create()`.
+#'   Use `D:./path` or `d:./path` instead.
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`[:cntrl:]`, with `ASCII` octal codes 000
 #'   through 037 and 177,
@@ -139,7 +143,8 @@
 #' @export
 is_path <- function(x, require_sep = TRUE) {
   stopifnot(is_logical(require_sep))
-  arg_name <- paste_quoted(deparse1(substitute(x)))
+  arg_deparsed <- deparse1(substitute(x))
+  arg_name <- paste_quoted(arg_deparsed)
 
   if(!is_character(x)) {
     warning(arg_name,
@@ -149,6 +154,20 @@ is_path <- function(x, require_sep = TRUE) {
   }
 
   path_ok <- TRUE
+
+  # Path should end in a slash if it is only a volume name.
+  if(grepl(pattern = "^.:$", x = x)) {
+    path_ok <- FALSE
+    warning(arg_name, "(", x, ") should end in a slash if it is only a volume",
+            "name:\n", fs::path(x))
+  }
+
+  # Path with a colon as second character should be followed by a character that
+  # is not a path separator
+  if(grepl(pattern = "^.:[^/\\]+", x = x)) {
+    path_ok <- FALSE
+    warning("The form of relative path ", arg_name, " is invalid:\n", x)
+  }
 
   # Notes:
   # - base::split(x = x, f = c("/", "\\")) does not work because that recycles

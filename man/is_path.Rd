@@ -24,6 +24,10 @@ Check that \code{x} is a valid path, possibly containing a valid filename.
 directory or a file. Therefore it imposes the following restrictions:
 \itemize{
 \item \code{x} should be a non-empty \link[=is_character]{character string}
+\item \code{x} should end in a slash if it is only a volume name: \verb{C:\\}, \strong{not} \verb{C:}.
+\item \code{x} should \strong{not} be a relative path of the form \code{D:path} or \code{d:path}:
+such paths are not guaranteed to work with functions like \code{file.create()}.
+Use \code{D:./path} or \code{d:./path} instead.
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\verb{[:cntrl:]}, with \code{ASCII} octal codes 000
 through 037 and 177,

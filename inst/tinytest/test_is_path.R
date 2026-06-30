@@ -62,6 +62,33 @@ expect_silent(expect_true(is_path("abcd", require_sep = FALSE)))
 expect_silent(expect_true(is_path("abcd.gz", require_sep = FALSE)))
 expect_silent(expect_true(is_path("abc.tx#", require_sep = FALSE)))
 
+##### Relative paths #####
+# See also section 'Illegal characters' below
+expect_silent(expect_true(is_path("D:/")))
+expect_silent(expect_true(is_path("D:/ab")))
+expect_silent(expect_true(is_path("D:\\")))
+expect_silent(expect_true(is_path("D:\\ab")))
+expect_silent(expect_true(is_path("d:/")))
+expect_silent(expect_true(is_path("d:/ab")))
+expect_silent(expect_true(is_path("d:\\")))
+expect_silent(expect_true(is_path("d:\\ab")))
+
+# fs::path_ext_remove(filename) normalizes "C:" to "C:/", which in earlier
+# versions led to the erroneous warning that the filename should not contain ':'.
+expect_warning(
+  expect_false(is_path("D:", require_sep = FALSE)),
+  pattern = "should end in a slash", fixed = TRUE)
+expect_warning(
+  expect_false(is_path("D:abc", require_sep = FALSE)),
+  pattern = "form of relative path", fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path("d:", require_sep = FALSE)),
+  pattern = "should end in a slash", fixed = TRUE)
+expect_warning(
+  expect_false(is_path("d:abc", require_sep = FALSE)),
+  pattern = "form of relative path", fixed = TRUE)
+
 ##### Illegal characters #####
 for(illegal_char in illegal_chars) {
   expect_warning(
@@ -72,7 +99,8 @@ for(illegal_char in illegal_chars) {
     pattern = "should not contain '\"', '*'", fixed = TRUE)
 }
 
-expect_silent(expect_true(is_path("ab:cd/mno/file.txt", require_sep = FALSE)))
+# See also section 'Relative paths' above
+expect_silent(expect_true(is_path("ab:cd/efgh/file.txt", require_sep = FALSE)))
 
 expect_warning(
   expect_false(is_path("abcd/ef:gh/file.txt", require_sep = FALSE)),
@@ -99,10 +127,6 @@ expect_silent(expect_true(is_path("ab:cd", require_sep = FALSE)))
 expect_warning(
   expect_false(is_path("fi:le.txt", require_sep = FALSE)),
   pattern = "should not contain ':'", fixed = TRUE)
-
-# fs::path_ext_remove(filename) normalized "C:" to "C:/" leading to the
-# erroneous warning that the filename should not contain ':'.
-expect_silent(expect_true(is_path("C:", require_sep = FALSE)))
 
 for(control_char in paste0("\005", "\025", "\035", "\177")) {
   expect_warning(
