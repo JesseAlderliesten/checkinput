@@ -1,3 +1,11 @@
+# checkinput 1.2.0
+
+### Breaking changes
+- `is_path()`: colons are only allowed in the first path component. File names
+  should not end with a slash or backslash. Paths should end in a slash if they
+  only are volume names. Relative paths like `"D:ab/c"` are not allowed.
+
+
 # checkinput 1.1.0
 
 ### Breaking changes
