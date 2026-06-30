@@ -27,9 +27,9 @@ directory or a file. Therefore it imposes the following restrictions:
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\verb{[:cntrl:]}, with \code{ASCII} octal codes 000
 through 037 and 177,
-see \code{help("regex")}). Although colons (\code{:}) outside a filename are allowed
-by \code{is_path()}, Windows will only allow colons to indicate volume names
-like \verb{C:\\}.
+see \code{help("regex")}).
+\item \code{x} should \strong{not} contain colons (\code{:}) after the first path component
+(Windows only allows colons to indicate volume names like \verb{C:\\}).
 \item path components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
@@ -117,8 +117,9 @@ is_path(fs::path_wd("abcd.txt")) # TRUE
 is_path(fs::path_wd("abcd.txt.gz")) # TRUE
 is_path(fs::path_wd("abcd.gz")) # TRUE
 
-# ':' is allowed in paths but not in filenames
-is_path(fs::path_wd("ab:cd")) # TRUE
+# ':' is only allowed in the first path component
+is_path("D:/") # TRUE
+is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
 is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 
 # Other illegal characters are not allowed in either paths or filenames

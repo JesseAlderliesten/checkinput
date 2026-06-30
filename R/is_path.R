@@ -14,9 +14,9 @@
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`[:cntrl:]`, with `ASCII` octal codes 000
 #'   through 037 and 177,
-#'   see `help("regex")`). Although colons (`:`) outside a filename are allowed
-#'   by `is_path()`, Windows will only allow colons to indicate volume names
-#'   like `C:\`.
+#'   see `help("regex")`).
+#' - `x` should **not** contain colons (`:`) after the first path component
+#'   (Windows only allows colons to indicate volume names like `C:\`).
 #' - path components (i.e., parts separated by file separators `/` or `\\`)
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of
@@ -122,8 +122,9 @@
 #' is_path(fs::path_wd("abcd.txt.gz")) # TRUE
 #' is_path(fs::path_wd("abcd.gz")) # TRUE
 #'
-#' # ':' is allowed in paths but not in filenames
-#' is_path(fs::path_wd("ab:cd")) # TRUE
+#' # ':' is only allowed in the first path component
+#' is_path("D:/") # TRUE
+#' is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
 #' is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 #'
 #' # Other illegal characters are not allowed in either paths or filenames
@@ -178,6 +179,15 @@ is_path <- function(x, require_sep = TRUE) {
     warning("Components of ", arg_name,
             " should not contain Windows-reserved names (",
             paste_quoted(reserved_comp), "):\n", x)
+  }
+
+  ind_colon <- grep(pattern = ":", x = path_comp, fixed = TRUE)
+  # colons are allowed in the first path component
+  if(any(ind_colon > 1L)) {
+    path_ok <- FALSE
+    ind_colon <- ind_colon[ind_colon > 1L]
+    warning("Components ", paste(ind_colon, collapse = " and "), " of ",
+            arg_name, " should not contain ':':\n", x)
   }
 
   bool_path_dot <- endsWith(x = path_comp, suffix = ".")

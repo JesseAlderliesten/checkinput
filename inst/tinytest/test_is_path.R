@@ -18,8 +18,10 @@ expect_true(is_path(fs::path_wd("abcd.txt")))
 expect_true(is_path(fs::path_wd("abcd.txt.gz")))
 expect_true(is_path(fs::path_wd("abcd.gz")))
 
-expect_silent(
-  expect_true(is_path(fs::path_wd("ab:cd"))))
+expect_silent(expect_true(is_path("D:/")))
+expect_warning(
+  expect_false(is_path(fs::path_wd("ab:cd"))),
+  pattern = "should not contain ':'", fixed = TRUE)
 expect_warning(
   expect_false(is_path(fs::path_wd("ab:cd.txt"))),
   pattern = "should not contain ':'", fixed = TRUE)
@@ -70,8 +72,32 @@ for(illegal_char in illegal_chars) {
     pattern = "should not contain '\"', '*'", fixed = TRUE)
 }
 
+expect_silent(expect_true(is_path("ab:cd/mno/file.txt", require_sep = FALSE)))
+
 expect_warning(
-  expect_false(is_path("ab:cd.txt", require_sep = FALSE)),
+  expect_false(is_path("abcd/ef:gh/file.txt", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path("abcd/efgh/fi:le.txt", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
+
+expect_silent(expect_true(is_path("ab:cd/efgh", require_sep = FALSE)))
+
+expect_warning(
+  expect_false(is_path("abcd/ef:gh", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
+
+expect_silent(expect_true(is_path("ab:cd/file.txt", require_sep = FALSE)))
+
+expect_warning(
+  expect_false(is_path("abcd/fi:le.txt", require_sep = FALSE)),
+  pattern = "should not contain ':'", fixed = TRUE)
+
+expect_silent(expect_true(is_path("ab:cd", require_sep = FALSE)))
+
+expect_warning(
+  expect_false(is_path("fi:le.txt", require_sep = FALSE)),
   pattern = "should not contain ':'", fixed = TRUE)
 
 # fs::path_ext_remove(filename) normalized "C:" to "C:/" leading to the
