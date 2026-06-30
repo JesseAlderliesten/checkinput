@@ -30,7 +30,8 @@
 #'   the last slash is considered the filename, which **should** adhere to the
 #'   restrictions listed above (although it **may** contain the Windows-reserved
 #'   terms listed above), and in addition should **not**
-#'   contain a colon (`:`) **nor** start with a space or a hyphen (`-`).
+#'   contain a colon (`:`), **not** start with a space or a hyphen (`-`),
+#'   **nor** end with a slash or backslash.
 #'
 #' These restrictions on `x` consider characters and path components that are
 #' **not** allowed
@@ -41,11 +42,13 @@
 #' shell.
 #'
 #' `is_path()` is lenient with respect to file separators (i.e., `/` or `\\`):
+#'
 #' -  `x` does **not** have to contain any file separator if `require_sep` is
 #'   `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to check
-#'   that filenames only contain allowed characters (given that `x` contains a
+#'   that filename `x` only contains allowed characters (given that it ends in a
 #'   file extension).
-#' - `x` might contain trailing file separators, although these might be ignored
+#' - `x` might contain trailing file separators if it does **not** end in a
+#'   file extension, although these trailing file separators might be ignored
 #'   or removed in some operations (e.g., they are removed by [file.path()] and
 #'   [fs::path()]).
 #' - `x` might contain successive file separators (e.g., `//` or `\\\\`): these
@@ -217,6 +220,12 @@ is_path <- function(x, require_sep = TRUE) {
     grepl(pattern = "\\.([^.]+)$", x = filename, perl = TRUE)
 
   if(has_file_ext) {
+    if(endsWith(x, suffix = "/") || endsWith(x, suffix = "\\")) {
+      path_ok <- FALSE
+      warning("The filename (", paste_quoted(filename), ") in ", arg_name,
+              " should not end with a slash or backslash:\n", x)
+    }
+
     if(length(filename_no_ext) == 0L || !nzchar(filename_no_ext)) {
       path_ok <- FALSE
       warning("filename without extension (", paste_quoted(filename_no_ext),

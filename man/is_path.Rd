@@ -43,7 +43,8 @@ implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
 restrictions listed above (although it \strong{may} contain the Windows-reserved
 terms listed above), and in addition should \strong{not}
-contain a colon (\code{:}) \strong{nor} start with a space or a hyphen (\code{-}).
+contain a colon (\code{:}), \strong{not} start with a space or a hyphen (\code{-}),
+\strong{nor} end with a slash or backslash.
 }
 
 These restrictions on \code{x} consider characters and path components that are
@@ -58,9 +59,10 @@ shell.
 \itemize{
 \item \code{x} does \strong{not} have to contain any file separator if \code{require_sep} is
 \code{FALSE}, such that \code{is_path(x, require_sep = FALSE)} can be used to check
-that filenames only contain allowed characters (given that \code{x} contains a
+that filename \code{x} only contains allowed characters (given that it ends in a
 file extension).
-\item \code{x} might contain trailing file separators, although these might be ignored
+\item \code{x} might contain trailing file separators if it does \strong{not} end in a
+file extension, although these trailing file separators might be ignored
 or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}} and
 \code{\link[fs:path]{fs::path()}}).
 \item \code{x} might contain successive file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these

@@ -267,12 +267,24 @@ expect_silent(
 # the paths will end in a slash)
 path_in <- fs::path_wd("subdir", "filename.txt")
 if(endsWith(path_in, suffix = "/")) {
-  expect_true(is_path(path_in, require_sep = FALSE))
+  expect_warning(
+    expect_false(is_path(path_in, require_sep = FALSE)),
+    pattern = "should not end with a slash or backslash",
+    strict = TRUE, fixed = TRUE)
 } else {
-  expect_true(is_path(paste0(path_in, "/"), require_sep = FALSE))
+  expect_warning(
+    expect_false(is_path(paste0(path_in, "/"), require_sep = FALSE)),
+    pattern = "should not end with a slash or backslash",
+    strict = TRUE, fixed = TRUE)
 }
 
-expect_true(is_path(paste0(fs::path_wd("subdir", "filename.txt"), "\\")))
+expect_warning(
+  expect_false(is_path(paste0(fs::path_wd("subdir", "filename.txt"), "/"))),
+  pattern = "should not end with a slash or backslash", strict = TRUE, fixed = TRUE)
+
+expect_warning(
+  expect_false(is_path(paste0(fs::path_wd("subdir", "filename.txt"), "\\"))),
+  pattern = "should not end with a slash or backslash", strict = TRUE, fixed = TRUE)
 
 ##### Non-character input #####
 expect_warning(
