@@ -149,7 +149,7 @@ for(Windows_allowed in c("COM", "COM0", "LPT", "LPT0")) {
 }
 
 ##### Spaces and dots #####
-# Path elements should not end with a space
+# Path components should not end with a space
 expect_true(is_path(fs::path("a b", "def"), require_sep = FALSE))
 
 expect_true(is_path(fs::path("a  b", "def"), require_sep = FALSE))
@@ -191,7 +191,7 @@ expect_warning(
   expect_false(is_path(fs::path("ab", ".", "def"), require_sep = FALSE)),
   pattern = warn_space_dot, fixed = TRUE)
 
-# Path elements should not end with a dot
+# Path components should not end with a dot
 expect_warning(
   expect_false(is_path("ab.", require_sep = FALSE)),
   pattern = "should not end with ' ' or '.'", fixed = TRUE)
