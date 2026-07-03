@@ -8,7 +8,7 @@ message: 'To cite package "checkinput" in publications use:'
 type: software
 license: MIT
 title: 'checkinput: Check Function Input'
-version: 1.0.0
+version: 1.2.0
 abstract: Utility functions to write more-concise checks of function input, with arguments
   to set the allowed types of input.
 authors:
