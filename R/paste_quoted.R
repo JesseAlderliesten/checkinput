@@ -16,11 +16,13 @@
 #'
 #' @param x Dimensionless atomic object to be converted to a single character
 #' string.
+#' @param collapse Non-empty [character string][is_character()] used to separate
+#' the quoted elements of `x`.
 #'
 #' @returns
 #' A character string consisting of the elements of `x` surrounded by single
-#' quotes, separated by commas. See `Details` on the handling of some special
-#' values.
+#' quotes, separated by the string given in `collapse`. See `Details` on the
+#' handling of some special values in `x`.
 #'
 #' @section Notes:
 #' An error is thrown if multiple arguments are provided because then `x`
@@ -45,11 +47,12 @@
 #' paste_quoted(c(3, 4)) # "'3', '4'"
 #' paste_quoted(NULL) # "'NULL'"
 #' paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
+#' paste_quoted(c(3, 4), collapse = "\n") # separate '3' and '4' by a newline
 #'
 #' @export
-paste_quoted <- function(x) {
+paste_quoted <- function(x, collapse = ", ") {
   # Need condition 'is.null(x)' because is.atomic(NULL) was FALSE before R 4.4.0.
-  stopifnot(is.atomic(x) || is.null(x), is.null(dim(x)))
+  stopifnot(is.atomic(x) || is.null(x), is.null(dim(x)), is_character(collapse))
 
   if(!is.null(names(x))) {
     warning_text <- "'x' has names, these will be discarded."
@@ -85,6 +88,6 @@ paste_quoted <- function(x) {
     x[bool_zchar] <- "\"\""
   }
 
-  # Same as paste0(sQuote(x, q = FALSE), collapse = ", ") but much faster
-  paste0("'", paste(x, collapse = "', '"), "'")
+  # Same as paste0(sQuote(x, q = FALSE), collapse = collapse) but much faster
+  paste0("'", paste(x, collapse = paste0("'", collapse, "'")), "'")
 }

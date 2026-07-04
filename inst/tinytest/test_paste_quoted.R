@@ -19,6 +19,7 @@ expect_warning(
   pattern = "'x' has names, these will be discarded.\nUse progutils::vect_to_char",
   strict = TRUE, fixed = TRUE)
 expect_identical(paste_quoted(NULL), "'NULL'") # Also mentioned in the 'Note'
+expect_identical(paste_quoted(c(3, 4), collapse = "\n"), "'3'\n'4'")
 
 
 #### Test other sections ####
@@ -27,6 +28,19 @@ expect_identical(paste_quoted(logical(0)), "'logical(0)'")
 expect_silent(expect_identical(paste_quoted(c("a", "b")), "'a', 'b'"))
 expect_identical(toString(c("a", "b")), paste0(c("a", "b"), collapse = ", "))
 
+# Note before return
+x <- c("a", "b")
+collapse <- ", "
+expect_identical(
+  paste0(sQuote(x, q = FALSE), collapse = collapse),
+  paste0("'", paste(x, collapse = paste0("'", collapse, "'")), "'")
+)
+
+collapse <- "h"
+expect_identical(
+  paste0(sQuote(x, q = FALSE), collapse = collapse),
+  paste0("'", paste(x, collapse = paste0("'", collapse, "'")), "'")
+)
 
 #### Tests ####
 for(index in seq_along(list_input)) {
@@ -52,19 +66,19 @@ expect_silent(expect_identical(paste_quoted(x = x_fact_num),
                                "'0.25', '0.3125', '0.375', '0.3125'"))
 
 expect_error(
-  paste_quoted(3, 4),
+  paste_quoted(3, 4, collapse = ", "),
   pattern = "unused argument (4)", fixed = TRUE)
 
 expect_error(
-  paste_quoted(c(3, 4), 5:6),
+  paste_quoted(c(3, 4), 5:6, collapse = ", "),
   pattern = "unused argument (5:6)", fixed = TRUE)
 
 expect_error(
-  paste_quoted(c(3, 4), 5:6, 7),
+  paste_quoted(c(3, 4), 5:6, 7, collapse = ", "),
   pattern = "unused arguments (5:6, 7)", fixed = TRUE)
 
 expect_error(
-  paste_quoted(c(3, 4), h = 5, 7),
+  paste_quoted(c(3, 4), h = 5, 7, collapse = ", "),
   pattern = "unused arguments (h = 5, 7)", fixed = TRUE)
 
 for(index_NULL in seq_along(list_input_zerolength)) {
@@ -85,7 +99,15 @@ for(x in list(as.matrix(data.frame(a = 314)))) {
     pattern = "is.null(dim(x)) is not TRUE", fixed = TRUE)
 }
 
+expect_error(
+  paste_quoted(c(3, 4), collapse = c("a", "b")),
+  pattern = "is_character(collapse) is not TRUE", fixed = TRUE)
+
+expect_error(
+  paste_quoted(c(3, 4), collapse = 1),
+  pattern = "is_character(collapse) is not TRUE", fixed = TRUE)
+
 
 #### Remove objects used in tests ####
-rm(index, index_NULL, list_input, list_input_zerolength, list_output,
+rm(collapse, index, index_NULL, list_input, list_input_zerolength, list_output,
    list_output_zerolength, x, x_fact, x_fact_ind, x_fact_int, x_fact_num)

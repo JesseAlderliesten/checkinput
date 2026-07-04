@@ -4,16 +4,19 @@
 \alias{paste_quoted}
 \title{Quote and concatenate \code{x} to a string}
 \usage{
-paste_quoted(x)
+paste_quoted(x, collapse = ", ")
 }
 \arguments{
 \item{x}{Dimensionless atomic object to be converted to a single character
 string.}
+
+\item{collapse}{Non-empty \link[=is_character]{character string} used to separate
+the quoted elements of \code{x}.}
 }
 \value{
 A character string consisting of the elements of \code{x} surrounded by single
-quotes, separated by commas. See \code{Details} on the handling of some special
-values.
+quotes, separated by the string given in \code{collapse}. See \code{Details} on the
+handling of some special values in \code{x}.
 }
 \description{
 Quote elements of a a vector and concatenate the result to a single character
@@ -47,6 +50,7 @@ these warnings.
 paste_quoted(c(3, 4)) # "'3', '4'"
 paste_quoted(NULL) # "'NULL'"
 paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
+paste_quoted(c(3, 4), collapse = "\n") # separate '3' and '4' by a newline
 
 }
 \seealso{
