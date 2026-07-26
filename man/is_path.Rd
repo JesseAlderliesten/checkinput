@@ -147,8 +147,9 @@ to create a directory if it does not yet exist
 \href{https://jessealderliesten.github.io/progutils/reference/get_file_path.html}{\code{progutils::get_file_path()}}
 to check if a file exists and is a unique match to a pattern, and
 \code{\link[fs:file_exists]{fs::file_exists()}} and \code{\link[=list.files]{list.files()}} (which \strong{includes} directories in its
-output) to do so without checking they are a unique match to a pattern;
-\code{\link[=file.info]{file.info()}},\code{\link[=file.access]{file.access()}}, \code{\link[utils:file_test]{utils::file_test()}} and their documentation
+output) to do
+so without checking they are a unique match to a pattern;
+\code{\link[=file.info]{file.info()}}, \code{\link[=file.access]{file.access()}}, \code{\link[utils:file_test]{utils::file_test()}} and their documentation
 on checking existence, permissions, and other information about files or
 directories
 
