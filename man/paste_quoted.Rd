@@ -19,15 +19,15 @@ quotes, separated by the string given in \code{collapse}. See \code{Details} on 
 handling of some special values in \code{x}.
 }
 \description{
-Quote elements of a a vector and concatenate the result to a single character
+Quote elements of a vector and concatenate the result to a single character
 string.
 }
 \details{
 Some values are handled specially to print clearer:
 \itemize{
 \item \code{NULL} is returned as \code{"'NULL'"}
-\item non-\code{NULL} zero-length objects are returned as \code{"'<class>(0)'"} (e.g.,
-\code{"'logical(0)'"})
+\item non-\code{NULL} zero-length objects are returned as \code{"'<class>(0)'"}, e.g.,
+\code{"'logical(0)'"}
 \item \code{""} is returned as \code{'""'}
 \item logical \code{NA} is returned as \code{"'NA'"}
 \item non-logical \code{NA} is returned as \code{"'NA_<class>_'"} (e.g., \code{"'NA_real_'"};
@@ -41,9 +41,9 @@ probably was accidentally not \link[=c]{combined}. For example, the call
 \code{paste_quoted("a", "b")} will return the error \verb{unused argument ("b")}. The
 probably intended call is \code{paste_quoted(c("a", "b"))}, returning \code{"'a', 'b'"}.
 
-\code{paste_quoted()} drops \link{names} of \code{x}, which is pointed out in a
-\link{warning} if \code{x} has names. Use \code{\link[=unname]{unname()}} on named \code{x} to prevent
-these warnings.
+\link{names} of \code{x} are dropped by \code{paste_quoted()}, with a
+\link{warning}. Use \code{\link[=unname]{unname()}} on named \code{x} to prevent such warnings
+and use \code{progutils::vect_to_char(x)} for numeric \code{x} to preserve names.
 }
 
 \examples{
@@ -57,7 +57,7 @@ paste_quoted(c(3, 4), collapse = "\n") # separate '3' and '4' by a newline
 \code{\link[=toString]{toString()}} which is shorthand for \code{paste(x, collapse = ", ")};
 \code{\link{Quotes}} and \code{\link[=sQuote]{sQuote()}} for documentation on quotes;
 \code{\link[=paste0]{paste0()}};
-\code{progutils::unpaste_unquote()} for the approximate reverse of \code{paste_quoted()};
+\code{progutils::unpaste_unquote()} for the approximate opposite of \code{paste_quoted()};
 \code{progutils::vect_to_char()} to preserve names of numeric \code{x}
 }
 \concept{functions to modify character vectors}

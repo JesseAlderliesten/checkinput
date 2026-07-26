@@ -41,14 +41,14 @@
 #' to use [stopifnot()].
 #'
 #' Alternatively, use `is_natural(x)` or `all_natural(x)` inside [stopifnot()],
-#' followed by assigning the rounded value to `x` after converting it to type
-#' `integer`: `x <- as.integer(round(x))`.
+#' followed by converting the rounded value of `x` to `integer` and assigning it
+#' to `x`: `x <- as.integer(round(x))`.
 #'
 #' @section Programming notes:
 #' The code of `is_natural()` and `all_natural()` is partly based on the example
 #' `is.wholenumber()` in [is.integer()].
 #'
-#' [is.integer()] does **not** check that `x` is a natural number (nor if `x` is
+#' [is.integer()] does **not** check that `x` is a natural number (nor that `x` is
 #' a whole number) but rather that `x` is of [type][typeof()] integer, see the
 #' `Note` in [is.integer()].
 #'
@@ -61,7 +61,7 @@
 #' check for exact equality and [`Comparison`] to do so using binary operators;
 #' [match()] and `progutils::not_in()` to compare character vectors; [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-#' for background on numerical equality.
+#' for background on numerical equality and its pitfalls.
 #'
 #' @examples
 #' is_natural(x = 5 + 1e-10) # TRUE

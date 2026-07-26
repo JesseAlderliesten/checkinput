@@ -18,8 +18,9 @@
 #' number; and are not [reserved] words such as [`for`] or [`NA`]. The
 #' definition of **letter** depends on the current [locale][locales]. A
 #' conservative check for names that are syntactically valid on all locales
-#' would only allow digits and unaccented Latin letters, but that is **not**
-#' enforced by `all_names()`.
+#' would only allow digits and unaccented letters from the
+#' [basic Latin alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet),
+#' but that is **not** enforced by `all_names()`.
 #'
 #' Names that consist of only dots, or consist of two dots followed by a number,
 #' are not allowed by `all_names()` (nor by `vctrs::vec_as_names()`) even though
@@ -82,7 +83,7 @@
 #' because names containing underscores are not syntactically invalid. However,
 #' setting `allow_underscores` to `FALSE` to **not** allow such names is useful
 #' to check that names do not contain underscores, for example if several names
-#' will be concatenated to create an ID-tag, separating the parts by underscores.
+#' will be concatenated to create an ID-tag, separating the names by underscores.
 #'
 #' @returns
 #' `TRUE` or `FALSE`, indicating if `x` is a character vector that consists of

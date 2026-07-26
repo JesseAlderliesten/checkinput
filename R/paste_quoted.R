@@ -1,14 +1,14 @@
 #' Quote and concatenate `x` to a string
 #'
-#' Quote elements of a a vector and concatenate the result to a single character
+#' Quote elements of a vector and concatenate the result to a single character
 #' string.
 #'
 #' @details
 #' Some values are handled specially to print clearer:
 #'
 #' - `NULL` is returned as `"'NULL'"`
-#' - non-`NULL` zero-length objects are returned as `"'<class>(0)'"` (e.g.,
-#'   `"'logical(0)'"`)
+#' - non-`NULL` zero-length objects are returned as `"'<class>(0)'"`, e.g.,
+#'   `"'logical(0)'"`
 #' - `""` is returned as `'""'`
 #' - logical `NA` is returned as `"'NA'"`
 #' - non-logical `NA` is returned as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`;
@@ -30,15 +30,15 @@
 #' `paste_quoted("a", "b")` will return the error `unused argument ("b")`. The
 #' probably intended call is `paste_quoted(c("a", "b"))`, returning `"'a', 'b'"`.
 #'
-#' `paste_quoted()` drops [names][names()] of `x`, which is pointed out in a
-#' [warning][warning()] if `x` has names. Use [unname()] on named `x` to prevent
-#' these warnings.
+#' [names][names()] of `x` are dropped by `paste_quoted()`, with a
+#' [warning][warning()]. Use [unname()] on named `x` to prevent such warnings
+#' and use `progutils::vect_to_char(x)` for numeric `x` to preserve names.
 #'
 #' @seealso
 #' [toString()] which is shorthand for `paste(x, collapse = ", ")`;
 #' [`Quotes`] and [sQuote()] for documentation on quotes;
 #' [paste0()];
-#' `progutils::unpaste_unquote()` for the approximate reverse of `paste_quoted()`;
+#' `progutils::unpaste_unquote()` for the approximate opposite of `paste_quoted()`;
 #' `progutils::vect_to_char()` to preserve names of numeric `x`
 #'
 #' @family functions to modify character vectors

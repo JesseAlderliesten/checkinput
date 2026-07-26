@@ -33,8 +33,9 @@ dots and underscores; start with a letter, or with a dot not followed by a
 number; and are not \link{reserved} words such as \code{\link{for}} or \code{\link{NA}}. The
 definition of \strong{letter} depends on the current \link[=locales]{locale}. A
 conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented Latin letters, but that is \strong{not}
-enforced by \code{all_names()}.
+would only allow digits and unaccented letters from the
+\href{https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet}{basic Latin alphabet},
+but that is \strong{not} enforced by \code{all_names()}.
 
 Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by \code{all_names()} (nor by \code{vctrs::vec_as_names()}) even though
@@ -109,7 +110,7 @@ Names containing underscores (\verb{_}) are by default \strong{allowed} by \code
 because names containing underscores are not syntactically invalid. However,
 setting \code{allow_underscores} to \code{FALSE} to \strong{not} allow such names is useful
 to check that names do not contain underscores, for example if several names
-will be concatenated to create an ID-tag, separating the parts by underscores.
+will be concatenated to create an ID-tag, separating the names by underscores.
 }
 \section{Programming notes}{
 

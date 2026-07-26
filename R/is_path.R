@@ -71,13 +71,13 @@
 #' on other operating systems: [.Platform$file.sep][.Platform] gives the file
 #' separator used on the current platform. Furthermore, the backslash is used as
 #' [escape character][regex] in \R, such that backslashes need to be escaped in
-#' \R code by doubling them. Use `cat(x)` to omit the escape-characters to see
+#' \R code by doubling them. Use `cat(x)` to omit the escape characters to see
 #' how `x` would be printed.
 #'
 #' @section Programming notes:
 #' The output of [tempdir()] during
 #' [`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains successive
-#' forward slashes (e.g., `/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
+#' forward slashes (e.g., `/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
 #' which in earlier versions of [checkinput::is_path()] (then in package
 #' [progutils](https://jessealderliesten.github.io/progutils/)) led to
 #' spurious warnings about duplicated file separators.
@@ -108,11 +108,11 @@
 #'
 #' [`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
 #' to check if a file exists and is a unique match to a pattern, and
-#' [fs::file_exists()] and [list.files()] (which **includes** directories) to do
+#' [fs::file_exists()] and [list.files()] (which **includes** directories in its
+#' output) to do
 #' so without checking they are a unique match to a pattern;
-#' [utils::file_test()] and references there on checking file existence and
-#' permissions;
-#' [file.info()] and [file.access()] to extract information about files or
+#' [file.info()], [file.access()], [utils::file_test()] and their documentation
+#' on checking existence, permissions, and other information about files or
 #' directories
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
