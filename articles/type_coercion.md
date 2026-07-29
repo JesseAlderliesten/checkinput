@@ -56,12 +56,12 @@ function arguments passed to
 e.g., `allow_empty = TRUE` to allow empty quotes (i.e., `""`), should be
 placed behind argument `x`.
 
-Elements of a list can have different types but using
+Elements of a list can have different types. Using
 [`unlist()`](https://rdrr.io/r/base/unlist.html) on a list creates a
-vector in which all elements of the list are coerced to the highest of
-their types, such that `all_characters(unlist(z))` does **not** check if
-all elements of list `z` are character but if any element of `z` is a
-character **and** none of the elements of `z` is of a higher type.
+vector, coercing all elements of the list to the highest of their types,
+such that `all_characters(unlist(z))` does **not** check if all elements
+of list `z` are character but if any element of `z` is a character
+**and** none of the elements of `z` is of a higher type.
 
 ``` r
 

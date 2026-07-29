@@ -106,14 +106,14 @@ The file separator is a backslash (`\`) on Windows but a forward slash
 file separator used on the current platform. Furthermore, the backslash
 is used as [escape character](https://rdrr.io/r/base/regex.html) in R,
 such that backslashes need to be escaped in R code by doubling them. Use
-`cat(x)` to omit the escape-characters to see how `x` would be printed.
+`cat(x)` to omit the escape characters to see how `x` would be printed.
 
 ## Programming notes
 
 The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
 [`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains
 successive forward slashes (e.g.,
-`/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier
+`/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier
 versions of `is_path()` (then in package
 [progutils](https://jessealderliesten.github.io/progutils/)) led to
 spurious warnings about duplicated file separators.
@@ -154,13 +154,13 @@ to create a directory if it does not yet exist
 to check if a file exists and is a unique match to a pattern, and
 [`fs::file_exists()`](https://fs.r-lib.org/reference/file_access.html)
 and [`list.files()`](https://rdrr.io/r/base/list.files.html) (which
-**includes** directories) to do so without checking they are a unique
-match to a pattern;
-[`utils::file_test()`](https://rdrr.io/r/utils/filetest.html) and
-references there on checking file existence and permissions;
-[`file.info()`](https://rdrr.io/r/base/file.info.html) and
-[`file.access()`](https://rdrr.io/r/base/file.access.html) to extract
-information about files or directories
+**includes** directories in its output) to do so without checking they
+are a unique match to a pattern;
+[`file.info()`](https://rdrr.io/r/base/file.info.html),
+[`file.access()`](https://rdrr.io/r/base/file.access.html),
+[`utils::file_test()`](https://rdrr.io/r/utils/filetest.html) and their
+documentation on checking existence, permissions, and other information
+about files or directories
 
 Section 'Paths in the shell' in the vignette *Git and GitHub* of package
 `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths

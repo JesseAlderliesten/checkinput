@@ -1,12 +1,12 @@
 # Quote and concatenate `x` to a string
 
-Quote elements of a a vector and concatenate the result to a single
+Quote elements of a vector and concatenate the result to a single
 character string.
 
 ## Usage
 
 ``` r
-paste_quoted(x)
+paste_quoted(x, collapse = ", ")
 ```
 
 ## Arguments
@@ -16,11 +16,17 @@ paste_quoted(x)
   Dimensionless atomic object to be converted to a single character
   string.
 
+- collapse:
+
+  Non-empty [character
+  string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
+  used to separate the quoted elements of `x`.
+
 ## Value
 
 A character string consisting of the elements of `x` surrounded by
-single quotes, separated by commas. See `Details` on the handling of
-some special values.
+single quotes, separated by the string given in `collapse`. See
+`Details` on the handling of some special values in `x`.
 
 ## Details
 
@@ -28,8 +34,8 @@ Some values are handled specially to print clearer:
 
 - `NULL` is returned as `"'NULL'"`
 
-- non-`NULL` zero-length objects are returned as `"'<class>(0)'"` (e.g.,
-  `"'logical(0)'"`)
+- non-`NULL` zero-length objects are returned as `"'<class>(0)'"`, e.g.,
+  `"'logical(0)'"`
 
 - `""` is returned as `'""'`
 
@@ -47,11 +53,11 @@ For example, the call `paste_quoted("a", "b")` will return the error
 `unused argument ("b")`. The probably intended call is
 `paste_quoted(c("a", "b"))`, returning `"'a', 'b'"`.
 
-`paste_quoted()` drops [names](https://rdrr.io/r/base/names.html) of
-`x`, which is pointed out in a
-[warning](https://rdrr.io/r/base/warning.html) if `x` has names. Use
-[`unname()`](https://rdrr.io/r/base/unname.html) on named `x` to prevent
-these warnings.
+[names](https://rdrr.io/r/base/names.html) of `x` are dropped by
+`paste_quoted()`, with a [warning](https://rdrr.io/r/base/warning.html).
+Use [`unname()`](https://rdrr.io/r/base/unname.html) on named `x` to
+prevent such warnings and use `progutils::vect_to_char(x)` for numeric
+`x` to preserve names.
 
 ## See also
 
@@ -60,7 +66,7 @@ for `paste(x, collapse = ", ")`;
 [`Quotes`](https://rdrr.io/r/base/Quotes.html) and
 [`sQuote()`](https://rdrr.io/r/base/sQuote.html) for documentation on
 quotes; [`paste0()`](https://rdrr.io/r/base/paste.html);
-`progutils::unpaste_unquote()` for the approximate reverse of
+`progutils::unpaste_unquote()` for the approximate opposite of
 `paste_quoted()`; `progutils::vect_to_char()` to preserve names of
 numeric `x`
 
@@ -75,4 +81,6 @@ paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
 #> Warning: 'x' has names, these will be discarded.
 #> Use progutils::vect_to_char() instead of paste_quoted() to preserve names of numeric 'x'.
 #> [1] "'3', '4'"
+paste_quoted(c(3, 4), collapse = "\n") # separate '3' and '4' by a newline
+#> [1] "'3'\n'4'"
 ```

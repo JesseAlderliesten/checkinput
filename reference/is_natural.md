@@ -106,8 +106,8 @@ to `x` without the need to use
 
 Alternatively, use `is_natural(x)` or `all_natural(x)` inside
 [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html), followed by
-assigning the rounded value to `x` after converting it to type
-`integer`: `x <- as.integer(round(x))`.
+converting the rounded value of `x` to `integer` and assigning it to
+`x`: `x <- as.integer(round(x))`.
 
 ## Programming notes
 
@@ -116,7 +116,7 @@ example `is.wholenumber()` in
 [`is.integer()`](https://rdrr.io/r/base/integer.html).
 
 [`is.integer()`](https://rdrr.io/r/base/integer.html) does **not** check
-that `x` is a natural number (nor if `x` is a whole number) but rather
+that `x` is a natural number (nor that `x` is a whole number) but rather
 that `x` is of [type](https://rdrr.io/r/base/typeof.html) integer, see
 the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html).
 
@@ -131,7 +131,7 @@ exact equality and
 binary operators; [`match()`](https://rdrr.io/r/base/match.html) and
 `progutils::not_in()` to compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-for background on numerical equality.
+for background on numerical equality and its pitfalls.
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

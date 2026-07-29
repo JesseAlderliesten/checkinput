@@ -9,7 +9,7 @@ that do not suggest they were adjusted or automatically created."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,8 +87,9 @@ dots and underscores; start with a letter, or with a dot not followed by a
 number; and are not <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words such as <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">for</a></code> or <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>. The
 definition of <strong>letter</strong> depends on the current <a href="https://rdrr.io/r/base/locales.html" class="external-link">locale</a>. A
 conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented Latin letters, but that is <strong>not</strong>
-enforced by <code>all_names()</code>.</p>
+would only allow digits and unaccented letters from the
+<a href="https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet" class="external-link">basic Latin alphabet</a>,
+but that is <strong>not</strong> enforced by <code>all_names()</code>.</p>
 <p>Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by <code>all_names()</code> (nor by <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>) even though
 they are not adjusted by <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>: they are <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words.</p>
@@ -142,7 +143,7 @@ absent.</p></li>
 because names containing underscores are not syntactically invalid. However,
 setting <code>allow_underscores</code> to <code>FALSE</code> to <strong>not</strong> allow such names is useful
 to check that names do not contain underscores, for example if several names
-will be concatenated to create an ID-tag, separating the parts by underscores.</p>
+will be concatenated to create an ID-tag, separating the names by underscores.</p>
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
@@ -236,7 +237,7 @@ names, e.g., through adjusting case and transliterating non-ASCII characters.</p
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

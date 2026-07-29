@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,9 +132,9 @@ generalise more easily to more than two objects,
 Other function arguments passed to <code><a href="../reference/all_characters.html">all_characters()</a></code>, e.g.,
 <code>allow_empty = TRUE</code> to allow empty quotes (i.e.,
 <code>""</code>), should be placed behind argument <code>x</code>.</p>
-<p>Elements of a list can have different types but using
-<code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on a list creates a vector in which all elements
-of the list are coerced to the highest of their types, such that
+<p>Elements of a list can have different types. Using
+<code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on a list creates a vector, coercing all elements
+of the list to the highest of their types, such that
 <code>all_characters(unlist(z))</code> does <strong>not</strong> check
 if all elements of list <code>z</code> are character but if any element
 of <code>z</code> is a character <strong>and</strong> none of the
@@ -214,7 +214,7 @@ string <code>"314"</code>, <strong>not</strong> in the numeric value
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

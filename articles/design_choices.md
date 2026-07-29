@@ -40,11 +40,12 @@ for a discussion of some issues with zero-length input.
 
 ## `NA` and `NaN` in x
 
-By default, functions of `checkinput` return `FALSE` for `x` containing
-`NA` or `NaN`. Set argument `allow_NA` to `TRUE` to let them return
-`TRUE` for `x` containing `NA` of the correct type, and set argument
-`allow_NaN` in functions like `is_number(x)` to `TRUE` to let them
-return `TRUE` for `x` containing `NaN`.
+By default, the check functions return `FALSE` for `x` containing `NA`
+or `NaN`. Set argument `allow_NA` to `TRUE` to let them return `TRUE`
+for `x` containing `NA` of the correct type, and set argument
+`allow_NaN` in functions like
+[`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
+to `TRUE` to let them return `TRUE` for `x` containing `NaN`.
 
 ## Return
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,7 +129,7 @@ file or folder, <strong>nor</strong> that such a file or folder can be created.<
 on other operating systems: <a href="https://rdrr.io/r/base/Platform.html" class="external-link">.Platform$file.sep</a> gives the file
 separator used on the current platform. Furthermore, the backslash is used as
 <a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in <span style="R">R</span>, such that backslashes need to be escaped in
-<span style="R">R</span> code by doubling them. Use <code>cat(x)</code> to omit the escape-characters to see
+<span style="R">R</span> code by doubling them. Use <code>cat(x)</code> to omit the escape characters to see
 how <code>x</code> would be printed.</p>
     </div>
     <div class="section level2">
@@ -138,7 +138,7 @@ how <code>x</code> would be printed.</p>
 
 <p>The output of <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> during
 <a href="https://r-pkgs.org/R-CMD-check.html" class="external-link"><code>R CMD checks</code></a> on MacOS contains successive
-forward slashes (e.g., <code>/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR</code>)
+forward slashes (e.g., <code>/var/&lt;...&gt;/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR</code>)
 which in earlier versions of <code>is_path()</code> (then in package
 <a href="https://jessealderliesten.github.io/progutils/" class="external-link">progutils</a>) led to
 spurious warnings about duplicated file separators.</p>
@@ -171,11 +171,11 @@ to create a file path, creating the directory if it does not yet exist;
 to create a directory if it does not yet exist</p>
 <p><a href="https://jessealderliesten.github.io/progutils/reference/get_file_path.html" class="external-link"><code>progutils::get_file_path()</code></a>
 to check if a file exists and is a unique match to a pattern, and
-<code><a href="https://fs.r-lib.org/reference/file_access.html" class="external-link">fs::file_exists()</a></code> and <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files()</a></code> (which <strong>includes</strong> directories) to do
+<code><a href="https://fs.r-lib.org/reference/file_access.html" class="external-link">fs::file_exists()</a></code> and <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files()</a></code> (which <strong>includes</strong> directories in its
+output) to do
 so without checking they are a unique match to a pattern;
-<code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and references there on checking file existence and
-permissions;
-<code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code> and <code><a href="https://rdrr.io/r/base/file.access.html" class="external-link">file.access()</a></code> to extract information about files or
+<code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code>, <code><a href="https://rdrr.io/r/base/file.access.html" class="external-link">file.access()</a></code>, <code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and their documentation
+on checking existence, permissions, and other information about files or
 directories</p>
 <p>Section 'Paths in the shell' in the vignette <em>Git and GitHub</em> of package
 <code>checkrpkgs</code> (<code>vignette("git_github", package = "checkrpkgs")</code>) on paths and
@@ -242,7 +242,7 @@ file separators in the <a href="https://happygitwithr.com/shell" class="external
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

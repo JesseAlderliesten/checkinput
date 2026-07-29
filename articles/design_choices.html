@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,13 +121,12 @@ discussion of some issues with zero-length input.</p>
 <h2 id="na-and-nan-in-x">
 <code>NA</code> and <code>NaN</code> in x<a class="anchor" aria-label="anchor" href="#na-and-nan-in-x"></a>
 </h2>
-<p>By default, functions of <code>checkinput</code> return
-<code>FALSE</code> for <code>x</code> containing <code>NA</code> or
-<code>NaN</code>. Set argument <code>allow_NA</code> to
-<code>TRUE</code> to let them return <code>TRUE</code> for
-<code>x</code> containing <code>NA</code> of the correct type, and set
-argument <code>allow_NaN</code> in functions like
-<code>is_number(x)</code> to <code>TRUE</code> to let them return
+<p>By default, the check functions return <code>FALSE</code> for
+<code>x</code> containing <code>NA</code> or <code>NaN</code>. Set
+argument <code>allow_NA</code> to <code>TRUE</code> to let them return
+<code>TRUE</code> for <code>x</code> containing <code>NA</code> of the
+correct type, and set argument <code>allow_NaN</code> in functions like
+<code><a href="../reference/is_number.html">is_number()</a></code> to <code>TRUE</code> to let them return
 <code>TRUE</code> for <code>x</code> containing <code>NaN</code>.</p>
 </div>
 <div class="section level2">
@@ -159,7 +158,7 @@ to not allow underscores, should be placed behind argument
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

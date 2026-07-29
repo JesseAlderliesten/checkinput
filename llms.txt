@@ -9,17 +9,15 @@ Visit the [checkinput
 website](https://jessealderliesten.github.io/checkinput/) to explore the
 package, or install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) using the
-following R code (you need to run R as administrator):
+following R code:
 
 ``` r
 
-if(!requireNamespace("remotes", quietly = TRUE)) {
-  install.packages(pkgs = "remotes", quiet = FALSE)
+if(!requireNamespace("remotes")) {
+  install.packages(pkgs = "remotes")
 }
 remotes::install_github(repo = "JesseAlderliesten/checkinput",
-                        dependencies = NA, upgrade = FALSE, force = FALSE,
-                        quiet = FALSE, build_vignettes = TRUE, lib = NULL,
-                        verbose = getOption("verbose"))
+                        upgrade = FALSE, build_vignettes = TRUE, lib = NULL)
 ```
 
 For more information about installing and configuring R and RStudio, see
@@ -28,7 +26,7 @@ my package
 
 ## Example
 
-Say you want to collect information on people’s hobbies through a
+Say you want to collect information on people’s hobbies through an R
 function in which it is optional for them to provide their name. With
 `checkinput`, you could write a function like `list_hobbies()`:
 
@@ -43,10 +41,9 @@ list_hobbies <- function(name, age, hobbies) {
 
 The checks inside [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html)
 ensure that (1) `name` contains a single character string that might be
-empty (`""`) or character-type `NA` (`NA_character_`) if people do not
-want to give their name; (2) `age` contains a single non-negative
-number; (3) `hobbies` contains at least one character string and does
-not contain empty strings or `NA`s.
+empty (`""`) or character-type `NA` (`NA_character_`); (2) `age`
+contains a single non-negative number; (3) `hobbies` contains at least
+one character string and does not contain empty strings or `NA`s.
 
 The base R equivalent of `list_hobbies()` would require much more code
 to check the input, increasing the chance of coding errors and making it
@@ -156,7 +153,7 @@ License](https://jessealderliesten.github.io/checkinput/LICENSE.md).
 To cite package 'checkinput' in publications use:
 
   Alderliesten J (2026). _checkinput: Check Function Input_. R package
-  version 1.2.0, <https://github.com/JesseAlderliesten/checkinput>.
+  version 1.3.0, <https://github.com/JesseAlderliesten/checkinput>.
 
 A BibTeX entry for LaTeX users is
 
@@ -164,7 +161,7 @@ A BibTeX entry for LaTeX users is
     title = {checkinput: Check Function Input},
     author = {Jesse Alderliesten},
     year = {2026},
-    note = {R package version 1.2.0},
+    note = {R package version 1.3.0},
     url = {https://github.com/JesseAlderliesten/checkinput},
   }
 ```

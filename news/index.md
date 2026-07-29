@@ -1,5 +1,12 @@
 # Changelog
 
+## checkinput 1.3.0
+
+#### Breaking changes
+
+- `paste_quoted`: add argument `collapse` to be able separate the quoted
+  elements by newlines instead of by commas.
+
 ## checkinput 1.2.0
 
 #### Breaking changes
@@ -16,23 +23,12 @@
 - Dependency `fs`: require minimum version `1.2.4` because `path_wd()`
   is used.
 
-#### Documentation
-
-- Stylistic updates, adding more links to
-  [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md).
-
-## checkinput 1.0.1
-
-#### Documentation
-
-- Stylistic updates.
-
 ## checkinput 1.0.0
 
 #### Documentation
 
 - Update `NEWS`.
-- Add links license and citation file.
+- Add links to license and citation file.
 
 ## checkinput 0.12.0
 

@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,28 +69,26 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Visit the <a href="https://jessealderliesten.github.io/checkinput/">checkinput website</a> to explore the package, or install <code>checkinput</code> from <a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">GitHub</a> using the following R code (you need to run R as administrator):</p>
+<p>Visit the <a href="https://jessealderliesten.github.io/checkinput/">checkinput website</a> to explore the package, or install <code>checkinput</code> from <a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">GitHub</a> using the following R code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">"remotes"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span>repo <span class="op">=</span> <span class="st">"JesseAlderliesten/checkinput"</span>,</span>
-<span>                        dependencies <span class="op">=</span> <span class="cn">NA</span>, upgrade <span class="op">=</span> <span class="cn">FALSE</span>, force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                        quiet <span class="op">=</span> <span class="cn">FALSE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, lib <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                        verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"verbose"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>                        upgrade <span class="op">=</span> <span class="cn">FALSE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, lib <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p>For more information about installing and configuring R and RStudio, see my package <a href="https://jessealderliesten.github.io/checkrpkgs/" class="external-link"><code>checkrpkgs</code></a>.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Say you want to collect information on people’s hobbies through a function in which it is optional for them to provide their name. With <code>checkinput</code>, you could write a function like <code>list_hobbies()</code>:</p>
+<p>Say you want to collect information on people’s hobbies through an R function in which it is optional for them to provide their name. With <code>checkinput</code>, you could write a function like <code>list_hobbies()</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">list_hobbies</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">age</span>, <span class="va">hobbies</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="reference/all_characters.html">is_character</a></span><span class="op">(</span><span class="va">name</span>, allow_empty <span class="op">=</span> <span class="cn">TRUE</span>, allow_NA <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>            <span class="fu"><a href="reference/is_number.html">is_nonnegative</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>, <span class="fu"><a href="reference/all_characters.html">all_characters</a></span><span class="op">(</span><span class="va">hobbies</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">name</span>, age <span class="op">=</span> <span class="va">age</span>, hobbies <span class="op">=</span> <span class="va">hobbies</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>The checks inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> ensure that (1) <code>name</code> contains a single character string that might be empty (<code>""</code>) or character-type <code>NA</code> (<code>NA_character_</code>) if people do not want to give their name; (2) <code>age</code> contains a single non-negative number; (3) <code>hobbies</code> contains at least one character string and does not contain empty strings or <code>NA</code>s.</p>
+<p>The checks inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> ensure that (1) <code>name</code> contains a single character string that might be empty (<code>""</code>) or character-type <code>NA</code> (<code>NA_character_</code>); (2) <code>age</code> contains a single non-negative number; (3) <code>hobbies</code> contains at least one character string and does not contain empty strings or <code>NA</code>s.</p>
 <p>The base R equivalent of <code>list_hobbies()</code> would require much more code to check the input, increasing the chance of coding errors and making it more difficult to read:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">list_hobbies_base</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">age</span>, <span class="va">hobbies</span><span class="op">)</span> <span class="op">{</span></span>
@@ -160,7 +158,7 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>To cite package <span class="st">'checkinput'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  Alderliesten <span class="fu">J</span> (<span class="dv">2026</span>). _checkinput<span class="sc">:</span> Check Function Input_. R package</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  version <span class="dv">1</span>.<span class="fl">2.0</span>, <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>JesseAlderliesten<span class="sc">/</span>checkinput<span class="sc">&gt;</span>.</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  version <span class="dv">1</span>.<span class="fl">3.0</span>, <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>JesseAlderliesten<span class="sc">/</span>checkinput<span class="sc">&gt;</span>.</span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
@@ -168,7 +166,7 @@
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    title <span class="ot">=</span> {checkinput<span class="sc">:</span> Check Function Input},</span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    author <span class="ot">=</span> {Jesse Alderliesten},</span>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2026</span>},</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">2.0</span>},</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">3.0</span>},</span>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>JesseAlderliesten<span class="sc">/</span>checkinput},</span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
@@ -240,7 +238,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

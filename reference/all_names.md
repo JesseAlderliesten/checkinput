@@ -43,8 +43,9 @@ or with a dot not followed by a number; and are not
 [`NA`](https://rdrr.io/r/base/NA.html). The definition of **letter**
 depends on the current [locale](https://rdrr.io/r/base/locales.html). A
 conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented Latin letters, but that is
-**not** enforced by `all_names()`.
+would only allow digits and unaccented letters from the [basic Latin
+alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet), but
+that is **not** enforced by `all_names()`.
 
 Names that consist of only dots, or consist of two dots followed by a
 number, are not allowed by `all_names()` (nor by
@@ -141,7 +142,7 @@ Names containing underscores (`_`) are by default **allowed** by
 invalid. However, setting `allow_underscores` to `FALSE` to **not**
 allow such names is useful to check that names do not contain
 underscores, for example if several names will be concatenated to create
-an ID-tag, separating the parts by underscores.
+an ID-tag, separating the names by underscores.
 
 ## Programming notes
 
