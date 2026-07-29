@@ -83,7 +83,7 @@ The file separator is a backslash (\verb{\\}) on Windows but a forward slash (\c
 on other operating systems: \link[=.Platform]{.Platform$file.sep} gives the file
 separator used on the current platform. Furthermore, the backslash is used as
 \link[=regex]{escape character} in \R, such that backslashes need to be escaped in
-\R code by doubling them. Use \code{cat(x)} to omit the escape-characters to see
+\R code by doubling them. Use \code{cat(x)} to omit the escape characters to see
 how \code{x} would be printed.
 }
 
@@ -91,7 +91,7 @@ how \code{x} would be printed.
 
 The output of \code{\link[=tempdir]{tempdir()}} during
 \href{https://r-pkgs.org/R-CMD-check.html}{\verb{R CMD checks}} on MacOS contains successive
-forward slashes (e.g., \verb{/var/[...]/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR})
+forward slashes (e.g., \verb{/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR})
 which in earlier versions of \code{\link[=is_path]{is_path()}} (then in package
 \href{https://jessealderliesten.github.io/progutils/}{progutils}) led to
 spurious warnings about duplicated file separators.
@@ -146,11 +146,11 @@ to create a directory if it does not yet exist
 
 \href{https://jessealderliesten.github.io/progutils/reference/get_file_path.html}{\code{progutils::get_file_path()}}
 to check if a file exists and is a unique match to a pattern, and
-\code{\link[fs:file_exists]{fs::file_exists()}} and \code{\link[=list.files]{list.files()}} (which \strong{includes} directories) to do
+\code{\link[fs:file_exists]{fs::file_exists()}} and \code{\link[=list.files]{list.files()}} (which \strong{includes} directories in its
+output) to do
 so without checking they are a unique match to a pattern;
-\code{\link[utils:file_test]{utils::file_test()}} and references there on checking file existence and
-permissions;
-\code{\link[=file.info]{file.info()}} and \code{\link[=file.access]{file.access()}} to extract information about files or
+\code{\link[=file.info]{file.info()}}, \code{\link[=file.access]{file.access()}}, \code{\link[utils:file_test]{utils::file_test()}} and their documentation
+on checking existence, permissions, and other information about files or
 directories
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package

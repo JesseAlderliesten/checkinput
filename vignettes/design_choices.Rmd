@@ -48,10 +48,10 @@ return `TRUE` for zero-length `x` of the correct type. See
 for a discussion of some issues with zero-length input.
 
 ## `NA` and `NaN` in x
-By default, functions of `checkinput` return `FALSE` for `x` containing `NA` or
+By default, the check functions return `FALSE` for `x` containing `NA` or
 `NaN`. Set argument `allow_NA` to `TRUE` to let them return `TRUE` for `x`
 containing `NA` of
-the correct type, and set argument `allow_NaN` in functions like `is_number(x)`
+the correct type, and set argument `allow_NaN` in functions like `is_number()`
 to `TRUE` to let them return `TRUE` for `x` containing `NaN`.
 
 ## Return

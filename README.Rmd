@@ -25,16 +25,14 @@ functions.
 Visit the [checkinput website](https://jessealderliesten.github.io/checkinput/)
 to explore the package, or install `checkinput` from
 [GitHub](https://github.com/JesseAlderliesten/checkinput) using the following R
-code (you need to run R as administrator):
+code:
 
 ```{r, eval = FALSE}
-if(!requireNamespace("remotes", quietly = TRUE)) {
-  install.packages(pkgs = "remotes", quiet = FALSE)
+if(!requireNamespace("remotes")) {
+  install.packages(pkgs = "remotes")
 }
 remotes::install_github(repo = "JesseAlderliesten/checkinput",
-                        dependencies = NA, upgrade = FALSE, force = FALSE,
-                        quiet = FALSE, build_vignettes = TRUE, lib = NULL,
-                        verbose = getOption("verbose"))
+                        upgrade = FALSE, build_vignettes = TRUE, lib = NULL)
 ```
 
 For more information about installing and configuring R and RStudio, see my
@@ -42,7 +40,7 @@ package [`checkrpkgs`](https://jessealderliesten.github.io/checkrpkgs/).
 
 
 ## Example
-Say you want to collect information on people's hobbies through a function in
+Say you want to collect information on people's hobbies through an R function in
 which it is optional for them to provide their name. With `checkinput`, you
 could write a function like `list_hobbies()`:
 
@@ -56,7 +54,7 @@ list_hobbies <- function(name, age, hobbies) {
 
 The checks inside `stopifnot()` ensure that (1) `name` contains a single
 character string that might be empty (`""`) or character-type `NA` 
-(`NA_character_`) if people do not want to give their name; (2) `age` contains a
+(`NA_character_`); (2) `age` contains a
 single non-negative number; (3) `hobbies` contains at least one character string
 and does not contain empty strings or `NA`s.
 

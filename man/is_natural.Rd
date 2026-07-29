@@ -83,8 +83,8 @@ respectively. Therefore, their result can be assigned to \code{x} without the ne
 to use \code{\link[=stopifnot]{stopifnot()}}.
 
 Alternatively, use \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}},
-followed by assigning the rounded value to \code{x} after converting it to type
-\code{integer}: \code{x <- as.integer(round(x))}.
+followed by converting the rounded value of \code{x} to \code{integer} and assigning it
+to \code{x}: \code{x <- as.integer(round(x))}.
 }
 
 \section{Programming notes}{
@@ -92,7 +92,7 @@ followed by assigning the rounded value to \code{x} after converting it to type
 The code of \code{is_natural()} and \code{all_natural()} is partly based on the example
 \code{is.wholenumber()} in \code{\link[=is.integer]{is.integer()}}.
 
-\code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor if \code{x} is
+\code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor that \code{x} is
 a whole number) but rather that \code{x} is of \link[=typeof]{type} integer, see the
 \code{Note} in \code{\link[=is.integer]{is.integer()}}.
 }
@@ -158,7 +158,7 @@ try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
 \code{\link[=all.equal]{all.equal()}} to check more generally for near-equality; \code{\link[=identical]{identical()}} to
 check for exact equality and \code{\link{Comparison}} to do so using binary operators;
 \code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
-for background on numerical equality.
+for background on numerical equality and its pitfalls.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},
