@@ -63,6 +63,9 @@
 #' @export
 is_number <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
                       allow_NaN = FALSE) {
+  stopifnot(is_logical(allow_zerolength), is_logical(allow_NA),
+            is_logical(allow_NaN))
+
   length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
@@ -76,6 +79,8 @@ is_number <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
 #' @export
 all_numbers <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
                         allow_NaN = FALSE) {
+  stopifnot(is_logical(allow_zerolength), is_logical(allow_NA),
+            is_logical(allow_NaN))
   length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
   is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&

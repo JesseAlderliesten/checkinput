@@ -67,7 +67,7 @@ x_vcsnm <- c("..0a", "..1a", "..22c", "..2fa", "..3..", "._", "._0", "._a.",
              ".NA_real_", ".TRUE")
 x_vcsnm_q <- paste_quoted(x_vcsnm)
 x_vld <- c("a", "A", "C", "nco", "V", "V0", "V03", "v1", "V1V", "V234V", "VV1",
-           "VV234", "x", "x0", "Xa", "XX")
+           "VV234", "x", "x0", "Xa", "XX", "abéö")
 x_vld_undersc <- c("g_hi", "V_", "V0_3", "V1V_", "V2_34V", "VV_1", "VV_234")
 
 ##### Messages and warnings #####
