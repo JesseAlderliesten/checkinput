@@ -16,20 +16,21 @@
 #' [Syntactically valid][make.names()] names only consist of letters, numbers,
 #' dots and underscores; start with a letter, or with a dot not followed by a
 #' number; and are not [reserved] words such as [`for`] or [`NA`]. The
-#' definition of **letter** depends on the current [locale][locales]. A
-#' conservative check for names that are syntactically valid on all locales
-#' would only allow digits and unaccented letters from the
-#' [basic Latin alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet),
-#' but that is **not** enforced by `all_names()`.
+#' definition of **letter** depends on the current [locale][locales], such that
+#' names containing accented letters like `é` and letters that are only present
+#' in some alphabets like the German Eszett are allowed by `all_names()` if
+#' these characters are encoded in the used locale (see the `Programming notes`
+#' on a stricter check that would not allow these characters letters).
 #'
 #' Names that consist of only dots, or consist of two dots followed by a number,
 #' are not allowed by `all_names()` (nor by `vctrs::vec_as_names()`) even though
 #' they are not adjusted by [make.names()]: they are [reserved] words.
 #'
-#' Suspicious names are not allowed by `all_names()`. A suspicious name contains
-#' a pattern suggesting it originally was syntactically invalid and has been
-#' **adjusted** into a syntactically valid name, or has been adjusted to make
-#' names [unique][make.unique()]. Such adjustments usually occur silently, for
+#' Suspicious names are not allowed by `all_names()`. A suspicious name is a
+#' syntactically valid name that contains a pattern suggesting it originally was
+#' syntactically invalid or not unique and has been **adjusted** into a
+#' [unique][make.unique()], syntactically valid, name. Such adjustments usually
+#' occur silently, for
 #' example when data is read into \R, such that it should **not** be assumed
 #' that column names after reading data into \R are the same as the column names
 #' before reading data into \R. The identification of suspicious names is partly
@@ -70,10 +71,13 @@
 #'   - `make.names()` prepends `X`
 #'   - `vctrs::vec_as_names(x, repair = "universal")` prepends one or more dots
 #' - adjustments to name unnamed columns:
-#'   - `data.frame()` uses pattern `X1`, `X2`, `X3`
 #'   - `as.data.frame()` and `read.csv(..., header = FALSE)` use pattern `V1`,
 #'     `V2`, `V3`
 #'   - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`
+#'   - `data.frame()` creates names in a complex way, see the Section `Value` in
+#'     [data.frame] for some details. `all_names()` only detects names created
+#'     for unnamed columns if the names were syntactically invalid and therefore
+#'     got `X` put in front of them.
 #'
 #'   It is **not** checked if a complete sequence of suspicious names is
 #'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
@@ -105,6 +109,25 @@
 #' Multiple patterns can be combined using `|`, the normal operator indicating
 #' [logical OR][|].
 #'
+#' A conservative check for names that are [syntactically valid][make.names] on
+#' all locales would
+#' [only allow](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_265)
+#' digits, unaccented letters from the
+#' [basic Latin alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet),
+#' dots and underscores.
+#' Implementations of such a conservative check should use the literal string
+#' `[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]` instead of
+#' shorthands like `[:alnum:]` or `[0-9A-Za-z]` that also depend on the locale,
+#' see section `Extended Regular Expressions` in [regex]. See [Encoding],
+#' [locales], [validUTF8()], and the Wikipedia articles about
+#' [ASCII](https://en.wikipedia.org/wiki/ASCII) and
+#' [UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on encodings and
+#' character sets. Furthermore, see [iconv()] on conversions between encodings;
+#' package [stringi](https://CRAN.R-project.org/package=stringi) that provides
+#' facilities to process character strings;
+#' `tools::showNonASCII()` to show the non-ASCII bytes;
+#' and `janitor::make_clean_names()` to transliterate non-ASCII characters.
+#'
 #' @seealso
 #' Section `Details` of [make.names()], section `Names and Identifiers` of
 #' [Quotes()], and the [\R FAQ about valid names](
@@ -112,7 +135,8 @@
 #' on the syntactical validity of names.
 #'
 #' [names()] to get or set object names; `janitor::make_clean_names()` to adjust
-#' names, e.g., through adjusting case and transliterating non-ASCII characters.
+#' names; `rlang::names_inform_repair()` for a method to report name changes if
+#' old and new names are provided.
 #'
 #' @family
 #' collections of checks on type and length

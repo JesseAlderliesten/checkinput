@@ -1,3 +1,19 @@
+# checkinput 1.4.0
+
+### Breaking changes
+- `is_number()`, `all_numbers()`, `is_nonnegative()`, `all_nonnegative()`, and
+  `is_positive()` only allow `TRUE` or `FALSE` for arguments other than `x`, as
+  was always documented, instead of returning `NA` for `x = numeric(0)` and
+  `x = NA_<type>` if `allow_zerolength` or `allow_NA` were `numeric(0)`,
+  respectively.
+
+### Miscellaneous
+- The documentation for `all_names()` is clearer about what would be a
+  conservative check for names that are valid on all locales. The pattern used
+  by `data.frame()` to name unnamed columns is now correctly described.
+- The used version of `roxygen2` increased from `8.0.0` to `8.1.0`.
+
+
 # checkinput 1.3.0
 
 ### Breaking changes

@@ -31,20 +31,21 @@ invalid names might, by definition, give undocumented results.
 \link[=make.names]{Syntactically valid} names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
 number; and are not \link{reserved} words such as \code{\link{for}} or \code{\link{NA}}. The
-definition of \strong{letter} depends on the current \link[=locales]{locale}. A
-conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented letters from the
-\href{https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet}{basic Latin alphabet},
-but that is \strong{not} enforced by \code{all_names()}.
+definition of \strong{letter} depends on the current \link[=locales]{locale}, such that
+names containing accented letters like \code{é} and letters that are only present
+in some alphabets like the German Eszett are allowed by \code{all_names()} if
+these characters are encoded in the used locale (see the \verb{Programming notes}
+on a stricter check that would not allow these characters letters).
 
 Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by \code{all_names()} (nor by \code{vctrs::vec_as_names()}) even though
 they are not adjusted by \code{\link[=make.names]{make.names()}}: they are \link{reserved} words.
 
-Suspicious names are not allowed by \code{all_names()}. A suspicious name contains
-a pattern suggesting it originally was syntactically invalid and has been
-\strong{adjusted} into a syntactically valid name, or has been adjusted to make
-names \link[=make.unique]{unique}. Such adjustments usually occur silently, for
+Suspicious names are not allowed by \code{all_names()}. A suspicious name is a
+syntactically valid name that contains a pattern suggesting it originally was
+syntactically invalid or not unique and has been \strong{adjusted} into a
+\link[=make.unique]{unique}, syntactically valid, name. Such adjustments usually
+occur silently, for
 example when data is read into \R, such that it should \strong{not} be assumed
 that column names after reading data into \R are the same as the column names
 before reading data into \R. The identification of suspicious names is partly
@@ -95,10 +96,13 @@ not followed by a number, syntactically valid:
 }
 \item adjustments to name unnamed columns:
 \itemize{
-\item \code{data.frame()} uses pattern \code{X1}, \code{X2}, \code{X3}
 \item \code{as.data.frame()} and \code{read.csv(..., header = FALSE)} use pattern \code{V1},
 \code{V2}, \code{V3}
 \item \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}
+\item \code{data.frame()} creates names in a complex way, see the Section \code{Value} in
+\link{data.frame} for some details. \code{all_names()} only detects names created
+for unnamed columns if the names were syntactically invalid and therefore
+got \code{X} put in front of them.
 }
 
 It is \strong{not} checked if a complete sequence of suspicious names is
@@ -128,6 +132,25 @@ times (\code{+})
 
 Multiple patterns can be combined using \code{|}, the normal operator indicating
 \link[=|]{logical OR}.
+
+A conservative check for names that are \link[=make.names]{syntactically valid} on
+all locales would
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_265}{only allow}
+digits, unaccented letters from the
+\href{https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet}{basic Latin alphabet},
+dots and underscores.
+Implementations of such a conservative check should use the literal string
+\verb{[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]} instead of
+shorthands like \verb{[:alnum:]} or \verb{[0-9A-Za-z]} that also depend on the locale,
+see section \verb{Extended Regular Expressions} in \link{regex}. See \link{Encoding},
+\link{locales}, \code{\link[=validUTF8]{validUTF8()}}, and the Wikipedia articles about
+\href{https://en.wikipedia.org/wiki/ASCII}{ASCII} and
+\href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8} for background on encodings and
+character sets. Furthermore, see \code{\link[=iconv]{iconv()}} on conversions between encodings;
+package \href{https://CRAN.R-project.org/package=stringi}{stringi} that provides
+facilities to process character strings;
+\code{tools::showNonASCII()} to show the non-ASCII bytes;
+and \code{janitor::make_clean_names()} to transliterate non-ASCII characters.
 }
 
 \examples{
@@ -163,7 +186,8 @@ Section \code{Details} of \code{\link[=make.names]{make.names()}}, section \verb
 on the syntactical validity of names.
 
 \code{\link[=names]{names()}} to get or set object names; \code{janitor::make_clean_names()} to adjust
-names, e.g., through adjusting case and transliterating non-ASCII characters.
+names; \code{rlang::names_inform_repair()} for a method to report name changes if
+old and new names are provided.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

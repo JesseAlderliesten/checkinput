@@ -369,6 +369,97 @@ for(allow_NaN in false_true) {
   }
 }
 
+##### Arguments #####
+expect_error(
+  is_number(x = 3, allow_zerolength = 1),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_zerolength = NA),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_zerolength = logical(0)),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_NA = 1),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_NA = NA),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_NA = logical(0)),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_NaN = 1),
+  pattern = "is_logical(allow_NaN) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_NaN = NA),
+  pattern = "is_logical(allow_NaN) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  is_number(x = 3, allow_NaN = logical(0)),
+  pattern = "is_logical(allow_NaN) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_zerolength = 1),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_zerolength = NA),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_zerolength = logical(0)),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_NA = 1),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_NA = NA),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_NA = logical(0)),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_NaN = 1),
+  pattern = "is_logical(allow_NaN) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_NaN = NA),
+  pattern = "is_logical(allow_NaN) is not TRUE", fixed = TRUE
+)
+
+expect_error(
+  all_numbers(x = 3, allow_NaN = logical(0)),
+  pattern = "is_logical(allow_NaN) is not TRUE", fixed = TRUE
+)
+
 
 #### Remove objects used in tests ####
 rm(allow_NA, allow_NaN, allow_zerolength, false_true, x)
