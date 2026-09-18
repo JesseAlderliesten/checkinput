@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,19 @@
       <small>Source: <a href="https://github.com/JesseAlderliesten/checkinput/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.4.0" id="checkinput-140">checkinput 1.4.0<a class="anchor" aria-label="anchor" href="#checkinput-140"></a></h2>
+<div class="section level4">
+<h4 id="breaking-changes-1-4-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-4-0"></a></h4>
+<ul><li>
+<code><a href="../reference/is_number.html">is_number()</a></code>, <code><a href="../reference/is_number.html">all_numbers()</a></code>, <code><a href="../reference/is_number.html">is_nonnegative()</a></code>, <code><a href="../reference/is_number.html">all_nonnegative()</a></code>, and <code><a href="../reference/is_number.html">is_positive()</a></code> only allow <code>TRUE</code> or <code>FALSE</code> for arguments other than <code>x</code>, as was always documented, instead of returning <code>NA</code> for <code>x = numeric(0)</code> and <code>x = NA_&lt;type&gt;</code> if <code>allow_zerolength</code> or <code>allow_NA</code> were <code>numeric(0)</code>, respectively.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="miscellaneous-1-4-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-4-0"></a></h4>
+<ul><li>The documentation for <code><a href="../reference/all_names.html">all_names()</a></code> is clearer about what would be a conservative check for names that are valid on all locales. The pattern used by <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> to name unnamed columns is now correctly described.</li>
+<li>The used version of <code>roxygen2</code> increased from <code>8.0.0</code> to <code>8.1.0</code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.0" id="checkinput-130">checkinput 1.3.0<a class="anchor" aria-label="anchor" href="#checkinput-130"></a></h2>
 <div class="section level4">

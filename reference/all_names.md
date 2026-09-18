@@ -41,11 +41,12 @@ or with a dot not followed by a number; and are not
 [reserved](https://rdrr.io/r/base/Reserved.html) words such as
 [`for`](https://rdrr.io/r/base/Control.html) or
 [`NA`](https://rdrr.io/r/base/NA.html). The definition of **letter**
-depends on the current [locale](https://rdrr.io/r/base/locales.html). A
-conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented letters from the [basic Latin
-alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet), but
-that is **not** enforced by `all_names()`.
+depends on the current [locale](https://rdrr.io/r/base/locales.html),
+such that names containing accented letters like `é` and letters that
+are only present in some alphabets like the German Eszett are allowed by
+`all_names()` if these characters are encoded in the used locale (see
+the `Programming notes` on a stricter check that would not allow these
+characters letters).
 
 Names that consist of only dots, or consist of two dots followed by a
 number, are not allowed by `all_names()` (nor by
@@ -54,17 +55,16 @@ even though they are not adjusted by
 [`make.names()`](https://rdrr.io/r/base/make.names.html): they are
 [reserved](https://rdrr.io/r/base/Reserved.html) words.
 
-Suspicious names are not allowed by `all_names()`. A suspicious name
-contains a pattern suggesting it originally was syntactically invalid
-and has been **adjusted** into a syntactically valid name, or has been
-adjusted to make names
-[unique](https://rdrr.io/r/base/make.unique.html). Such adjustments
-usually occur silently, for example when data is read into R, such that
-it should **not** be assumed that column names after reading data into R
-are the same as the column names before reading data into R. The
-identification of suspicious names is partly based on the assumption
-that names originally did not contain dots, see the first item in the
-list below.
+Suspicious names are not allowed by `all_names()`. A suspicious name is
+a syntactically valid name that contains a pattern suggesting it
+originally was syntactically invalid or not unique and has been
+**adjusted** into a [unique](https://rdrr.io/r/base/make.unique.html),
+syntactically valid, name. Such adjustments usually occur silently, for
+example when data is read into R, such that it should **not** be assumed
+that column names after reading data into R are the same as the column
+names before reading data into R. The identification of suspicious names
+is partly based on the assumption that names originally did not contain
+dots, see the first item in the list below.
 
 `all_names()` **tries** to recognise adjustments made by
 [`make.names()`](https://rdrr.io/r/base/make.names.html), which is used
@@ -125,13 +125,17 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
 
 - adjustments to name unnamed columns:
 
-  - [`data.frame()`](https://rdrr.io/r/base/data.frame.html) uses
-    pattern `X1`, `X2`, `X3`
-
   - [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) and
     `read.csv(..., header = FALSE)` use pattern `V1`, `V2`, `V3`
 
   - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`
+
+  - [`data.frame()`](https://rdrr.io/r/base/data.frame.html) creates
+    names in a complex way, see the Section `Value` in
+    [data.frame](https://rdrr.io/r/base/data.frame.html) for some
+    details. `all_names()` only detects names created for unnamed
+    columns if the names were syntactically invalid and therefore got
+    `X` put in front of them.
 
   It is **not** checked if a complete sequence of suspicious names is
   present, e.g., `V3` will be flagged as suspicious even if `V1` and
@@ -163,6 +167,31 @@ following elements:
 Multiple patterns can be combined using `|`, the normal operator
 indicating [logical OR](https://rdrr.io/r/base/Logic.html).
 
+A conservative check for names that are [syntactically
+valid](https://rdrr.io/r/base/make.names.html) on all locales would
+[only
+allow](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_265)
+digits, unaccented letters from the [basic Latin
+alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet), dots
+and underscores. Implementations of such a conservative check should use
+the literal string
+`[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]`
+instead of shorthands like `[:alnum:]` or `[0-9A-Za-z]` that also depend
+on the locale, see section `Extended Regular Expressions` in
+[regex](https://rdrr.io/r/base/regex.html). See
+[Encoding](https://rdrr.io/r/base/Encoding.html),
+[locales](https://rdrr.io/r/base/locales.html),
+[`validUTF8()`](https://rdrr.io/r/base/validUTF8.html), and the
+Wikipedia articles about [ASCII](https://en.wikipedia.org/wiki/ASCII)
+and [UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on
+encodings and character sets. Furthermore, see
+[`iconv()`](https://rdrr.io/r/base/iconv.html) on conversions between
+encodings; package [stringi](https://CRAN.R-project.org/package=stringi)
+that provides facilities to process character strings;
+[`tools::showNonASCII()`](https://rdrr.io/r/tools/showNonASCII.html) to
+show the non-ASCII bytes; and `janitor::make_clean_names()` to
+transliterate non-ASCII characters.
+
 ## See also
 
 Section `Details` of
@@ -174,8 +203,9 @@ names](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_00
 on the syntactical validity of names.
 
 [`names()`](https://rdrr.io/r/base/names.html) to get or set object
-names; `janitor::make_clean_names()` to adjust names, e.g., through
-adjusting case and transliterating non-ASCII characters.
+names; `janitor::make_clean_names()` to adjust names;
+[`rlang::names_inform_repair()`](https://rlang.r-lib.org/reference/names_inform_repair.html)
+for a method to report name changes if old and new names are provided.
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),

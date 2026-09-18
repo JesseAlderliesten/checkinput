@@ -9,7 +9,7 @@ that do not suggest they were adjusted or automatically created."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,18 +85,19 @@ invalid names might, by definition, give undocumented results.</p>
 <p><a href="https://rdrr.io/r/base/make.names.html" class="external-link">Syntactically valid</a> names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
 number; and are not <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words such as <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">for</a></code> or <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>. The
-definition of <strong>letter</strong> depends on the current <a href="https://rdrr.io/r/base/locales.html" class="external-link">locale</a>. A
-conservative check for names that are syntactically valid on all locales
-would only allow digits and unaccented letters from the
-<a href="https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet" class="external-link">basic Latin alphabet</a>,
-but that is <strong>not</strong> enforced by <code>all_names()</code>.</p>
+definition of <strong>letter</strong> depends on the current <a href="https://rdrr.io/r/base/locales.html" class="external-link">locale</a>, such that
+names containing accented letters like <code>é</code> and letters that are only present
+in some alphabets like the German Eszett are allowed by <code>all_names()</code> if
+these characters are encoded in the used locale (see the <code>Programming notes</code>
+on a stricter check that would not allow these characters letters).</p>
 <p>Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by <code>all_names()</code> (nor by <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>) even though
 they are not adjusted by <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>: they are <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words.</p>
-<p>Suspicious names are not allowed by <code>all_names()</code>. A suspicious name contains
-a pattern suggesting it originally was syntactically invalid and has been
-<strong>adjusted</strong> into a syntactically valid name, or has been adjusted to make
-names <a href="https://rdrr.io/r/base/make.unique.html" class="external-link">unique</a>. Such adjustments usually occur silently, for
+<p>Suspicious names are not allowed by <code>all_names()</code>. A suspicious name is a
+syntactically valid name that contains a pattern suggesting it originally was
+syntactically invalid or not unique and has been <strong>adjusted</strong> into a
+<a href="https://rdrr.io/r/base/make.unique.html" class="external-link">unique</a>, syntactically valid, name. Such adjustments usually
+occur silently, for
 example when data is read into <span style="R">R</span>, such that it should <strong>not</strong> be assumed
 that column names after reading data into <span style="R">R</span> are the same as the column names
 before reading data into <span style="R">R</span>. The identification of suspicious names is partly
@@ -132,10 +133,13 @@ indicating the position in the vector</p></li>
 not followed by a number, syntactically valid:</p><ul><li><p><code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code> prepends <code>X</code></p></li>
 <li><p><code>vctrs::vec_as_names(x, repair = "universal")</code> prepends one or more dots</p></li>
 </ul></li>
-<li><p>adjustments to name unnamed columns:</p><ul><li><p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> uses pattern <code>X1</code>, <code>X2</code>, <code>X3</code></p></li>
-<li><p><code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> and <code>read.csv(..., header = FALSE)</code> use pattern <code>V1</code>,
+<li><p>adjustments to name unnamed columns:</p><ul><li><p><code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> and <code>read.csv(..., header = FALSE)</code> use pattern <code>V1</code>,
 <code>V2</code>, <code>V3</code></p></li>
 <li><p><code>read.csv(..., header = TRUE)</code> uses pattern <code>X</code>, <code>X.1</code>, <code>X.2</code></p></li>
+<li><p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> creates names in a complex way, see the Section <code>Value</code> in
+<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> for some details. <code>all_names()</code> only detects names created
+for unnamed columns if the names were syntactically invalid and therefore
+got <code>X</code> put in front of them.</p></li>
 </ul><p>It is <strong>not</strong> checked if a complete sequence of suspicious names is
 present, e.g., <code>V3</code> will be flagged as suspicious even if <code>V1</code> and <code>V2</code> are
 absent.</p></li>
@@ -159,6 +163,24 @@ end of a string (<code>$</code>)</p></li>
 times (<code>+</code>)</p></li>
 </ul><p>Multiple patterns can be combined using <code>|</code>, the normal operator indicating
 <a href="https://rdrr.io/r/base/Logic.html" class="external-link">logical OR</a>.</p>
+<p>A conservative check for names that are <a href="https://rdrr.io/r/base/make.names.html" class="external-link">syntactically valid</a> on
+all locales would
+<a href="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_265" class="external-link">only allow</a>
+digits, unaccented letters from the
+<a href="https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet" class="external-link">basic Latin alphabet</a>,
+dots and underscores.
+Implementations of such a conservative check should use the literal string
+<code>[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]</code> instead of
+shorthands like <code>[:alnum:]</code> or <code>[0-9A-Za-z]</code> that also depend on the locale,
+see section <code>Extended Regular Expressions</code> in <a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a>. See <a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding</a>,
+<a href="https://rdrr.io/r/base/locales.html" class="external-link">locales</a>, <code><a href="https://rdrr.io/r/base/validUTF8.html" class="external-link">validUTF8()</a></code>, and the Wikipedia articles about
+<a href="https://en.wikipedia.org/wiki/ASCII" class="external-link">ASCII</a> and
+<a href="https://en.wikipedia.org/wiki/UTF-8" class="external-link">UTF-8</a> for background on encodings and
+character sets. Furthermore, see <code><a href="https://rdrr.io/r/base/iconv.html" class="external-link">iconv()</a></code> on conversions between encodings;
+package <a href="https://CRAN.R-project.org/package=stringi" class="external-link">stringi</a> that provides
+facilities to process character strings;
+<code><a href="https://rdrr.io/r/tools/showNonASCII.html" class="external-link">tools::showNonASCII()</a></code> to show the non-ASCII bytes;
+and <code>janitor::make_clean_names()</code> to transliterate non-ASCII characters.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -166,7 +188,8 @@ times (<code>+</code>)</p></li>
 <code><a href="https://rdrr.io/r/base/Quotes.html" class="external-link">Quotes()</a></code>, and the <a href="https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f" class="external-link"><span style="R">R</span> FAQ about valid names</a>
 on the syntactical validity of names.</p>
 <p><code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code> to get or set object names; <code>janitor::make_clean_names()</code> to adjust
-names, e.g., through adjusting case and transliterating non-ASCII characters.</p>
+names; <code><a href="https://rlang.r-lib.org/reference/names_inform_repair.html" class="external-link">rlang::names_inform_repair()</a></code> for a method to report name changes if
+old and new names are provided.</p>
 <p>Other collections of checks on type and length:
 <code><a href="all_characters.html">all_characters()</a></code>,
 <code><a href="is_logical.html">is_logical()</a></code>,
