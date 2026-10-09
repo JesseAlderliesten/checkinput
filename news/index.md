@@ -1,5 +1,12 @@
 # Changelog
 
+## checkinput 1.4.1
+
+#### Miscellaneous
+
+- `README`: update version number in citation, add contact/contribution
+  info.
+
 ## checkinput 1.4.0
 
 #### Breaking changes
