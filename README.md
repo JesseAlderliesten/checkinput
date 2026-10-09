@@ -141,8 +141,7 @@ License](LICENSE.md).
     To cite package 'checkinput' in publications use:
 
       Alderliesten J (2026). _checkinput: Check Function Input_. R package
-      version 1.4.0, commit 6dd701bcd1aeb204d10dfd6cf91032a2f6c8fe7e,
-      <https://github.com/JesseAlderliesten/checkinput>.
+      version 1.4.1, <https://github.com/JesseAlderliesten/checkinput>.
 
     A BibTeX entry for LaTeX users is
 
@@ -150,7 +149,7 @@ License](LICENSE.md).
         title = {checkinput: Check Function Input},
         author = {Jesse Alderliesten},
         year = {2026},
-        note = {R package version 1.4.0, commit 6dd701bcd1aeb204d10dfd6cf91032a2f6c8fe7e},
+        note = {R package version 1.4.1},
         url = {https://github.com/JesseAlderliesten/checkinput},
       }
 
