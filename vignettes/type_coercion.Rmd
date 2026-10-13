@@ -106,3 +106,8 @@ zerochar <- character(0)
 str(zerochar)
 str(c(num, zerochar))
 ```
+
+## sessionInfo
+```{r, echo = FALSE}
+utils::sessionInfo()
+```
