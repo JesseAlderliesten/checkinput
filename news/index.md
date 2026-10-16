@@ -1,5 +1,22 @@
 # Changelog
 
+## checkinput 1.5.0
+
+#### Breaking changes
+
+- Add dependency `utils` to `Suggests` because it is used to show
+  session info in the vignette on type coercion.
+- [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
+  use
+  [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
+  to print `x` in warnings.
+
+#### Miscellaneous
+
+- [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
+  in the `Note on paths`, describe the difference between absolute and
+  relative paths and how to use dots in paths.
+
 ## checkinput 1.4.1
 
 #### Miscellaneous

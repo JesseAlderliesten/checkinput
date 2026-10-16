@@ -66,7 +66,7 @@ restrictions:
   the part after the last slash is considered the filename, which
   **should** adhere to the restrictions listed above (although it
   **may** contain the Windows-reserved terms listed above), and in
-  addition should **not** contain a colon (`:`), **not** start with a
+  addition should **not** contain a colon (`:`), **nor** start with a
   space or a hyphen (`-`), **nor** end with a slash or backslash.
 
 These restrictions on `x` consider characters and path components that
@@ -82,7 +82,7 @@ that might give problems when used in the shell.
 - `x` does **not** have to contain any file separator if `require_sep`
   is `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to
   check that filename `x` only contains allowed characters (given that
-  it ends in a file extension).
+  `x` ends in a file extension).
 
 - `x` might contain trailing file separators if it does **not** end in a
   file extension, although these trailing file separators might be
@@ -101,12 +101,26 @@ created.
 ## Notes on paths
 
 The file separator is a backslash (`\`) on Windows but a forward slash
-(`/`) on other operating systems:
-[.Platform\$file.sep](https://rdrr.io/r/base/Platform.html) gives the
-file separator used on the current platform. Furthermore, the backslash
-is used as [escape character](https://rdrr.io/r/base/regex.html) in R,
-such that backslashes need to be escaped in R code by doubling them. Use
-`cat(x)` to omit the escape characters to see how `x` would be printed.
+(`/`) on other operating systems: use
+[`file.path()`](https://rdrr.io/r/base/file.path.html) or
+[`fs::path()`](https://fs.r-lib.org/reference/path.html) to construct
+paths in a platform-independent way and
+[.Platform\$file.sep](https://rdrr.io/r/base/Platform.html) to get the
+file separator used on the current platform.
+
+Furthermore, the backslash is also used as [escape
+character](https://rdrr.io/r/base/regex.html) in R, such that
+backslashes need to be escaped in R code by doubling them. Use `cat(x)`
+to omit the escape characters to see how `x` would be printed.
+
+The [working directory](https://rdrr.io/r/base/getwd.html) can be
+indicated by a single dot (`"."`) and the parent directory can be
+indicated by two dots (`".."`).
+
+**relative** paths start from the [working
+directory](https://rdrr.io/r/base/getwd.html), in contrast to
+**absolute** paths that start from the root directory and thus give the
+complete path.
 
 ## Programming notes
 
@@ -183,7 +197,7 @@ is_path(fs::path_wd("abcd")) # TRUE
 #> [1] TRUE
 is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 #> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
-#> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd
+#> '/home/runner/work/checkinput/checkinput/docs/reference/ab|cd'
 #> [1] FALSE
 
 is_path(fs::path_wd("abcd.txt")) # TRUE
@@ -198,22 +212,22 @@ is_path("D:/") # TRUE
 #> [1] TRUE
 is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
 #> Warning: Components 9 of 'fs::path_wd("ab:cd")' should not contain ':':
-#> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd
+#> '/home/runner/work/checkinput/checkinput/docs/reference/ab:cd'
 #> [1] FALSE
 is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 #> Warning: Components 9 of 'fs::path_wd("ab:cd.txt")' should not contain ':':
-#> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt
+#> '/home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt'
 #> Warning: The filename ('ab:cd.txt') in 'fs::path_wd("ab:cd.txt")' should not contain ':':
-#> /home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt
+#> '/home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt'
 #> [1] FALSE
 
 # Other illegal characters are not allowed in either paths or filenames
 is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 #> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
-#> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd
+#> '/home/runner/work/checkinput/checkinput/docs/reference/ab|cd'
 #> [1] FALSE
 is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 #> Warning: 'fs::path_wd("ab|cd.txt")' should not contain '"', '*', '?', '|', '<' or '>':
-#> /home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt
+#> '/home/runner/work/checkinput/checkinput/docs/reference/ab|cd.txt'
 #> [1] FALSE
 ```
