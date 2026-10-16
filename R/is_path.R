@@ -34,7 +34,7 @@
 #'   the last slash is considered the filename, which **should** adhere to the
 #'   restrictions listed above (although it **may** contain the Windows-reserved
 #'   terms listed above), and in addition should **not**
-#'   contain a colon (`:`), **not** start with a space or a hyphen (`-`),
+#'   contain a colon (`:`), **nor** start with a space or a hyphen (`-`),
 #'   **nor** end with a slash or backslash.
 #'
 #' These restrictions on `x` consider characters and path components that are
@@ -49,8 +49,8 @@
 #'
 #' -  `x` does **not** have to contain any file separator if `require_sep` is
 #'   `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to check
-#'   that filename `x` only contains allowed characters (given that it ends in a
-#'   file extension).
+#'   that filename `x` only contains allowed characters (given that `x` ends in
+#'   a file extension).
 #' - `x` might contain trailing file separators if it does **not** end in a
 #'   file extension, although these trailing file separators might be ignored
 #'   or removed in some operations (e.g., they are removed by [file.path()] and
@@ -68,11 +68,21 @@
 #'
 #' @section Notes on paths:
 #' The file separator is a backslash (`\`) on Windows but a forward slash (`/`)
-#' on other operating systems: [.Platform$file.sep][.Platform] gives the file
-#' separator used on the current platform. Furthermore, the backslash is used as
+#' on other operating systems: use [file.path()] or [fs::path()] to construct
+#' paths in a platform-independent way and [.Platform$file.sep][.Platform] to
+#' get the file separator used on the current platform.
+#'
+#' Furthermore, the backslash is also used as
 #' [escape character][regex] in \R, such that backslashes need to be escaped in
 #' \R code by doubling them. Use `cat(x)` to omit the escape characters to see
 #' how `x` would be printed.
+#'
+#' The [working directory][getwd()] can be indicated by a single dot (`"."`) and
+#' the parent directory can be indicated by two dots (`".."`).
+#'
+#' **relative** paths start from the [working directory][getwd()], in contrast
+#' to **absolute** paths that start from the root directory and thus give the
+#' complete path.
 #'
 #' @section Programming notes:
 #' The output of [tempdir()] during
@@ -148,7 +158,8 @@ is_path <- function(x, require_sep = TRUE) {
 
   if(!is_character(x)) {
     warning(arg_name,
-            " should be a non-empty, non-NA_character_ character string:\n", x)
+            " should be a non-empty, non-NA_character_ character string:\n",
+            paste_quoted(x))
     # Return early for non-character input to prevent spurious errors.
     return(FALSE)
   }
@@ -166,7 +177,8 @@ is_path <- function(x, require_sep = TRUE) {
   # is not a path separator
   if(grepl(pattern = "^.:[^/\\]+", x = x)) {
     path_ok <- FALSE
-    warning("The form of relative path ", arg_name, " is invalid:\n", x)
+    warning("The form of relative path ", arg_name, " is invalid:\n",
+            paste_quoted(x))
   }
 
   # Notes:
@@ -180,13 +192,14 @@ is_path <- function(x, require_sep = TRUE) {
   if(grepl(pattern = '["*?|<>]', x = x)) {
     path_ok <- FALSE
     warning(arg_name, " should not contain '\"', '*', '?', '|', '<' or '>':\n",
-            x)
+            paste_quoted(x))
   }
 
   # "[[:cntrl:]]" matches the control characters, see help("regex")
   if(grepl(pattern = "[[:cntrl:]]", x = x)) {
     path_ok <- FALSE
-    warning(arg_name, " should not contain control characters:\n", x)
+    warning(arg_name, " should not contain control characters:\n",
+            paste_quoted(x))
   }
 
   Windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
@@ -196,7 +209,7 @@ is_path <- function(x, require_sep = TRUE) {
     reserved_comp <- path_comp[tolower(path_comp) %in% Windows_reserved]
     warning("Components of ", arg_name,
             " should not contain Windows-reserved names (",
-            paste_quoted(reserved_comp), "):\n", x)
+            paste_quoted(reserved_comp), "):\n", paste_quoted(x))
   }
 
   ind_colon <- grep(pattern = ":", x = path_comp, fixed = TRUE)
@@ -205,7 +218,7 @@ is_path <- function(x, require_sep = TRUE) {
     path_ok <- FALSE
     ind_colon <- ind_colon[ind_colon > 1L]
     warning("Components ", paste(ind_colon, collapse = " and "), " of ",
-            arg_name, " should not contain ':':\n", x)
+            arg_name, " should not contain ':':\n", paste_quoted(x))
   }
 
   bool_path_dot <- endsWith(x = path_comp, suffix = ".")
@@ -217,7 +230,8 @@ is_path <- function(x, require_sep = TRUE) {
   if(any(bool_path_dot | endsWith(x = path_comp, suffix = " "))) {
     path_ok <- FALSE
     warning("Components of ", arg_name,
-            " should not end with ' ' or '.' (i.e., a space or a dot):\n", x)
+            " should not end with ' ' or '.' (i.e., a space or a dot):\n",
+            paste_quoted(x))
   }
 
   if(require_sep && !(x %in% c(".", "..")) &&
@@ -225,7 +239,8 @@ is_path <- function(x, require_sep = TRUE) {
      !grepl(pattern = "\\", x = x, fixed = TRUE)) {
     path_ok <- FALSE
     warning(paste_quoted(deparse(substitute(x))), " should contain file",
-            " separators ('/' or '\\') if 'require_sep' is 'TRUE'):\n", x)
+            " separators ('/' or '\\') if 'require_sep' is 'TRUE'):\n",
+            paste_quoted(x))
   }
 
   filename <- basename(x)
@@ -242,26 +257,27 @@ is_path <- function(x, require_sep = TRUE) {
     if(endsWith(x, suffix = "/") || endsWith(x, suffix = "\\")) {
       path_ok <- FALSE
       warning("The filename (", paste_quoted(filename), ") in ", arg_name,
-              " should not end with a slash or backslash:\n", x)
+              " should not end with a slash or backslash:\n", paste_quoted(x))
     }
 
     if(length(filename_no_ext) == 0L || !nzchar(filename_no_ext)) {
       path_ok <- FALSE
       warning("filename without extension (", paste_quoted(filename_no_ext),
-              ") should not be empty:\n", x)
+              ") should not be empty:\n", paste_quoted(x))
     }
 
     if(startsWith(x = filename, prefix = " ") ||
        startsWith(x = filename, prefix = "-")) {
       path_ok <- FALSE
       warning("The filename (", paste_quoted(filename), ") in ", arg_name,
-              " should not start with ' ' (i.e., a space) or '-':\n", x)
+              " should not start with ' ' (i.e., a space) or '-':\n",
+              paste_quoted(x))
     }
 
     if(grepl(pattern = ":", x = filename, fixed = TRUE)) {
       path_ok <- FALSE
       warning("The filename (", paste_quoted(filename), ") in ", arg_name,
-              " should not contain ':':\n", x)
+              " should not contain ':':\n", paste_quoted(x))
     }
 
     filename_dot <- !(filename %in% c(".", "..")) &&
@@ -275,7 +291,8 @@ is_path <- function(x, require_sep = TRUE) {
        filename_dot) {
       path_ok <- FALSE
       warning("The filename (", paste_quoted(filename_no_ext), ") in ", arg_name,
-              " should not end with ' ' or '.' (i.e., a space or a dot):\n", x)
+              " should not end with ' ' or '.' (i.e., a space or a dot):\n",
+              paste_quoted(x))
     }
   }
 
