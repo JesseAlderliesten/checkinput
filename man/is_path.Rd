@@ -92,9 +92,15 @@ how \code{x} would be printed.
 The \link[=getwd]{working directory} can be indicated by a single dot (\code{"."}) and
 the parent directory can be indicated by two dots (\code{".."}).
 
-\strong{relative} paths start from the \link[=getwd]{working directory}, in contrast
-to \strong{absolute} paths that start from the root directory and thus give the
-complete path.
+\strong{relative} paths start from the \link[=getwd]{working directory}. In contrast,
+\strong{absolute} paths start from the root directory and thus give the complete
+path, such that the path still points to the same directory if the
+\link[=getwd]{working directory} changes.
+
+Paths can be normalised, e.g., through \code{\link[=normalizePath]{normalizePath()}} or \code{\link[fs:path_norm]{fs::path_norm()}}
+(which is also called by \code{\link[fs:path_abs]{fs::path_abs()}}). On case-insensitive file systems,
+this also adjusts the case to match names of directories that are already
+present.
 }
 
 \section{Programming notes}{

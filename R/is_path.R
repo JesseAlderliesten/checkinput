@@ -85,6 +85,11 @@
 #' path, such that the path still points to the same directory if the
 #' [working directory][getwd()] changes.
 #'
+#' Paths can be normalised, e.g., through [normalizePath()] or [fs::path_norm()]
+#' (which is also called by [fs::path_abs()]). On case-insensitive file systems,
+#' this also adjusts the case to match names of directories that are already
+#' present.
+#'
 #' @section Programming notes:
 #' The output of [tempdir()] during
 #' [`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains successive
