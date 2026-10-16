@@ -80,9 +80,10 @@
 #' The [working directory][getwd()] can be indicated by a single dot (`"."`) and
 #' the parent directory can be indicated by two dots (`".."`).
 #'
-#' **relative** paths start from the [working directory][getwd()], in contrast
-#' to **absolute** paths that start from the root directory and thus give the
-#' complete path.
+#' **relative** paths start from the [working directory][getwd()]. In contrast,
+#' **absolute** paths start from the root directory and thus give the complete
+#' path, such that the path still points to the same directory if the
+#' [working directory][getwd()] changes.
 #'
 #' @section Programming notes:
 #' The output of [tempdir()] during
