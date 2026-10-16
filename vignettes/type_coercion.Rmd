@@ -12,7 +12,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r, include = FALSE}
+```{r opts, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -68,7 +68,7 @@ their types, such that `all_characters(unlist(z))` does **not** check if all
 elements of list `z` are character but if any element of `z` is a character
 **and** none of the elements of `z` is of a higher type.
 
-```{r}
+```{r example}
 library(checkinput)
 
 x <- 1:3
@@ -99,10 +99,15 @@ it is combined into a vector with zero-length `character(0)`, such that
 `c(314, character(0))` results in the character string `"314"`, **not** in the
 numeric value `314`.
 
-```{r}
+```{r zerolength}
 num <- 314
 str(num)
 zerochar <- character(0)
 str(zerochar)
 str(c(num, zerochar))
+```
+
+## sessionInfo
+```{r sessionInfo, echo = FALSE}
+utils::sessionInfo()
 ```

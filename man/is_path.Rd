@@ -47,7 +47,7 @@ implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
 restrictions listed above (although it \strong{may} contain the Windows-reserved
 terms listed above), and in addition should \strong{not}
-contain a colon (\code{:}), \strong{not} start with a space or a hyphen (\code{-}),
+contain a colon (\code{:}), \strong{nor} start with a space or a hyphen (\code{-}),
 \strong{nor} end with a slash or backslash.
 }
 
@@ -63,8 +63,8 @@ shell.
 \itemize{
 \item \code{x} does \strong{not} have to contain any file separator if \code{require_sep} is
 \code{FALSE}, such that \code{is_path(x, require_sep = FALSE)} can be used to check
-that filename \code{x} only contains allowed characters (given that it ends in a
-file extension).
+that filename \code{x} only contains allowed characters (given that \code{x} ends in
+a file extension).
 \item \code{x} might contain trailing file separators if it does \strong{not} end in a
 file extension, although these trailing file separators might be ignored
 or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}} and
@@ -80,11 +80,21 @@ file or folder, \strong{nor} that such a file or folder can be created.
 \section{Notes on paths}{
 
 The file separator is a backslash (\verb{\\}) on Windows but a forward slash (\code{/})
-on other operating systems: \link[=.Platform]{.Platform$file.sep} gives the file
-separator used on the current platform. Furthermore, the backslash is used as
+on other operating systems: use \code{\link[=file.path]{file.path()}} or \code{\link[fs:path]{fs::path()}} to construct
+paths in a platform-independent way and \link[=.Platform]{.Platform$file.sep} to
+get the file separator used on the current platform.
+
+Furthermore, the backslash is also used as
 \link[=regex]{escape character} in \R, such that backslashes need to be escaped in
 \R code by doubling them. Use \code{cat(x)} to omit the escape characters to see
 how \code{x} would be printed.
+
+The \link[=getwd]{working directory} can be indicated by a single dot (\code{"."}) and
+the parent directory can be indicated by two dots (\code{".."}).
+
+\strong{relative} paths start from the \link[=getwd]{working directory}, in contrast
+to \strong{absolute} paths that start from the root directory and thus give the
+complete path.
 }
 
 \section{Programming notes}{
