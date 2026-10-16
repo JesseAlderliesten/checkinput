@@ -118,9 +118,18 @@ indicated by a single dot (`"."`) and the parent directory can be
 indicated by two dots (`".."`).
 
 **relative** paths start from the [working
-directory](https://rdrr.io/r/base/getwd.html), in contrast to
-**absolute** paths that start from the root directory and thus give the
-complete path.
+directory](https://rdrr.io/r/base/getwd.html). In contrast, **absolute**
+paths start from the root directory and thus give the complete path,
+such that the path still points to the same directory if the [working
+directory](https://rdrr.io/r/base/getwd.html) changes.
+
+Paths can be normalised, e.g., through
+[`normalizePath()`](https://rdrr.io/r/base/normalizePath.html) or
+[`fs::path_norm()`](https://fs.r-lib.org/reference/path_math.html)
+(which is also called by
+[`fs::path_abs()`](https://fs.r-lib.org/reference/path_math.html)). On
+case-insensitive file systems, this also adjusts the case to match names
+of directories that are already present.
 
 ## Programming notes
 

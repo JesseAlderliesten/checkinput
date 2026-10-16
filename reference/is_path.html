@@ -135,9 +135,14 @@ get the file separator used on the current platform.</p>
 how <code>x</code> would be printed.</p>
 <p>The <a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a> can be indicated by a single dot (<code>"."</code>) and
 the parent directory can be indicated by two dots (<code>".."</code>).</p>
-<p><strong>relative</strong> paths start from the <a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a>, in contrast
-to <strong>absolute</strong> paths that start from the root directory and thus give the
-complete path.</p>
+<p><strong>relative</strong> paths start from the <a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a>. In contrast,
+<strong>absolute</strong> paths start from the root directory and thus give the complete
+path, such that the path still points to the same directory if the
+<a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a> changes.</p>
+<p>Paths can be normalised, e.g., through <code><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath()</a></code> or <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_norm()</a></code>
+(which is also called by <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_abs()</a></code>). On case-insensitive file systems,
+this also adjusts the case to match names of directories that are already
+present.</p>
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
