@@ -6,7 +6,7 @@
 \alias{is_nonnegative}
 \alias{all_nonnegative}
 \alias{is_positive}
-\title{Check that \code{x} contains numbers}
+\title{Check that x Contains Numbers}
 \usage{
 is_number(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
@@ -32,7 +32,7 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 \item{x}{object to check.}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
+\link[=is_zerolength]{zero-length} \code{x} of the correct \link[=typeof]{type}?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA} of the correct type in \code{x}?}
 
@@ -43,8 +43,8 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 containing allowed numbers.
 }
 \description{
-Check that \code{x} is a vector of the correct length with numbers of the correct
-sign.
+Check that \code{x} is a vector of the correct length with \link[=is.numeric]{numbers}
+of the correct sign.
 }
 \details{
 \code{is_number()}, \code{all_numbers()}, \code{all_nonnegative()} and \code{is_nonnegative()}
@@ -60,19 +60,19 @@ All these functions return \code{TRUE}:
 is \code{TRUE}.
 \item for \code{-Inf} and \code{Inf} if it has the correct sign
 \item for \code{NA_integer_} and \code{NA_real_} if \code{allow_NA} is \code{TRUE} (even then they
-return \code{FALSE} for \code{NA_complex_} because that has mode \code{complex} instead
+return \code{FALSE} for \code{NA_complex_} because that has \code{mode} \code{complex} instead
 of \code{numeric})
-\item for \code{\link{NaN}} (which has \link{mode} \code{numeric}, despite meaning 'not a number') if
-\code{allow_NaN} is \code{TRUE}.
+\item for \code{\link{NaN}} (which has \code{\link{mode}} \code{numeric}, despite meaning 'not a number')
+if \code{allow_NaN} is \code{TRUE}.
 }
 }
-\section{Programming notes}{
+\section{Programming Notes}{
 
 \code{\link[=is.numeric]{is.numeric()}} checks the \code{\link[=mode]{mode()}} of \code{x}, which is \code{numeric} for
 floating-point numbers such as \code{3.2} and integers such as \code{3L}. In contrast,
 \code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
 would check the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
-but \code{integer} for integers (see the \verb{Note on names} in \code{\link[=is.numeric]{is.numeric()}}).
+but \code{integer} for integers (see the 'Note on names' in \code{help("is.numeric")}.
 }
 
 \examples{
@@ -85,8 +85,10 @@ is_number(x = numeric(0)) # FALSE: incorrect length
 is_number(x = numeric(0), allow_zerolength = TRUE) # TRUE
 is_number(x = NA_real_) # FALSE
 is_number(x = NA_real_, allow_NA = TRUE) # TRUE
-is_number(x = NA_character_, allow_NA = TRUE) # FALSE: incorrect type
-is_number(x = NaN, allow_NA = TRUE) # FALSE, need allow_NaN = TRUE to allow NaN
+# FALSE: incorrect type:
+is_number(x = NA_character_, allow_NA = TRUE)
+# FALSE, need allow_NaN = TRUE to allow NaN:
+is_number(x = NaN, allow_NA = TRUE)
 is_number(x = NaN, allow_NaN = TRUE) # TRUE
 is_number(x = Inf) # TRUE
 is_nonnegative(x = 3) # TRUE

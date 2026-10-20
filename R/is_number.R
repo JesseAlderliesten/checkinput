@@ -1,7 +1,7 @@
-#' Check that `x` contains numbers
+#' Check that x Contains Numbers
 #'
-#' Check that `x` is a vector of the correct length with numbers of the correct
-#' sign.
+#' Check that `x` is a vector of the correct length with [numbers][is.numeric()]
+#' of the correct sign.
 #'
 #' @inheritParams is_logical x allow_zerolength allow_NA
 #' @param allow_NaN `TRUE` or `FALSE`: allow [`NaN`]?
@@ -20,21 +20,21 @@
 #'   is `TRUE`.
 #' - for `-Inf` and `Inf` if it has the correct sign
 #' - for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then they
-#'   return `FALSE` for `NA_complex_` because that has mode `complex` instead
+#'   return `FALSE` for `NA_complex_` because that has `mode` `complex` instead
 #'   of `numeric`)
-#' - for [`NaN`] (which has [mode] `numeric`, despite meaning 'not a number') if
-#'   `allow_NaN` is `TRUE`.
+#' - for [`NaN`] (which has [`mode`] `numeric`, despite meaning 'not a number')
+#'   if `allow_NaN` is `TRUE`.
 #'
 #' @returns
 #' `TRUE` or `FALSE` indicating if `x` is a vector of the correct length only
 #' containing allowed numbers.
 #'
-#' @section Programming notes:
+#' @section Programming Notes:
 #' [is.numeric()] checks the [mode()] of `x`, which is `numeric` for
 #' floating-point numbers such as `3.2` and integers such as `3L`. In contrast,
 #' `class(x) == "numeric"` (or, more robust, `inherits(x = x, what = "numeric")`)
 #' would check the [class()] of `x` which is `numeric` for floating-point numbers
-#' but `integer` for integers (see the `Note on names` in [is.numeric()]).
+#' but `integer` for integers (see the 'Note on names' in `help("is.numeric")`.
 #'
 #' @family
 #' collections of checks on type and length
@@ -49,8 +49,10 @@
 #' is_number(x = numeric(0), allow_zerolength = TRUE) # TRUE
 #' is_number(x = NA_real_) # FALSE
 #' is_number(x = NA_real_, allow_NA = TRUE) # TRUE
-#' is_number(x = NA_character_, allow_NA = TRUE) # FALSE: incorrect type
-#' is_number(x = NaN, allow_NA = TRUE) # FALSE, need allow_NaN = TRUE to allow NaN
+#' # FALSE: incorrect type:
+#' is_number(x = NA_character_, allow_NA = TRUE)
+#' # FALSE, need allow_NaN = TRUE to allow NaN:
+#' is_number(x = NaN, allow_NA = TRUE)
 #' is_number(x = NaN, allow_NaN = TRUE) # TRUE
 #' is_number(x = Inf) # TRUE
 #' is_nonnegative(x = 3) # TRUE
@@ -61,9 +63,12 @@
 #' is_positive(x = 0) # FALSE
 #'
 #' @export
-is_number <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
+is_number <- function(x,
+                      allow_zerolength = FALSE,
+                      allow_NA = FALSE,
                       allow_NaN = FALSE) {
-  stopifnot(is_logical(allow_zerolength), is_logical(allow_NA),
+  stopifnot(is_logical(allow_zerolength),
+            is_logical(allow_NA),
             is_logical(allow_NaN))
 
   length_x <- length(x)
@@ -77,9 +82,12 @@ is_number <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
 
 #' @rdname is_number
 #' @export
-all_numbers <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
+all_numbers <- function(x,
+                        allow_zerolength = FALSE,
+                        allow_NA = FALSE,
                         allow_NaN = FALSE) {
-  stopifnot(is_logical(allow_zerolength), is_logical(allow_NA),
+  stopifnot(is_logical(allow_zerolength),
+            is_logical(allow_NA),
             is_logical(allow_NaN))
   length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
@@ -92,27 +100,33 @@ all_numbers <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
 
 #' @rdname is_number
 #' @export
-is_nonnegative <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
+is_nonnegative <- function(x,
+                           allow_zerolength = FALSE,
+                           allow_NA = FALSE,
                            allow_NaN = FALSE) {
-  is_number(x, allow_zerolength = allow_zerolength, allow_NA = allow_NA,
-            allow_NaN = allow_NaN) &&
+  is_number(x, allow_zerolength = allow_zerolength,
+            allow_NA = allow_NA, allow_NaN = allow_NaN) &&
     all(x >= 0, na.rm = TRUE)
 }
 
 #' @rdname is_number
 #' @export
-all_nonnegative <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
+all_nonnegative <- function(x,
+                            allow_zerolength = FALSE,
+                            allow_NA = FALSE,
                             allow_NaN = FALSE) {
-  all_numbers(x, allow_zerolength = allow_zerolength, allow_NA = allow_NA,
-              allow_NaN = allow_NaN) &&
+  all_numbers(x, allow_zerolength = allow_zerolength,
+              allow_NA = allow_NA, allow_NaN = allow_NaN) &&
     all(x >= 0, na.rm = TRUE)
 }
 
 #' @rdname is_number
 #' @export
-is_positive <- function(x, allow_zerolength = FALSE, allow_NA = FALSE,
+is_positive <- function(x,
+                        allow_zerolength = FALSE,
+                        allow_NA = FALSE,
                         allow_NaN = FALSE) {
-  is_number(x = x, allow_zerolength = allow_zerolength, allow_NA = allow_NA,
-            allow_NaN = allow_NaN) &&
+  is_number(x = x, allow_zerolength = allow_zerolength,
+            allow_NA = allow_NA, allow_NaN = allow_NaN) &&
     all(x > 0, na.rm = TRUE)
 }

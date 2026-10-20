@@ -1,4 +1,4 @@
-#' Quote and concatenate `x` to a string
+#' Quote and Concatenate to a String
 #'
 #' Quote elements of a vector and concatenate the result to a single character
 #' string.
@@ -38,7 +38,8 @@
 #' [toString()] which is shorthand for `paste(x, collapse = ", ")`;
 #' [`Quotes`] and [sQuote()] for documentation on quotes;
 #' [paste0()];
-#' `progutils::unpaste_unquote()` for the approximate opposite of `paste_quoted()`;
+#' `progutils::unpaste_unquote()` for the approximate opposite of
+#' `paste_quoted()`;
 #' `progutils::vect_to_char()` to preserve names of numeric `x`
 #'
 #' @family functions to modify character vectors
@@ -46,13 +47,16 @@
 #' @examples
 #' paste_quoted(c(3, 4)) # "'3', '4'"
 #' paste_quoted(NULL) # "'NULL'"
-#' paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
-#' paste_quoted(c(3, 4), collapse = "\n") # separate '3' and '4' by a newline
+#' # Warns about dropping names:
+#' paste_quoted(c(a = 3, b = 4)) # "'3', '4'"
+#' # separate '3' and '4' by a newline:
+#' paste_quoted(c(3, 4), collapse = "\n")
 #'
 #' @export
 paste_quoted <- function(x, collapse = ", ") {
   # Need condition 'is.null(x)' because is.atomic(NULL) was FALSE before R 4.4.0.
-  stopifnot(is.atomic(x) || is.null(x), is.null(dim(x)), is_character(collapse))
+  stopifnot(is.atomic(x) || is.null(x),
+            is.null(dim(x)), is_character(collapse))
 
   if(!is.null(names(x))) {
     warning_text <- "'x' has names, these will be discarded."

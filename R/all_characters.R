@@ -1,7 +1,7 @@
-#' Check that `x` is character
+#' Check that x is Character
 #'
-#' Check that `x` is a character vector of the correct length with only allowed
-#' values.
+#' Check that `x` is a [character vector][is.character()] of the correct length
+#' with only allowed values.
 #'
 #' @inheritParams is_logical x allow_zerolength allow_NA
 #' @param allow_empty `TRUE` or `FALSE`: allow empty strings (`""`) in `x`?
@@ -13,8 +13,7 @@
 #'
 #' `is_character()` returns `TRUE` for `x` with length one and `all_characters()`
 #' returns `TRUE` for `x` with length larger than zero. Both functions return
-#' `TRUE` for character-type [zero-length][is_zerolength()] `x` if
-#' `allow_zerolength` is `TRUE`.
+#' `TRUE` for character-type zero-length `x` if `allow_zerolength` is `TRUE`.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
 #' correct length with only allowed values.
@@ -32,9 +31,12 @@
 #' is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 #'
 #' @export
-all_characters <- function(x, allow_empty = FALSE, allow_zerolength = FALSE,
+all_characters <- function(x,
+                           allow_empty = FALSE,
+                           allow_zerolength = FALSE,
                            allow_NA = FALSE) {
-  stopifnot(is_logical(allow_empty), is_logical(allow_zerolength),
+  stopifnot(is_logical(allow_empty),
+            is_logical(allow_zerolength),
             is_logical(allow_NA))
 
   is.character(x) && is.atomic(x) && is.null(dim(x)) &&
@@ -45,10 +47,14 @@ all_characters <- function(x, allow_empty = FALSE, allow_zerolength = FALSE,
 
 #' @rdname all_characters
 #' @export
-is_character <- function(x, allow_empty = FALSE, allow_zerolength = FALSE,
+is_character <- function(x,
+                         allow_empty = FALSE,
+                         allow_zerolength = FALSE,
                          allow_NA = FALSE) {
   # Argument checking is deferred to all_characters().
   length(x) < 2L &&
-    all_characters(x, allow_empty = allow_empty,
-                   allow_zerolength = allow_zerolength, allow_NA = allow_NA)
+    all_characters(x,
+                   allow_empty = allow_empty,
+                   allow_zerolength = allow_zerolength,
+                   allow_NA = allow_NA)
 }

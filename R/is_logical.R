@@ -1,17 +1,17 @@
-#' Check that `x` is logical
+#' Check that x is Logical
 #'
-#' Check that `x` is a length-one logical vector with only allowed values.
+#' Check that `x` is a length-one [logical vector][is.logical()] with only
+#' allowed values.
 #'
 #' @param x object to check.
 #' @param allow_zerolength `TRUE` or `FALSE`: allow
-#' [zero-length][is_zerolength()] `x` of the correct type?
+#' [zero-length][is_zerolength()] `x` of the correct [type][typeof()]?
 #' @param allow_NA `TRUE` or `FALSE`: allow [NA] of the correct type in `x`?
 #'
 #' @details
 #' `is_logical()` returns `TRUE` for logical-type `x` of length one, for
-#' logical-type
-#' [zero-length][is_zerolength()] `x` if `allow_zerolength` is `TRUE`, and for
-#' logical-type `NA` if `allow_NA` is `TRUE`.
+#' logical-type [zero-length][is_zerolength()] `x` if `allow_zerolength` is
+#' `TRUE`, and for logical-type `NA` if `allow_NA` is `TRUE`.
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a logical vector of the
 #' correct length with only allowed values.
@@ -28,10 +28,15 @@
 #' is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
 #'
 #' @export
-is_logical <- function(x, allow_zerolength = FALSE, allow_NA = FALSE) {
-  stopifnot(is.logical(allow_zerolength), length(allow_zerolength) == 1L,
-            !is.na(allow_zerolength), is.logical(allow_NA),
-            length(allow_NA) == 1L, !is.na(allow_NA))
+is_logical <- function(x,
+                       allow_zerolength = FALSE,
+                       allow_NA = FALSE) {
+  stopifnot(is.logical(allow_zerolength),
+            length(allow_zerolength) == 1L,
+            !is.na(allow_zerolength),
+            is.logical(allow_NA),
+            length(allow_NA) == 1L,
+            !is.na(allow_NA))
 
   is.logical(x) && is.atomic(x) && is.null(dim(x)) &&
     (length(x) == 1L || (allow_zerolength && length(x) == 0L)) &&
