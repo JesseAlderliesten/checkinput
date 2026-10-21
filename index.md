@@ -1,14 +1,14 @@
 # checkinput
 
-With `checkinput`, you can write concise, flexible checks for input to R
-functions.
+With **checkinput**, you can write concise, flexible checks for input to
+[R](https://www.r-project.org/) functions.
 
 ## Installation
 
-Visit the [checkinput
+Visit the [**checkinput**
 website](https://jessealderliesten.github.io/checkinput/) to explore the
-package, or install `checkinput` from
-[GitHub](https://github.com/JesseAlderliesten/checkinput) using the
+package, or install **checkinput** [from
+GitHub](https://github.com/JesseAlderliesten/checkinput) using the
 following R code:
 
 ``` r
@@ -20,15 +20,14 @@ remotes::install_github(repo = "JesseAlderliesten/checkinput",
                         upgrade = FALSE, build_vignettes = TRUE, lib = NULL)
 ```
 
-For more information about installing and configuring R and RStudio, see
-my package
-[`checkrpkgs`](https://jessealderliesten.github.io/checkrpkgs/).
+For more information about installing and configuring R, see my package
+[**checkrpkgs**](https://jessealderliesten.github.io/checkrpkgs/).
 
 ## Example
 
 Say you want to collect information on people’s hobbies through an R
 function in which it is optional for them to provide their name. With
-`checkinput`, you could write a function like `list_hobbies()`:
+**checkinput**, you could write a function like `list_hobbies()`:
 
 ``` r
 
@@ -41,9 +40,9 @@ list_hobbies <- function(name, age, hobbies) {
 
 The checks inside [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html)
 ensure that (1) `name` contains a single character string that might be
-empty (`""`) or character-type `NA` (`NA_character_`); (2) `age`
-contains a single non-negative number; (3) `hobbies` contains at least
-one character string and does not contain empty strings or `NA`s.
+empty (`""`) or `NA`; (2) `age` contains a single non-negative number;
+(3) `hobbies` contains at least one character string and does not
+contain empty strings or `NA`s.
 
 The base R equivalent of `list_hobbies()` would require much more code
 to check the input, increasing the chance of coding errors and making it
@@ -96,26 +95,26 @@ try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
 
 ## Design choices
 
-The check functions of `checkinput` return either `TRUE` or `FALSE` and
-do **not** throw errors for any input to `x`. Errors **are** thrown
+The check functions of **checkinput** return either `TRUE` or `FALSE`
+and do **not** throw errors for any input to `x`. Errors **are** thrown
 about invalid input to arguments other than `x`, e.g., when values other
-than `TRUE` or `FALSE` are used for `allow_NA`. This is explained in the
-[vignette about design
+than `TRUE` or `FALSE` are used for argument `allow_NA`. This is
+explained in the [vignette about design
 choices](https://jessealderliesten.github.io/checkinput/articles/design_choices.html):
 [`vignette("design_choices", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/design_choices.md).
 That vignette also shows how to get a named boolean vector indicating
 for each element of `x` if it is `TRUE` or `FALSE` according to the
 check functions.
 
-`checkinput` also contains a [vignette about type
+**checkinput** also contains a [vignette about type
 coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
-in relation to checking function input:
+in relation to checking function input:  
 [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
 
 ## Function overview
 
-The check functions in `checkinput` can be divided into groups based on
-the kind of **input** for which they return `TRUE`:
+The check functions in **checkinput** can be divided into groups based
+on the kind of **input** for which they return `TRUE`:
 
 - zero-length values:
   [`is_zerolength()`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
@@ -135,12 +134,14 @@ the kind of **input** for which they return `TRUE`:
   [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
   [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
 
-Besides these check functions, `checkinput` contains utility-functions:
-[`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
-which returns a natural number if the input is nearly equal to such a
-number, and
-[`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
-which returns a character string.
+Besides these check functions, **checkinput** contains
+utility-functions:
+
+- [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md)
+  which returns a natural number if the input is nearly equal to such a
+  number
+- [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
+  to concatenate input to a character string with quoted elements
 
 ## License
 
@@ -153,7 +154,7 @@ License](https://jessealderliesten.github.io/checkinput/LICENSE.md).
 To cite package 'checkinput' in publications use:
 
   Alderliesten J (2026). _checkinput: Check Function Input_. R package
-  version 1.5.0, <https://github.com/JesseAlderliesten/checkinput>.
+  version 1.5.1, <https://github.com/JesseAlderliesten/checkinput>.
 
 A BibTeX entry for LaTeX users is
 
@@ -161,7 +162,7 @@ A BibTeX entry for LaTeX users is
     title = {checkinput: Check Function Input},
     author = {Jesse Alderliesten},
     year = {2026},
-    note = {R package version 1.5.0},
+    note = {R package version 1.5.1},
     url = {https://github.com/JesseAlderliesten/checkinput},
   }
 ```
@@ -170,25 +171,25 @@ A BibTeX entry for LaTeX users is
 
 Please open a [GitHub
 issue](https://github.com/JesseAlderliesten/checkinput/issues) if you
-have suggestions for improvement of `checkinput`.
+have suggestions for improvement of **checkinput**.
 
 ## Similar packages
 
-Functions of `checkinput` use arguments to determine if special values
+Functions of **checkinput** use arguments to determine if special values
 like `NA` and zero-length values should be allowed, making them more
 flexible than functions in similar packages that require a different
 function to include these special values. Nevertheless, the following
 similar packages are worth looking into:
 
-- [`arkhe`](https://CRAN.R-project.org/package=arkhe): tools for
+- [**arkhe**](https://CRAN.R-project.org/package=arkhe): tools for
   cleaning rectangular data.
-- [`assertable`](https://CRAN.R-project.org/package=assertable): verbose
-  assertions for tabular data (data.frames and data.tables).
-- [`assertthat`](https://CRAN.R-project.org/package=assertthat): easy
+- [**assertable**](https://CRAN.R-project.org/package=assertable):
+  verbose assertions for tabular data (data.frames and data.tables).
+- [**assertthat**](https://CRAN.R-project.org/package=assertthat): easy
   pre and post assertions.
-- [`checkmate`](https://CRAN.R-project.org/package=checkmate): fast and
-  versatile argument checks
-- [`chk`](https://CRAN.R-project.org/package=chk): check user-supplied
+- [**checkmate**](https://CRAN.R-project.org/package=checkmate): fast
+  and versatile argument checks
+- [**chk**](https://CRAN.R-project.org/package=chk): check user-supplied
   function arguments
-- [`erify`](https://CRAN.R-project.org/package=erify): check arguments
+- [**erify**](https://CRAN.R-project.org/package=erify): check arguments
   and generate readable error messages

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,10 +84,10 @@ in the hierarchy <code>NULL</code> &lt; <code>raw</code> &lt;
 <code>logical</code> &lt; <code>integer</code> &lt; <code>double</code>
 &lt; <code>complex</code> &lt; <code>character</code> &lt;
 <code>list</code> &lt; <code>expression</code>, see the section
-<code>Details</code> in <code><a href="https://rdrr.io/r/base/c.html" class="external-link">help("c")</a></code> and the section
-<code>Value</code> in <code><a href="https://rdrr.io/r/base/typeof.html" class="external-link">help("typeof")</a></code>. For example, numeric
-<code>314</code> will be coerced to character <code>"314"</code> when it
-is combined in a vector with character <code>"nco"</code>, such that
+‘Details’ in <code><a href="https://rdrr.io/r/base/c.html" class="external-link">help("c")</a></code> and the section ‘Value’ in
+<code><a href="https://rdrr.io/r/base/typeof.html" class="external-link">help("typeof")</a></code>. For example, numeric <code>314</code> will
+be coerced to character <code>"314"</code> when it is combined in a
+vector with character <code>"nco"</code>, such that
 <code>c(314, "nco")</code> results in the character vector
 <code>c("314", "nco")</code>. This also holds for the logical
 <code>NA</code>, which will be coerced to <code>NA_character_</code>
@@ -118,27 +118,29 @@ that is printed as <code>NA</code>.</p>
 </h2>
 <p>As a consequence of type coercion, code like
 <code>all_characters(c(x, y))</code> does <strong>not</strong> check if
-all elements in <code>x</code> and <code>y</code> have type character:
-<code>x</code> and <code>y</code> will be coerced to the highest of
-their types before the check is performed, such that
-<code>all_characters(c(x, y))</code> checks if any of <code>x</code> or
-<code>y</code> has type character <strong>and</strong> none of
-<code>x</code> or <code>y</code> has a higher type.</p>
+all elements in <code>x</code> and <code>y</code> have type
+<code>character</code>: <code>x</code> and <code>y</code> will be
+coerced to the highest of their types before the check is performed,]
+such that <code>all_characters(c(x, y))</code> checks if any of
+<code>x</code> or <code>y</code> has type <code>character</code>
+<strong>and</strong> none of <code>x</code> or <code>y</code> has a
+higher type.</p>
 <p>To check if all elements in <code>x</code> and <code>y</code> have
-type character, use
+type <code>character</code>, use
 <code>all_characters(x) &amp;&amp; all_characters(y)</code> or, to
 generalise more easily to more than two objects,
 <code>all(unlist(lapply(X = list(x, y), FUN = all_characters)))</code>.
 Other function arguments passed to <code><a href="../reference/all_characters.html">all_characters()</a></code>, e.g.,
 <code>allow_empty = TRUE</code> to allow empty quotes (i.e.,
-<code>""</code>), should be placed behind argument <code>x</code>.</p>
+<code>""</code>), should be placed behind argument <code>FUN</code>.</p>
 <p>Elements of a list can have different types. Using
 <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on a list creates a vector, coercing all elements
 of the list to the highest of their types, such that
 <code>all_characters(unlist(z))</code> does <strong>not</strong> check
-if all elements of list <code>z</code> are character but if any element
-of <code>z</code> is a character <strong>and</strong> none of the
-elements of <code>z</code> is of a higher type.</p>
+if all elements of list <code>z</code> have type <code>character</code>
+but if any element of <code>z</code> has type <code>character</code>
+<strong>and</strong> none of the elements of <code>z</code> has a higher
+type.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">checkinput</a></span><span class="op">)</span></span>
 <span></span>
@@ -188,10 +190,10 @@ elements of <code>z</code> is of a higher type.</p>
 <p>Although zero-length objects (see <code><a href="../reference/is_zerolength.html">help("is_zerolength")</a></code>)
 are discarded when combined into a vector with other values, their types
 are taken into account for type coercion. For example, numeric
-<code>314</code> will be coerced to character <code>"314"</code> when it
-is combined into a vector with zero-length <code>character(0)</code>,
-such that <code>c(314, character(0))</code> results in the character
-string <code>"314"</code>, <strong>not</strong> in the numeric value
+<code>314</code> will be coerced to character <code>"314"</code> when
+combined into a vector with zero-length <code>character(0)</code>, such
+that <code>c(314, character(0))</code> results in the character string
+<code>"314"</code>, <strong>not</strong> in the numeric value
 <code>314</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num</span> <span class="op">&lt;-</span> <span class="fl">314</span></span>
@@ -227,11 +229,11 @@ string <code>"314"</code>, <strong>not</strong> in the numeric value
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] checkinput_1.5.0</span></span>
+<span><span class="co">#&gt; [1] checkinput_1.5.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    </span></span>
-<span><span class="co">#&gt;  [5] xfun_0.61         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  </span></span>
+<span><span class="co">#&gt;  [5] xfun_0.62         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  </span></span>
 <span><span class="co">#&gt;  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.4.10      </span></span>
 <span><span class="co">#&gt; [13] pkgdown_2.2.1     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2</span></span>
 <span><span class="co">#&gt; [17] compiler_4.6.1    tools_4.6.1       ragg_1.5.2        bslib_0.12.0     </span></span>

@@ -1,7 +1,7 @@
-# Check that `x` contains numbers
+# Check that x Contains Numbers
 
-Check that `x` is a vector of the correct length with numbers of the
-correct sign.
+Check that `x` is a vector of the correct length with
+[numbers](https://rdrr.io/r/base/numeric.html) of the correct sign.
 
 ## Usage
 
@@ -37,7 +37,7 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
   `TRUE` or `FALSE`: allow
   [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-  `x` of the correct type?
+  `x` of the correct [type](https://rdrr.io/r/base/typeof.html)?
 
 - allow_NA:
 
@@ -73,14 +73,14 @@ All these functions return `TRUE`:
 - for `-Inf` and `Inf` if it has the correct sign
 
 - for `NA_integer_` and `NA_real_` if `allow_NA` is `TRUE` (even then
-  they return `FALSE` for `NA_complex_` because that has mode `complex`
-  instead of `numeric`)
+  they return `FALSE` for `NA_complex_` because that has `mode`
+  `complex` instead of `numeric`)
 
 - for [`NaN`](https://rdrr.io/r/base/is.finite.html) (which has
-  [mode](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning
+  [`mode`](https://rdrr.io/r/base/mode.html) `numeric`, despite meaning
   'not a number') if `allow_NaN` is `TRUE`.
 
-## Programming notes
+## Programming Notes
 
 [`is.numeric()`](https://rdrr.io/r/base/numeric.html) checks the
 [`mode()`](https://rdrr.io/r/base/mode.html) of `x`, which is `numeric`
@@ -88,9 +88,8 @@ for floating-point numbers such as `3.2` and integers such as `3L`. In
 contrast, `class(x) == "numeric"` (or, more robust,
 `inherits(x = x, what = "numeric")`) would check the
 [`class()`](https://rdrr.io/r/base/class.html) of `x` which is `numeric`
-for floating-point numbers but `integer` for integers (see the
-`Note on names` in
-[`is.numeric()`](https://rdrr.io/r/base/numeric.html)).
+for floating-point numbers but `integer` for integers (see the 'Note on
+names' in [`help("is.numeric")`](https://rdrr.io/r/base/numeric.html).
 
 ## See also
 
@@ -123,9 +122,11 @@ is_number(x = NA_real_) # FALSE
 #> [1] FALSE
 is_number(x = NA_real_, allow_NA = TRUE) # TRUE
 #> [1] TRUE
-is_number(x = NA_character_, allow_NA = TRUE) # FALSE: incorrect type
+# FALSE: incorrect type:
+is_number(x = NA_character_, allow_NA = TRUE)
 #> [1] FALSE
-is_number(x = NaN, allow_NA = TRUE) # FALSE, need allow_NaN = TRUE to allow NaN
+# FALSE, need allow_NaN = TRUE to allow NaN:
+is_number(x = NaN, allow_NA = TRUE)
 #> [1] FALSE
 is_number(x = NaN, allow_NaN = TRUE) # TRUE
 #> [1] TRUE

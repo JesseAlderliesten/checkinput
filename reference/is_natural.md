@@ -1,7 +1,8 @@
-# Check that `x` is nearly equal to natural numbers
+# Check that x is Nearly Equal to Natural Numbers
 
-Check element-wise near-equality to natural numbers while allowing for
-small numeric errors.
+Check element-wise near-equality to natural
+[numbers](https://rdrr.io/r/base/numeric.html) while allowing for small
+numeric errors.
 
 ## Usage
 
@@ -46,7 +47,7 @@ make_natural(
 
   `TRUE` or `FALSE`: allow
   [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-  `x` of the correct type?
+  `x` of the correct [type](https://rdrr.io/r/base/typeof.html)?
 
 - allow_NA:
 
@@ -77,8 +78,9 @@ Natural numbers are the positive integers (`1`, `2`, `3`, etc.).
 `is_natural()` and `all_natural()` allow for small numeric errors when
 comparing numbers to the natural numbers. Such numeric errors can arise
 because of rounding or representation error. As the `Note` at
-[`==`](https://rdrr.io/r/base/Comparison.html) warns, `x == round(x)`
-does **not** allow for such errors but checks exact equality.
+[`help("==")`](https://rdrr.io/r/base/Comparison.html) warns,
+`x == round(x)` does **not** allow for such errors but checks exact
+equality.
 
 Zero is considered a natural number if argument `strict` is `FALSE`, but
 even then small negative numbers are **not** considered natural numbers.
@@ -86,8 +88,8 @@ even then small negative numbers are **not** considered natural numbers.
 `integer(0)` and `numeric(0)` are considered natural numbers if argument
 `allow_zerolength` is `TRUE`, and `NA_integer_` and `NA_real_` are
 considered natural numbers if `allow_NA` is `TRUE` (even then
-`NA_complex_` is **not** considered a natural number because its mode is
-`complex` instead of `numeric`).
+`NA_complex_` is **not** considered a natural number because it has
+`mode` `complex` instead of `numeric`).
 
 [`NULL`](https://rdrr.io/r/base/NULL.html),
 [`NaN`](https://rdrr.io/r/base/is.finite.html), negative numbers,
@@ -107,9 +109,12 @@ to `x` without the need to use
 Alternatively, use `is_natural(x)` or `all_natural(x)` inside
 [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html), followed by
 converting the rounded value of `x` to `integer` and assigning it to
-`x`: `x <- as.integer(round(x))`.
+`x`:
 
-## Programming notes
+    stopifnot(is_natural(x))
+    x <- as.integer(round(x))
+
+## Programming Notes
 
 The code of `is_natural()` and `all_natural()` is partly based on the
 example `is.wholenumber()` in
@@ -118,18 +123,21 @@ example `is.wholenumber()` in
 [`is.integer()`](https://rdrr.io/r/base/integer.html) does **not** check
 that `x` is a natural number (nor that `x` is a whole number) but rather
 that `x` is of [type](https://rdrr.io/r/base/typeof.html) integer, see
-the `Note` in [`is.integer()`](https://rdrr.io/r/base/integer.html).
+the section 'Note' in
+[`help("is.integer")`](https://rdrr.io/r/base/integer.html).
 
 ## See also
 
-`progutils::are_equal()` to check for element-wise near-equality of
-numbers; [`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check
-more generally for near-equality;
+[`progutils::are_equal()`](https://jessealderliesten.github.io/progutils/reference/are_equal.html)
+to check for element-wise near-equality of numbers;
+[`all.equal()`](https://rdrr.io/r/base/all.equal.html) to check more
+generally for near-equality;
 [`identical()`](https://rdrr.io/r/base/identical.html) to check for
 exact equality and
 [`Comparison`](https://rdrr.io/r/base/Comparison.html) to do so using
 binary operators; [`match()`](https://rdrr.io/r/base/match.html) and
-`progutils::not_in()` to compare character vectors; [R FAQ
+[`progutils::not_in()`](https://jessealderliesten.github.io/progutils/reference/not_in.html)
+to compare character vectors; [R FAQ
 7.31](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 for background on numerical equality and its pitfalls.
 
@@ -184,7 +192,8 @@ all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 #> [1] FALSE
 all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
 #> [1] TRUE
-all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
+# FALSE because of wrong sign:
+all_natural(x = c(-1e-10, 3, 5), strict = FALSE)
 #> [1] FALSE
 all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
 #> [1] FALSE
@@ -193,8 +202,8 @@ all_natural(x = "a") # FALSE
 all_natural(x = 1:2) # TRUE
 #> [1] TRUE
 
-# Illustrate the need to follow use of is_natural(x) or all_natural(x) by
-# assigning the rounded value to the argument
+# Illustrate the need to follow use of is_natural(x) or
+# all_natural(x) by assigning the rounded value to the argument
 toy_fun_erroneous <- function(x) {
   stopifnot(is_natural(x))
   seq_len(x)
@@ -218,14 +227,17 @@ toy_fun_correct(x = 5 - 1e-8) # 1:5
 toy_fun_safe(x = 5 - 1e-8) # 1:5
 #> [1] 1 2 3 4 5
 
-try(toy_fun_erroneous(x = 5.1)) # Error: is_natural(x) is not TRUE
+# Error: is_natural(x) is not TRUE
+try(toy_fun_erroneous(x = 5.1))
 #> Error in toy_fun_erroneous(x = 5.1) : is_natural(x) is not TRUE
-try(toy_fun_correct(x = 5.1)) # Error: is_natural(x) is not TRUE
+try(toy_fun_correct(x = 5.1))
 #> Error in toy_fun_correct(x = 5.1) : is_natural(x) is not TRUE
-try(toy_fun_safe(x = 5.1, all = FALSE)) # Error: is_natural(x) is not TRUE
+try(toy_fun_safe(x = 5.1, all = FALSE))
 #> Error in make_natural(x, all = all) : 
 #>   checkinput::is_natural(x) is not TRUE
-try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
+
+# Error: all_natural(x) is not TRUE
+try(toy_fun_safe(x = 5.1, all = TRUE))
 #> Error in make_natural(x, all = all) : 
 #>   checkinput::all_natural(x) is not TRUE
 ```

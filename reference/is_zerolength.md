@@ -1,6 +1,6 @@
-# Check that `x` is a zero-length object
+# Check that x is a Zero-Length Object
 
-Check that `x` is a zero-length object
+Check that x is a Zero-Length Object
 
 ## Usage
 
@@ -22,7 +22,7 @@ is_zerolength(x)
 
 [Zero-length](https://rdrr.io/r/base/length.html) objects can have
 different [types](https://rdrr.io/r/base/typeof.html): NULL
-([NULL](https://rdrr.io/r/base/NULL.html)), logical (`logical(0)`),
+([`NULL`](https://rdrr.io/r/base/NULL.html)), logical (`logical(0)`),
 integer (`integer(0)`), double (`numeric(0)`), complex (`complex(0)`),
 character (`character(0)`), and list
 ([`list()`](https://rdrr.io/r/base/list.html) and
@@ -30,10 +30,10 @@ character (`character(0)`), and list
 
 `""` is **not** a zero-length object: it has a `length` of one despite
 its [width](https://rdrr.io/r/base/nchar.html) of zero characters. A
-data frame with zero rows is **not** a zero-length object: it has
-`length` equal to the number of columns. In contrast, a
-[`matrix`](https://rdrr.io/r/base/matrix.html) with zero rows **is** a
-zero-length object, see the `Examples`.
+[data frame](https://rdrr.io/r/base/data.frame.html) with zero rows is
+**not** a zero-length object: it has `length` equal to the number of
+columns. In contrast, a [matrix](https://rdrr.io/r/base/matrix.html)
+with zero rows **is** a zero-length object, see the `Examples`.
 
 [`is.null()`](https://rdrr.io/r/base/NULL.html) should be used to check
 that an object is `NULL` and, more generally,
@@ -78,11 +78,13 @@ is_zerolength(x = character(0)) # TRUE
 #> [1] TRUE
 is_zerolength(x = 0) # FALSE
 #> [1] FALSE
-# A matrix with zero rows *is* a zero-length object ...
-is_zerolength(x = as.matrix(data.frame(a = 314))[numeric(0), , drop = FALSE])
+df <- data.frame(a = 314)
+zerorow_df <- df[numeric(0), , drop = FALSE]
+# A matrix with zero rows *is* a zero-length object
+is_zerolength(x = as.matrix(zerorow_df))
 #> [1] TRUE
-# ... whereas a dataframe with zero rows is *not* a zero-length object.
-is_zerolength(x = data.frame(a = 314)[numeric(0), , drop = FALSE])
+# A dataframe with zero rows is *not* a zero-length object
+is_zerolength(x = zerorow_df)
 #> [1] FALSE
 
 # Zero-length objects affect type coercion.

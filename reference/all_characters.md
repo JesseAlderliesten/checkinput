@@ -1,7 +1,8 @@
-# Check that `x` is character
+# Check that x is Character
 
-Check that `x` is a character vector of the correct length with only
-allowed values.
+Check that `x` is a [character
+vector](https://rdrr.io/r/base/character.html) of the correct length
+with only allowed values.
 
 ## Usage
 
@@ -35,7 +36,7 @@ is_character(
 
   `TRUE` or `FALSE`: allow
   [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-  `x` of the correct type?
+  `x` of the correct [type](https://rdrr.io/r/base/typeof.html)?
 
 - allow_NA:
 
@@ -55,9 +56,8 @@ is `TRUE`.
 
 `is_character()` returns `TRUE` for `x` with length one and
 `all_characters()` returns `TRUE` for `x` with length larger than zero.
-Both functions return `TRUE` for character-type
-[zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-`x` if `allow_zerolength` is `TRUE`.
+Both functions return `TRUE` for character-type zero-length `x` if
+`allow_zerolength` is `TRUE`.
 
 ## See also
 

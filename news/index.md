@@ -1,5 +1,14 @@
 # Changelog
 
+## checkinput 1.5.1
+
+#### Miscellaneous
+
+- Make layout more uniform.
+- Wrap lines in `Usage` and `Example` sections to 65 characters.
+- Capitalize function titles.
+- Avoid markup in section titles.
+
 ## checkinput 1.5.0
 
 #### Breaking changes
@@ -15,7 +24,7 @@
 
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
   in the `Note on paths`, describe the difference between absolute and
-  relative paths and how to use dots in paths.
+  relative paths, how to use dots in paths, and normalisation of paths.
 
 ## checkinput 1.4.1
 

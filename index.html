@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,34 +61,35 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-<div class="section level1">
+  <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="checkinput">checkinput<a class="anchor" aria-label="anchor" href="#checkinput"></a>
 </h1></div>
-<p>With <code>checkinput</code>, you can write concise, flexible checks for input to R functions.</p>
+<!-- badges: start -->
+
+<p>With <strong>checkinput</strong>, you can write concise, flexible checks for input to <a href="https://www.r-project.org/" class="external-link">R</a> functions.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Visit the <a href="https://jessealderliesten.github.io/checkinput/">checkinput website</a> to explore the package, or install <code>checkinput</code> from <a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">GitHub</a> using the following R code:</p>
+<p>Visit the <a href="https://jessealderliesten.github.io/checkinput/"><strong>checkinput</strong> website</a> to explore the package, or install <strong>checkinput</strong> <a href="https://github.com/JesseAlderliesten/checkinput" class="external-link">from GitHub</a> using the following R code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span>pkgs <span class="op">=</span> <span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span>repo <span class="op">=</span> <span class="st">"JesseAlderliesten/checkinput"</span>,</span>
 <span>                        upgrade <span class="op">=</span> <span class="cn">FALSE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, lib <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p>For more information about installing and configuring R and RStudio, see my package <a href="https://jessealderliesten.github.io/checkrpkgs/" class="external-link"><code>checkrpkgs</code></a>.</p>
+<p>For more information about installing and configuring R, see my package <a href="https://jessealderliesten.github.io/checkrpkgs/" class="external-link"><strong>checkrpkgs</strong></a>.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Say you want to collect information on people’s hobbies through an R function in which it is optional for them to provide their name. With <code>checkinput</code>, you could write a function like <code>list_hobbies()</code>:</p>
+<p>Say you want to collect information on people’s hobbies through an R function in which it is optional for them to provide their name. With <strong>checkinput</strong>, you could write a function like <code>list_hobbies()</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">list_hobbies</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">age</span>, <span class="va">hobbies</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="reference/all_characters.html">is_character</a></span><span class="op">(</span><span class="va">name</span>, allow_empty <span class="op">=</span> <span class="cn">TRUE</span>, allow_NA <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>            <span class="fu"><a href="reference/is_number.html">is_nonnegative</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>, <span class="fu"><a href="reference/all_characters.html">all_characters</a></span><span class="op">(</span><span class="va">hobbies</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">name</span>, age <span class="op">=</span> <span class="va">age</span>, hobbies <span class="op">=</span> <span class="va">hobbies</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>The checks inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> ensure that (1) <code>name</code> contains a single character string that might be empty (<code>""</code>) or character-type <code>NA</code> (<code>NA_character_</code>); (2) <code>age</code> contains a single non-negative number; (3) <code>hobbies</code> contains at least one character string and does not contain empty strings or <code>NA</code>s.</p>
+<p>The checks inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> ensure that (1) <code>name</code> contains a single character string that might be empty (<code>""</code>) or <code>NA</code>; (2) <code>age</code> contains a single non-negative number; (3) <code>hobbies</code> contains at least one character string and does not contain empty strings or <code>NA</code>s.</p>
 <p>The base R equivalent of <code>list_hobbies()</code> would require much more code to check the input, increasing the chance of coding errors and making it more difficult to read:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">list_hobbies_base</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">age</span>, <span class="va">hobbies</span><span class="op">)</span> <span class="op">{</span></span>
@@ -128,13 +129,13 @@
 <div class="section level2">
 <h2 id="design-choices">Design choices<a class="anchor" aria-label="anchor" href="#design-choices"></a>
 </h2>
-<p>The check functions of <code>checkinput</code> return either <code>TRUE</code> or <code>FALSE</code> and do <strong>not</strong> throw errors for any input to <code>x</code>. Errors <strong>are</strong> thrown about invalid input to arguments other than <code>x</code>, e.g., when values other than <code>TRUE</code> or <code>FALSE</code> are used for <code>allow_NA</code>. This is explained in the <a href="https://jessealderliesten.github.io/checkinput/articles/design_choices.html">vignette about design choices</a>: <code><a href="articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>. That vignette also shows how to get a named boolean vector indicating for each element of <code>x</code> if it is <code>TRUE</code> or <code>FALSE</code> according to the check functions.</p>
-<p><code>checkinput</code> also contains a <a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html">vignette about type coercion</a> in relation to checking function input: <code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
+<p>The check functions of <strong>checkinput</strong> return either <code>TRUE</code> or <code>FALSE</code> and do <strong>not</strong> throw errors for any input to <code>x</code>. Errors <strong>are</strong> thrown about invalid input to arguments other than <code>x</code>, e.g., when values other than <code>TRUE</code> or <code>FALSE</code> are used for argument <code>allow_NA</code>. This is explained in the <a href="https://jessealderliesten.github.io/checkinput/articles/design_choices.html">vignette about design choices</a>: <code><a href="articles/design_choices.html">vignette("design_choices", package = "checkinput")</a></code>. That vignette also shows how to get a named boolean vector indicating for each element of <code>x</code> if it is <code>TRUE</code> or <code>FALSE</code> according to the check functions.</p>
+<p><strong>checkinput</strong> also contains a <a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html">vignette about type coercion</a> in relation to checking function input:<br><code><a href="articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="function-overview">Function overview<a class="anchor" aria-label="anchor" href="#function-overview"></a>
 </h2>
-<p>The check functions in <code>checkinput</code> can be divided into groups based on the kind of <strong>input</strong> for which they return <code>TRUE</code>:</p>
+<p>The check functions in <strong>checkinput</strong> can be divided into groups based on the kind of <strong>input</strong> for which they return <code>TRUE</code>:</p>
 <ul>
 <li>zero-length values: <code><a href="reference/is_zerolength.html">is_zerolength()</a></code>
 </li>
@@ -145,7 +146,13 @@
 <li>numbers: <code><a href="reference/is_number.html">is_number()</a></code>, <code><a href="reference/is_number.html">all_numbers()</a></code>, <code><a href="reference/is_number.html">is_nonnegative()</a></code>, <code><a href="reference/is_number.html">all_nonnegative()</a></code>, <code><a href="reference/is_number.html">is_positive()</a></code>, <code><a href="reference/is_natural.html">is_natural()</a></code>, <code><a href="reference/is_natural.html">all_natural()</a></code>
 </li>
 </ul>
-<p>Besides these check functions, <code>checkinput</code> contains utility-functions: <code><a href="reference/is_natural.html">make_natural()</a></code> which returns a natural number if the input is nearly equal to such a number, and <code><a href="reference/paste_quoted.html">paste_quoted()</a></code> which returns a character string.</p>
+<p>Besides these check functions, <strong>checkinput</strong> contains utility-functions:</p>
+<ul>
+<li>
+<code><a href="reference/is_natural.html">make_natural()</a></code> which returns a natural number if the input is nearly equal to such a number</li>
+<li>
+<code><a href="reference/paste_quoted.html">paste_quoted()</a></code> to concatenate input to a character string with quoted elements</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
@@ -158,7 +165,7 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>To cite package <span class="st">'checkinput'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  Alderliesten <span class="fu">J</span> (<span class="dv">2026</span>). _checkinput<span class="sc">:</span> Check Function Input_. R package</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  version <span class="dv">1</span>.<span class="fl">5.0</span>, <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>JesseAlderliesten<span class="sc">/</span>checkinput<span class="sc">&gt;</span>.</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  version <span class="dv">1</span>.<span class="fl">5.1</span>, <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>JesseAlderliesten<span class="sc">/</span>checkinput<span class="sc">&gt;</span>.</span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
@@ -166,36 +173,35 @@
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    title <span class="ot">=</span> {checkinput<span class="sc">:</span> Check Function Input},</span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    author <span class="ot">=</span> {Jesse Alderliesten},</span>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2026</span>},</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">5.0</span>},</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">5.1</span>},</span>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>JesseAlderliesten<span class="sc">/</span>checkinput},</span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
 </h2>
-<p>Please open a <a href="https://github.com/JesseAlderliesten/checkinput/issues" class="external-link">GitHub issue</a> if you have suggestions for improvement of <code>checkinput</code>.</p>
+<p>Please open a <a href="https://github.com/JesseAlderliesten/checkinput/issues" class="external-link">GitHub issue</a> if you have suggestions for improvement of <strong>checkinput</strong>.</p>
 </div>
 <div class="section level2">
 <h2 id="similar-packages">Similar packages<a class="anchor" aria-label="anchor" href="#similar-packages"></a>
 </h2>
-<p>Functions of <code>checkinput</code> use arguments to determine if special values like <code>NA</code> and zero-length values should be allowed, making them more flexible than functions in similar packages that require a different function to include these special values. Nevertheless, the following similar packages are worth looking into:</p>
+<p>Functions of <strong>checkinput</strong> use arguments to determine if special values like <code>NA</code> and zero-length values should be allowed, making them more flexible than functions in similar packages that require a different function to include these special values. Nevertheless, the following similar packages are worth looking into:</p>
 <ul>
 <li>
-<a href="https://CRAN.R-project.org/package=arkhe" class="external-link"><code>arkhe</code></a>: tools for cleaning rectangular data.</li>
+<a href="https://CRAN.R-project.org/package=arkhe" class="external-link"><strong>arkhe</strong></a>: tools for cleaning rectangular data.</li>
 <li>
-<a href="https://CRAN.R-project.org/package=assertable" class="external-link"><code>assertable</code></a>: verbose assertions for tabular data (data.frames and data.tables).</li>
+<a href="https://CRAN.R-project.org/package=assertable" class="external-link"><strong>assertable</strong></a>: verbose assertions for tabular data (data.frames and data.tables).</li>
 <li>
-<a href="https://CRAN.R-project.org/package=assertthat" class="external-link"><code>assertthat</code></a>: easy pre and post assertions.</li>
+<a href="https://CRAN.R-project.org/package=assertthat" class="external-link"><strong>assertthat</strong></a>: easy pre and post assertions.</li>
 <li>
-<a href="https://CRAN.R-project.org/package=checkmate" class="external-link"><code>checkmate</code></a>: fast and versatile argument checks</li>
+<a href="https://CRAN.R-project.org/package=checkmate" class="external-link"><strong>checkmate</strong></a>: fast and versatile argument checks</li>
 <li>
-<a href="https://CRAN.R-project.org/package=chk" class="external-link"><code>chk</code></a>: check user-supplied function arguments</li>
+<a href="https://CRAN.R-project.org/package=chk" class="external-link"><strong>chk</strong></a>: check user-supplied function arguments</li>
 <li>
-<a href="https://CRAN.R-project.org/package=erify" class="external-link"><code>erify</code></a>: check arguments and generate readable error messages</li>
+<a href="https://CRAN.R-project.org/package=erify" class="external-link"><strong>erify</strong></a>: check arguments and generate readable error messages</li>
 </ul>
 </div>
 </div>
-
   </main><aside class="col-md-3"><div class="table-of-contents">
 <h2 data-toc-skip>Table of contents</h2>
 <ul class="list-unstyled">

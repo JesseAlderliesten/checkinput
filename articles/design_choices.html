@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,49 +77,50 @@
 <div class="section level2">
 <h2 id="introduction-and-notation">Introduction and notation<a class="anchor" aria-label="anchor" href="#introduction-and-notation"></a>
 </h2>
-<p>This vignette explains the design choices of <code>checkinput</code>.
-It also shows how to get a named boolean vector indicating for each
-element of <code>x</code> if it is <code>TRUE</code> or
-<code>FALSE</code> according to the check functions.</p>
+<p>This vignette explains the design choices of
+<strong>checkinput</strong>. It also shows how to get a named boolean
+vector indicating for each element of <code>x</code> if it is
+<code>TRUE</code> or <code>FALSE</code> according to the check
+functions.</p>
 </div>
 <div class="section level2">
-<h2 id="type-of-x">Type of x<a class="anchor" aria-label="anchor" href="#type-of-x"></a>
+<h2 id="type-of-x">Type of <code>x</code><a class="anchor" aria-label="anchor" href="#type-of-x"></a>
 </h2>
-<p>The check functions of <code>checkinput</code> return either
+<p>The check functions of <strong>checkinput</strong> return either
 <code>TRUE</code> or <code>FALSE</code> and do <strong>not</strong>
 throw errors for any input to <code>x</code>: throwing an error about
 <code>x</code> is deferred to <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">base::stopifnot()</a></code> in which
-calls to functions from <code>checkinput</code> are typically wrapped
-when they are used inside other functions. Errors <strong>are</strong>
-thrown about invalid input to arguments other than <code>x</code>, e.g.,
-when values other than <code>TRUE</code> or <code>FALSE</code> are used
-for <code>allow_NA</code>.</p>
-<p>The default arguments make functions of <code>checkinput</code> more
-restrictive than the equivalent functions in base R because the
-functions of <code>checkinput</code> are intended for argument checking.
-For example, <code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> by default returns
-<code>FALSE</code> for <code>logical(0)</code> because zero-length
-<code>x</code> is usually unwanted in function arguments, whereas
-<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code> returns <code>TRUE</code> for
+calls to functions from <strong>checkinput</strong> are typically
+wrapped when they are used inside other functions. Errors
+<strong>are</strong> thrown about invalid input to arguments other than
+<code>x</code>, e.g., when values other than <code>TRUE</code> or
+<code>FALSE</code> are used for argument <code>allow_NA</code>.</p>
+<p>The default arguments make functions of <strong>checkinput</strong>
+more restrictive than the equivalent functions in base R because the
+functions of <strong>checkinput</strong> are intended for argument
+checking. For example, <code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> by default
+returns <code>FALSE</code> for <code>logical(0)</code> because
+zero-length <code>x</code> is usually unwanted in function arguments,
+whereas <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code> returns <code>TRUE</code> for
 <code>logical(0)</code> because it has <code>type</code> logical.</p>
 </div>
 <div class="section level2">
-<h2 id="length-of-x">Length of x<a class="anchor" aria-label="anchor" href="#length-of-x"></a>
+<h2 id="length-of-x">Length of <code>x</code><a class="anchor" aria-label="anchor" href="#length-of-x"></a>
 </h2>
-<p>By default, the check functions starting with <code>is_</code> only
-return <code>TRUE</code> for <code>x</code> of length one (with the
-obvious exception of <code>is_zerolength(x)</code>) and the check
-functions starting with <code>all_</code> return <code>TRUE</code> for
-<code>x</code> of length larger than zero. Set argument
-<code>allow_zero</code> to <code>TRUE</code> to let them also return
-<code>TRUE</code> for zero-length <code>x</code> of the correct type.
-See <code><a href="../reference/is_zerolength.html">help("is_zerolength")</a></code> and
+<p>By default, the <code>is_*</code> check functions only return
+<code>TRUE</code> for <code>x</code> of length one (with the obvious
+exception of <code>is_zerolength(x)</code>) and the <code>all_*</code>
+check functions return <code>TRUE</code> for <code>x</code> of length
+larger than zero. Set argument <code>allow_zero</code> to
+<code>TRUE</code> to let check functions also return <code>TRUE</code>
+for zero-length <code>x</code> of the correct type. See
+<code><a href="../reference/is_zerolength.html">help("is_zerolength")</a></code> and
 <code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code> for a
 discussion of some issues with zero-length input.</p>
 </div>
 <div class="section level2">
 <h2 id="na-and-nan-in-x">
-<code>NA</code> and <code>NaN</code> in x<a class="anchor" aria-label="anchor" href="#na-and-nan-in-x"></a>
+<code>NA</code> and <code>NaN</code> in <code>x</code><a class="anchor" aria-label="anchor" href="#na-and-nan-in-x"></a>
 </h2>
 <p>By default, the check functions return <code>FALSE</code> for
 <code>x</code> containing <code>NA</code> or <code>NaN</code>. Set
@@ -132,20 +133,21 @@ correct type, and set argument <code>allow_NaN</code> in functions like
 <div class="section level2">
 <h2 id="return">Return<a class="anchor" aria-label="anchor" href="#return"></a>
 </h2>
-<p>The check functions of <code>checkinput</code> return either
+<p>The check functions of <strong>checkinput</strong> return either
 <code>TRUE</code> or <code>FALSE</code>. To get a named boolean vector
-indicating for each element of <code>x</code> if it <code>TRUE</code> or
-<code>FALSE</code> according to the check functions, use
-<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_&lt;func&gt;)</code>
+indicating for each element of <code>x</code> if it is <code>TRUE</code>
+or <code>FALSE</code> according to the check functions, use
+<code>vapply(X = x, FUN = all_&lt;func&gt;, FUN.VALUE = logical(1))</code>
 instead of <code>all_&lt;func&gt;(x)</code>, where
 <code>all_&lt;func&gt;</code> should be replaced with the relevant
 function name. For example, to check which elements of <code>x</code>
 are valid names, use
-<code>vapply(X = x, FUN.VALUE = logical(1), FUN = all_names)</code>
+<code>vapply(X = x, FUN = all_names, FUN.VALUE = logical(1))</code>
 instead of <code>all_names(x)</code>. Other function arguments passed to
 <code><a href="../reference/all_names.html">all_names()</a></code>, e.g., <code>allow_underscores = FALSE</code>
 to not allow underscores, should be placed behind argument
-<code>x</code>.</p>
+<code>FUN.VALUE</code>:
+<code>vapply(X = x, FUN = all_names, FUN.VALUE = logical(1), allow_underscores = FALSE)</code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -1,4 +1,4 @@
-# Check that `x` is a valid path
+# Check that x is a Valid Path
 
 Check that `x` is a valid path, possibly containing a valid filename.
 
@@ -34,25 +34,25 @@ restrictions:
   string](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
 
 - `x` should end in a slash if it is only a volume name: `C:\`, **not**
-  `C:`.
+  `C:`
 
 - `x` should **not** be a relative path of the form `D:path` or
   `d:path`: such paths are not guaranteed to work with functions like
   [`file.create()`](https://rdrr.io/r/base/files.html). Use `D:./path`
-  or `d:./path` instead.
+  or `d:./path` instead
 
 - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
-  `>`, nor any of the control characters (`[:cntrl:]`, with `ASCII`
-  octal codes 000 through 037 and 177, see
-  [`help("regex")`](https://rdrr.io/r/base/regex.html)).
+  `>`, nor any of the control characters (`[:cntrl:]`, with ASCII octal
+  codes `000` through `037` and `177`, see
+  [`help("regex")`](https://rdrr.io/r/base/regex.html))
 
 - `x` should **not** contain colons (`:`) after the first path component
-  (Windows only allows colons to indicate volume names like `C:\`).
+  (Windows only allows colons to indicate volume names like `C:\`)
 
 - path components (i.e., parts separated by file separators `/` or `\\`)
   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`,
   `NUL`, `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive
-  variants of these names, or these names followed by an extension.
+  variants of these names, or these names followed by an extension
 
 - path components should **not** end with a space
 
@@ -67,7 +67,7 @@ restrictions:
   **should** adhere to the restrictions listed above (although it
   **may** contain the Windows-reserved terms listed above), and in
   addition should **not** contain a colon (`:`), **nor** start with a
-  space or a hyphen (`-`), **nor** end with a slash or backslash.
+  space or a hyphen (`-`), **nor** end with a slash or backslash
 
 These restrictions on `x` consider characters and path components that
 are **not** allowed in Windows and thus would lead to an error when used
@@ -82,23 +82,23 @@ that might give problems when used in the shell.
 - `x` does **not** have to contain any file separator if `require_sep`
   is `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to
   check that filename `x` only contains allowed characters (given that
-  `x` ends in a file extension).
+  `x` ends in a file extension)
 
 - `x` might contain trailing file separators if it does **not** end in a
   file extension, although these trailing file separators might be
   ignored or removed in some operations (e.g., they are removed by
   [`file.path()`](https://rdrr.io/r/base/file.path.html) and
-  [`fs::path()`](https://fs.r-lib.org/reference/path.html)).
+  [`fs::path()`](https://fs.r-lib.org/reference/path.html))
 
 - `x` might contain successive file separators (e.g., `//` or `\\\\`):
   these should be treated by the operating system as if they were only a
-  single file separator.
+  single file separator
 
 `is_path()` does **not** check that the path in `x` points to an
 existing file or folder, **nor** that such a file or folder can be
 created.
 
-## Notes on paths
+## Notes on Paths
 
 The file separator is a backslash (`\`) on Windows but a forward slash
 (`/`) on other operating systems: use
@@ -131,7 +131,7 @@ Paths can be normalised, e.g., through
 case-insensitive file systems, this also adjusts the case to match names
 of directories that are already present.
 
-## Programming notes
+## Programming Notes
 
 The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
 [`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains
@@ -143,18 +143,19 @@ spurious warnings about duplicated file separators.
 
 ## References
 
-- `Naming files, paths, and namespaces` from
+- 'Naming files, paths, and namespaces' from
   [Microsoft](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file)
 
 - Entries
-  [`Filename`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
-  [`Portable filenames`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
+  [Filename](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
+  [Portable
+  filenames](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
   and
-  [`Pathname`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
+  [Pathname](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
   from the Posix standard
   [POSIX.1-2024](https://pubs.opengroup.org/onlinepubs/9799919799/)
 
-- `Comparison of file systems` from
+- 'Comparison of file systems' from
   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 
 ## See also
@@ -186,8 +187,9 @@ documentation on checking existence, permissions, and other information
 about files or directories
 
 Section 'Paths in the shell' in the vignette *Git and GitHub* of package
-`checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths
-and file separators in the [shell](https://happygitwithr.com/shell).
+`checkrpkgs` on paths and file separators in the
+[shell](https://happygitwithr.com/shell):
+`vignette("git_github", package = "checkrpkgs")`.
 
 Other collections of checks on type and length:
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
@@ -230,7 +232,8 @@ is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 #> '/home/runner/work/checkinput/checkinput/docs/reference/ab:cd.txt'
 #> [1] FALSE
 
-# Other illegal characters are not allowed in either paths or filenames
+# Other illegal characters are not allowed
+# in either paths or filenames
 is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 #> Warning: 'fs::path_wd("ab|cd")' should not contain '"', '*', '?', '|', '<' or '>':
 #> '/home/runner/work/checkinput/checkinput/docs/reference/ab|cd'

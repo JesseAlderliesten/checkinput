@@ -1,6 +1,7 @@
-# Check that `x` is logical
+# Check that x is Logical
 
-Check that `x` is a length-one logical vector with only allowed values.
+Check that `x` is a length-one [logical
+vector](https://rdrr.io/r/base/logical.html) with only allowed values.
 
 ## Usage
 
@@ -18,7 +19,7 @@ is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 
   `TRUE` or `FALSE`: allow
   [zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-  `x` of the correct type?
+  `x` of the correct [type](https://rdrr.io/r/base/typeof.html)?
 
 - allow_NA:
 

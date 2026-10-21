@@ -1,6 +1,8 @@
-# Check that `x` contains syntactically valid, unadjusted names
+# Check that x Contains Syntactically Valid, Unadjusted Names
 
-Check that `x` is a character vector with unique, syntactically valid
+Check that `x` is a [character
+vector](https://rdrr.io/r/base/character.html) with
+[unique](https://rdrr.io/r/base/make.unique.html), syntactically valid
 names that do not suggest they were adjusted or automatically created.
 
 ## Usage
@@ -45,8 +47,8 @@ depends on the current [locale](https://rdrr.io/r/base/locales.html),
 such that names containing accented letters like `é` and letters that
 are only present in some alphabets like the German Eszett are allowed by
 `all_names()` if these characters are encoded in the used locale (see
-the `Programming notes` on a stricter check that would not allow these
-characters letters).
+the 'Programming Notes' on a stricter check that would not allow these
+characters).
 
 Names that consist of only dots, or consist of two dots followed by a
 number, are not allowed by `all_names()` (nor by
@@ -79,15 +81,14 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
 
   - [`make.names()`](https://rdrr.io/r/base/make.names.html) and
     `vctrs::vec_as_names(x, repair = "universal")` replace such
-    characters with a dot
-
-  - Their identification is based on the assumption that names
-    originally did **not** contain dots, which is good practice
-    preventing names containing a dot from being confused with
-    [methods](https://rdrr.io/r/base/UseMethod.html) used on [classed
-    objects](https://rdrr.io/r/base/is.object.html), even though that
-    practice is not strictly followed in base R, e.g., in the function
-    name [`data.frame()`](https://rdrr.io/r/base/data.frame.html).
+    characters with a dot. Their identification by `all_names()` is
+    based on the assumption that names originally did **not** contain
+    dots, which is good practice preventing names containing a dot from
+    being confused with [methods](https://rdrr.io/r/base/UseMethod.html)
+    used on [classed objects](https://rdrr.io/r/base/is.object.html),
+    even though that practice is not strictly followed in base R, e.g.,
+    in the function name
+    [`data.frame()`](https://rdrr.io/r/base/data.frame.html).
 
 - adjustments to make duplicated names unique:
 
@@ -132,7 +133,7 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
 
   - [`data.frame()`](https://rdrr.io/r/base/data.frame.html) creates
     names in a complex way, see the Section `Value` in
-    [data.frame](https://rdrr.io/r/base/data.frame.html) for some
+    [`data.frame()`](https://rdrr.io/r/base/data.frame.html) for some
     details. `all_names()` only detects names created for unnamed
     columns if the names were syntactically invalid and therefore got
     `X` put in front of them.
@@ -148,7 +149,7 @@ allow such names is useful to check that names do not contain
 underscores, for example if several names will be concatenated to create
 an ID-tag, separating the names by underscores.
 
-## Programming notes
+## Programming Notes
 
 The patterns used to identify suspicious names are created using
 [regular expressions](https://rdrr.io/r/base/regex.html) with the
@@ -177,7 +178,7 @@ and underscores. Implementations of such a conservative check should use
 the literal string
 `[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]`
 instead of shorthands like `[:alnum:]` or `[0-9A-Za-z]` that also depend
-on the locale, see section `Extended Regular Expressions` in
+on the locale, see the section 'Extended Regular Expressions' in
 [regex](https://rdrr.io/r/base/regex.html). See
 [Encoding](https://rdrr.io/r/base/Encoding.html),
 [locales](https://rdrr.io/r/base/locales.html),
@@ -189,16 +190,15 @@ encodings and character sets. Furthermore, see
 encodings; package [stringi](https://CRAN.R-project.org/package=stringi)
 that provides facilities to process character strings;
 [`tools::showNonASCII()`](https://rdrr.io/r/tools/showNonASCII.html) to
-show the non-ASCII bytes; and `janitor::make_clean_names()` to
-transliterate non-ASCII characters.
+show non-ASCII bytes; and `janitor::make_clean_names()` to transliterate
+non-ASCII characters.
 
 ## See also
 
-Section `Details` of
-[`make.names()`](https://rdrr.io/r/base/make.names.html), section
-`Names and Identifiers` of
-[`Quotes()`](https://rdrr.io/r/base/Quotes.html), and the [R FAQ about
-valid
+Section 'Details' of
+[`make.names()`](https://rdrr.io/r/base/make.names.html), section 'Names
+and Identifiers' of [`Quotes()`](https://rdrr.io/r/base/Quotes.html),
+and the [R FAQ about valid
 names](https://CRAN.R-project.org/doc/manuals/R-FAQ.html#What-are-valid-names_003f)
 on the syntactical validity of names.
 
@@ -226,8 +226,9 @@ all_names(x = c("a", "b2a", "a")) # FALSE: duplicated name
 #> [1] FALSE
 
 invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
-# Syntactically invalid names: the character '#' makes names invalid,
-# '""' is an empty name, 'for', '..', and '..23' are reserved words.
+# Syntactically invalid names: the character '#' makes names
+# invalid, '""' is an empty name, 'for', '..', and '..23' are
+# reserved words.
 all_names(x = invalid_names) # FALSE
 #> Warning: Names are syntactically invalid: 'ab#cd', 'for', '""' (i.e., an empty string); and consist of only dots, which is a reserved word: '..'; and consist of two dots followed by digits, which is a reserved word: '..23'.
 #> Use 'invalid_names <- make.names(invalid_names, unique = TRUE)' to create unique, syntactically valid names
@@ -246,7 +247,8 @@ all_names(x = c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
 #> Warning: Names are suspicious: 'e.2', 'a.1b', '.TRUE', '..22c', 'a...2', 'V3', 'X.2', 'X0...11', 'X0.3', 'X3'
 #> [1] FALSE
 
-all_names(x = "abc_def", allow_underscores = FALSE) # FALSE: underscores
+# FALSE: underscores:
+all_names(x = "abc_def", allow_underscores = FALSE)
 #> Warning: Names contain underscores (which are not allowed if 'allow_underscores' is FALSE):
 #> 'abc_def'.
 #> Use '"abc_def" <- make.names("abc_def", unique = TRUE, allow_ = FALSE)' to create unique,

@@ -1,4 +1,4 @@
-# Quote and concatenate `x` to a string
+# Quote and Concatenate to a String
 
 Quote elements of a vector and concatenate the result to a single
 character string.
@@ -77,10 +77,12 @@ paste_quoted(c(3, 4)) # "'3', '4'"
 #> [1] "'3', '4'"
 paste_quoted(NULL) # "'NULL'"
 #> [1] "'NULL'"
-paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
+# Warns about dropping names:
+paste_quoted(c(a = 3, b = 4)) # "'3', '4'"
 #> Warning: 'x' has names, these will be discarded.
 #> Use progutils::vect_to_char() instead of paste_quoted() to preserve names of numeric 'x'.
 #> [1] "'3', '4'"
-paste_quoted(c(3, 4), collapse = "\n") # separate '3' and '4' by a newline
+# separate '3' and '4' by a newline:
+paste_quoted(c(3, 4), collapse = "\n")
 #> [1] "'3'\n'4'"
 ```

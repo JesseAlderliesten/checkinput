@@ -7,8 +7,8 @@ a vector (see [`help("c")`](https://rdrr.io/r/base/c.html)). The type of
 the vector, and thus of all its components, will be the highest type of
 the components in the hierarchy `NULL` \< `raw` \< `logical` \<
 `integer` \< `double` \< `complex` \< `character` \< `list` \<
-`expression`, see the section `Details` in
-[`help("c")`](https://rdrr.io/r/base/c.html) and the section `Value` in
+`expression`, see the section ‘Details’ in
+[`help("c")`](https://rdrr.io/r/base/c.html) and the section ‘Value’ in
 [`help("typeof")`](https://rdrr.io/r/base/typeof.html). For example,
 numeric `314` will be coerced to character `"314"` when it is combined
 in a vector with character `"nco"`, such that `c(314, "nco")` results in
@@ -41,27 +41,27 @@ logiNA_char[1]
 ## Consequences for checks
 
 As a consequence of type coercion, code like `all_characters(c(x, y))`
-does **not** check if all elements in `x` and `y` have type character:
+does **not** check if all elements in `x` and `y` have type `character`:
 `x` and `y` will be coerced to the highest of their types before the
-check is performed, such that `all_characters(c(x, y))` checks if any of
-`x` or `y` has type character **and** none of `x` or `y` has a higher
-type.
+check is performed,\] such that `all_characters(c(x, y))` checks if any
+of `x` or `y` has type `character` **and** none of `x` or `y` has a
+higher type.
 
-To check if all elements in `x` and `y` have type character, use
+To check if all elements in `x` and `y` have type `character`, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily
 to more than two objects,
 `all(unlist(lapply(X = list(x, y), FUN = all_characters)))`. Other
 function arguments passed to
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
 e.g., `allow_empty = TRUE` to allow empty quotes (i.e., `""`), should be
-placed behind argument `x`.
+placed behind argument `FUN`.
 
 Elements of a list can have different types. Using
 [`unlist()`](https://rdrr.io/r/base/unlist.html) on a list creates a
 vector, coercing all elements of the list to the highest of their types,
 such that `all_characters(unlist(z))` does **not** check if all elements
-of list `z` are character but if any element of `z` is a character
-**and** none of the elements of `z` is of a higher type.
+of list `z` have type `character` but if any element of `z` has type
+`character` **and** none of the elements of `z` has a higher type.
 
 ``` r
 
@@ -114,10 +114,9 @@ Although zero-length objects (see
 [`help("is_zerolength")`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md))
 are discarded when combined into a vector with other values, their types
 are taken into account for type coercion. For example, numeric `314`
-will be coerced to character `"314"` when it is combined into a vector
-with zero-length `character(0)`, such that `c(314, character(0))`
-results in the character string `"314"`, **not** in the numeric value
-`314`.
+will be coerced to character `"314"` when combined into a vector with
+zero-length `character(0)`, such that `c(314, character(0))` results in
+the character string `"314"`, **not** in the numeric value `314`.
 
 ``` r
 
@@ -154,11 +153,11 @@ str(c(num, zerochar))
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #> [1] checkinput_1.5.0
+    #> [1] checkinput_1.5.1
     #> 
     #> loaded via a namespace (and not attached):
     #>  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    
-    #>  [5] xfun_0.61         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  
+    #>  [5] xfun_0.62         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  
     #>  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.4.10      
     #> [13] pkgdown_2.2.1     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2
     #> [17] compiler_4.6.1    tools_4.6.1       ragg_1.5.2        bslib_0.12.0     
