@@ -3,7 +3,7 @@
 \name{all_characters}
 \alias{all_characters}
 \alias{is_character}
-\title{Check that \code{x} is character}
+\title{Check that x is Character}
 \usage{
 all_characters(
   x,
@@ -25,7 +25,7 @@ is_character(
 \item{allow_empty}{\code{TRUE} or \code{FALSE}: allow empty strings (\code{""}) in \code{x}?}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
+\link[=is_zerolength]{zero-length} \code{x} of the correct \link[=typeof]{type}?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA} of the correct type in \code{x}?}
 }
@@ -34,8 +34,8 @@ is_character(
 correct length with only allowed values.
 }
 \description{
-Check that \code{x} is a character vector of the correct length with only allowed
-values.
+Check that \code{x} is a \link[=is.character]{character vector} of the correct length
+with only allowed values.
 }
 \details{
 \code{is_character()} and \code{all_characters()} return \code{TRUE} for empty strings
@@ -44,8 +44,7 @@ values.
 
 \code{is_character()} returns \code{TRUE} for \code{x} with length one and \code{all_characters()}
 returns \code{TRUE} for \code{x} with length larger than zero. Both functions return
-\code{TRUE} for character-type \link[=is_zerolength]{zero-length} \code{x} if
-\code{allow_zerolength} is \code{TRUE}.
+\code{TRUE} for character-type zero-length \code{x} if \code{allow_zerolength} is \code{TRUE}.
 }
 \examples{
 is_character("a") # TRUE

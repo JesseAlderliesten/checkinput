@@ -2,7 +2,7 @@
 % Please edit documentation in R/paste_quoted.R
 \name{paste_quoted}
 \alias{paste_quoted}
-\title{Quote and concatenate \code{x} to a string}
+\title{Quote and Concatenate to a String}
 \usage{
 paste_quoted(x, collapse = ", ")
 }
@@ -49,15 +49,18 @@ and use \code{progutils::vect_to_char(x)} for numeric \code{x} to preserve names
 \examples{
 paste_quoted(c(3, 4)) # "'3', '4'"
 paste_quoted(NULL) # "'NULL'"
-paste_quoted(c(a = 3, b = 4)) # "'3', '4'" # Warns about dropping names.
-paste_quoted(c(3, 4), collapse = "\n") # separate '3' and '4' by a newline
+# Warns about dropping names:
+paste_quoted(c(a = 3, b = 4)) # "'3', '4'"
+# separate '3' and '4' by a newline:
+paste_quoted(c(3, 4), collapse = "\n")
 
 }
 \seealso{
 \code{\link[=toString]{toString()}} which is shorthand for \code{paste(x, collapse = ", ")};
 \code{\link{Quotes}} and \code{\link[=sQuote]{sQuote()}} for documentation on quotes;
 \code{\link[=paste0]{paste0()}};
-\code{progutils::unpaste_unquote()} for the approximate opposite of \code{paste_quoted()};
+\code{progutils::unpaste_unquote()} for the approximate opposite of
+\code{paste_quoted()};
 \code{progutils::vect_to_char()} to preserve names of numeric \code{x}
 }
 \concept{functions to modify character vectors}

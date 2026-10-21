@@ -1,4 +1,4 @@
-#' Check that `x` is a valid path
+#' Check that x is a Valid Path
 #'
 #' Check that `x` is a valid path, possibly containing a valid filename.
 #'
@@ -11,20 +11,19 @@
 #' directory or a file. Therefore it imposes the following restrictions:
 #'
 #' - `x` should be a non-empty [character string][is_character()]
-#' - `x` should end in a slash if it is only a volume name: `C:\`, **not** `C:`.
+#' - `x` should end in a slash if it is only a volume name: `C:\`, **not** `C:`
 #' - `x` should **not** be a relative path of the form `D:path` or `d:path`:
 #'   such paths are not guaranteed to work with functions like `file.create()`.
-#'   Use `D:./path` or `d:./path` instead.
+#'   Use `D:./path` or `d:./path` instead
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
-#'   any of the control characters (`[:cntrl:]`, with `ASCII` octal codes 000
-#'   through 037 and 177,
-#'   see `help("regex")`).
+#'   any of the control characters (`[:cntrl:]`, with ASCII octal codes `000`
+#'   through `037` and `177`, see `help("regex")`)
 #' - `x` should **not** contain colons (`:`) after the first path component
-#'   (Windows only allows colons to indicate volume names like `C:\`).
+#'   (Windows only allows colons to indicate volume names like `C:\`)
 #' - path components (i.e., parts separated by file separators `/` or `\\`)
 #'   should **not** be the Windows-reserved terms `CON`, `PRN`, `AUX`, `NUL`,
 #'   `COM<non-zero digit>`, `LPT<non-zero digit>`, case-insensitive variants of
-#'   these names, or these names followed by an extension.
+#'   these names, or these names followed by an extension
 #' - path components should **not** end with a space
 #' - path components should **not** end with a dot, with the exception of `"."`
 #'   and `".."` that are allowed as first component to indicate the
@@ -33,31 +32,30 @@
 #'   implementation does not distinguish those from each other), the part after
 #'   the last slash is considered the filename, which **should** adhere to the
 #'   restrictions listed above (although it **may** contain the Windows-reserved
-#'   terms listed above), and in addition should **not**
-#'   contain a colon (`:`), **nor** start with a space or a hyphen (`-`),
-#'   **nor** end with a slash or backslash.
+#'   terms listed above), and in addition should **not** contain a colon (`:`),
+#'   **nor** start with a space or a hyphen (`-`), **nor** end with a slash or
+#'   backslash
 #'
 #' These restrictions on `x` consider characters and path components that are
-#' **not** allowed
-#' in Windows and thus would lead to an error when used to create a directory or
-#' file; characters that are silently removed in Windows and thus would lead to
-#' a mismatch between the created directory and the returned path when used to
-#' create a directory; and characters that might give problems when used in the
-#' shell.
+#' **not** allowed in Windows and thus would lead to an error when used to
+#' create a directory or file; characters that are silently removed in Windows
+#' and thus would lead to a mismatch between the created directory and the
+#' returned path when used to create a directory; and characters that might give
+#' problems when used in the shell.
 #'
 #' `is_path()` is lenient with respect to file separators (i.e., `/` or `\\`):
 #'
 #' -  `x` does **not** have to contain any file separator if `require_sep` is
 #'   `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to check
 #'   that filename `x` only contains allowed characters (given that `x` ends in
-#'   a file extension).
+#'   a file extension)
 #' - `x` might contain trailing file separators if it does **not** end in a
 #'   file extension, although these trailing file separators might be ignored
 #'   or removed in some operations (e.g., they are removed by [file.path()] and
-#'   [fs::path()]).
+#'   [fs::path()])
 #' - `x` might contain successive file separators (e.g., `//` or `\\\\`): these
 #'   should be treated by the operating system as if they were only a single
-#'   file separator.
+#'   file separator
 #'
 #' `is_path()` does **not** check that the path in `x` points to an existing
 #' file or folder, **nor** that such a file or folder can be created.
@@ -66,16 +64,15 @@
 #' `TRUE` or `FALSE` indicating if `x` is a valid path, possibly containing a
 #' valid filename.
 #'
-#' @section Notes on paths:
+#' @section Notes on Paths:
 #' The file separator is a backslash (`\`) on Windows but a forward slash (`/`)
 #' on other operating systems: use [file.path()] or [fs::path()] to construct
 #' paths in a platform-independent way and [.Platform$file.sep][.Platform] to
 #' get the file separator used on the current platform.
 #'
-#' Furthermore, the backslash is also used as
-#' [escape character][regex] in \R, such that backslashes need to be escaped in
-#' \R code by doubling them. Use `cat(x)` to omit the escape characters to see
-#' how `x` would be printed.
+#' Furthermore, the backslash is also used as [escape character][regex] in \R,
+#' such that backslashes need to be escaped in \R code by doubling them. Use
+#' `cat(x)` to omit the escape characters to see how `x` would be printed.
 #'
 #' The [working directory][getwd()] can be indicated by a single dot (`"."`) and
 #' the parent directory can be indicated by two dots (`".."`).
@@ -90,25 +87,26 @@
 #' this also adjusts the case to match names of directories that are already
 #' present.
 #'
-#' @section Programming notes:
+#' @section Programming Notes:
 #' The output of [tempdir()] during
-#' [`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains successive
-#' forward slashes (e.g., `/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`)
-#' which in earlier versions of [checkinput::is_path()] (then in package
-#' [progutils](https://jessealderliesten.github.io/progutils/)) led to
-#' spurious warnings about duplicated file separators.
+#' [`R CMD checks`](https://r-pkgs.org/R-CMD-check.html) on MacOS contains
+#' successive forward slashes (e.g.,
+#' `/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier versions
+#' of [checkinput::is_path()] (then in package
+#' [progutils](https://jessealderliesten.github.io/progutils/)) led to spurious
+#' warnings about duplicated file separators.
 #'
 #' @section References:
-#' - `Naming files, paths, and namespaces` from
+#' - 'Naming files, paths, and namespaces' from
 #'   [Microsoft](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file)
 #' - Entries
-#'   [`Filename`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
-#'   [`Portable filenames`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
+#'   [Filename](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146),
+#'   [Portable filenames](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264)
 #'   and
-#'   [`Pathname`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
+#'   [Pathname](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254)
 #'   from the Posix standard
 #'   [POSIX.1-2024](https://pubs.opengroup.org/onlinepubs/9799919799/)
-#' - `Comparison of file systems` from
+#' - 'Comparison of file systems' from
 #'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
 #'
 #' @seealso
@@ -125,15 +123,15 @@
 #' [`progutils::get_file_path()`](https://jessealderliesten.github.io/progutils/reference/get_file_path.html)
 #' to check if a file exists and is a unique match to a pattern, and
 #' [fs::file_exists()] and [list.files()] (which **includes** directories in its
-#' output) to do
-#' so without checking they are a unique match to a pattern;
+#' output) to do so without checking they are a unique match to a pattern;
 #' [file.info()], [file.access()], [utils::file_test()] and their documentation
 #' on checking existence, permissions, and other information about files or
 #' directories
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
-#' `checkrpkgs` (`vignette("git_github", package = "checkrpkgs")`) on paths and
-#' file separators in the [shell](https://happygitwithr.com/shell).
+#' `checkrpkgs` on paths and file separators in the
+#' [shell](https://happygitwithr.com/shell):
+#' `vignette("git_github", package = "checkrpkgs")`.
 #'
 #' @family
 #' collections of checks on type and length
@@ -152,7 +150,8 @@
 #' is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
 #' is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 #'
-#' # Other illegal characters are not allowed in either paths or filenames
+#' # Other illegal characters are not allowed
+#' # in either paths or filenames
 #' is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 #' is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 #'
@@ -179,8 +178,8 @@ is_path <- function(x, require_sep = TRUE) {
             "name:\n", fs::path(x))
   }
 
-  # Path with a colon as second character should be followed by a character that
-  # is not a path separator
+  # Path with a colon as second character should be followed
+  # by a character that is not a path separator
   if(grepl(pattern = "^.:[^/\\]+", x = x)) {
     path_ok <- FALSE
     warning("The form of relative path ", arg_name, " is invalid:\n",
@@ -188,8 +187,8 @@ is_path <- function(x, require_sep = TRUE) {
   }
 
   # Notes:
-  # - base::split(x = x, f = c("/", "\\")) does not work because that recycles
-  #   'split' along 'x'
+  # - base::split(x = x, f = c("/", "\\")) does not
+  #   work because that recycles 'split' along 'x'
   # - fs::path_split() removes successive and trailing slashes before splitting.
   #   That is not a problem because such slashes are allowed by 'is_path()'
   #   because the operating system should ignore those anyway.
@@ -208,11 +207,11 @@ is_path <- function(x, require_sep = TRUE) {
             paste_quoted(x))
   }
 
-  Windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
+  windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
                         "nul", "prn")
-  if(any(Windows_reserved %in% tolower(path_comp))) {
+  if(any(windows_reserved %in% tolower(path_comp))) {
     path_ok <- FALSE
-    reserved_comp <- path_comp[tolower(path_comp) %in% Windows_reserved]
+    reserved_comp <- path_comp[tolower(path_comp) %in% windows_reserved]
     warning("Components of ", arg_name,
             " should not contain Windows-reserved names (",
             paste_quoted(reserved_comp), "):\n", paste_quoted(x))
@@ -228,8 +227,8 @@ is_path <- function(x, require_sep = TRUE) {
   }
 
   bool_path_dot <- endsWith(x = path_comp, suffix = ".")
-  # "." and ".." are allowed as first path component to denote the working
-  # directory and the parent directory, respectively
+  # "." and ".." are allowed as first path component to denote
+  # the working directory and the parent directory, respectively
   if(bool_path_dot[1] && path_comp[1] %in% c(".", "..")) {
     bool_path_dot[1] <- FALSE
   }

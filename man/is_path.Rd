@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_path.R
 \name{is_path}
 \alias{is_path}
-\title{Check that \code{x} is a valid path}
+\title{Check that x is a Valid Path}
 \usage{
 is_path(x, require_sep = TRUE)
 }
@@ -24,20 +24,19 @@ Check that \code{x} is a valid path, possibly containing a valid filename.
 directory or a file. Therefore it imposes the following restrictions:
 \itemize{
 \item \code{x} should be a non-empty \link[=is_character]{character string}
-\item \code{x} should end in a slash if it is only a volume name: \verb{C:\\}, \strong{not} \verb{C:}.
+\item \code{x} should end in a slash if it is only a volume name: \verb{C:\\}, \strong{not} \verb{C:}
 \item \code{x} should \strong{not} be a relative path of the form \code{D:path} or \code{d:path}:
 such paths are not guaranteed to work with functions like \code{file.create()}.
-Use \code{D:./path} or \code{d:./path} instead.
+Use \code{D:./path} or \code{d:./path} instead
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
-any of the control characters (\verb{[:cntrl:]}, with \code{ASCII} octal codes 000
-through 037 and 177,
-see \code{help("regex")}).
+any of the control characters (\verb{[:cntrl:]}, with ASCII octal codes \code{000}
+through \code{037} and \code{177}, see \code{help("regex")})
 \item \code{x} should \strong{not} contain colons (\code{:}) after the first path component
-(Windows only allows colons to indicate volume names like \verb{C:\\}).
+(Windows only allows colons to indicate volume names like \verb{C:\\})
 \item path components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
 should \strong{not} be the Windows-reserved terms \code{CON}, \code{PRN}, \code{AUX}, \code{NUL},
 \verb{COM<non-zero digit>}, \verb{LPT<non-zero digit>}, case-insensitive variants of
-these names, or these names followed by an extension.
+these names, or these names followed by an extension
 \item path components should \strong{not} end with a space
 \item path components should \strong{not} end with a dot, with the exception of \code{"."}
 and \code{".."} that are allowed as first component to indicate the
@@ -46,48 +45,46 @@ and \code{".."} that are allowed as first component to indicate the
 implementation does not distinguish those from each other), the part after
 the last slash is considered the filename, which \strong{should} adhere to the
 restrictions listed above (although it \strong{may} contain the Windows-reserved
-terms listed above), and in addition should \strong{not}
-contain a colon (\code{:}), \strong{nor} start with a space or a hyphen (\code{-}),
-\strong{nor} end with a slash or backslash.
+terms listed above), and in addition should \strong{not} contain a colon (\code{:}),
+\strong{nor} start with a space or a hyphen (\code{-}), \strong{nor} end with a slash or
+backslash
 }
 
 These restrictions on \code{x} consider characters and path components that are
-\strong{not} allowed
-in Windows and thus would lead to an error when used to create a directory or
-file; characters that are silently removed in Windows and thus would lead to
-a mismatch between the created directory and the returned path when used to
-create a directory; and characters that might give problems when used in the
-shell.
+\strong{not} allowed in Windows and thus would lead to an error when used to
+create a directory or file; characters that are silently removed in Windows
+and thus would lead to a mismatch between the created directory and the
+returned path when used to create a directory; and characters that might give
+problems when used in the shell.
 
 \code{is_path()} is lenient with respect to file separators (i.e., \code{/} or \verb{\\\\}):
 \itemize{
 \item \code{x} does \strong{not} have to contain any file separator if \code{require_sep} is
 \code{FALSE}, such that \code{is_path(x, require_sep = FALSE)} can be used to check
 that filename \code{x} only contains allowed characters (given that \code{x} ends in
-a file extension).
+a file extension)
 \item \code{x} might contain trailing file separators if it does \strong{not} end in a
 file extension, although these trailing file separators might be ignored
 or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}} and
-\code{\link[fs:path]{fs::path()}}).
+\code{\link[fs:path]{fs::path()}})
 \item \code{x} might contain successive file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
 should be treated by the operating system as if they were only a single
-file separator.
+file separator
 }
 
 \code{is_path()} does \strong{not} check that the path in \code{x} points to an existing
 file or folder, \strong{nor} that such a file or folder can be created.
 }
-\section{Notes on paths}{
+\section{Notes on Paths}{
 
 The file separator is a backslash (\verb{\\}) on Windows but a forward slash (\code{/})
 on other operating systems: use \code{\link[=file.path]{file.path()}} or \code{\link[fs:path]{fs::path()}} to construct
 paths in a platform-independent way and \link[=.Platform]{.Platform$file.sep} to
 get the file separator used on the current platform.
 
-Furthermore, the backslash is also used as
-\link[=regex]{escape character} in \R, such that backslashes need to be escaped in
-\R code by doubling them. Use \code{cat(x)} to omit the escape characters to see
-how \code{x} would be printed.
+Furthermore, the backslash is also used as \link[=regex]{escape character} in \R,
+such that backslashes need to be escaped in \R code by doubling them. Use
+\code{cat(x)} to omit the escape characters to see how \code{x} would be printed.
 
 The \link[=getwd]{working directory} can be indicated by a single dot (\code{"."}) and
 the parent directory can be indicated by two dots (\code{".."}).
@@ -103,29 +100,30 @@ this also adjusts the case to match names of directories that are already
 present.
 }
 
-\section{Programming notes}{
+\section{Programming Notes}{
 
 The output of \code{\link[=tempdir]{tempdir()}} during
-\href{https://r-pkgs.org/R-CMD-check.html}{\verb{R CMD checks}} on MacOS contains successive
-forward slashes (e.g., \verb{/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR})
-which in earlier versions of \code{\link[=is_path]{is_path()}} (then in package
-\href{https://jessealderliesten.github.io/progutils/}{progutils}) led to
-spurious warnings about duplicated file separators.
+\href{https://r-pkgs.org/R-CMD-check.html}{\verb{R CMD checks}} on MacOS contains
+successive forward slashes (e.g.,
+\verb{/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR}) which in earlier versions
+of \code{\link[=is_path]{is_path()}} (then in package
+\href{https://jessealderliesten.github.io/progutils/}{progutils}) led to spurious
+warnings about duplicated file separators.
 }
 
 \section{References}{
 
 \itemize{
-\item \verb{Naming files, paths, and namespaces} from
+\item 'Naming files, paths, and namespaces' from
 \href{https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file}{Microsoft}
 \item Entries
-\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146}{\code{Filename}},
-\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264}{\verb{Portable filenames}}
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_146}{Filename},
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_264}{Portable filenames}
 and
-\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254}{\code{Pathname}}
+\href{https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_254}{Pathname}
 from the Posix standard
 \href{https://pubs.opengroup.org/onlinepubs/9799919799/}{POSIX.1-2024}
-\item \verb{Comparison of file systems} from
+\item 'Comparison of file systems' from
 \href{https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits}{Wikipedia}
 }
 }
@@ -144,7 +142,8 @@ is_path("D:/") # TRUE
 is_path(fs::path_wd("ab:cd")) # FALSE, warning about ':'
 is_path(fs::path_wd("ab:cd.txt")) # FALSE, warning about ':'
 
-# Other illegal characters are not allowed in either paths or filenames
+# Other illegal characters are not allowed
+# in either paths or filenames
 is_path(fs::path_wd("ab|cd")) # FALSE, warning about '|'
 is_path(fs::path_wd("ab|cd.txt")) # FALSE, warning about '|'
 
@@ -163,15 +162,15 @@ to create a directory if it does not yet exist
 \href{https://jessealderliesten.github.io/progutils/reference/get_file_path.html}{\code{progutils::get_file_path()}}
 to check if a file exists and is a unique match to a pattern, and
 \code{\link[fs:file_exists]{fs::file_exists()}} and \code{\link[=list.files]{list.files()}} (which \strong{includes} directories in its
-output) to do
-so without checking they are a unique match to a pattern;
+output) to do so without checking they are a unique match to a pattern;
 \code{\link[=file.info]{file.info()}}, \code{\link[=file.access]{file.access()}}, \code{\link[utils:file_test]{utils::file_test()}} and their documentation
 on checking existence, permissions, and other information about files or
 directories
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
-\code{checkrpkgs} (\code{vignette("git_github", package = "checkrpkgs")}) on paths and
-file separators in the \href{https://happygitwithr.com/shell}{shell}.
+\code{checkrpkgs} on paths and file separators in the
+\href{https://happygitwithr.com/shell}{shell}:
+\code{vignette("git_github", package = "checkrpkgs")}.
 
 Other collections of checks on type and length:
 \code{\link[=all_characters]{all_characters()}},

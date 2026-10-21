@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_zerolength.R
 \name{is_zerolength}
 \alias{is_zerolength}
-\title{Check that \code{x} is a zero-length object}
+\title{Check that x is a Zero-Length Object}
 \usage{
 is_zerolength(x)
 }
@@ -13,19 +13,19 @@ is_zerolength(x)
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a zero-length object.
 }
 \description{
-Check that \code{x} is a zero-length object
+Check that x is a Zero-Length Object
 }
 \section{Notes}{
 
 \link[=length]{Zero-length} objects can have different \link[=typeof]{types}: NULL
-(\link{NULL}), logical (\code{logical(0)}), integer (\code{integer(0)}), double
+(\code{\link{NULL}}), logical (\code{logical(0)}), integer (\code{integer(0)}), double
 (\code{numeric(0)}), complex (\code{complex(0)}), character (\code{character(0)}), and list
 (\code{\link[=list]{list()}} and \code{\link[=data.frame]{data.frame()}}).
 
-\code{""} is \strong{not} a zero-length object: it has a
-\code{length} of one despite its \link[=nchar]{width} of zero characters. A data frame
-with zero rows is \strong{not} a zero-length object: it has \code{length} equal to the
-number of columns. In contrast, a \code{\link{matrix}} with zero rows \strong{is} a
+\code{""} is \strong{not} a zero-length object: it has a \code{length} of one despite its
+\link[=nchar]{width} of zero characters. A \link[=data.frame]{data frame} with zero
+rows is \strong{not} a zero-length object: it has \code{length} equal to the number of
+columns. In contrast, a \link{matrix} with zero rows \strong{is} a
 zero-length object, see the \code{Examples}.
 
 \code{\link[=is.null]{is.null()}} should be used to check that an object is \code{NULL} and, more
@@ -51,10 +51,12 @@ the character string \code{"314"}, \strong{not} in the numeric value \code{314}.
 \examples{
 is_zerolength(x = character(0)) # TRUE
 is_zerolength(x = 0) # FALSE
-# A matrix with zero rows *is* a zero-length object ...
-is_zerolength(x = as.matrix(data.frame(a = 314))[numeric(0), , drop = FALSE])
-# ... whereas a dataframe with zero rows is *not* a zero-length object.
-is_zerolength(x = data.frame(a = 314)[numeric(0), , drop = FALSE])
+df <- data.frame(a = 314)
+zerorow_df <- df[numeric(0), , drop = FALSE]
+# A matrix with zero rows *is* a zero-length object
+is_zerolength(x = as.matrix(zerorow_df))
+# A dataframe with zero rows is *not* a zero-length object
+is_zerolength(x = zerorow_df)
 
 # Zero-length objects affect type coercion.
 num <- 314

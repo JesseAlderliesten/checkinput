@@ -1,4 +1,4 @@
-#' Check that `x` is a zero-length object
+#' Check that x is a Zero-Length Object
 #'
 #' @inheritParams is_logical x
 #'
@@ -6,14 +6,14 @@
 #'
 #' @section Notes:
 #' [Zero-length][length()] objects can have different [types][typeof()]: NULL
-#' ([NULL]), logical (`logical(0)`), integer (`integer(0)`), double
+#' ([`NULL`]), logical (`logical(0)`), integer (`integer(0)`), double
 #' (`numeric(0)`), complex (`complex(0)`), character (`character(0)`), and list
 #' ([list()] and [data.frame()]).
 #'
-#' `""` is **not** a zero-length object: it has a
-#' `length` of one despite its [width][nchar()] of zero characters. A data frame
-#' with zero rows is **not** a zero-length object: it has `length` equal to the
-#' number of columns. In contrast, a [`matrix`][matrix()] with zero rows **is** a
+#' `""` is **not** a zero-length object: it has a `length` of one despite its
+#' [width][nchar()] of zero characters. A [data frame][data.frame()] with zero
+#' rows is **not** a zero-length object: it has `length` equal to the number of
+#' columns. In contrast, a [matrix][matrix()] with zero rows **is** a
 #' zero-length object, see the `Examples`.
 #'
 #' [is.null()] should be used to check that an object is `NULL` and, more
@@ -44,10 +44,12 @@
 #' @examples
 #' is_zerolength(x = character(0)) # TRUE
 #' is_zerolength(x = 0) # FALSE
-#' # A matrix with zero rows *is* a zero-length object ...
-#' is_zerolength(x = as.matrix(data.frame(a = 314))[numeric(0), , drop = FALSE])
-#' # ... whereas a dataframe with zero rows is *not* a zero-length object.
-#' is_zerolength(x = data.frame(a = 314)[numeric(0), , drop = FALSE])
+#' df <- data.frame(a = 314)
+#' zerorow_df <- df[numeric(0), , drop = FALSE]
+#' # A matrix with zero rows *is* a zero-length object
+#' is_zerolength(x = as.matrix(zerorow_df))
+#' # A dataframe with zero rows is *not* a zero-length object
+#' is_zerolength(x = zerorow_df)
 #'
 #' # Zero-length objects affect type coercion.
 #' num <- 314

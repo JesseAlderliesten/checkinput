@@ -19,19 +19,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ## Introduction
 Objects in R are converted ('coerced') to a common type when combined in a
 vector (see `help("c")`). The type of the vector, and thus of all its
-components, will be the
-highest type of the components in the hierarchy `NULL` < `raw` < `logical` <
-`integer` < `double` < `complex` < `character` < `list` < `expression`, see the
-section `Details` in `help("c")` and the section `Value` in `help("typeof")`.
-For example, numeric
-`314` will be coerced to character `"314"` when it is combined in a vector with
-character `"nco"`, such that `c(314, "nco")` results in the character vector
-`c("314", "nco")`. This also holds for the logical `NA`, which will be coerced
-to `NA_character_` that is printed as `NA`.
+components, will be the highest type of the components in the hierarchy `NULL` <
+`raw` < `logical` < `integer` < `double` < `complex` < `character` < `list` <
+`expression`, see the section 'Details' in `help("c")` and the section 'Value'
+in `help("typeof")`. For example, numeric `314` will be coerced to character
+`"314"` when it is combined in a vector with character `"nco"`, such that
+`c(314, "nco")` results in the character vector `c("314", "nco")`. This also
+holds for the logical `NA`, which will be coerced to `NA_character_` that is
+printed as `NA`.
 
 ```{r Type coercion}
 num <- 314
@@ -48,25 +46,24 @@ str(logiNA_char[1])
 logiNA_char[1]
 ```
 
-
 ## Consequences for checks
-As a consequence of type coercion, code like
-`all_characters(c(x, y))` does **not** check if all elements in `x` and `y` have
-type character: `x` and `y` will be coerced to the highest of their types
-before the check is performed, such that `all_characters(c(x, y))` checks if any
-of `x` or `y` has type character **and** none of `x` or `y` has a higher type.
+As a consequence of type coercion, code like `all_characters(c(x, y))` does
+**not** check if all elements in `x` and `y` have type `character`: `x` and `y`
+will be coerced to the highest of their types before the check is performed,]
+such that `all_characters(c(x, y))` checks if any of `x` or `y` has type
+`character` **and** none of `x` or `y` has a higher type.
 
-To check if all elements in `x` and `y` have type character, use
+To check if all elements in `x` and `y` have type `character`, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily to more
 than two objects, `all(unlist(lapply(X = list(x, y), FUN = all_characters)))`.
 Other function arguments passed to `all_characters()`, e.g., `allow_empty = TRUE`
-to allow empty quotes (i.e., `""`), should be placed behind argument `x`.
+to allow empty quotes (i.e., `""`), should be placed behind argument `FUN`.
 
-Elements of a list can have different types. Using `unlist()` on a list
-creates a vector, coercing all elements of the list to the highest of
-their types, such that `all_characters(unlist(z))` does **not** check if all
-elements of list `z` are character but if any element of `z` is a character
-**and** none of the elements of `z` is of a higher type.
+Elements of a list can have different types. Using `unlist()` on a list creates
+a vector, coercing all elements of the list to the highest of their types, such
+that `all_characters(unlist(z))` does **not** check if all elements of list `z`
+have type `character` but if any element of `z` has type `character` **and**
+none of the elements of `z` has a higher type.
 
 ```{r example}
 library(checkinput)
@@ -89,13 +86,11 @@ all_characters(unlist(z))
 all(unlist(lapply(X = z, FUN = all_characters)))
 ```
 
-
 ## Zero-length values
 Although zero-length objects (see `help("is_zerolength")`) are discarded when
-combined
-into a vector with other values, their types are taken into account for type
-coercion. For example, numeric `314` will be coerced to character `"314"` when
-it is combined into a vector with zero-length `character(0)`, such that
+combined into a vector with other values, their types are taken into account for
+type coercion. For example, numeric `314` will be coerced to character `"314"`
+when combined into a vector with zero-length `character(0)`, such that
 `c(314, character(0))` results in the character string `"314"`, **not** in the
 numeric value `314`.
 

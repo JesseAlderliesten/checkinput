@@ -3,12 +3,14 @@ output: github_document
 ---
 
 
-```{r, include = FALSE}
+```{r options, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
+
+# checkinput
 
 <!-- badges: start -->
 ![](https://img.shields.io/github/r-package/v/JesseAlderliesten/checkinput?color=blue)
@@ -16,18 +18,16 @@ knitr::opts_chunk$set(
 [![R-CMD-check-no-suggests](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/JesseAlderliesten/checkinput/actions/workflows/check-no-suggests.yaml)
 <!-- badges: end -->
 
-
-# checkinput
-With `checkinput`, you can write concise, flexible checks for input to R
-functions.
+With **checkinput**, you can write concise, flexible checks for input to
+[R](https://www.r-project.org/) functions.
 
 ## Installation
-Visit the [checkinput website](https://jessealderliesten.github.io/checkinput/)
-to explore the package, or install `checkinput` from
-[GitHub](https://github.com/JesseAlderliesten/checkinput) using the following R
-code:
+Visit the [**checkinput** website](https://jessealderliesten.github.io/checkinput/)
+to explore the package, or install **checkinput**
+[from GitHub](https://github.com/JesseAlderliesten/checkinput)
+using the following R code:
 
-```{r, eval = FALSE}
+```{r installation, eval = FALSE}
 if(!requireNamespace("remotes")) {
   install.packages(pkgs = "remotes")
 }
@@ -35,16 +35,16 @@ remotes::install_github(repo = "JesseAlderliesten/checkinput",
                         upgrade = FALSE, build_vignettes = TRUE, lib = NULL)
 ```
 
-For more information about installing and configuring R and RStudio, see my
-package [`checkrpkgs`](https://jessealderliesten.github.io/checkrpkgs/).
+For more information about installing and configuring R, see my package
+[**checkrpkgs**](https://jessealderliesten.github.io/checkrpkgs/).
 
 
 ## Example
 Say you want to collect information on people's hobbies through an R function in
-which it is optional for them to provide their name. With `checkinput`, you
+which it is optional for them to provide their name. With **checkinput**, you
 could write a function like `list_hobbies()`:
 
-```{r}
+```{r list_hobbies}
 list_hobbies <- function(name, age, hobbies) {
   stopifnot(is_character(name, allow_empty = TRUE, allow_NA = TRUE),
             is_nonnegative(age), all_characters(hobbies))
@@ -53,16 +53,15 @@ list_hobbies <- function(name, age, hobbies) {
 ```
 
 The checks inside `stopifnot()` ensure that (1) `name` contains a single
-character string that might be empty (`""`) or character-type `NA` 
-(`NA_character_`); (2) `age` contains a
-single non-negative number; (3) `hobbies` contains at least one character string
-and does not contain empty strings or `NA`s.
+character string that might be empty (`""`) or `NA`; (2) `age` contains a single
+non-negative number; (3) `hobbies` contains at least one character string and
+does not contain empty strings or `NA`s.
 
 The base R equivalent of `list_hobbies()` would require much more code to check
 the input, increasing the chance of coding errors and making it more difficult
 to read:
 
-```{r}
+```{r list_hobbies_base}
 list_hobbies_base <- function(name, age, hobbies) {
   stopifnot(is.character(name), is.atomic(name), is.null(dim(name)),
             length(name) == 1L,
@@ -77,7 +76,7 @@ list_hobbies_base <- function(name, age, hobbies) {
 
 If the input passes all checks, both functions produce the same output:
 
-```{r}
+```{r example}
 library(checkinput)
 hobbies_John <- c("books", "construction sets")
 John_checkinput <- list_hobbies(name = "John", age = 25, hobbies = hobbies_John)
@@ -92,30 +91,29 @@ identical(baby_checkinput, baby_base)
 
 When a check fails, error messages indicate the offending arguments:
 
-```{r}
+```{r example2}
 library(checkinput)
 try(list_hobbies(name = "John", age = 25, hobbies = c(hobbies_John, "")))
 try(list_hobbies(name = "", age = -1, hobbies = hobbies_baby))
 ```
 
 ## Design choices
-The check functions of `checkinput`
-return either `TRUE` or `FALSE` and do **not** throw errors for any input to `x`.
-Errors **are** thrown about invalid input to arguments other than `x`, e.g.,
-when values other than `TRUE` or `FALSE` are used for `allow_NA`. This is
-explained in the
+The check functions of **checkinput** return either `TRUE` or `FALSE` and do
+**not** throw errors for any input to `x`. Errors **are** thrown about invalid
+input to arguments other than `x`, e.g., when values other than `TRUE` or
+`FALSE` are used for argument `allow_NA`. This is explained in the
 [vignette about design choices](https://jessealderliesten.github.io/checkinput/articles/design_choices.html):
 `vignette("design_choices", package = "checkinput")`. That vignette also shows
 how to get a named boolean vector indicating for each element of `x` if it is
 `TRUE` or `FALSE` according to the check functions.
 
-`checkinput` also contains a
+**checkinput** also contains a
 [vignette about type coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
-in relation to checking function input:
+in relation to checking function input:  
 `vignette("type_coercion", package = "checkinput")`.
 
 ## Function overview
-The check functions in `checkinput` can be divided into groups based on the
+The check functions in **checkinput** can be divided into groups based on the
 kind of **input** for which they return `TRUE`:
 
 - zero-length values: `is_zerolength()`
@@ -124,39 +122,42 @@ kind of **input** for which they return `TRUE`:
 - numbers: `is_number()`, `all_numbers()`, `is_nonnegative()`,
   `all_nonnegative()`, `is_positive()`, `is_natural()`, `all_natural()`
 
-Besides these check functions, `checkinput` contains utility-functions:
-`make_natural()` which returns a natural number if the input is nearly equal to
-such a number, and `paste_quoted()` which returns a character string.
+Besides these check functions, **checkinput** contains utility-functions:
+
+- `make_natural()` which returns a natural number if the input is nearly equal
+  to such a number
+- `paste_quoted()` to concatenate input to a character string with quoted
+  elements
 
 ## License
 This project is licensed under the terms of the [MIT License](LICENSE.md).
 
 ## Citation
-```{r, echo = FALSE, comment = ""}
+```{r citation, echo = FALSE, comment = ""}
 citation(basename(getwd()))
 ```
 
 ## Contact
 Please open a
 [GitHub issue](https://github.com/JesseAlderliesten/checkinput/issues) if you
-have suggestions for improvement of `checkinput`.
+have suggestions for improvement of **checkinput**.
 
 ## Similar packages
-Functions of `checkinput` use arguments to determine if special values like
+Functions of **checkinput** use arguments to determine if special values like
 `NA` and zero-length values should be allowed, making them more flexible than
 functions in similar packages that require a different function to include these
 special values. Nevertheless, the following similar packages are worth looking
 into:
 
-- [`arkhe`](https://CRAN.R-project.org/package=arkhe): tools for cleaning
+- [**arkhe**](https://CRAN.R-project.org/package=arkhe): tools for cleaning
   rectangular data.
-- [`assertable`](https://CRAN.R-project.org/package=assertable): verbose
+- [**assertable**](https://CRAN.R-project.org/package=assertable): verbose
   assertions for tabular data (data.frames and data.tables).
-- [`assertthat`](https://CRAN.R-project.org/package=assertthat): easy pre and post
-  assertions.
-- [`checkmate`](https://CRAN.R-project.org/package=checkmate): fast and versatile
-  argument checks
-- [`chk`](https://CRAN.R-project.org/package=chk): check user-supplied function
-  arguments
-- [`erify`](https://CRAN.R-project.org/package=erify): check arguments and
+- [**assertthat**](https://CRAN.R-project.org/package=assertthat): easy pre and
+  post assertions.
+- [**checkmate**](https://CRAN.R-project.org/package=checkmate): fast and
+  versatile argument checks
+- [**chk**](https://CRAN.R-project.org/package=chk): check user-supplied
+  function arguments
+- [**erify**](https://CRAN.R-project.org/package=erify): check arguments and
   generate readable error messages

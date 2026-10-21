@@ -1,7 +1,7 @@
-#' Check that `x` is nearly equal to natural numbers
+#' Check that x is Nearly Equal to Natural Numbers
 #'
-#' Check element-wise near-equality to natural numbers while allowing for small
-#' numeric errors.
+#' Check element-wise near-equality to natural [numbers][is.numeric()] while
+#' allowing for small numeric errors.
 #'
 #' @inheritParams is_number x allow_zerolength allow_NA
 #' @param strict Exclude zero from the natural numbers?
@@ -13,8 +13,9 @@
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.).
 #' `is_natural()` and `all_natural()` allow for small numeric errors when
 #' comparing numbers to the natural numbers. Such numeric errors can arise
-#' because of rounding or representation error. As the `Note` at [`==`] warns,
-#' `x == round(x)` does **not** allow for such errors but checks exact equality.
+#' because of rounding or representation error. As the `Note` at `help("==")`
+#' warns, `x == round(x)` does **not** allow for such errors but checks exact
+#' equality.
 #'
 #' Zero is considered a natural number if argument `strict` is `FALSE`, but even
 #' then small negative numbers are **not** considered natural numbers.
@@ -22,7 +23,8 @@
 #' `integer(0)` and `numeric(0)` are considered natural numbers if argument
 #' `allow_zerolength` is `TRUE`, and `NA_integer_` and `NA_real_` are considered
 #' natural numbers if `allow_NA` is `TRUE` (even then `NA_complex_` is **not**
-#' considered a natural number because its mode is `complex` instead of `numeric`).
+#' considered a natural number because it has `mode` `complex` instead of
+#' `numeric`).
 #'
 #' [`NULL`], [`NaN`], negative numbers, [`Inf`][is.finite], and numbers that are
 #' [too large][.Machine] to be represented as [integers][integer] are **never**
@@ -31,7 +33,7 @@
 #' @returns
 #' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
 #' is a vector of the appropriate length with only natural numbers. For
-#' `make_natural()`: `x`, [rounded][round] to a whole number and coerced to
+#' `make_natural()`: `x`, [rounded][round()] to a whole number and coerced to
 #' [integer] type.
 #'
 #' @section Notes:
@@ -42,24 +44,33 @@
 #'
 #' Alternatively, use `is_natural(x)` or `all_natural(x)` inside [stopifnot()],
 #' followed by converting the rounded value of `x` to `integer` and assigning it
-#' to `x`: `x <- as.integer(round(x))`.
+#' to `x`:
 #'
-#' @section Programming notes:
+#' ```
+#' stopifnot(is_natural(x))
+#' x <- as.integer(round(x))
+#' ```
+#'
+#' @section Programming Notes:
 #' The code of `is_natural()` and `all_natural()` is partly based on the example
 #' `is.wholenumber()` in [is.integer()].
 #'
-#' [is.integer()] does **not** check that `x` is a natural number (nor that `x` is
-#' a whole number) but rather that `x` is of [type][typeof()] integer, see the
-#' `Note` in [is.integer()].
+#' [is.integer()] does **not** check that `x` is a natural number (nor that `x`
+#' is a whole number) but rather that `x` is of [type][typeof()] integer, see
+#' the section 'Note' in `help("is.integer")`.
 #'
 #' @family
 #' collections of checks on type and length
 #'
 #' @seealso
-#' `progutils::are_equal()` to check for element-wise near-equality of numbers;
+#' [`progutils::are_equal()`](https://jessealderliesten.github.io/progutils/reference/are_equal.html)
+#' to check for element-wise near-equality of numbers;
 #' [all.equal()] to check more generally for near-equality; [identical()] to
 #' check for exact equality and [`Comparison`] to do so using binary operators;
-#' [match()] and `progutils::not_in()` to compare character vectors; [\R FAQ 7.31](
+#' [match()] and
+#' [`progutils::not_in()`](https://jessealderliesten.github.io/progutils/reference/not_in.html)
+#' to compare character vectors;
+#' [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality and its pitfalls.
 #'
@@ -86,13 +97,14 @@
 #' # Zero is not considered a natural number if 'strict' is TRUE:
 #' all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 #' all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
-#' all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
+#' # FALSE because of wrong sign:
+#' all_natural(x = c(-1e-10, 3, 5), strict = FALSE)
 #' all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
 #' all_natural(x = "a") # FALSE
 #' all_natural(x = 1:2) # TRUE
 #'
-#' # Illustrate the need to follow use of is_natural(x) or all_natural(x) by
-#' # assigning the rounded value to the argument
+#' # Illustrate the need to follow use of is_natural(x) or
+#' # all_natural(x) by assigning the rounded value to the argument
 #' toy_fun_erroneous <- function(x) {
 #'   stopifnot(is_natural(x))
 #'   seq_len(x)
@@ -113,14 +125,20 @@
 #' toy_fun_correct(x = 5 - 1e-8) # 1:5
 #' toy_fun_safe(x = 5 - 1e-8) # 1:5
 #'
-#' try(toy_fun_erroneous(x = 5.1)) # Error: is_natural(x) is not TRUE
-#' try(toy_fun_correct(x = 5.1)) # Error: is_natural(x) is not TRUE
-#' try(toy_fun_safe(x = 5.1, all = FALSE)) # Error: is_natural(x) is not TRUE
-#' try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
+#' # Error: is_natural(x) is not TRUE
+#' try(toy_fun_erroneous(x = 5.1))
+#' try(toy_fun_correct(x = 5.1))
+#' try(toy_fun_safe(x = 5.1, all = FALSE))
+#'
+#' # Error: all_natural(x) is not TRUE
+#' try(toy_fun_safe(x = 5.1, all = TRUE))
 #'
 #' @export
-is_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
-                       allow_NA = FALSE, tol = .Machine$double.eps^0.5) {
+is_natural <- function(x,
+                       strict = TRUE,
+                       allow_zerolength = FALSE,
+                       allow_NA = FALSE,
+                       tol = .Machine$double.eps^0.5) {
   all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
               allow_NA = allow_NA, tol = tol) &&
     length(x) <= 1L
@@ -128,8 +146,11 @@ is_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
 
 #' @rdname is_natural
 #' @export
-all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
-                        allow_NA = FALSE, tol = .Machine$double.eps^0.5) {
+all_natural <- function(x,
+                        strict = TRUE,
+                        allow_zerolength = FALSE,
+                        allow_NA = FALSE,
+                        tol = .Machine$double.eps^0.5) {
   stopifnot(is_logical(strict), is_logical(allow_zerolength),
             is_logical(allow_NA), is_positive(tol), tol < 0.5)
 
@@ -141,8 +162,8 @@ all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
     return(FALSE)
   }
 
-  # It is not a problem that 'anyNA' also returns TRUE for NaN: NaN is never
-  # allowed.
+  # It is not a problem that 'anyNA' also returns
+  # TRUE for NaN: NaN is never allowed.
   if(!allow_NA && anyNA(x)) {
     return(FALSE)
   }
@@ -159,8 +180,11 @@ all_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
 
 #' @rdname is_natural
 #' @export
-make_natural <- function(x, strict = TRUE, allow_zerolength = FALSE,
-                         allow_NA = FALSE, all = FALSE,
+make_natural <- function(x,
+                         strict = TRUE,
+                         allow_zerolength = FALSE,
+                         allow_NA = FALSE,
+                         all = FALSE,
                          tol = .Machine$double.eps^0.5) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all))

@@ -4,7 +4,7 @@
 \alias{is_natural}
 \alias{all_natural}
 \alias{make_natural}
-\title{Check that \code{x} is nearly equal to natural numbers}
+\title{Check that x is Nearly Equal to Natural Numbers}
 \usage{
 is_natural(
   x,
@@ -37,7 +37,7 @@ make_natural(
 \item{strict}{Exclude zero from the natural numbers?}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
-\link[=is_zerolength]{zero-length} \code{x} of the correct type?}
+\link[=is_zerolength]{zero-length} \code{x} of the correct \link[=typeof]{type}?}
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA} of the correct type in \code{x}?}
 
@@ -53,15 +53,16 @@ is a vector of the appropriate length with only natural numbers. For
 \link{integer} type.
 }
 \description{
-Check element-wise near-equality to natural numbers while allowing for small
-numeric errors.
+Check element-wise near-equality to natural \link[=is.numeric]{numbers} while
+allowing for small numeric errors.
 }
 \details{
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.).
 \code{is_natural()} and \code{all_natural()} allow for small numeric errors when
 comparing numbers to the natural numbers. Such numeric errors can arise
-because of rounding or representation error. As the \code{Note} at \code{\link{==}} warns,
-\code{x == round(x)} does \strong{not} allow for such errors but checks exact equality.
+because of rounding or representation error. As the \code{Note} at \code{help("==")}
+warns, \code{x == round(x)} does \strong{not} allow for such errors but checks exact
+equality.
 
 Zero is considered a natural number if argument \code{strict} is \code{FALSE}, but even
 then small negative numbers are \strong{not} considered natural numbers.
@@ -69,7 +70,8 @@ then small negative numbers are \strong{not} considered natural numbers.
 \code{integer(0)} and \code{numeric(0)} are considered natural numbers if argument
 \code{allow_zerolength} is \code{TRUE}, and \code{NA_integer_} and \code{NA_real_} are considered
 natural numbers if \code{allow_NA} is \code{TRUE} (even then \code{NA_complex_} is \strong{not}
-considered a natural number because its mode is \code{complex} instead of \code{numeric}).
+considered a natural number because it has \code{mode} \code{complex} instead of
+\code{numeric}).
 
 \code{\link{NULL}}, \code{\link{NaN}}, negative numbers, \code{\link[=is.finite]{Inf}}, and numbers that are
 \link[=.Machine]{too large} to be represented as \link[=integer]{integers} are \strong{never}
@@ -84,17 +86,21 @@ to use \code{\link[=stopifnot]{stopifnot()}}.
 
 Alternatively, use \code{is_natural(x)} or \code{all_natural(x)} inside \code{\link[=stopifnot]{stopifnot()}},
 followed by converting the rounded value of \code{x} to \code{integer} and assigning it
-to \code{x}: \code{x <- as.integer(round(x))}.
+to \code{x}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{stopifnot(is_natural(x))
+x <- as.integer(round(x))
+}\if{html}{\out{</div>}}
 }
 
-\section{Programming notes}{
+\section{Programming Notes}{
 
 The code of \code{is_natural()} and \code{all_natural()} is partly based on the example
 \code{is.wholenumber()} in \code{\link[=is.integer]{is.integer()}}.
 
-\code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor that \code{x} is
-a whole number) but rather that \code{x} is of \link[=typeof]{type} integer, see the
-\code{Note} in \code{\link[=is.integer]{is.integer()}}.
+\code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor that \code{x}
+is a whole number) but rather that \code{x} is of \link[=typeof]{type} integer, see
+the section 'Note' in \code{help("is.integer")}.
 }
 
 \examples{
@@ -120,13 +126,14 @@ try(make_natural(x = c(3, 5 + 1e-10))) # c(3L, 5L)
 # Zero is not considered a natural number if 'strict' is TRUE:
 all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
-all_natural(x = c(-1e-10, 3, 5), strict = FALSE) # FALSE: wrong sign
+# FALSE because of wrong sign:
+all_natural(x = c(-1e-10, 3, 5), strict = FALSE)
 all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
 all_natural(x = "a") # FALSE
 all_natural(x = 1:2) # TRUE
 
-# Illustrate the need to follow use of is_natural(x) or all_natural(x) by
-# assigning the rounded value to the argument
+# Illustrate the need to follow use of is_natural(x) or
+# all_natural(x) by assigning the rounded value to the argument
 toy_fun_erroneous <- function(x) {
   stopifnot(is_natural(x))
   seq_len(x)
@@ -147,17 +154,24 @@ toy_fun_erroneous(x = 5 - 1e-8) # 1:4
 toy_fun_correct(x = 5 - 1e-8) # 1:5
 toy_fun_safe(x = 5 - 1e-8) # 1:5
 
-try(toy_fun_erroneous(x = 5.1)) # Error: is_natural(x) is not TRUE
-try(toy_fun_correct(x = 5.1)) # Error: is_natural(x) is not TRUE
-try(toy_fun_safe(x = 5.1, all = FALSE)) # Error: is_natural(x) is not TRUE
-try(toy_fun_safe(x = 5.1, all = TRUE)) # Error: all_natural(x) is not TRUE
+# Error: is_natural(x) is not TRUE
+try(toy_fun_erroneous(x = 5.1))
+try(toy_fun_correct(x = 5.1))
+try(toy_fun_safe(x = 5.1, all = FALSE))
+
+# Error: all_natural(x) is not TRUE
+try(toy_fun_safe(x = 5.1, all = TRUE))
 
 }
 \seealso{
-\code{progutils::are_equal()} to check for element-wise near-equality of numbers;
+\href{https://jessealderliesten.github.io/progutils/reference/are_equal.html}{\code{progutils::are_equal()}}
+to check for element-wise near-equality of numbers;
 \code{\link[=all.equal]{all.equal()}} to check more generally for near-equality; \code{\link[=identical]{identical()}} to
 check for exact equality and \code{\link{Comparison}} to do so using binary operators;
-\code{\link[=match]{match()}} and \code{progutils::not_in()} to compare character vectors; \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
+\code{\link[=match]{match()}} and
+\href{https://jessealderliesten.github.io/progutils/reference/not_in.html}{\code{progutils::not_in()}}
+to compare character vectors;
+\href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality and its pitfalls.
 
 Other collections of checks on type and length:
