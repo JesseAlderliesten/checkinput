@@ -207,11 +207,11 @@ is_path <- function(x, require_sep = TRUE) {
             paste_quoted(x))
   }
 
-  Windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
+  windows_reserved <- c("aux", paste0("com", 1:9), "con", paste0("lpt", 1:9),
                         "nul", "prn")
-  if(any(Windows_reserved %in% tolower(path_comp))) {
+  if(any(windows_reserved %in% tolower(path_comp))) {
     path_ok <- FALSE
-    reserved_comp <- path_comp[tolower(path_comp) %in% Windows_reserved]
+    reserved_comp <- path_comp[tolower(path_comp) %in% windows_reserved]
     warning("Components of ", arg_name,
             " should not contain Windows-reserved names (",
             paste_quoted(reserved_comp), "):\n", paste_quoted(x))

@@ -1,9 +1,9 @@
 #### Create objects to use in tests ####
-Windows_reserved <- c("CON", "PRN", "AUX", "NUL", paste0("COM", 1:9),
+windows_reserved <- c("CON", "PRN", "AUX", "NUL", paste0("COM", 1:9),
                       paste0("LPT", 1:9))
-Windows_reserved <- c(Windows_reserved, tolower(Windows_reserved))
+windows_reserved <- c(windows_reserved, tolower(windows_reserved))
 illegal_chars <- c('"', "*", "?", "|", "<", ">")
-warn_Windows_reserved <- "should not contain Windows-reserved names"
+warn_windows_reserved <- "should not contain Windows-reserved names"
 warn_space_dot <- "should not end with ' ' or '.'"
 
 
@@ -140,20 +140,20 @@ for(control_char in paste0("\005", "\025", "\035", "\177")) {
 
 ##### Windows reserved names #####
 # These are not allowed as path components but are allowed as filename
-for(Windows_name in Windows_reserved) {
+for(windows_name in windows_reserved) {
   expect_warning(
-    expect_false(is_path(Windows_name, require_sep = FALSE)),
-    pattern = warn_Windows_reserved, fixed = TRUE)
+    expect_false(is_path(windows_name, require_sep = FALSE)),
+    pattern = warn_windows_reserved, fixed = TRUE)
 
   expect_warning(
-    expect_false(is_path(fs::path_wd("subdir", Windows_name, "filename.txt"))),
-    pattern = warn_Windows_reserved, fixed = TRUE)
+    expect_false(is_path(fs::path_wd("subdir", windows_name, "filename.txt"))),
+    pattern = warn_windows_reserved, fixed = TRUE)
 
   expect_true(
-    is_path(fs::path_wd("subdir", paste0(Windows_name, ".txt"), "filename.txt")))
+    is_path(fs::path_wd("subdir", paste0(windows_name, ".txt"), "filename.txt")))
 
   expect_true(
-    is_path(fs::path_wd("subdir", paste0(Windows_name, ".txt"))))
+    is_path(fs::path_wd("subdir", paste0(windows_name, ".txt"))))
 }
 
 # 'COM', 'COM0', 'LPT' and 'LPT0' are allowed as filename and as path component
@@ -329,4 +329,4 @@ expect_warning(
 
 #### Cleaning up ####
 rm(control_char, illegal_char, illegal_chars, warn_space_dot,
-   warn_Windows_reserved, Windows_allowed, Windows_name, Windows_reserved)
+   warn_windows_reserved, Windows_allowed, windows_name, windows_reserved)
