@@ -183,9 +183,6 @@ all_names <- function(x, allow_underscores = TRUE) {
     return(FALSE)
   }
 
-  warn_text <- character(0)
-  suggest_make_names <- FALSE
-
   # Notes:
   # - Checking for zero-length 'x' should be done before removing any invalid
   #   or suspicious names because that can also lead to zero-length 'x'.
@@ -203,6 +200,8 @@ all_names <- function(x, allow_underscores = TRUE) {
   }
 
   bool_dupl <- FALSE
+  warn_text <- character(0)
+  suggest_make_names <- FALSE
   if(anyDuplicated(x) != 0L) {
     bool_dupl <- duplicated(x)
     warn_text <- c(
@@ -285,11 +284,11 @@ all_names <- function(x, allow_underscores = TRUE) {
   # invalid on its own, see 'Details'.
   bool_suspicious <- grepl(pattern = "^V[1-9][0-9]*$", x = x) |
     grepl(pattern = ".", x = x, fixed = TRUE)
-  bool_X <- grepl(pattern = "^X", x = x)
-  if(any(bool_X)) {
+  bool_x <- grepl(pattern = "^X", x = x)
+  if(any(bool_x)) {
     x_trailing <- substring(text = x, first = 2L)
-    bool_X[x_trailing == make.names(x_trailing)] <- FALSE
-    bool_suspicious[bool_X] <- TRUE
+    bool_x[x_trailing == make.names(x_trailing)] <- FALSE
+    bool_suspicious[bool_x] <- TRUE
   }
 
   if(any(bool_suspicious)) {
@@ -318,7 +317,7 @@ all_names <- function(x, allow_underscores = TRUE) {
         warn_text, ".\nUse '",
         if(length_name_x == 1L) {
           paste0(name_x, " <- ")
-          },
+        },
         "make.names(", name_x,
         ", unique = TRUE)' to create unique, syntactically valid names",
         if(length(warn_text_dots) > 0L) {
@@ -327,7 +326,10 @@ all_names <- function(x, allow_underscores = TRUE) {
         "!")
     } else {
       warn_text <- paste0(
-        warn_text, ".\nUse '", if(length_name_x == 1L) {paste0(name_x, " <- ")},
+        warn_text, ".\nUse '",
+        if(length_name_x == 1L) {
+          paste0(name_x, " <- ")
+        },
         "make.names(", name_x,
         ", unique = TRUE, allow_ = FALSE)' to create unique,\nsyntactically",
         " valid names without underscores",
