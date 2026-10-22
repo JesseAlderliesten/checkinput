@@ -81,7 +81,7 @@ such paths are not guaranteed to work with functions like <code><a href="https:/
 Use <code>D:./path</code> or <code>d:./path</code> instead</p></li>
 <li><p><code>x</code> should <strong>not</strong> contain the characters <code>"</code>, <code>*</code>, <code>?</code>, <code>|</code>, <code>&lt;</code>, <code>&gt;</code>, nor
 any of the control characters (<code>[:cntrl:]</code>, with ASCII octal codes <code>000</code>
-through <code>037</code> and <code>177</code>, see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code>)</p></li>
+through <code>037</code> and <code>177</code>, see <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">help("regex")</a></code></p></li>
 <li><p><code>x</code> should <strong>not</strong> contain colons (<code>:</code>) after the first path component
 (Windows only allows colons to indicate volume names like <code>C:\</code>)</p></li>
 <li><p>path components (i.e., parts separated by file separators <code>/</code> or <code>\\</code>)
@@ -105,15 +105,15 @@ create a directory or file; characters that are silently removed in Windows
 and thus would lead to a mismatch between the created directory and the
 returned path when used to create a directory; and characters that might give
 problems when used in the shell.</p>
-<p><code>is_path()</code> is lenient with respect to file separators (i.e., <code>/</code> or <code>\\</code>):</p><ul><li><p><code>x</code> does <strong>not</strong> have to contain any file separator if <code>require_sep</code> is
+<p><code>is_path()</code> is lenient with respect to file separators, i.e., <code>/</code> or <code>\\</code>:</p><ul><li><p><code>x</code> does <strong>not</strong> have to contain any file separator if <code>require_sep</code> is
 <code>FALSE</code>, such that <code>is_path(x, require_sep = FALSE)</code> can be used to check
-that filename <code>x</code> only contains allowed characters (given that <code>x</code> ends in
-a file extension)</p></li>
+that filename <code>x</code> only contains allowed characters given that <code>x</code> ends in
+a file extension</p></li>
 <li><p><code>x</code> might contain trailing file separators if it does <strong>not</strong> end in a
 file extension, although these trailing file separators might be ignored
-or removed in some operations (e.g., they are removed by <code><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path()</a></code> and
-<code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>)</p></li>
-<li><p><code>x</code> might contain successive file separators (e.g., <code>//</code> or <code>\\\\</code>): these
+or removed in some operations, e.g., they are removed by <code><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path()</a></code> and
+<code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code></p></li>
+<li><p><code>x</code> might contain successive file separators e.g., <code>//</code> or <code>\\\\</code>: these
 should be treated by the operating system as if they were only a single
 file separator</p></li>
 </ul><p><code>is_path()</code> does <strong>not</strong> check that the path in <code>x</code> points to an existing
@@ -125,17 +125,17 @@ file or folder, <strong>nor</strong> that such a file or folder can be created.<
 
 <p>The file separator is a backslash (<code>\</code>) on Windows but a forward slash (<code>/</code>)
 on other operating systems: use <code><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path()</a></code> or <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code> to construct
-paths in a platform-independent way and <a href="https://rdrr.io/r/base/Platform.html" class="external-link">.Platform$file.sep</a> to
+paths in a platform-independent way and <code><a href="https://rdrr.io/r/base/Platform.html" class="external-link">.Platform$file.sep</a></code> to
 get the file separator used on the current platform.</p>
-<p>Furthermore, the backslash is also used as <a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in <span style="R">R</span>,
-such that backslashes need to be escaped in <span style="R">R</span> code by doubling them. Use
+<p>Furthermore, the backslash is also used as an <a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in
+<span style="R">R</span>, such that backslashes need to be escaped in <span style="R">R</span> code by doubling them. Use
 <code>cat(x)</code> to omit the escape characters to see how <code>x</code> would be printed.</p>
 <p>The <a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a> can be indicated by a single dot (<code>"."</code>) and
 the parent directory can be indicated by two dots (<code>".."</code>).</p>
 <p><strong>relative</strong> paths start from the <a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a>. In contrast,
 <strong>absolute</strong> paths start from the root directory and thus give the complete
-path, such that the path still points to the same directory if the
-<a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a> changes.</p>
+path, such that the path still points to the same directory if the working
+directory changes.</p>
 <p>Paths can be normalised, e.g., through <code><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath()</a></code> or <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_norm()</a></code>
 (which is also called by <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_abs()</a></code>). On case-insensitive file systems,
 this also adjusts the case to match names of directories that are already
@@ -150,8 +150,8 @@ present.</p>
 successive forward slashes (e.g.,
 <code>/var/&lt;...&gt;/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR</code>) which in earlier versions
 of <code>is_path()</code> (then in package
-<a href="https://jessealderliesten.github.io/progutils/" class="external-link">progutils</a>) led to spurious
-warnings about duplicated file separators.</p>
+<a href="https://jessealderliesten.github.io/progutils/" class="external-link"><strong>progutils</strong></a>) led to
+spurious warnings about duplicated file separators.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -187,7 +187,7 @@ output) to do so without checking they are a unique match to a pattern;
 on checking existence, permissions, and other information about files or
 directories</p>
 <p>Section 'Paths in the shell' in the vignette <em>Git and GitHub</em> of package
-<code>checkrpkgs</code> on paths and file separators in the
+<strong>checkrpkgs</strong> on paths and file separators in the
 <a href="https://happygitwithr.com/shell" class="external-link">shell</a>:
 <code>vignette("git_github", package = "checkrpkgs")</code>.</p>
 <p>Other collections of checks on type and length:

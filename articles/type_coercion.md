@@ -2,18 +2,19 @@
 
 ## Introduction
 
-Objects in R are converted (‘coerced’) to a common type when combined in
-a vector (see [`help("c")`](https://rdrr.io/r/base/c.html)). The type of
-the vector, and thus of all its components, will be the highest type of
-the components in the hierarchy `NULL` \< `raw` \< `logical` \<
-`integer` \< `double` \< `complex` \< `character` \< `list` \<
-`expression`, see the section ‘Details’ in
+Objects in **R** are converted (‘coerced’) to a common type when
+combined in a vector, see [`help("c")`](https://rdrr.io/r/base/c.html).
+The type of the vector, and thus of all its components, will be the
+highest type of the components in the hierarchy `NULL` \< `raw` \<
+`logical` \< `integer` \< `double` \< `complex` \< `character` \< `list`
+\< `expression`, see the section ‘Details’ in
 [`help("c")`](https://rdrr.io/r/base/c.html) and the section ‘Value’ in
 [`help("typeof")`](https://rdrr.io/r/base/typeof.html). For example,
 numeric `314` will be coerced to character `"314"` when it is combined
 in a vector with character `"nco"`, such that `c(314, "nco")` results in
 the character vector `c("314", "nco")`. This also holds for the logical
-`NA`, which will be coerced to `NA_character_` that is printed as `NA`.
+`NA`, which will be coerced to `NA_character_` that is printed as `NA`,
+as is the logical `NA`.
 
 ``` r
 
@@ -43,9 +44,9 @@ logiNA_char[1]
 As a consequence of type coercion, code like `all_characters(c(x, y))`
 does **not** check if all elements in `x` and `y` have type `character`:
 `x` and `y` will be coerced to the highest of their types before the
-check is performed,\] such that `all_characters(c(x, y))` checks if any
-of `x` or `y` has type `character` **and** none of `x` or `y` has a
-higher type.
+check is performed, such that `all_characters(c(x, y))` checks if any of
+`x` or `y` has type `character` **and** none of `x` or `y` has a higher
+type.
 
 To check if all elements in `x` and `y` have type `character`, use
 `all_characters(x) && all_characters(y)` or, to generalise more easily
@@ -53,7 +54,7 @@ to more than two objects,
 `all(unlist(lapply(X = list(x, y), FUN = all_characters)))`. Other
 function arguments passed to
 [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md),
-e.g., `allow_empty = TRUE` to allow empty quotes (i.e., `""`), should be
+e.g., `allow_empty = TRUE` to allow empty quotes (`""`), should be
 placed behind argument `FUN`.
 
 Elements of a list can have different types. Using

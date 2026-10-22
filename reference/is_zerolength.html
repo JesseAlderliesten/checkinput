@@ -45,7 +45,7 @@
     </div>
 
     <div class="ref-description section level2">
-    <p>Check that x is a Zero-Length Object</p>
+    <p>Check that <code>x</code> is a Zero-Length Object</p>
     </div>
 
     <div class="section level2">
@@ -84,7 +84,7 @@ check equality to a zero-length object. Checking equality should <strong>not</st
 done by using <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">==</a></code> because that leads to <code>logical(0)</code> if any of
 the sides contains a zero-length object, which gives an error when used as
 complete <a href="https://rdrr.io/r/base/Control.html" class="external-link">conditional statement</a>.</p>
-<p><code>all(logical(0))</code> returns <code>TRUE</code>, see the <code>Note</code> in <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. This is also the
+<p><code>all(logical(0))</code> returns <code>TRUE</code>, see the 'Note' in <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. This is also the
 case for <code>all(numeric(0))</code> and <code>all(character(0))</code> that get coerced to type
 <code>logical</code>.</p>
 <p>Although zero-length objects are discarded when combined into a vector with

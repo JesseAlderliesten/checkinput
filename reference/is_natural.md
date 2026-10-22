@@ -51,7 +51,7 @@ make_natural(
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html) of the
+  `TRUE` or `FALSE`: allow [`NA`](https://rdrr.io/r/base/NA.html) of the
   correct type in `x`?
 
 - tol:

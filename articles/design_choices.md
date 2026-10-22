@@ -11,14 +11,14 @@ shows how to get a named boolean vector indicating for each element of
 The check functions of **checkinput** return either `TRUE` or `FALSE`
 and do **not** throw errors for any input to `x`: throwing an error
 about `x` is deferred to
-[`base::stopifnot()`](https://rdrr.io/r/base/stopifnot.html) in which
-calls to functions from **checkinput** are typically wrapped when they
-are used inside other functions. Errors **are** thrown about invalid
-input to arguments other than `x`, e.g., when values other than `TRUE`
-or `FALSE` are used for argument `allow_NA`.
+[`stopifnot()`](https://rdrr.io/r/base/stopifnot.html) in which calls to
+functions from **checkinput** are typically wrapped when they are used
+inside other functions. Errors **are** thrown about invalid input to
+arguments other than `x`, e.g., when values other than `TRUE` or `FALSE`
+are used for argument `allow_NA`.
 
 The default arguments make functions of **checkinput** more restrictive
-than the equivalent functions in base R because the functions of
+than the equivalent functions in base **R** because the functions of
 **checkinput** are intended for argument checking. For example,
 [`checkinput::is_logical()`](https://jessealderliesten.github.io/checkinput/reference/is_logical.md)
 by default returns `FALSE` for `logical(0)` because zero-length `x` is

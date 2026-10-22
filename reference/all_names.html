@@ -91,10 +91,10 @@ number; and are not <a href="https://rdrr.io/r/base/Reserved.html" class="extern
 definition of <strong>letter</strong> depends on the current <a href="https://rdrr.io/r/base/locales.html" class="external-link">locale</a>, such that
 names containing accented letters like <code>é</code> and letters that are only present
 in some alphabets like the German Eszett are allowed by <code>all_names()</code> if
-these characters are encoded in the used locale (see the 'Programming Notes'
-on a stricter check that would not allow these characters).</p>
+these characters are encoded in the used locale. See the 'Programming Notes'
+on a stricter check that would not allow these characters.</p>
 <p>Names that consist of only dots, or consist of two dots followed by a number,
-are not allowed by <code>all_names()</code> (nor by <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>) even though
+are not allowed by <code>all_names()</code>, nor by <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>, even though
 they are not adjusted by <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>: they are <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words.</p>
 <p>Suspicious names are not allowed by <code>all_names()</code>. A suspicious name is a
 syntactically valid name that contains a pattern suggesting it originally was
@@ -139,7 +139,7 @@ not followed by a number, syntactically valid:</p><ul><li><p><code><a href="http
 <li><p>adjustments to name unnamed columns:</p><ul><li><p><code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> and <code>read.csv(..., header = FALSE)</code> use pattern <code>V1</code>,
 <code>V2</code>, <code>V3</code></p></li>
 <li><p><code>read.csv(..., header = TRUE)</code> uses pattern <code>X</code>, <code>X.1</code>, <code>X.2</code></p></li>
-<li><p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> creates names in a complex way, see the Section <code>Value</code> in
+<li><p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> creates names in a complex way, see the section 'Value' in
 <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for some details. <code>all_names()</code> only detects names created
 for unnamed columns if the names were syntactically invalid and therefore
 got <code>X</code> put in front of them.</p></li>
@@ -180,8 +180,8 @@ see the section 'Extended Regular Expressions' in <a href="https://rdrr.io/r/bas
 <a href="https://en.wikipedia.org/wiki/ASCII" class="external-link">ASCII</a> and
 <a href="https://en.wikipedia.org/wiki/UTF-8" class="external-link">UTF-8</a> for background on encodings and
 character sets. Furthermore, see <code><a href="https://rdrr.io/r/base/iconv.html" class="external-link">iconv()</a></code> on conversions between encodings;
-package <a href="https://CRAN.R-project.org/package=stringi" class="external-link">stringi</a> that provides
-facilities to process character strings;
+package <a href="https://CRAN.R-project.org/package=stringi" class="external-link"><strong>stringi</strong></a> that
+provides facilities to process character strings;
 <code><a href="https://rdrr.io/r/tools/showNonASCII.html" class="external-link">tools::showNonASCII()</a></code> to show non-ASCII bytes;
 and <code>janitor::make_clean_names()</code> to transliterate non-ASCII characters.</p>
     </div>

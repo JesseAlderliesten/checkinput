@@ -89,19 +89,20 @@ functions.</p>
 <p>The check functions of <strong>checkinput</strong> return either
 <code>TRUE</code> or <code>FALSE</code> and do <strong>not</strong>
 throw errors for any input to <code>x</code>: throwing an error about
-<code>x</code> is deferred to <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">base::stopifnot()</a></code> in which
-calls to functions from <strong>checkinput</strong> are typically
-wrapped when they are used inside other functions. Errors
-<strong>are</strong> thrown about invalid input to arguments other than
-<code>x</code>, e.g., when values other than <code>TRUE</code> or
-<code>FALSE</code> are used for argument <code>allow_NA</code>.</p>
+<code>x</code> is deferred to <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> in which calls to
+functions from <strong>checkinput</strong> are typically wrapped when
+they are used inside other functions. Errors <strong>are</strong> thrown
+about invalid input to arguments other than <code>x</code>, e.g., when
+values other than <code>TRUE</code> or <code>FALSE</code> are used for
+argument <code>allow_NA</code>.</p>
 <p>The default arguments make functions of <strong>checkinput</strong>
-more restrictive than the equivalent functions in base R because the
-functions of <strong>checkinput</strong> are intended for argument
-checking. For example, <code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> by default
-returns <code>FALSE</code> for <code>logical(0)</code> because
-zero-length <code>x</code> is usually unwanted in function arguments,
-whereas <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code> returns <code>TRUE</code> for
+more restrictive than the equivalent functions in base
+<strong>R</strong> because the functions of <strong>checkinput</strong>
+are intended for argument checking. For example,
+<code><a href="../reference/is_logical.html">checkinput::is_logical()</a></code> by default returns
+<code>FALSE</code> for <code>logical(0)</code> because zero-length
+<code>x</code> is usually unwanted in function arguments, whereas
+<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">base::is.logical()</a></code> returns <code>TRUE</code> for
 <code>logical(0)</code> because it has <code>type</code> logical.</p>
 </div>
 <div class="section level2">

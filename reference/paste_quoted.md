@@ -26,7 +26,7 @@ paste_quoted(x, collapse = ", ")
 
 A character string consisting of the elements of `x` surrounded by
 single quotes, separated by the string given in `collapse`. See
-`Details` on the handling of some special values in `x`.
+'Details' on the handling of some special values in `x`.
 
 ## Details
 

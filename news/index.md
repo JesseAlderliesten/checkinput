@@ -5,7 +5,7 @@
 #### Miscellaneous
 
 - Make layout more uniform.
-- Wrap lines in `Usage` and `Example` sections to 65 characters.
+- Wrap lines in ‘Usage’ and ‘Example’ sections to 65 characters.
 - Capitalize function titles.
 - Avoid markup in section titles.
 
@@ -13,7 +13,7 @@
 
 #### Breaking changes
 
-- Add dependency `utils` to `Suggests` because it is used to show
+- Add dependency **utils** to `Suggests` because it is used to show
   session info in the vignette on type coercion.
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
   use
@@ -23,7 +23,7 @@
 #### Miscellaneous
 
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
-  in the `Note on paths`, describe the difference between absolute and
+  in the ‘Note on paths’, describe the difference between absolute and
   relative paths, how to use dots in paths, and normalisation of paths.
 
 ## checkinput 1.4.1
@@ -56,7 +56,7 @@
   valid on all locales. The pattern used by
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) to name
   unnamed columns is now correctly described.
-- The used version of `roxygen2` increased from `8.0.0` to `8.1.0`.
+- The used version of **roxygen2** increased from 8.0.0 to 8.1.0.
 
 ## checkinput 1.3.0
 
@@ -78,7 +78,7 @@
 
 #### Breaking changes
 
-- Dependency `fs`: require minimum version `1.2.4` because `path_wd()`
+- Dependency **fs**: require minimum version 1.2.4 because `path_wd()`
   is used.
 
 ## checkinput 1.0.0
@@ -94,8 +94,8 @@
 
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
   add argument `require_sep` to facilitate checking filenames.
-- Remove dependency `progutils` from `Suggests` to prevent dependency
-  conflicts because `progutils` itself depends on `checkinput`.
+- Remove dependency **progutils** from `Suggests` to prevent dependency
+  conflicts because **progutils** itself depends on **checkinput**.
 
 ## checkinput 0.11.0
 
@@ -107,8 +107,8 @@
 
 #### Breaking changes
 
-- Add dependency `progutils >= 0.0.4` to `Suggests` because it is used
-  in the documentation.
+- Add dependency **progutils** with minimum version 0.0.4 to `Suggests`
+  because it is used in the documentation.
 
 #### Bugfixes
 
@@ -118,7 +118,7 @@
 
 #### Breaking changes
 
-- Add dependency `fs` to `Imports` because it is used in
+- Add dependency **fs** to `Imports` because it is used in
   [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md).
 - [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
   now accepts atomic non-vector objects such as the output of
@@ -127,10 +127,10 @@
 #### Added functions
 
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
-  move from package `progutils` to `checkinput`. Rename argument `path`
-  to `x`. Warn and return `FALSE` instead of throwing an error if `path`
-  is not a valid path. Not allow filenames to start with a hyphen. Not
-  warn about duplicated file separators or pointing to
+  move from package **progutils** to **checkinput**. Rename argument
+  `path` to `x`. Warn and return `FALSE` instead of throwing an error if
+  `path` is not a valid path. Not allow filenames to start with a
+  hyphen. Not warn about duplicated file separators or pointing to
   [`tempdir()`](https://rdrr.io/r/base/tempfile.html).
 
 ## checkinput 0.8.0
@@ -154,7 +154,7 @@
 
 #### Breaking changes
 
-- Use `roxygen2` version 8.0.0.
+- Use **roxygen2** version 8.0.0.
 - Replace the non-exported function
   [`paste_quoted()`](https://jessealderliesten.github.io/checkinput/reference/paste_quoted.md)
   by the full function from `progutils::paste_quoted()` and export it.
@@ -163,9 +163,9 @@
 
 #### Breaking changes
 
-- Dependency `tinytest`: declare version `>= 1.4.1` because I use
-  argument `strict` in `expect_message()` and `expect_warning()`.
-- Remove the dependency on `vctrs` by hardcoding the output of the
+- Dependency **tinytest**: declare minimum version 1.4.1 to be able to
+  use argument `strict` in `expect_message()` and `expect_warning()`.
+- Remove the dependency on **vctrs** by hardcoding the output of the
   single remaining call to
   [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html)
   in a test for
@@ -175,9 +175,10 @@
 
 #### Breaking changes
 
-- Dependency `R >= 4.0.0` increased to `R >= 4.1.0`, which is required
-  to pass the `R CMD check` on Ubuntu-latest: `rmarkdown` \> `bslib` \>
-  `sass` \> `fs` needs `R >= 4.1` and `rappdirs` needs `R >= 4.1.0`.
+- Minimum version of dependency **R** increased from 4.0.0 to 4.1.0 to
+  pass the `R CMD check` on Ubuntu-latest: **rappdirs** and
+  **rmarkdown** \> **bslib** \> **sass** \> **fs** need **R** with
+  minimum version 4.1.
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
   wrap text of warnings. Use `deparse1(substitute(x))` to get the
   offending values instead of literal `'x'` in the text of warnings or
@@ -196,7 +197,7 @@
 
 #### Breaking changes
 
-- Depend on `R >= 4.0.0` to be able to use
+- Depend on **R** with minimum version 4.0.0 to be able to use
   [`deparse1()`](https://rdrr.io/r/base/deparse.html).
 
 #### Added functions
@@ -228,7 +229,7 @@
 
 #### Breaking changes
 
-- Add dependency `vctrs` to `Suggests` because it is used in
+- Add dependency **vctrs** to `Suggests` because it is used in
   documentation of
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):

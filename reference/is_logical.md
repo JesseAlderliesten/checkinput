@@ -23,7 +23,7 @@ is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html) of the
+  `TRUE` or `FALSE`: allow [`NA`](https://rdrr.io/r/base/NA.html) of the
   correct type in `x`?
 
 ## Value

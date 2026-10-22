@@ -1,6 +1,6 @@
 # Check that x is a Zero-Length Object
 
-Check that x is a Zero-Length Object
+Check that `x` is a Zero-Length Object
 
 ## Usage
 
@@ -44,7 +44,7 @@ that leads to `logical(0)` if any of the sides contains a zero-length
 object, which gives an error when used as complete [conditional
 statement](https://rdrr.io/r/base/Control.html).
 
-`all(logical(0))` returns `TRUE`, see the `Note` in
+`all(logical(0))` returns `TRUE`, see the 'Note' in
 [`all()`](https://rdrr.io/r/base/all.html). This is also the case for
 `all(numeric(0))` and `all(character(0))` that get coerced to type
 `logical`.

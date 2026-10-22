@@ -46,13 +46,13 @@ or with a dot not followed by a number; and are not
 depends on the current [locale](https://rdrr.io/r/base/locales.html),
 such that names containing accented letters like `é` and letters that
 are only present in some alphabets like the German Eszett are allowed by
-`all_names()` if these characters are encoded in the used locale (see
+`all_names()` if these characters are encoded in the used locale. See
 the 'Programming Notes' on a stricter check that would not allow these
-characters).
+characters.
 
 Names that consist of only dots, or consist of two dots followed by a
-number, are not allowed by `all_names()` (nor by
-[`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html))
+number, are not allowed by `all_names()`, nor by
+[`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html),
 even though they are not adjusted by
 [`make.names()`](https://rdrr.io/r/base/make.names.html): they are
 [reserved](https://rdrr.io/r/base/Reserved.html) words.
@@ -132,7 +132,7 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`
 
   - [`data.frame()`](https://rdrr.io/r/base/data.frame.html) creates
-    names in a complex way, see the Section `Value` in
+    names in a complex way, see the section 'Value' in
     [`data.frame()`](https://rdrr.io/r/base/data.frame.html) for some
     details. `all_names()` only detects names created for unnamed
     columns if the names were syntactically invalid and therefore got
@@ -187,8 +187,9 @@ Wikipedia articles about [ASCII](https://en.wikipedia.org/wiki/ASCII)
 and [UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on
 encodings and character sets. Furthermore, see
 [`iconv()`](https://rdrr.io/r/base/iconv.html) on conversions between
-encodings; package [stringi](https://CRAN.R-project.org/package=stringi)
-that provides facilities to process character strings;
+encodings; package
+[**stringi**](https://CRAN.R-project.org/package=stringi) that provides
+facilities to process character strings;
 [`tools::showNonASCII()`](https://rdrr.io/r/tools/showNonASCII.html) to
 show non-ASCII bytes; and `janitor::make_clean_names()` to transliterate
 non-ASCII characters.

@@ -44,7 +44,7 @@ restrictions:
 - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`,
   `>`, nor any of the control characters (`[:cntrl:]`, with ASCII octal
   codes `000` through `037` and `177`, see
-  [`help("regex")`](https://rdrr.io/r/base/regex.html))
+  [`help("regex")`](https://rdrr.io/r/base/regex.html)
 
 - `x` should **not** contain colons (`:`) after the first path component
   (Windows only allows colons to indicate volume names like `C:\`)
@@ -76,21 +76,21 @@ Windows and thus would lead to a mismatch between the created directory
 and the returned path when used to create a directory; and characters
 that might give problems when used in the shell.
 
-`is_path()` is lenient with respect to file separators (i.e., `/` or
-`\\`):
+`is_path()` is lenient with respect to file separators, i.e., `/` or
+`\\`:
 
 - `x` does **not** have to contain any file separator if `require_sep`
   is `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to
-  check that filename `x` only contains allowed characters (given that
-  `x` ends in a file extension)
+  check that filename `x` only contains allowed characters given that
+  `x` ends in a file extension
 
 - `x` might contain trailing file separators if it does **not** end in a
   file extension, although these trailing file separators might be
-  ignored or removed in some operations (e.g., they are removed by
+  ignored or removed in some operations, e.g., they are removed by
   [`file.path()`](https://rdrr.io/r/base/file.path.html) and
-  [`fs::path()`](https://fs.r-lib.org/reference/path.html))
+  [`fs::path()`](https://fs.r-lib.org/reference/path.html)
 
-- `x` might contain successive file separators (e.g., `//` or `\\\\`):
+- `x` might contain successive file separators e.g., `//` or `\\\\`:
   these should be treated by the operating system as if they were only a
   single file separator
 
@@ -105,10 +105,10 @@ The file separator is a backslash (`\`) on Windows but a forward slash
 [`file.path()`](https://rdrr.io/r/base/file.path.html) or
 [`fs::path()`](https://fs.r-lib.org/reference/path.html) to construct
 paths in a platform-independent way and
-[.Platform\$file.sep](https://rdrr.io/r/base/Platform.html) to get the
+[`.Platform$file.sep`](https://rdrr.io/r/base/Platform.html) to get the
 file separator used on the current platform.
 
-Furthermore, the backslash is also used as [escape
+Furthermore, the backslash is also used as an [escape
 character](https://rdrr.io/r/base/regex.html) in R, such that
 backslashes need to be escaped in R code by doubling them. Use `cat(x)`
 to omit the escape characters to see how `x` would be printed.
@@ -120,8 +120,8 @@ indicated by two dots (`".."`).
 **relative** paths start from the [working
 directory](https://rdrr.io/r/base/getwd.html). In contrast, **absolute**
 paths start from the root directory and thus give the complete path,
-such that the path still points to the same directory if the [working
-directory](https://rdrr.io/r/base/getwd.html) changes.
+such that the path still points to the same directory if the working
+directory changes.
 
 Paths can be normalised, e.g., through
 [`normalizePath()`](https://rdrr.io/r/base/normalizePath.html) or
@@ -138,7 +138,7 @@ The output of [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
 successive forward slashes (e.g.,
 `/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier
 versions of `is_path()` (then in package
-[progutils](https://jessealderliesten.github.io/progutils/)) led to
+[**progutils**](https://jessealderliesten.github.io/progutils/)) led to
 spurious warnings about duplicated file separators.
 
 ## References
@@ -187,7 +187,7 @@ documentation on checking existence, permissions, and other information
 about files or directories
 
 Section 'Paths in the shell' in the vignette *Git and GitHub* of package
-`checkrpkgs` on paths and file separators in the
+**checkrpkgs** on paths and file separators in the
 [shell](https://happygitwithr.com/shell):
 `vignette("git_github", package = "checkrpkgs")`.
 

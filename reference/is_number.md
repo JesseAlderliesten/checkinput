@@ -41,7 +41,7 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
 - allow_NA:
 
-  `TRUE` or `FALSE`: allow [NA](https://rdrr.io/r/base/NA.html) of the
+  `TRUE` or `FALSE`: allow [`NA`](https://rdrr.io/r/base/NA.html) of the
   correct type in `x`?
 
 - allow_NaN:
@@ -88,7 +88,7 @@ for floating-point numbers such as `3.2` and integers such as `3L`. In
 contrast, `class(x) == "numeric"` (or, more robust,
 `inherits(x = x, what = "numeric")`) would check the
 [`class()`](https://rdrr.io/r/base/class.html) of `x` which is `numeric`
-for floating-point numbers but `integer` for integers (see the 'Note on
+for floating-point numbers but `integer` for integers, see the 'Note on
 names' in [`help("is.numeric")`](https://rdrr.io/r/base/numeric.html).
 
 ## See also
