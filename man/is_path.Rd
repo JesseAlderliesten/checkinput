@@ -30,7 +30,7 @@ such paths are not guaranteed to work with functions like \code{file.create()}.
 Use \code{D:./path} or \code{d:./path} instead
 \item \code{x} should \strong{not} contain the characters \verb{"}, \code{*}, \verb{?}, \code{|}, \code{<}, \code{>}, nor
 any of the control characters (\verb{[:cntrl:]}, with ASCII octal codes \code{000}
-through \code{037} and \code{177}, see \code{help("regex")})
+through \code{037} and \code{177}, see \code{help("regex")}
 \item \code{x} should \strong{not} contain colons (\code{:}) after the first path component
 (Windows only allows colons to indicate volume names like \verb{C:\\})
 \item path components (i.e., parts separated by file separators \code{/} or \verb{\\\\})
@@ -57,17 +57,17 @@ and thus would lead to a mismatch between the created directory and the
 returned path when used to create a directory; and characters that might give
 problems when used in the shell.
 
-\code{is_path()} is lenient with respect to file separators (i.e., \code{/} or \verb{\\\\}):
+\code{is_path()} is lenient with respect to file separators, i.e., \code{/} or \verb{\\\\}:
 \itemize{
 \item \code{x} does \strong{not} have to contain any file separator if \code{require_sep} is
 \code{FALSE}, such that \code{is_path(x, require_sep = FALSE)} can be used to check
-that filename \code{x} only contains allowed characters (given that \code{x} ends in
-a file extension)
+that filename \code{x} only contains allowed characters given that \code{x} ends in
+a file extension
 \item \code{x} might contain trailing file separators if it does \strong{not} end in a
 file extension, although these trailing file separators might be ignored
-or removed in some operations (e.g., they are removed by \code{\link[=file.path]{file.path()}} and
-\code{\link[fs:path]{fs::path()}})
-\item \code{x} might contain successive file separators (e.g., \verb{//} or \verb{\\\\\\\\}): these
+or removed in some operations, e.g., they are removed by \code{\link[=file.path]{file.path()}} and
+\code{\link[fs:path]{fs::path()}}
+\item \code{x} might contain successive file separators e.g., \verb{//} or \verb{\\\\\\\\}: these
 should be treated by the operating system as if they were only a single
 file separator
 }
@@ -79,11 +79,11 @@ file or folder, \strong{nor} that such a file or folder can be created.
 
 The file separator is a backslash (\verb{\\}) on Windows but a forward slash (\code{/})
 on other operating systems: use \code{\link[=file.path]{file.path()}} or \code{\link[fs:path]{fs::path()}} to construct
-paths in a platform-independent way and \link[=.Platform]{.Platform$file.sep} to
+paths in a platform-independent way and \code{\link[=.Platform]{.Platform$file.sep}} to
 get the file separator used on the current platform.
 
-Furthermore, the backslash is also used as \link[=regex]{escape character} in \R,
-such that backslashes need to be escaped in \R code by doubling them. Use
+Furthermore, the backslash is also used as an \link[=regex]{escape character} in
+\R, such that backslashes need to be escaped in \R code by doubling them. Use
 \code{cat(x)} to omit the escape characters to see how \code{x} would be printed.
 
 The \link[=getwd]{working directory} can be indicated by a single dot (\code{"."}) and
@@ -91,8 +91,8 @@ the parent directory can be indicated by two dots (\code{".."}).
 
 \strong{relative} paths start from the \link[=getwd]{working directory}. In contrast,
 \strong{absolute} paths start from the root directory and thus give the complete
-path, such that the path still points to the same directory if the
-\link[=getwd]{working directory} changes.
+path, such that the path still points to the same directory if the working
+directory changes.
 
 Paths can be normalised, e.g., through \code{\link[=normalizePath]{normalizePath()}} or \code{\link[fs:path_norm]{fs::path_norm()}}
 (which is also called by \code{\link[fs:path_abs]{fs::path_abs()}}). On case-insensitive file systems,
@@ -107,8 +107,8 @@ The output of \code{\link[=tempdir]{tempdir()}} during
 successive forward slashes (e.g.,
 \verb{/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR}) which in earlier versions
 of \code{\link[=is_path]{is_path()}} (then in package
-\href{https://jessealderliesten.github.io/progutils/}{progutils}) led to spurious
-warnings about duplicated file separators.
+\href{https://jessealderliesten.github.io/progutils/}{\strong{progutils}}) led to
+spurious warnings about duplicated file separators.
 }
 
 \section{References}{
@@ -168,7 +168,7 @@ on checking existence, permissions, and other information about files or
 directories
 
 Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
-\code{checkrpkgs} on paths and file separators in the
+\strong{checkrpkgs} on paths and file separators in the
 \href{https://happygitwithr.com/shell}{shell}:
 \code{vignette("git_github", package = "checkrpkgs")}.
 

@@ -34,7 +34,7 @@
 #' floating-point numbers such as `3.2` and integers such as `3L`. In contrast,
 #' `class(x) == "numeric"` (or, more robust, `inherits(x = x, what = "numeric")`)
 #' would check the [class()] of `x` which is `numeric` for floating-point numbers
-#' but `integer` for integers (see the 'Note on names' in `help("is.numeric")`.
+#' but `integer` for integers, see the 'Note on names' in `help("is.numeric")`.
 #'
 #' @family
 #' collections of checks on type and length

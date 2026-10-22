@@ -44,10 +44,10 @@ list_hobbies <- function(name, age, hobbies) {
 }
 ```
 
-The checks inside `stopifnot()` ensure that (1) `name` contains a single
-character string that might be empty (`""`) or `NA`; (2) `age` contains
-a single non-negative number; (3) `hobbies` contains at least one
-character string and does not contain empty strings or `NA`s.
+The checks inside `stopifnot()` ensure that `name` contains a single
+character string that might be empty (`""`) or `NA`; `age` contains a
+single non-negative number; `hobbies` contains at least one character
+string and does not contain empty strings or `NA`s.
 
 The base R equivalent of `list_hobbies()` would require much more code
 to check the input, increasing the chance of coding errors and making it
@@ -57,8 +57,8 @@ more difficult to read:
 list_hobbies_base <- function(name, age, hobbies) {
   stopifnot(is.character(name), is.atomic(name), is.null(dim(name)),
             length(name) == 1L,
-            is.numeric(age), is.atomic(age), is.null(dim(age)), length(age) == 1L,
-            nzchar(x = age, keepNA = FALSE), !is.na(age), age >= 0L,
+            is.numeric(age), is.atomic(age), is.null(dim(age)),
+            length(age) == 1L, !is.na(age), age >= 0L,
             is.character(hobbies), is.atomic(hobbies), is.null(dim(hobbies)),
             length(hobbies) > 0L, all(nzchar(hobbies, keepNA = FALSE)),
             !anyNA(hobbies))
@@ -158,22 +158,22 @@ License](LICENSE.md).
 
 Please open a [GitHub
 issue](https://github.com/JesseAlderliesten/checkinput/issues) if you
-have suggestions for improvement of **checkinput**.
+have suggestions to improve **checkinput**.
 
 ## Similar packages
 
 Functions of **checkinput** use arguments to determine if special values
 like `NA` and zero-length values should be allowed, making them more
-flexible than functions in similar packages that require a different
-function to include these special values. Nevertheless, the following
+flexible than functions in similar R packages that require different
+functions to include these special values. Nevertheless, the following
 similar packages are worth looking into:
 
 - [**arkhe**](https://CRAN.R-project.org/package=arkhe): tools for
-  cleaning rectangular data.
+  cleaning rectangular data
 - [**assertable**](https://CRAN.R-project.org/package=assertable):
-  verbose assertions for tabular data (data.frames and data.tables).
+  verbose assertions for tabular data (data.frames and data.tables)
 - [**assertthat**](https://CRAN.R-project.org/package=assertthat): easy
-  pre and post assertions.
+  pre and post assertions
 - [**checkmate**](https://CRAN.R-project.org/package=checkmate): fast
   and versatile argument checks
 - [**chk**](https://CRAN.R-project.org/package=chk): check user-supplied

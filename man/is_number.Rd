@@ -34,7 +34,7 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct \link[=typeof]{type}?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \link{NA} of the correct type in \code{x}?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?}
 
 \item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \code{\link{NaN}}?}
 }
@@ -72,7 +72,7 @@ if \code{allow_NaN} is \code{TRUE}.
 floating-point numbers such as \code{3.2} and integers such as \code{3L}. In contrast,
 \code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
 would check the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
-but \code{integer} for integers (see the 'Note on names' in \code{help("is.numeric")}.
+but \code{integer} for integers, see the 'Note on names' in \code{help("is.numeric")}.
 }
 
 \examples{

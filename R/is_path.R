@@ -17,7 +17,7 @@
 #'   Use `D:./path` or `d:./path` instead
 #' - `x` should **not** contain the characters `"`, `*`, `?`, `|`, `<`, `>`, nor
 #'   any of the control characters (`[:cntrl:]`, with ASCII octal codes `000`
-#'   through `037` and `177`, see `help("regex")`)
+#'   through `037` and `177`, see `help("regex")`
 #' - `x` should **not** contain colons (`:`) after the first path component
 #'   (Windows only allows colons to indicate volume names like `C:\`)
 #' - path components (i.e., parts separated by file separators `/` or `\\`)
@@ -43,17 +43,17 @@
 #' returned path when used to create a directory; and characters that might give
 #' problems when used in the shell.
 #'
-#' `is_path()` is lenient with respect to file separators (i.e., `/` or `\\`):
+#' `is_path()` is lenient with respect to file separators, i.e., `/` or `\\`:
 #'
 #' -  `x` does **not** have to contain any file separator if `require_sep` is
 #'   `FALSE`, such that `is_path(x, require_sep = FALSE)` can be used to check
-#'   that filename `x` only contains allowed characters (given that `x` ends in
-#'   a file extension)
+#'   that filename `x` only contains allowed characters given that `x` ends in
+#'   a file extension
 #' - `x` might contain trailing file separators if it does **not** end in a
 #'   file extension, although these trailing file separators might be ignored
-#'   or removed in some operations (e.g., they are removed by [file.path()] and
-#'   [fs::path()])
-#' - `x` might contain successive file separators (e.g., `//` or `\\\\`): these
+#'   or removed in some operations, e.g., they are removed by [file.path()] and
+#'   [fs::path()]
+#' - `x` might contain successive file separators e.g., `//` or `\\\\`: these
 #'   should be treated by the operating system as if they were only a single
 #'   file separator
 #'
@@ -67,11 +67,11 @@
 #' @section Notes on Paths:
 #' The file separator is a backslash (`\`) on Windows but a forward slash (`/`)
 #' on other operating systems: use [file.path()] or [fs::path()] to construct
-#' paths in a platform-independent way and [.Platform$file.sep][.Platform] to
+#' paths in a platform-independent way and [`.Platform$file.sep`][.Platform] to
 #' get the file separator used on the current platform.
 #'
-#' Furthermore, the backslash is also used as [escape character][regex] in \R,
-#' such that backslashes need to be escaped in \R code by doubling them. Use
+#' Furthermore, the backslash is also used as an [escape character][regex] in
+#' \R, such that backslashes need to be escaped in \R code by doubling them. Use
 #' `cat(x)` to omit the escape characters to see how `x` would be printed.
 #'
 #' The [working directory][getwd()] can be indicated by a single dot (`"."`) and
@@ -79,8 +79,8 @@
 #'
 #' **relative** paths start from the [working directory][getwd()]. In contrast,
 #' **absolute** paths start from the root directory and thus give the complete
-#' path, such that the path still points to the same directory if the
-#' [working directory][getwd()] changes.
+#' path, such that the path still points to the same directory if the working
+#' directory changes.
 #'
 #' Paths can be normalised, e.g., through [normalizePath()] or [fs::path_norm()]
 #' (which is also called by [fs::path_abs()]). On case-insensitive file systems,
@@ -93,8 +93,8 @@
 #' successive forward slashes (e.g.,
 #' `/var/<...>/T//RtmpxC2Fyl/working_dir/RtmpdnqgUR`) which in earlier versions
 #' of [checkinput::is_path()] (then in package
-#' [progutils](https://jessealderliesten.github.io/progutils/)) led to spurious
-#' warnings about duplicated file separators.
+#' [**progutils**](https://jessealderliesten.github.io/progutils/)) led to
+#' spurious warnings about duplicated file separators.
 #'
 #' @section References:
 #' - 'Naming files, paths, and namespaces' from
@@ -129,7 +129,7 @@
 #' directories
 #'
 #' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
-#' `checkrpkgs` on paths and file separators in the
+#' **checkrpkgs** on paths and file separators in the
 #' [shell](https://happygitwithr.com/shell):
 #' `vignette("git_github", package = "checkrpkgs")`.
 #'
@@ -187,8 +187,8 @@ is_path <- function(x, require_sep = TRUE) {
   }
 
   # Notes:
-  # - base::split(x = x, f = c("/", "\\")) does not
-  #   work because that recycles 'split' along 'x'
+  # - split(x = x, f = c("/", "\\")) does not work
+  #   because that recycles 'split' along 'x'
   # - fs::path_split() removes successive and trailing slashes before splitting.
   #   That is not a problem because such slashes are allowed by 'is_path()'
   #   because the operating system should ignore those anyway.

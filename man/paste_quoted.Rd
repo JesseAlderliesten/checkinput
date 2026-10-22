@@ -15,7 +15,7 @@ the quoted elements of \code{x}.}
 }
 \value{
 A character string consisting of the elements of \code{x} surrounded by single
-quotes, separated by the string given in \code{collapse}. See \code{Details} on the
+quotes, separated by the string given in \code{collapse}. See 'Details' on the
 handling of some special values in \code{x}.
 }
 \description{
