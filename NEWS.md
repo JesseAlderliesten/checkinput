@@ -2,7 +2,7 @@
 
 ### Miscellaneous
 - Make layout more uniform.
-- Wrap lines in `Usage` and `Example` sections to 65 characters.
+- Wrap lines in 'Usage' and 'Example' sections to 65 characters.
 - Capitalize function titles.
 - Avoid markup in section titles.
 
@@ -10,12 +10,12 @@
 # checkinput 1.5.0
 
 ### Breaking changes
-- Add dependency `utils` to `Suggests` because it is used to show session info
+- Add dependency **utils** to `Suggests` because it is used to show session info
   in the vignette on type coercion.
 - `is_path()`: use `paste_quoted()` to print `x` in warnings.
 
 ### Miscellaneous
-- `is_path()`: in the `Note on paths`, describe the difference between absolute
+- `is_path()`: in the 'Note on paths', describe the difference between absolute
   and relative paths, how to use dots in paths, and normalisation of paths.
 
 
@@ -38,7 +38,7 @@
 - The documentation for `all_names()` is clearer about what would be a
   conservative check for names that are valid on all locales. The pattern used
   by `data.frame()` to name unnamed columns is now correctly described.
-- The used version of `roxygen2` increased from `8.0.0` to `8.1.0`.
+- The used version of **roxygen2** increased from 8.0.0 to 8.1.0.
 
 
 # checkinput 1.3.0
@@ -59,7 +59,7 @@
 # checkinput 1.1.0
 
 ### Breaking changes
-- Dependency `fs`: require minimum version `1.2.4` because `path_wd()` is used.
+- Dependency **fs**: require minimum version 1.2.4 because `path_wd()` is used.
 
 
 # checkinput 1.0.0
@@ -73,8 +73,8 @@
 
 ### Breaking changes
 - `is_path()`: add argument `require_sep` to facilitate checking filenames.
-- Remove dependency `progutils` from `Suggests` to prevent dependency conflicts
-  because `progutils` itself depends on `checkinput`.
+- Remove dependency **progutils** from `Suggests` to prevent dependency
+  conflicts because **progutils** itself depends on **checkinput**.
 
 
 # checkinput 0.11.0
@@ -86,8 +86,8 @@
 # checkinput 0.10.0
 
 ### Breaking changes
-- Add dependency `progutils >= 0.0.4` to `Suggests` because it is used in the
-  documentation.
+- Add dependency **progutils** with minimum version 0.0.4 to `Suggests` because
+  it is used in the documentation.
 
 ### Bugfixes
 - `is_path("C:")` would warn that filename should not contain `:`.
@@ -96,15 +96,15 @@
 # checkinput 0.9.0
 
 ### Breaking changes
-- Add dependency `fs` to `Imports` because it is used in `is_path()`.
+- Add dependency **fs** to `Imports` because it is used in `is_path()`.
 - `paste_quoted()` now accepts atomic non-vector objects such as the output of
   `fs::path()`.
 
 ### Added functions
-- `is_path()`: move from package `progutils` to `checkinput`. Rename argument
-  `path` to `x`. Warn and return `FALSE` instead of throwing an error if `path`
-  is not a valid path. Not allow filenames to start with a hyphen. Not warn
-  about duplicated file separators or pointing to `tempdir()`.
+- `is_path()`: move from package **progutils** to **checkinput**. Rename
+  argument `path` to `x`. Warn and return `FALSE` instead of throwing an error
+  if `path` is not a valid path. Not allow filenames to start with a hyphen. Not
+  warn about duplicated file separators or pointing to `tempdir()`.
 
 
 # checkinput 0.8.0
@@ -125,7 +125,7 @@
 # checkinput 0.6.0
 
 ### Breaking changes
-- Use `roxygen2` version 8.0.0.
+- Use **roxygen2** version 8.0.0.
 - Replace the non-exported function `paste_quoted()` by the full function from
   `progutils::paste_quoted()` and export it.
 
@@ -133,18 +133,18 @@
 # checkinput 0.5.0
 
 ### Breaking changes
-- Dependency `tinytest`: declare version `>= 1.4.1` because I use argument
-  `strict` in `expect_message()` and `expect_warning()`.
-- Remove the dependency on `vctrs` by hardcoding the output of the single
+- Dependency **tinytest**: declare minimum version 1.4.1 to be able to use
+  argument `strict` in `expect_message()` and `expect_warning()`.
+- Remove the dependency on **vctrs** by hardcoding the output of the single
   remaining call to `vctrs::vec_as_names()` in a test for `all_names()`.
 
 
 # checkinput 0.4.0
 
 ### Breaking changes
-- Dependency `R >= 4.0.0` increased to `R >= 4.1.0`, which is required to pass
-  the `R CMD check` on Ubuntu-latest: `rmarkdown` > `bslib` > `sass` > `fs` needs
-  `R >= 4.1` and `rappdirs` needs `R >= 4.1.0`.
+- Minimum version of dependency **R** increased from 4.0.0 to 4.1.0 to pass the
+  `R CMD check` on Ubuntu-latest: **rappdirs** and **rmarkdown** > **bslib** >
+  **sass** > **fs** need **R** with minimum version 4.1.
 - `all_names()`: wrap text of warnings. Use `deparse1(substitute(x))` to get the
   offending values instead of literal `'x'` in the text of warnings or errors.
 - `is_nonnegative()`, `all_nonnegative()`, `is_positive()`: call `is_number()`
@@ -155,7 +155,7 @@
 # checkinput 0.3.0
 
 ### Breaking changes
-- Depend on `R >= 4.0.0` to be able to use `deparse1()`.
+- Depend on **R** with minimum version 4.0.0 to be able to use `deparse1()`.
 
 ### Added functions
 - `make_natural()`: use `is_natural()` or `all_natural()` to round values, while
@@ -176,7 +176,7 @@
 # checkinput 0.0.6
 
 ### Breaking changes
-- Add dependency `vctrs` to `Suggests` because it is used in documentation of
+- Add dependency **vctrs** to `Suggests` because it is used in documentation of
   `all_names()`.
 - `all_names()`: remove argument `allow_susp` and never allows suspicious names;
   also check for suspicious names that might have been created by `data.frame()`

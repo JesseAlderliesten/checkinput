@@ -20,11 +20,11 @@
 #' definition of **letter** depends on the current [locale][locales], such that
 #' names containing accented letters like `é` and letters that are only present
 #' in some alphabets like the German Eszett are allowed by `all_names()` if
-#' these characters are encoded in the used locale (see the 'Programming Notes'
-#' on a stricter check that would not allow these characters).
+#' these characters are encoded in the used locale. See the 'Programming Notes'
+#' on a stricter check that would not allow these characters.
 #'
 #' Names that consist of only dots, or consist of two dots followed by a number,
-#' are not allowed by `all_names()` (nor by `vctrs::vec_as_names()`) even though
+#' are not allowed by `all_names()`, nor by `vctrs::vec_as_names()`, even though
 #' they are not adjusted by [make.names()]: they are [reserved] words.
 #'
 #' Suspicious names are not allowed by `all_names()`. A suspicious name is a
@@ -75,7 +75,7 @@
 #'   - `as.data.frame()` and `read.csv(..., header = FALSE)` use pattern `V1`,
 #'     `V2`, `V3`
 #'   - `read.csv(..., header = TRUE)` uses pattern `X`, `X.1`, `X.2`
-#'   - `data.frame()` creates names in a complex way, see the Section `Value` in
+#'   - `data.frame()` creates names in a complex way, see the section 'Value' in
 #'     [data.frame()] for some details. `all_names()` only detects names created
 #'     for unnamed columns if the names were syntactically invalid and therefore
 #'     got `X` put in front of them.
@@ -124,8 +124,8 @@
 #' [ASCII](https://en.wikipedia.org/wiki/ASCII) and
 #' [UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on encodings and
 #' character sets. Furthermore, see [iconv()] on conversions between encodings;
-#' package [stringi](https://CRAN.R-project.org/package=stringi) that provides
-#' facilities to process character strings;
+#' package [**stringi**](https://CRAN.R-project.org/package=stringi) that
+#' provides facilities to process character strings;
 #' `tools::showNonASCII()` to show non-ASCII bytes;
 #' and `janitor::make_clean_names()` to transliterate non-ASCII characters.
 #'

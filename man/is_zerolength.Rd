@@ -13,7 +13,7 @@ is_zerolength(x)
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a zero-length object.
 }
 \description{
-Check that x is a Zero-Length Object
+Check that \code{x} is a Zero-Length Object
 }
 \section{Notes}{
 
@@ -35,7 +35,7 @@ done by using \code{\link[=Comparison]{==}} because that leads to \code{logical(
 the sides contains a zero-length object, which gives an error when used as
 complete \link[=Control]{conditional statement}.
 
-\code{all(logical(0))} returns \code{TRUE}, see the \code{Note} in \code{\link[=all]{all()}}. This is also the
+\code{all(logical(0))} returns \code{TRUE}, see the 'Note' in \code{\link[=all]{all()}}. This is also the
 case for \code{all(numeric(0))} and \code{all(character(0))} that get coerced to type
 \code{logical}.
 

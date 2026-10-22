@@ -1,5 +1,7 @@
 #' Check that x is a Zero-Length Object
 #'
+#' Check that `x` is a Zero-Length Object
+#'
 #' @inheritParams is_logical x
 #'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a zero-length object.
@@ -23,7 +25,7 @@
 #' the sides contains a zero-length object, which gives an error when used as
 #' complete [conditional statement][Control].
 #'
-#' `all(logical(0))` returns `TRUE`, see the `Note` in [all()]. This is also the
+#' `all(logical(0))` returns `TRUE`, see the 'Note' in [all()]. This is also the
 #' case for `all(numeric(0))` and `all(character(0))` that get coerced to type
 #' `logical`.
 #'

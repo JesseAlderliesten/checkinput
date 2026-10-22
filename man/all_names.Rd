@@ -35,11 +35,11 @@ number; and are not \link{reserved} words such as \code{\link{for}} or \code{\li
 definition of \strong{letter} depends on the current \link[=locales]{locale}, such that
 names containing accented letters like \code{é} and letters that are only present
 in some alphabets like the German Eszett are allowed by \code{all_names()} if
-these characters are encoded in the used locale (see the 'Programming Notes'
-on a stricter check that would not allow these characters).
+these characters are encoded in the used locale. See the 'Programming Notes'
+on a stricter check that would not allow these characters.
 
 Names that consist of only dots, or consist of two dots followed by a number,
-are not allowed by \code{all_names()} (nor by \code{vctrs::vec_as_names()}) even though
+are not allowed by \code{all_names()}, nor by \code{vctrs::vec_as_names()}, even though
 they are not adjusted by \code{\link[=make.names]{make.names()}}: they are \link{reserved} words.
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name is a
@@ -100,7 +100,7 @@ not followed by a number, syntactically valid:
 \item \code{as.data.frame()} and \code{read.csv(..., header = FALSE)} use pattern \code{V1},
 \code{V2}, \code{V3}
 \item \code{read.csv(..., header = TRUE)} uses pattern \code{X}, \code{X.1}, \code{X.2}
-\item \code{data.frame()} creates names in a complex way, see the Section \code{Value} in
+\item \code{data.frame()} creates names in a complex way, see the section 'Value' in
 \code{\link[=data.frame]{data.frame()}} for some details. \code{all_names()} only detects names created
 for unnamed columns if the names were syntactically invalid and therefore
 got \code{X} put in front of them.
@@ -148,8 +148,8 @@ see the section 'Extended Regular Expressions' in \link{regex}. See \link{Encodi
 \href{https://en.wikipedia.org/wiki/ASCII}{ASCII} and
 \href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8} for background on encodings and
 character sets. Furthermore, see \code{\link[=iconv]{iconv()}} on conversions between encodings;
-package \href{https://CRAN.R-project.org/package=stringi}{stringi} that provides
-facilities to process character strings;
+package \href{https://CRAN.R-project.org/package=stringi}{\strong{stringi}} that
+provides facilities to process character strings;
 \code{tools::showNonASCII()} to show non-ASCII bytes;
 and \code{janitor::make_clean_names()} to transliterate non-ASCII characters.
 }

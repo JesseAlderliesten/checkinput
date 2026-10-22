@@ -3,6 +3,11 @@
 #' Quote elements of a vector and concatenate the result to a single character
 #' string.
 #'
+#' @param x Dimensionless atomic object to be converted to a single character
+#' string.
+#' @param collapse Non-empty [character string][is_character()] used to separate
+#' the quoted elements of `x`.
+#'
 #' @details
 #' Some values are handled specially to print clearer:
 #'
@@ -14,14 +19,9 @@
 #' - non-logical `NA` is returned as `"'NA_<class>_'"` (e.g., `"'NA_real_'"`;
 #'   for [factors][factor] this is `"'NA_character_'"`).
 #'
-#' @param x Dimensionless atomic object to be converted to a single character
-#' string.
-#' @param collapse Non-empty [character string][is_character()] used to separate
-#' the quoted elements of `x`.
-#'
 #' @returns
 #' A character string consisting of the elements of `x` surrounded by single
-#' quotes, separated by the string given in `collapse`. See `Details` on the
+#' quotes, separated by the string given in `collapse`. See 'Details' on the
 #' handling of some special values in `x`.
 #'
 #' @section Notes:
