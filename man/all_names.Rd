@@ -23,11 +23,19 @@ Check that \code{x} is a \link[=is.character]{character vector} with
 were adjusted or automatically created.
 }
 \details{
-\link[=duplicated]{Duplicated} or syntactically invalid names are not allowed by
-\code{all_names()} because \R functions are not guaranteed to handle such names
-correctly. For example, not all operations on \link[=data.frame]{data frames}
-will preserve duplicated column names, and operations involving syntactically
-invalid names might, by definition, give undocumented results.
+\subsection{Duplicated names}{
+
+\link[=duplicated]{Duplicated} names are not allowed by \code{all_names()} because \R
+functions are not guaranteed to handle such names correctly. For example, not
+all operations on \link[=data.frame]{data frames} will preserve duplicated column
+names.
+}
+
+\subsection{Syntactically valid names}{
+
+Syntactically invalid names are not allowed by \code{all_names()} because
+operations involving syntactically invalid names might, by definition, give
+undocumented results.
 
 \link[=make.names]{Syntactically valid} names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
@@ -41,6 +49,15 @@ on a stricter check that would not allow these characters.
 Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by \code{all_names()}, nor by \code{vctrs::vec_as_names()}, even though
 they are not adjusted by \code{\link[=make.names]{make.names()}}: they are \link{reserved} words.
+
+Names containing underscores (\verb{_}) are by default \strong{allowed} by \code{all_names()}
+because names containing underscores are not syntactically invalid. However,
+setting \code{allow_underscores} to \code{FALSE} to \strong{not} allow such names is useful
+to check that names do not contain underscores, for example if several names
+will be concatenated to create an ID-tag, separating the names by underscores.
+}
+
+\subsection{Suspicious names}{
 
 Suspicious names are not allowed by \code{all_names()}. A suspicious name is a
 syntactically valid name that contains a pattern suggesting it originally was
@@ -110,14 +127,11 @@ It is \strong{not} checked if a complete sequence of suspicious names is
 present, e.g., \code{V3} will be flagged as suspicious even if \code{V1} and \code{V2} are
 absent.
 }
-
-Names containing underscores (\verb{_}) are by default \strong{allowed} by \code{all_names()}
-because names containing underscores are not syntactically invalid. However,
-setting \code{allow_underscores} to \code{FALSE} to \strong{not} allow such names is useful
-to check that names do not contain underscores, for example if several names
-will be concatenated to create an ID-tag, separating the names by underscores.
+}
 }
 \section{Programming Notes}{
+
+\subsection{regex patterns}{
 
 The patterns used to identify suspicious names are created using
 \link[base:regex]{regular expressions} with the following elements:
@@ -133,6 +147,9 @@ times (\code{+})
 
 Multiple patterns can be combined using \code{|}, the normal operator indicating
 \link[=|]{logical OR}.
+}
+
+\subsection{Locales}{
 
 A conservative check for names that are \link[=make.names]{syntactically valid} on
 all locales would
@@ -140,18 +157,25 @@ all locales would
 digits, unaccented letters from the
 \href{https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet}{basic Latin alphabet},
 dots and underscores.
-Implementations of such a conservative check should use the literal string
+Implementations of such a conservative check should use a literal string like
 \verb{[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]} instead of
 shorthands like \verb{[:alnum:]} or \verb{[0-9A-Za-z]} that also depend on the locale,
-see the section 'Extended Regular Expressions' in \link{regex}. See \link{Encoding},
-\link{locales}, \code{\link[=validUTF8]{validUTF8()}}, and the Wikipedia articles about
-\href{https://en.wikipedia.org/wiki/ASCII}{ASCII} and
+see the section 'Extended Regular Expressions' in \link{regex}.
+
+See \link{Encoding}, \link{locales}, \code{\link[=validUTF8]{validUTF8()}}, section 'Details' of
+\code{help("Comparison")}, section
+\href{https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Locales}{Locales}
+in the 'R Installation and Administration manual', and the Wikipedia articles
+about \href{https://en.wikipedia.org/wiki/ASCII}{ASCII} and
 \href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8} for background on encodings and
-character sets. Furthermore, see \code{\link[=iconv]{iconv()}} on conversions between encodings;
+character sets; and \code{\link[=iconv]{iconv()}} on conversions between encodings.
+
+See
 package \href{https://CRAN.R-project.org/package=stringi}{\strong{stringi}} that
 provides facilities to process character strings;
 \code{tools::showNonASCII()} to show non-ASCII bytes;
 and \code{janitor::make_clean_names()} to transliterate non-ASCII characters.
+}
 }
 
 \examples{

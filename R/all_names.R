@@ -8,11 +8,17 @@
 #' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
 #'
 #' @details
-#' [Duplicated][duplicated()] or syntactically invalid names are not allowed by
-#' `all_names()` because \R functions are not guaranteed to handle such names
-#' correctly. For example, not all operations on [data frames][data.frame()]
-#' will preserve duplicated column names, and operations involving syntactically
-#' invalid names might, by definition, give undocumented results.
+#'
+#' ## Duplicated names
+#' [Duplicated][duplicated()] names are not allowed by `all_names()` because \R
+#' functions are not guaranteed to handle such names correctly. For example, not
+#' all operations on [data frames][data.frame()] will preserve duplicated column
+#' names.
+#'
+#' ## Syntactically valid names
+#' Syntactically invalid names are not allowed by `all_names()` because
+#' operations involving syntactically invalid names might, by definition, give
+#' undocumented results.
 #'
 #' [Syntactically valid][make.names()] names only consist of letters, numbers,
 #' dots and underscores; start with a letter, or with a dot not followed by a
@@ -27,6 +33,13 @@
 #' are not allowed by `all_names()`, nor by `vctrs::vec_as_names()`, even though
 #' they are not adjusted by [make.names()]: they are [reserved] words.
 #'
+#' Names containing underscores (`_`) are by default **allowed** by `all_names()`
+#' because names containing underscores are not syntactically invalid. However,
+#' setting `allow_underscores` to `FALSE` to **not** allow such names is useful
+#' to check that names do not contain underscores, for example if several names
+#' will be concatenated to create an ID-tag, separating the names by underscores.
+#'
+#' ## Suspicious names
 #' Suspicious names are not allowed by `all_names()`. A suspicious name is a
 #' syntactically valid name that contains a pattern suggesting it originally was
 #' syntactically invalid or not unique and has been **adjusted** into a
@@ -84,12 +97,6 @@
 #'   present, e.g., `V3` will be flagged as suspicious even if `V1` and `V2` are
 #'   absent.
 #'
-#' Names containing underscores (`_`) are by default **allowed** by `all_names()`
-#' because names containing underscores are not syntactically invalid. However,
-#' setting `allow_underscores` to `FALSE` to **not** allow such names is useful
-#' to check that names do not contain underscores, for example if several names
-#' will be concatenated to create an ID-tag, separating the names by underscores.
-#'
 #' @returns
 #' `TRUE` or `FALSE`, indicating if `x` is a character vector that consists of
 #' unique, syntactically valid names that do **not** consist of only dots or of
@@ -97,6 +104,8 @@
 #' automatically created.
 #'
 #' @section Programming Notes:
+#'
+#' ## regex patterns
 #' The patterns used to identify suspicious names are created using
 #' [regular expressions][base::regex] with the following elements:
 #' - require a pattern to start at the beginning of a string (`^`) or reach the
@@ -110,20 +119,27 @@
 #' Multiple patterns can be combined using `|`, the normal operator indicating
 #' [logical OR][|].
 #'
+#' ## Locales
 #' A conservative check for names that are [syntactically valid][make.names] on
 #' all locales would
 #' [only allow](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_265)
 #' digits, unaccented letters from the
 #' [basic Latin alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet),
 #' dots and underscores.
-#' Implementations of such a conservative check should use the literal string
+#' Implementations of such a conservative check should use a literal string like
 #' `[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]` instead of
 #' shorthands like `[:alnum:]` or `[0-9A-Za-z]` that also depend on the locale,
-#' see the section 'Extended Regular Expressions' in [regex]. See [Encoding],
-#' [locales], [validUTF8()], and the Wikipedia articles about
-#' [ASCII](https://en.wikipedia.org/wiki/ASCII) and
+#' see the section 'Extended Regular Expressions' in [regex].
+#'
+#' See [Encoding], [locales], [validUTF8()], section 'Details' of
+#' `help("Comparison")`, section
+#' [Locales](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Locales)
+#' in the 'R Installation and Administration manual', and the Wikipedia articles
+#' about [ASCII](https://en.wikipedia.org/wiki/ASCII) and
 #' [UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on encodings and
-#' character sets. Furthermore, see [iconv()] on conversions between encodings;
+#' character sets; and [iconv()] on conversions between encodings.
+#'
+#' See
 #' package [**stringi**](https://CRAN.R-project.org/package=stringi) that
 #' provides facilities to process character strings;
 #' `tools::showNonASCII()` to show non-ASCII bytes;
