@@ -65,6 +65,8 @@
 #' valid filename.
 #'
 #' @section Notes on Paths:
+#'
+#' ## Slashes
 #' The file separator is a backslash (`\`) on Windows but a forward slash (`/`)
 #' on other operating systems: use [file.path()] or [fs::path()] to construct
 #' paths in a platform-independent way and [`.Platform$file.sep`][.Platform] to
@@ -74,6 +76,7 @@
 #' \R, such that backslashes need to be escaped in \R code by doubling them. Use
 #' `cat(x)` to omit the escape characters to see how `x` would be printed.
 #'
+#' ## Dots
 #' The [working directory][getwd()] can be indicated by a single dot (`"."`) and
 #' the parent directory can be indicated by two dots (`".."`).
 #'
@@ -82,6 +85,7 @@
 #' path, such that the path still points to the same directory if the working
 #' directory changes.
 #'
+#' ## Normalisation
 #' Paths can be normalised, e.g., through [normalizePath()] or [fs::path_norm()]
 #' (which is also called by [fs::path_abs()]). On case-insensitive file systems,
 #' this also adjusts the case to match names of directories that are already
