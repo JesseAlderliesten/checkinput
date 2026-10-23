@@ -25,10 +25,6 @@
 #' the sides contains a zero-length object, which gives an error when used as
 #' complete [conditional statement][Control].
 #'
-#' `all(logical(0))` returns `TRUE`, see the 'Note' in [all()]. This is also the
-#' case for `all(numeric(0))` and `all(character(0))` that get coerced to type
-#' `logical`.
-#'
 #' Although zero-length objects are discarded when combined into a vector with
 #' other values, their types **are** taken into account for type coercion, see
 #' the vignette *Type coercion*:
@@ -36,6 +32,10 @@
 #' `314` will be coerced to character `"314"` when it is combined into a vector
 #' with zero-length `character(0)`, such that `c(314, character(0))` results in
 #' the character string `"314"`, **not** in the numeric value `314`.
+#'
+#' `all(logical(0))` returns `TRUE`, see the 'Note' in [all()]. This is also the
+#' case for `all(numeric(0))` and `all(character(0))` that get coerced to type
+#' `logical`.
 #'
 #' @family
 #' collections of checks on type and length
