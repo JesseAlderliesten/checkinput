@@ -89,10 +89,11 @@ all(unlist(lapply(X = z, FUN = all_characters)))
 ## Zero-length values
 Although zero-length objects (see `help("is_zerolength")`) are discarded when
 combined into a vector with other values, their types are taken into account for
-type coercion. For example, numeric `314` will be coerced to character `"314"`
+type coercion. For example, the number `314` has type `double` but will be
+coerced to character-type `"314"`
 when combined into a vector with zero-length `character(0)`, such that
 `c(314, character(0))` results in the character string `"314"`, **not** in the
-numeric value `314`.
+number `314`.
 
 ```{r zerolength}
 num <- 314
@@ -122,10 +123,10 @@ do.call(
 )
 ```
 
-Functions like `is.numeric()` check the `mode` of `x` (but return `FALSE` for
-factors), see the 'Note on names' in `help("is.numeric")`. To test the class of
-`x`, use `inherits(x = x, what = "numeric")` or `"numeric" %in% class(x)`,
-**not** `class(x) == "numeric"` that will fail with an error if `x` has multiple
+`is.numeric()` checks the `mode` of `x`, see the 'Note on names' in
+`help("is.numeric")`, but returns `FALSE` for factors. To test the class of `x`,
+use `inherits(x = x, what = "numeric")` or `"numeric" %in% class(x)`, **not**
+`class(x) == "numeric"` that will fail with an error if `x` has multiple
 classes.
 
 ## sessionInfo
