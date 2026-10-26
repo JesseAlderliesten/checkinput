@@ -1,10 +1,9 @@
-# checkinput 1.5.1
+# checkinput 1.5.2
 
-### Miscellaneous
-- Make layout more uniform.
-- Wrap lines in 'Usage' and 'Example' sections to 65 characters.
-- Capitalize function titles.
-- Avoid markup in section titles.
+### Documentation
+- Show overview of types, modes and classes in vignette *Type coercion*.
+- Various stylistic changes.
+- Prune the NEWS file.
 
 
 # checkinput 1.5.0
@@ -17,12 +16,6 @@
 ### Miscellaneous
 - `is_path()`: in the 'Note on paths', describe the difference between absolute
   and relative paths, how to use dots in paths, and normalisation of paths.
-
-
-# checkinput 1.4.1
-
-### Miscellaneous
-- `README`: update version number in citation, add contact/contribution info.
 
 
 # checkinput 1.4.0
@@ -66,7 +59,7 @@
 
 ### Documentation
 - Update `NEWS`.
-- Add links to license and citation file.
+- Add links to license and citation files.
 
 
 # checkinput 0.12.0
@@ -179,11 +172,11 @@
 - Add dependency **vctrs** to `Suggests` because it is used in documentation of
   `all_names()`.
 - `all_names()`: remove argument `allow_susp` and never allows suspicious names;
-  also check for suspicious names that might have been created by `data.frame()`
-  or `vctrs::vec_as_names()`; consider the reserved words `...` and `..1`
-  invalid; make existing checks are now more specific: check that names which
-  apparently have been made valid indeed contain an invalid part, and that the
-  first digit of numbers added to duplicated names is non-zero.
+  check for suspicious names that might have been created by `data.frame()` or
+  `vctrs::vec_as_names()`; consider the reserved words `...` and `..1` invalid;
+  make existing checks more specific: check that names which apparently have
+  been made valid indeed contain an invalid part, and that the first digit of
+  numbers added to duplicated names is non-zero.
 - `is_number()` and derived functions gain arguments `allow_zero`, `allow_NA`
   and `allow_NaN` (with default `FALSE`, in contrast to the previously implicit
   `TRUE`), to resolve the contradiction that using `is_number()` returned `TRUE`
