@@ -38,7 +38,8 @@ complete \link[=Control]{conditional statement}.
 Although zero-length objects are discarded when combined into a vector with
 other values, their types \strong{are} taken into account for type coercion, see
 the vignette \emph{Type coercion}:
-\code{vignette("type_coercion", package = "checkinput")}. For example, numeric
+\href{https://jessealderliesten.github.io/checkinput/articles/type_coercion.html}{\code{vignette("type_coercion", package = "checkinput")}}.
+For example, numeric
 \code{314} will be coerced to character \code{"314"} when it is combined into a vector
 with zero-length \code{character(0)}, such that \code{c(314, character(0))} results in
 the character string \code{"314"}, \strong{not} in the numeric value \code{314}.

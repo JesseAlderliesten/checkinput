@@ -176,7 +176,9 @@ output) to do so without checking they are a unique match to a pattern;
 on checking existence, permissions, and other information about files or
 directories
 
-Section 'Paths in the shell' in the vignette \emph{Git and GitHub} of package
+Section
+\href{https://jessealderliesten.github.io/checkrpkgs/articles/git_github.html#paths-in-the-shell}{Paths in the shell}
+in the vignette \emph{Git and GitHub} of package
 \strong{checkrpkgs} on paths and file separators in the
 \href{https://happygitwithr.com/shell}{shell}:
 \code{vignette("git_github", package = "checkrpkgs")}.

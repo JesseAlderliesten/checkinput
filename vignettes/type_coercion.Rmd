@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-Objects in **R** are converted ('coerced') to a common type when combined in a
+Objects in R are converted ('coerced') to a common type when combined in a
 vector, see `help("c")`. The type of the vector, and thus of all its
 components, will be the highest type of the components in the hierarchy `NULL` <
 `raw` < `logical` < `integer` < `double` < `complex` < `character` < `list` <

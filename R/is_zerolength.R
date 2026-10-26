@@ -28,7 +28,8 @@
 #' Although zero-length objects are discarded when combined into a vector with
 #' other values, their types **are** taken into account for type coercion, see
 #' the vignette *Type coercion*:
-#' `vignette("type_coercion", package = "checkinput")`. For example, numeric
+#' [`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html).
+#' For example, numeric
 #' `314` will be coerced to character `"314"` when it is combined into a vector
 #' with zero-length `character(0)`, such that `c(314, character(0))` results in
 #' the character string `"314"`, **not** in the numeric value `314`.

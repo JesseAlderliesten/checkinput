@@ -132,7 +132,9 @@
 #' on checking existence, permissions, and other information about files or
 #' directories
 #'
-#' Section 'Paths in the shell' in the vignette *Git and GitHub* of package
+#' Section
+#' [Paths in the shell](https://jessealderliesten.github.io/checkrpkgs/articles/git_github.html#paths-in-the-shell)
+#' in the vignette *Git and GitHub* of package
 #' **checkrpkgs** on paths and file separators in the
 #' [shell](https://happygitwithr.com/shell):
 #' `vignette("git_github", package = "checkrpkgs")`.
