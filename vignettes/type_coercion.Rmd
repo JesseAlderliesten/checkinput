@@ -122,10 +122,10 @@ do.call(
 )
 ```
 
-Functions like `is.numeric()` check the `mode` of `x`, see the 'Note on names'
-in `help("is.numeric")`. To test the class of `x`, use
-`inherits(x = x, what = "numeric")` or `"numeric" %in% class(x)`, **not**
-`class(x) == "numeric"` that will fail with an error if `x` has multiple
+Functions like `is.numeric()` check the `mode` of `x` (but return `FALSE` for
+factors), see the 'Note on names' in `help("is.numeric")`. To test the class of
+`x`, use `inherits(x = x, what = "numeric")` or `"numeric" %in% class(x)`,
+**not** `class(x) == "numeric"` that will fail with an error if `x` has multiple
 classes.
 
 ## sessionInfo
