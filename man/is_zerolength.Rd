@@ -35,17 +35,18 @@ done by using \code{\link[=Comparison]{==}} because that leads to \code{logical(
 the sides contains a zero-length object, which gives an error when used as
 complete \link[=Control]{conditional statement}.
 
-\code{all(logical(0))} returns \code{TRUE}, see the 'Note' in \code{\link[=all]{all()}}. This is also the
-case for \code{all(numeric(0))} and \code{all(character(0))} that get coerced to type
-\code{logical}.
-
 Although zero-length objects are discarded when combined into a vector with
 other values, their types \strong{are} taken into account for type coercion, see
 the vignette \emph{Type coercion}:
-\code{vignette("type_coercion", package = "checkinput")}. For example, numeric
+\href{https://jessealderliesten.github.io/checkinput/articles/type_coercion.html}{\code{vignette("type_coercion", package = "checkinput")}}.
+For example, numeric
 \code{314} will be coerced to character \code{"314"} when it is combined into a vector
 with zero-length \code{character(0)}, such that \code{c(314, character(0))} results in
 the character string \code{"314"}, \strong{not} in the numeric value \code{314}.
+
+\code{all(logical(0))} returns \code{TRUE}, see the 'Note' in \code{\link[=all]{all()}}. This is also the
+case for \code{all(numeric(0))} and \code{all(character(0))} that get coerced to type
+\code{logical}.
 }
 
 \examples{

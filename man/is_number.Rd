@@ -72,7 +72,11 @@ if \code{allow_NaN} is \code{TRUE}.
 floating-point numbers such as \code{3.2} and integers such as \code{3L}. In contrast,
 \code{class(x) == "numeric"} (or, more robust, \code{inherits(x = x, what = "numeric")})
 would check the \code{\link[=class]{class()}} of \code{x} which is \code{numeric} for floating-point numbers
-but \code{integer} for integers, see the 'Note on names' in \code{help("is.numeric")}.
+but \code{integer} for integers, see the 'Note on names' in \code{help("is.numeric")}
+and section
+\href{https://jessealderliesten.github.io/checkinput/articles/type_coercion.html#class-type-and-mode}{class, type, and mode}
+in vignette \emph{type_coercion}:
+\code{vignette("type_coercion", package = "checkinput")}.
 }
 
 \examples{

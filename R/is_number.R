@@ -34,7 +34,11 @@
 #' floating-point numbers such as `3.2` and integers such as `3L`. In contrast,
 #' `class(x) == "numeric"` (or, more robust, `inherits(x = x, what = "numeric")`)
 #' would check the [class()] of `x` which is `numeric` for floating-point numbers
-#' but `integer` for integers, see the 'Note on names' in `help("is.numeric")`.
+#' but `integer` for integers, see the 'Note on names' in `help("is.numeric")`
+#' and section
+#' [class, type, and mode](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html#class-type-and-mode)
+#' in vignette *type_coercion*:
+#' `vignette("type_coercion", package = "checkinput")`.
 #'
 #' @family
 #' collections of checks on type and length

@@ -43,8 +43,8 @@ By default, the `is_*` check functions only return `TRUE` for `x` of length one
 functions return `TRUE` for `x` of length larger than zero. Set argument
 `allow_zero` to `TRUE` to let check functions also return `TRUE` for zero-length
 `x` of the correct type. See `help("is_zerolength")` and
-`vignette("type_coercion", package = "checkinput")` for a discussion of some
-issues with zero-length input.
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
+for a discussion of some issues with zero-length input.
 
 ## `NA` and `NaN` in `x`
 By default, the check functions return `FALSE` for `x` containing `NA` or `NaN`.

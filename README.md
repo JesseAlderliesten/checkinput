@@ -109,7 +109,7 @@ shows how to get a named boolean vector indicating for each element of
 
 **checkinput** also contains a [vignette about type
 coercion](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
-in relation to checking function input:  
+in relation to checking function input:\
 `vignette("type_coercion", package = "checkinput")`.
 
 ## Function overview
@@ -142,7 +142,7 @@ License](LICENSE.md).
     To cite package 'checkinput' in publications use:
 
       Alderliesten J (2026). _checkinput: Check Function Input_. R package
-      version 1.5.1, <https://github.com/JesseAlderliesten/checkinput>.
+      version 1.5.2, <https://github.com/JesseAlderliesten/checkinput>.
 
     A BibTeX entry for LaTeX users is
 
@@ -150,7 +150,7 @@ License](LICENSE.md).
         title = {checkinput: Check Function Input},
         author = {Jesse Alderliesten},
         year = {2026},
-        note = {R package version 1.5.1},
+        note = {R package version 1.5.2},
         url = {https://github.com/JesseAlderliesten/checkinput},
       }
 
