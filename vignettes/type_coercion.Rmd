@@ -102,6 +102,32 @@ str(zerochar)
 str(c(num, zerochar))
 ```
 
+## class, type, and mode
+There are several ways to define the 'type' (in the loose sense of the word) of
+R objects. The following table gives an overview of the type (`typeof()`), mode
+(`mode()`) and class (`class()`) of various objects. The overview shows
+differences between floating-point numbers such as `3.2` and integers such as
+`3L`: they both have mode `numeric` but different types and classes. Factors
+have type `factor`, mode `numeric` and `class` integer.
+
+```{r class_type_mode, echo = FALSE}
+do.call(
+  rbind,
+  lapply(
+    list("NULL" = NULL, "TRUE" = TRUE, "1L" = 1L, "1.2" = 1.2,
+         "complex" = complex(), "character" = character(), "list" = list(),
+         "factor" = factor()),
+    function(x) {c(class = class(x), mode = mode(x), type = typeof(x))}
+  )
+)
+```
+
+Functions like `is.numeric()` check the `mode` of `x`, see the 'Note on names'
+in `help("is.numeric")`. To test the class of `x`, use
+`inherits(x = x, what = "numeric")` or `"numeric" %in% class(x)`, **not**
+`class(x) == "numeric"` that will fail with an error if `x` has multiple
+classes.
+
 ## sessionInfo
 ```{r sessionInfo, echo = FALSE}
 utils::sessionInfo()
