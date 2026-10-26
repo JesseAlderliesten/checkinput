@@ -9,7 +9,7 @@ of the correct sign."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,7 +124,11 @@ if <code>allow_NaN</code> is <code>TRUE</code>.</p></li>
 floating-point numbers such as <code>3.2</code> and integers such as <code>3L</code>. In contrast,
 <code>class(x) == "numeric"</code> (or, more robust, <code>inherits(x = x, what = "numeric")</code>)
 would check the <code><a href="https://rdrr.io/r/base/class.html" class="external-link">class()</a></code> of <code>x</code> which is <code>numeric</code> for floating-point numbers
-but <code>integer</code> for integers, see the 'Note on names' in <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">help("is.numeric")</a></code>.</p>
+but <code>integer</code> for integers, see the 'Note on names' in <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">help("is.numeric")</a></code>
+and section
+<a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html#class-type-and-mode">class, type, and mode</a>
+in vignette <em>type_coercion</em>:
+<code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

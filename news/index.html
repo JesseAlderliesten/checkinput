@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,13 +44,12 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.5.1" id="checkinput-151">checkinput 1.5.1<a class="anchor" aria-label="anchor" href="#checkinput-151"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.5.2" id="checkinput-152">checkinput 1.5.2<a class="anchor" aria-label="anchor" href="#checkinput-152"></a></h2>
 <div class="section level4">
-<h4 id="miscellaneous-1-5-1">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-5-1"></a></h4>
-<ul><li>Make layout more uniform.</li>
-<li>Wrap lines in ‘Usage’ and ‘Example’ sections to 65 characters.</li>
-<li>Capitalize function titles.</li>
-<li>Avoid markup in section titles.</li>
+<h4 id="documentation-1-5-2">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-5-2"></a></h4>
+<ul><li>Show overview of types, modes and classes in vignette <em>Type coercion</em>.</li>
+<li>Various stylistic changes.</li>
+<li>Prune the NEWS file.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -65,14 +64,6 @@
 <h4 id="miscellaneous-1-5-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-5-0"></a></h4>
 <ul><li>
 <code><a href="../reference/is_path.html">is_path()</a></code>: in the ‘Note on paths’, describe the difference between absolute and relative paths, how to use dots in paths, and normalisation of paths.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.4.1" id="checkinput-141">checkinput 1.4.1<a class="anchor" aria-label="anchor" href="#checkinput-141"></a></h2>
-<div class="section level4">
-<h4 id="miscellaneous-1-4-1">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-4-1"></a></h4>
-<ul><li>
-<code>README</code>: update version number in citation, add contact/contribution info.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -116,7 +107,7 @@
 <div class="section level4">
 <h4 id="documentation-1-0-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-0-0"></a></h4>
 <ul><li>Update <code>NEWS</code>.</li>
-<li>Add links to license and citation file.</li>
+<li>Add links to license and citation files.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -236,7 +227,7 @@
 <h4 id="breaking-changes-0-0-6">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-0-6"></a></h4>
 <ul><li>Add dependency <strong>vctrs</strong> to <code>Suggests</code> because it is used in documentation of <code><a href="../reference/all_names.html">all_names()</a></code>.</li>
 <li>
-<code><a href="../reference/all_names.html">all_names()</a></code>: remove argument <code>allow_susp</code> and never allows suspicious names; also check for suspicious names that might have been created by <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>; consider the reserved words <code>...</code> and <code>..1</code> invalid; make existing checks are now more specific: check that names which apparently have been made valid indeed contain an invalid part, and that the first digit of numbers added to duplicated names is non-zero.</li>
+<code><a href="../reference/all_names.html">all_names()</a></code>: remove argument <code>allow_susp</code> and never allows suspicious names; check for suspicious names that might have been created by <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>; consider the reserved words <code>...</code> and <code>..1</code> invalid; make existing checks more specific: check that names which apparently have been made valid indeed contain an invalid part, and that the first digit of numbers added to duplicated names is non-zero.</li>
 <li>
 <code><a href="../reference/is_number.html">is_number()</a></code> and derived functions gain arguments <code>allow_zero</code>, <code>allow_NA</code> and <code>allow_NaN</code> (with default <code>FALSE</code>, in contrast to the previously implicit <code>TRUE</code>), to resolve the contradiction that using <code><a href="../reference/is_number.html">is_number()</a></code> returned <code>TRUE</code> for these values but using them in conditional statements led to <code>logical(0)</code> and thus to an error.</li>
 </ul></div>

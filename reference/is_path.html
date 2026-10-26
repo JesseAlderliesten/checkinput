@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,6 +123,10 @@ file or folder, <strong>nor</strong> that such a file or folder can be created.<
     <h2 id="notes-on-paths">Notes on Paths<a class="anchor" aria-label="anchor" href="#notes-on-paths"></a></h2>
 
 
+<div class="section">
+<h3 id="slashes">Slashes<a class="anchor" aria-label="anchor" href="#slashes"></a></h3>
+
+
 <p>The file separator is a backslash (<code>\</code>) on Windows but a forward slash (<code>/</code>)
 on other operating systems: use <code><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path()</a></code> or <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code> to construct
 paths in a platform-independent way and <code><a href="https://rdrr.io/r/base/Platform.html" class="external-link">.Platform$file.sep</a></code> to
@@ -130,16 +134,31 @@ get the file separator used on the current platform.</p>
 <p>Furthermore, the backslash is also used as an <a href="https://rdrr.io/r/base/regex.html" class="external-link">escape character</a> in
 <span style="R">R</span>, such that backslashes need to be escaped in <span style="R">R</span> code by doubling them. Use
 <code>cat(x)</code> to omit the escape characters to see how <code>x</code> would be printed.</p>
+</div>
+
+<div class="section">
+<h3 id="dots">Dots<a class="anchor" aria-label="anchor" href="#dots"></a></h3>
+
+
 <p>The <a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a> can be indicated by a single dot (<code>"."</code>) and
-the parent directory can be indicated by two dots (<code>".."</code>).</p>
+the parent directory can be indicated by two dots (<code>".."</code>).
+<code>checkinput::is_path()</code> only allows those in the first path component.</p>
 <p><strong>relative</strong> paths start from the <a href="https://rdrr.io/r/base/getwd.html" class="external-link">working directory</a>. In contrast,
 <strong>absolute</strong> paths start from the root directory and thus give the complete
 path, such that the path still points to the same directory if the working
 directory changes.</p>
+</div>
+
+<div class="section">
+<h3 id="normalisation">Normalisation<a class="anchor" aria-label="anchor" href="#normalisation"></a></h3>
+
+
 <p>Paths can be normalised, e.g., through <code><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath()</a></code> or <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_norm()</a></code>
 (which is also called by <code><a href="https://fs.r-lib.org/reference/path_math.html" class="external-link">fs::path_abs()</a></code>). On case-insensitive file systems,
 this also adjusts the case to match names of directories that are already
 present.</p>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming Notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
@@ -186,7 +205,9 @@ output) to do so without checking they are a unique match to a pattern;
 <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code>, <code><a href="https://rdrr.io/r/base/file.access.html" class="external-link">file.access()</a></code>, <code><a href="https://rdrr.io/r/utils/filetest.html" class="external-link">utils::file_test()</a></code> and their documentation
 on checking existence, permissions, and other information about files or
 directories</p>
-<p>Section 'Paths in the shell' in the vignette <em>Git and GitHub</em> of package
+<p>Section
+<a href="https://jessealderliesten.github.io/checkrpkgs/articles/git_github.html#paths-in-the-shell" class="external-link">Paths in the shell</a>
+in the vignette <em>Git and GitHub</em> of package
 <strong>checkrpkgs</strong> on paths and file separators in the
 <a href="https://happygitwithr.com/shell" class="external-link">shell</a>:
 <code>vignette("git_github", package = "checkrpkgs")</code>.</p>

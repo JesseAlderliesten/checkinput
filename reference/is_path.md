@@ -100,6 +100,8 @@ created.
 
 ## Notes on Paths
 
+### Slashes
+
 The file separator is a backslash (`\`) on Windows but a forward slash
 (`/`) on other operating systems: use
 [`file.path()`](https://rdrr.io/r/base/file.path.html) or
@@ -113,15 +115,20 @@ character](https://rdrr.io/r/base/regex.html) in R, such that
 backslashes need to be escaped in R code by doubling them. Use `cat(x)`
 to omit the escape characters to see how `x` would be printed.
 
+### Dots
+
 The [working directory](https://rdrr.io/r/base/getwd.html) can be
 indicated by a single dot (`"."`) and the parent directory can be
-indicated by two dots (`".."`).
+indicated by two dots (`".."`). `checkinput::is_path()` only allows
+those in the first path component.
 
 **relative** paths start from the [working
 directory](https://rdrr.io/r/base/getwd.html). In contrast, **absolute**
 paths start from the root directory and thus give the complete path,
 such that the path still points to the same directory if the working
 directory changes.
+
+### Normalisation
 
 Paths can be normalised, e.g., through
 [`normalizePath()`](https://rdrr.io/r/base/normalizePath.html) or
@@ -186,9 +193,10 @@ are a unique match to a pattern;
 documentation on checking existence, permissions, and other information
 about files or directories
 
-Section 'Paths in the shell' in the vignette *Git and GitHub* of package
-**checkrpkgs** on paths and file separators in the
-[shell](https://happygitwithr.com/shell):
+Section [Paths in the
+shell](https://jessealderliesten.github.io/checkrpkgs/articles/git_github.html#paths-in-the-shell)
+in the vignette *Git and GitHub* of package **checkrpkgs** on paths and
+file separators in the [shell](https://happygitwithr.com/shell):
 `vignette("git_github", package = "checkrpkgs")`.
 
 Other collections of checks on type and length:

@@ -1,13 +1,12 @@
 # Changelog
 
-## checkinput 1.5.1
+## checkinput 1.5.2
 
-#### Miscellaneous
+#### Documentation
 
-- Make layout more uniform.
-- Wrap lines in ‘Usage’ and ‘Example’ sections to 65 characters.
-- Capitalize function titles.
-- Avoid markup in section titles.
+- Show overview of types, modes and classes in vignette *Type coercion*.
+- Various stylistic changes.
+- Prune the NEWS file.
 
 ## checkinput 1.5.0
 
@@ -25,13 +24,6 @@
 - [`is_path()`](https://jessealderliesten.github.io/checkinput/reference/is_path.md):
   in the ‘Note on paths’, describe the difference between absolute and
   relative paths, how to use dots in paths, and normalisation of paths.
-
-## checkinput 1.4.1
-
-#### Miscellaneous
-
-- `README`: update version number in citation, add contact/contribution
-  info.
 
 ## checkinput 1.4.0
 
@@ -86,7 +78,7 @@
 #### Documentation
 
 - Update `NEWS`.
-- Add links to license and citation file.
+- Add links to license and citation files.
 
 ## checkinput 0.12.0
 
@@ -233,14 +225,14 @@
   documentation of
   [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md).
 - [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
-  remove argument `allow_susp` and never allows suspicious names; also
-  check for suspicious names that might have been created by
+  remove argument `allow_susp` and never allows suspicious names; check
+  for suspicious names that might have been created by
   [`data.frame()`](https://rdrr.io/r/base/data.frame.html) or
   [`vctrs::vec_as_names()`](https://vctrs.r-lib.org/reference/vec_as_names.html);
   consider the reserved words `...` and `..1` invalid; make existing
-  checks are now more specific: check that names which apparently have
-  been made valid indeed contain an invalid part, and that the first
-  digit of numbers added to duplicated names is non-zero.
+  checks more specific: check that names which apparently have been made
+  valid indeed contain an invalid part, and that the first digit of
+  numbers added to duplicated names is non-zero.
 - [`is_number()`](https://jessealderliesten.github.io/checkinput/reference/is_number.md)
   and derived functions gain arguments `allow_zero`, `allow_NA` and
   `allow_NaN` (with default `FALSE`, in contrast to the previously

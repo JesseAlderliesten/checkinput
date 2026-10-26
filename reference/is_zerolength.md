@@ -44,19 +44,19 @@ that leads to `logical(0)` if any of the sides contains a zero-length
 object, which gives an error when used as complete [conditional
 statement](https://rdrr.io/r/base/Control.html).
 
-`all(logical(0))` returns `TRUE`, see the 'Note' in
-[`all()`](https://rdrr.io/r/base/all.html). This is also the case for
-`all(numeric(0))` and `all(character(0))` that get coerced to type
-`logical`.
-
 Although zero-length objects are discarded when combined into a vector
 with other values, their types **are** taken into account for type
 coercion, see the vignette *Type coercion*:
-[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md).
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html).
 For example, numeric `314` will be coerced to character `"314"` when it
 is combined into a vector with zero-length `character(0)`, such that
 `c(314, character(0))` results in the character string `"314"`, **not**
 in the numeric value `314`.
+
+`all(logical(0))` returns `TRUE`, see the 'Note' in
+[`all()`](https://rdrr.io/r/base/all.html). This is also the case for
+`all(numeric(0))` and `all(character(0))` that get coerced to type
+`logical`.
 
 ## See also
 

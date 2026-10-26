@@ -30,12 +30,19 @@ were adjusted or automatically created.
 
 ## Details
 
-[Duplicated](https://rdrr.io/r/base/duplicated.html) or syntactically
-invalid names are not allowed by `all_names()` because R functions are
-not guaranteed to handle such names correctly. For example, not all
-operations on [data frames](https://rdrr.io/r/base/data.frame.html) will
-preserve duplicated column names, and operations involving syntactically
-invalid names might, by definition, give undocumented results.
+### Duplicated names
+
+[Duplicated](https://rdrr.io/r/base/duplicated.html) names are not
+allowed by `all_names()` because R functions are not guaranteed to
+handle such names correctly. For example, not all operations on [data
+frames](https://rdrr.io/r/base/data.frame.html) will preserve duplicated
+column names.
+
+### Syntactically valid names
+
+Syntactically invalid names are not allowed by `all_names()` because
+operations involving syntactically invalid names might, by definition,
+give undocumented results.
 
 [Syntactically valid](https://rdrr.io/r/base/make.names.html) names only
 consist of letters, numbers, dots and underscores; start with a letter,
@@ -56,6 +63,15 @@ number, are not allowed by `all_names()`, nor by
 even though they are not adjusted by
 [`make.names()`](https://rdrr.io/r/base/make.names.html): they are
 [reserved](https://rdrr.io/r/base/Reserved.html) words.
+
+Names containing underscores (`_`) are by default **allowed** by
+`all_names()` because names containing underscores are not syntactically
+invalid. However, setting `allow_underscores` to `FALSE` to **not**
+allow such names is useful to check that names do not contain
+underscores, for example if several names will be concatenated to create
+an ID-tag, separating the names by underscores.
+
+### Suspicious names
 
 Suspicious names are not allowed by `all_names()`. A suspicious name is
 a syntactically valid name that contains a pattern suggesting it
@@ -142,14 +158,9 @@ which is used throughout the [tidyverse](https://tidyverse.org/):
   present, e.g., `V3` will be flagged as suspicious even if `V1` and
   `V2` are absent.
 
-Names containing underscores (`_`) are by default **allowed** by
-`all_names()` because names containing underscores are not syntactically
-invalid. However, setting `allow_underscores` to `FALSE` to **not**
-allow such names is useful to check that names do not contain
-underscores, for example if several names will be concatenated to create
-an ID-tag, separating the names by underscores.
-
 ## Programming Notes
+
+### regex patterns
 
 The patterns used to identify suspicious names are created using
 [regular expressions](https://rdrr.io/r/base/regex.html) with the
@@ -168,6 +179,8 @@ following elements:
 Multiple patterns can be combined using `|`, the normal operator
 indicating [logical OR](https://rdrr.io/r/base/Logic.html).
 
+### Locales
+
 A conservative check for names that are [syntactically
 valid](https://rdrr.io/r/base/make.names.html) on all locales would
 [only
@@ -175,21 +188,26 @@ allow](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#
 digits, unaccented letters from the [basic Latin
 alphabet](https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet), dots
 and underscores. Implementations of such a conservative check should use
-the literal string
+a literal string like
 `[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]`
 instead of shorthands like `[:alnum:]` or `[0-9A-Za-z]` that also depend
 on the locale, see the section 'Extended Regular Expressions' in
-[regex](https://rdrr.io/r/base/regex.html). See
-[Encoding](https://rdrr.io/r/base/Encoding.html),
+[regex](https://rdrr.io/r/base/regex.html).
+
+See [Encoding](https://rdrr.io/r/base/Encoding.html),
 [locales](https://rdrr.io/r/base/locales.html),
-[`validUTF8()`](https://rdrr.io/r/base/validUTF8.html), and the
-Wikipedia articles about [ASCII](https://en.wikipedia.org/wiki/ASCII)
-and [UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on
-encodings and character sets. Furthermore, see
-[`iconv()`](https://rdrr.io/r/base/iconv.html) on conversions between
-encodings; package
-[**stringi**](https://CRAN.R-project.org/package=stringi) that provides
-facilities to process character strings;
+[`validUTF8()`](https://rdrr.io/r/base/validUTF8.html), section
+'Details' of
+[`help("Comparison")`](https://rdrr.io/r/base/Comparison.html), section
+[Locales](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Locales)
+in the 'R Installation and Administration manual', and the Wikipedia
+articles about [ASCII](https://en.wikipedia.org/wiki/ASCII) and
+[UTF-8](https://en.wikipedia.org/wiki/UTF-8) for background on encodings
+and character sets; and [`iconv()`](https://rdrr.io/r/base/iconv.html)
+on conversions between encodings.
+
+See package [**stringi**](https://CRAN.R-project.org/package=stringi)
+that provides facilities to process character strings;
 [`tools::showNonASCII()`](https://rdrr.io/r/tools/showNonASCII.html) to
 show non-ASCII bytes; and `janitor::make_clean_names()` to transliterate
 non-ASCII characters.

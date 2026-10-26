@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,16 +84,17 @@ check equality to a zero-length object. Checking equality should <strong>not</st
 done by using <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">==</a></code> because that leads to <code>logical(0)</code> if any of
 the sides contains a zero-length object, which gives an error when used as
 complete <a href="https://rdrr.io/r/base/Control.html" class="external-link">conditional statement</a>.</p>
-<p><code>all(logical(0))</code> returns <code>TRUE</code>, see the 'Note' in <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. This is also the
-case for <code>all(numeric(0))</code> and <code>all(character(0))</code> that get coerced to type
-<code>logical</code>.</p>
 <p>Although zero-length objects are discarded when combined into a vector with
 other values, their types <strong>are</strong> taken into account for type coercion, see
 the vignette <em>Type coercion</em>:
-<code><a href="../articles/type_coercion.html">vignette("type_coercion", package = "checkinput")</a></code>. For example, numeric
+<a href="https://jessealderliesten.github.io/checkinput/articles/type_coercion.html"><code>vignette("type_coercion", package = "checkinput")</code></a>.
+For example, numeric
 <code>314</code> will be coerced to character <code>"314"</code> when it is combined into a vector
 with zero-length <code>character(0)</code>, such that <code>c(314, character(0))</code> results in
 the character string <code>"314"</code>, <strong>not</strong> in the numeric value <code>314</code>.</p>
+<p><code>all(logical(0))</code> returns <code>TRUE</code>, see the 'Note' in <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. This is also the
+case for <code>all(numeric(0))</code> and <code>all(character(0))</code> that get coerced to type
+<code>logical</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

@@ -35,7 +35,7 @@ zero. Set argument `allow_zero` to `TRUE` to let check functions also
 return `TRUE` for zero-length `x` of the correct type. See
 [`help("is_zerolength")`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
 and
-[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.md)
+[`vignette("type_coercion", package = "checkinput")`](https://jessealderliesten.github.io/checkinput/articles/type_coercion.html)
 for a discussion of some issues with zero-length input.
 
 ## `NA` and `NaN` in `x`

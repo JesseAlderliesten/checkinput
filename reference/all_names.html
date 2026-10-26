@@ -11,7 +11,7 @@ were adjusted or automatically created."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,11 +80,24 @@ automatically created.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">Duplicated</a> or syntactically invalid names are not allowed by
-<code>all_names()</code> because <span style="R">R</span> functions are not guaranteed to handle such names
-correctly. For example, not all operations on <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data frames</a>
-will preserve duplicated column names, and operations involving syntactically
-invalid names might, by definition, give undocumented results.</p>
+
+<div class="section">
+<h3 id="duplicated-names">Duplicated names<a class="anchor" aria-label="anchor" href="#duplicated-names"></a></h3>
+
+
+<p><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">Duplicated</a> names are not allowed by <code>all_names()</code> because <span style="R">R</span>
+functions are not guaranteed to handle such names correctly. For example, not
+all operations on <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data frames</a> will preserve duplicated column
+names.</p>
+</div>
+
+<div class="section">
+<h3 id="syntactically-valid-names">Syntactically valid names<a class="anchor" aria-label="anchor" href="#syntactically-valid-names"></a></h3>
+
+
+<p>Syntactically invalid names are not allowed by <code>all_names()</code> because
+operations involving syntactically invalid names might, by definition, give
+undocumented results.</p>
 <p><a href="https://rdrr.io/r/base/make.names.html" class="external-link">Syntactically valid</a> names only consist of letters, numbers,
 dots and underscores; start with a letter, or with a dot not followed by a
 number; and are not <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words such as <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">for</a></code> or <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>. The
@@ -96,6 +109,17 @@ on a stricter check that would not allow these characters.</p>
 <p>Names that consist of only dots, or consist of two dots followed by a number,
 are not allowed by <code>all_names()</code>, nor by <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>, even though
 they are not adjusted by <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>: they are <a href="https://rdrr.io/r/base/Reserved.html" class="external-link">reserved</a> words.</p>
+<p>Names containing underscores (<code>_</code>) are by default <strong>allowed</strong> by <code>all_names()</code>
+because names containing underscores are not syntactically invalid. However,
+setting <code>allow_underscores</code> to <code>FALSE</code> to <strong>not</strong> allow such names is useful
+to check that names do not contain underscores, for example if several names
+will be concatenated to create an ID-tag, separating the names by underscores.</p>
+</div>
+
+<div class="section">
+<h3 id="suspicious-names">Suspicious names<a class="anchor" aria-label="anchor" href="#suspicious-names"></a></h3>
+
+
 <p>Suspicious names are not allowed by <code>all_names()</code>. A suspicious name is a
 syntactically valid name that contains a pattern suggesting it originally was
 syntactically invalid or not unique and has been <strong>adjusted</strong> into a
@@ -146,14 +170,15 @@ got <code>X</code> put in front of them.</p></li>
 </ul><p>It is <strong>not</strong> checked if a complete sequence of suspicious names is
 present, e.g., <code>V3</code> will be flagged as suspicious even if <code>V1</code> and <code>V2</code> are
 absent.</p></li>
-</ul><p>Names containing underscores (<code>_</code>) are by default <strong>allowed</strong> by <code>all_names()</code>
-because names containing underscores are not syntactically invalid. However,
-setting <code>allow_underscores</code> to <code>FALSE</code> to <strong>not</strong> allow such names is useful
-to check that names do not contain underscores, for example if several names
-will be concatenated to create an ID-tag, separating the names by underscores.</p>
+</ul></div>
+
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming Notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
+
+
+<div class="section">
+<h3 id="regex-patterns">regex patterns<a class="anchor" aria-label="anchor" href="#regex-patterns"></a></h3>
 
 
 <p>The patterns used to identify suspicious names are created using
@@ -166,24 +191,36 @@ end of a string (<code>$</code>)</p></li>
 times (<code>+</code>)</p></li>
 </ul><p>Multiple patterns can be combined using <code>|</code>, the normal operator indicating
 <a href="https://rdrr.io/r/base/Logic.html" class="external-link">logical OR</a>.</p>
+</div>
+
+<div class="section">
+<h3 id="locales">Locales<a class="anchor" aria-label="anchor" href="#locales"></a></h3>
+
+
 <p>A conservative check for names that are <a href="https://rdrr.io/r/base/make.names.html" class="external-link">syntactically valid</a> on
 all locales would
 <a href="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap03.html#tag_03_265" class="external-link">only allow</a>
 digits, unaccented letters from the
 <a href="https://en.wikipedia.org/wiki/ISO_basic_Latin_alphabet" class="external-link">basic Latin alphabet</a>,
 dots and underscores.
-Implementations of such a conservative check should use the literal string
+Implementations of such a conservative check should use a literal string like
 <code>[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]</code> instead of
 shorthands like <code>[:alnum:]</code> or <code>[0-9A-Za-z]</code> that also depend on the locale,
-see the section 'Extended Regular Expressions' in <a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a>. See <a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding</a>,
-<a href="https://rdrr.io/r/base/locales.html" class="external-link">locales</a>, <code><a href="https://rdrr.io/r/base/validUTF8.html" class="external-link">validUTF8()</a></code>, and the Wikipedia articles about
-<a href="https://en.wikipedia.org/wiki/ASCII" class="external-link">ASCII</a> and
+see the section 'Extended Regular Expressions' in <a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a>.</p>
+<p>See <a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding</a>, <a href="https://rdrr.io/r/base/locales.html" class="external-link">locales</a>, <code><a href="https://rdrr.io/r/base/validUTF8.html" class="external-link">validUTF8()</a></code>, section 'Details' of
+<code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">help("Comparison")</a></code>, section
+<a href="https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Locales" class="external-link">Locales</a>
+in the 'R Installation and Administration manual', and the Wikipedia articles
+about <a href="https://en.wikipedia.org/wiki/ASCII" class="external-link">ASCII</a> and
 <a href="https://en.wikipedia.org/wiki/UTF-8" class="external-link">UTF-8</a> for background on encodings and
-character sets. Furthermore, see <code><a href="https://rdrr.io/r/base/iconv.html" class="external-link">iconv()</a></code> on conversions between encodings;
+character sets; and <code><a href="https://rdrr.io/r/base/iconv.html" class="external-link">iconv()</a></code> on conversions between encodings.</p>
+<p>See
 package <a href="https://CRAN.R-project.org/package=stringi" class="external-link"><strong>stringi</strong></a> that
 provides facilities to process character strings;
 <code><a href="https://rdrr.io/r/tools/showNonASCII.html" class="external-link">tools::showNonASCII()</a></code> to show non-ASCII bytes;
 and <code>janitor::make_clean_names()</code> to transliterate non-ASCII characters.</p>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

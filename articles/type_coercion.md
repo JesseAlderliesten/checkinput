@@ -2,12 +2,12 @@
 
 ## Introduction
 
-Objects in **R** are converted (‘coerced’) to a common type when
-combined in a vector, see [`help("c")`](https://rdrr.io/r/base/c.html).
-The type of the vector, and thus of all its components, will be the
-highest type of the components in the hierarchy `NULL` \< `raw` \<
-`logical` \< `integer` \< `double` \< `complex` \< `character` \< `list`
-\< `expression`, see the section ‘Details’ in
+Objects in R are converted (‘coerced’) to a common type when combined in
+a vector, see [`help("c")`](https://rdrr.io/r/base/c.html). The type of
+the vector, and thus of all its components, will be the highest type of
+the components in the hierarchy `NULL` \< `raw` \< `logical` \<
+`integer` \< `double` \< `complex` \< `character` \< `list` \<
+`expression`, see the section ‘Details’ in
 [`help("c")`](https://rdrr.io/r/base/c.html) and the section ‘Value’ in
 [`help("typeof")`](https://rdrr.io/r/base/typeof.html). For example,
 numeric `314` will be coerced to character `"314"` when it is combined
@@ -114,10 +114,11 @@ all(unlist(lapply(X = z, FUN = all_characters)))
 Although zero-length objects (see
 [`help("is_zerolength")`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md))
 are discarded when combined into a vector with other values, their types
-are taken into account for type coercion. For example, numeric `314`
-will be coerced to character `"314"` when combined into a vector with
-zero-length `character(0)`, such that `c(314, character(0))` results in
-the character string `"314"`, **not** in the numeric value `314`.
+are taken into account for type coercion. For example, the number `314`
+has type `double` but will be coerced to character-type `"314"` when
+combined into a vector with zero-length `character(0)`, such that
+`c(314, character(0))` results in the character string `"314"`, **not**
+in the number `314`.
 
 ``` r
 
@@ -130,6 +131,36 @@ str(zerochar)
 str(c(num, zerochar))
 #>  chr "314"
 ```
+
+## class, type, and mode
+
+There are several ways to define the ‘type’ (in the loose sense of the
+word) of R objects. The following table gives an overview of the type
+([`typeof()`](https://rdrr.io/r/base/typeof.html)), mode
+([`mode()`](https://rdrr.io/r/base/mode.html)) and class
+([`class()`](https://rdrr.io/r/base/class.html)) of various objects. The
+overview shows differences between floating-point numbers such as `3.2`
+and integers such as `3L`: they both have mode `numeric` but different
+types and classes. Factors have type `factor`, mode `numeric` and
+`class` integer.
+
+    #>           class       mode        type       
+    #> NULL      "NULL"      "NULL"      "NULL"     
+    #> TRUE      "logical"   "logical"   "logical"  
+    #> 1L        "integer"   "numeric"   "integer"  
+    #> 1.2       "numeric"   "numeric"   "double"   
+    #> complex   "complex"   "complex"   "complex"  
+    #> character "character" "character" "character"
+    #> list      "list"      "list"      "list"     
+    #> factor    "factor"    "numeric"   "integer"
+
+[`is.numeric()`](https://rdrr.io/r/base/numeric.html) checks the `mode`
+of `x`, see the ‘Note on names’ in
+[`help("is.numeric")`](https://rdrr.io/r/base/numeric.html), but returns
+`FALSE` for factors. To test the class of `x`, use
+`inherits(x = x, what = "numeric")` or `"numeric" %in% class(x)`,
+**not** `class(x) == "numeric"` that will fail with an error if `x` has
+multiple classes.
 
 ## sessionInfo
 
@@ -154,7 +185,7 @@ str(c(num, zerochar))
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #> [1] checkinput_1.5.1
+    #> [1] checkinput_1.5.2
     #> 
     #> loaded via a namespace (and not attached):
     #>  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    
