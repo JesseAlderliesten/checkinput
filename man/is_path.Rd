@@ -93,6 +93,7 @@ Furthermore, the backslash is also used as an \link[=regex]{escape character} in
 
 The \link[=getwd]{working directory} can be indicated by a single dot (\code{"."}) and
 the parent directory can be indicated by two dots (\code{".."}).
+\code{checkinput::is_path()} only allows those in the first path component.
 
 \strong{relative} paths start from the \link[=getwd]{working directory}. In contrast,
 \strong{absolute} paths start from the root directory and thus give the complete

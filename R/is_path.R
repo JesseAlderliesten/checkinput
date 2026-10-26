@@ -79,6 +79,7 @@
 #' ## Dots
 #' The [working directory][getwd()] can be indicated by a single dot (`"."`) and
 #' the parent directory can be indicated by two dots (`".."`).
+#' `checkinput::is_path()` only allows those in the first path component.
 #'
 #' **relative** paths start from the [working directory][getwd()]. In contrast,
 #' **absolute** paths start from the root directory and thus give the complete
