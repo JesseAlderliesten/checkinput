@@ -154,7 +154,7 @@ all_natural <- function(x,
   stopifnot(is_logical(strict), is_logical(allow_zerolength),
             is_logical(allow_NA), is_positive(tol), tol < 0.5)
 
-  if(!is.numeric(x) || !is.atomic(x) || !is.null(dim(x))) {
+  if(!is.numeric(x) || !is.null(dim(x))) {
     return(FALSE)
   }
 

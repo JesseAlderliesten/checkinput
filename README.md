@@ -55,13 +55,11 @@ more difficult to read:
 
 ``` r
 list_hobbies_base <- function(name, age, hobbies) {
-  stopifnot(is.character(name), is.atomic(name), is.null(dim(name)),
-            length(name) == 1L,
-            is.numeric(age), is.atomic(age), is.null(dim(age)),
-            length(age) == 1L, !is.na(age), age >= 0L,
-            is.character(hobbies), is.atomic(hobbies), is.null(dim(hobbies)),
-            length(hobbies) > 0L, all(nzchar(hobbies, keepNA = FALSE)),
-            !anyNA(hobbies))
+  stopifnot(is.character(name), is.null(dim(name)), length(name) == 1L,
+            is.numeric(age), is.null(dim(age)), length(age) == 1L,
+            !is.na(age), age >= 0L,
+            is.character(hobbies), is.null(dim(hobbies)), length(hobbies) > 0L,
+            all(nzchar(hobbies, keepNA = FALSE)), !anyNA(hobbies))
   list(name = name, age = age, hobbies = hobbies)
 }
 ```
@@ -142,7 +140,7 @@ License](LICENSE.md).
     To cite package 'checkinput' in publications use:
 
       Alderliesten J (2026). _checkinput: Check Function Input_. R package
-      version 1.5.2, <https://github.com/JesseAlderliesten/checkinput>.
+      version 1.6.0, <https://github.com/JesseAlderliesten/checkinput>.
 
     A BibTeX entry for LaTeX users is
 
@@ -150,7 +148,7 @@ License](LICENSE.md).
         title = {checkinput: Check Function Input},
         author = {Jesse Alderliesten},
         year = {2026},
-        note = {R package version 1.5.2},
+        note = {R package version 1.6.0},
         url = {https://github.com/JesseAlderliesten/checkinput},
       }
 
@@ -180,3 +178,7 @@ similar packages are worth looking into:
   function arguments
 - [**erify**](https://CRAN.R-project.org/package=erify): check arguments
   and generate readable error messages
+- [**rlang**](https://rlang.r-lib.org/): Functions for Base Types and
+  Core R and ‘Tidyverse’ Features
+- [**testthat**](https://testthat.r-lib.org/reference/index.html): Unit
+  Testing for R

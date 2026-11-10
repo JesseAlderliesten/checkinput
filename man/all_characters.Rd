@@ -45,6 +45,9 @@ with only allowed values.
 \code{is_character()} returns \code{TRUE} for \code{x} with length one and \code{all_characters()}
 returns \code{TRUE} for \code{x} with length larger than zero. Both functions return
 \code{TRUE} for character-type zero-length \code{x} if \code{allow_zerolength} is \code{TRUE}.
+
+\code{is_character()} and \code{all_characters()} return \code{FALSE} for \link{factor}s, see the
+last \code{Example}.
 }
 \examples{
 is_character("a") # TRUE
@@ -54,6 +57,7 @@ is_character(1) # FALSE: incorrect type
 is_character(NA_character_) # FALSE: default 'allow_NA' is FALSE
 is_character(NA_character_, allow_NA = TRUE) # TRUE
 is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
+is_character(factor("n")) # FALSE: incorrect type
 
 }
 \seealso{

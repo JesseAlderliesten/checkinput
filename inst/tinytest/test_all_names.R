@@ -86,7 +86,7 @@ warn_dupl <- "are duplicated: "
 warn_suspicious <- "Names are suspicious: "
 warn_syntax <- "are syntactically invalid: "
 warn_undersc <- paste0("contain underscores \\(which are not allowed if",
-                       " 'allow_underscores' is FALSE):\n")
+                       " 'allow_underscore' is FALSE):\n")
 note_mknm_dots <- paste0("\n\\(it does not adjust names that consist of only",
                          " dots, or two dots followed by digits)")
 
@@ -120,10 +120,10 @@ expect_warning(
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = "abc_def", allow_underscores = FALSE)),
+  expect_false(all_names(x = "abc_def", allow_underscore = FALSE)),
   pattern = paste0("Names ", warn_undersc, "'abc_def'", use_mknm_undersc),
   strict = TRUE, fixed = FALSE)
-expect_true(all_names(x = "abc_def", allow_underscores = TRUE))
+expect_true(all_names(x = "abc_def", allow_underscore = TRUE))
 
 expect_warning(
   expect_false(all_names(x = names(1:3))),
@@ -209,13 +209,13 @@ expect_warning(
 
 expect_warning(
   expect_false(all_names(x = c(x_vld_undersc, x_vld_undersc[c(2, 3)]),
-                         allow_underscores = TRUE)),
+                         allow_underscore = TRUE)),
   pattern = paste0(warn_dupl, paste_quoted(x_vld_undersc[c(2, 3)]), use_mknm_mult),
   strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = c(x_vld_undersc, x_vld_undersc[c(2, 3)]),
-                         allow_underscores = FALSE)),
+                         allow_underscore = FALSE)),
   pattern = paste0(warn_dupl, paste_quoted(x_vld_undersc[c(2, 3)]),
                    "; and ", warn_undersc, paste_quoted(x_vld_undersc),
                    use_mknm_undersc_mult),
@@ -223,12 +223,12 @@ expect_warning(
 
 ##### Valid and invalid names #####
 expect_silent(
-  expect_true(all_names(x = c(x_vld, x_vld_undersc), allow_underscores = TRUE)))
+  expect_true(all_names(x = c(x_vld, x_vld_undersc), allow_underscore = TRUE)))
 
 # Invalid names are not created by make.names(), so should not be suspicious
 expect_warning(
   expect_false(
-    all_names(x = c(x_vld, x_vld_undersc, x_invld), allow_underscores = TRUE)
+    all_names(x = c(x_vld, x_vld_undersc, x_invld), allow_underscore = TRUE)
   ),
   pattern = paste0(warn_syntax, x_invld_q, use_mknm_mult),
   strict = TRUE, fixed = FALSE)
@@ -252,14 +252,14 @@ for(x in list("..1", "..314")) {
     strict = TRUE, fixed = TRUE)
 }
 
-##### Respect 'allow_underscores' #####
+##### Respect 'allow_underscore' #####
 expect_silent(
   expect_true(all_names(x = c(x_vld, x_vld_undersc),
-                        allow_underscores = TRUE)))
+                        allow_underscore = TRUE)))
 
 expect_warning(
   expect_false(all_names(x = c(x_vld, x_vld_undersc),
-                         allow_underscores = FALSE)),
+                         allow_underscore = FALSE)),
   pattern = paste0("Names ", warn_undersc, paste_quoted(x_vld_undersc),
                    use_mknm_undersc_mult),
   strict = TRUE, fixed = FALSE)
@@ -341,7 +341,7 @@ expect_warning(
 expect_warning(
   expect_false(
     all_names(x = c(x_invld, x_vld, x_vld_undersc, x_mknm, x_mknm_csv, x_mknm_true,
-                    x_mknm_true_vcsnm, x_vcsnm), allow_underscores = TRUE)
+                    x_mknm_true_vcsnm, x_vcsnm), allow_underscore = TRUE)
   ),
   pattern = paste0(warn_syntax, x_invld_q, "; and are suspicious: ",
                    x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_true_q, ", ",
@@ -357,7 +357,7 @@ if(any(grepl(pattern = "_", x = c(x_mknm_q, x_mknm_csv_q, x_mknm_true_q,
 expect_warning(
   expect_false(
     all_names(x = c(x_vld, x_mknm, x_mknm_csv, x_mknm_true, x_mknm_true_vcsnm,
-                    x_vcsnm, x_vld_undersc, x_invld), allow_underscores = FALSE)
+                    x_vcsnm, x_vld_undersc, x_invld), allow_underscore = FALSE)
   ),
   pattern = paste0(
     warn_syntax, x_invld_q, "; and ", warn_undersc,
@@ -378,8 +378,8 @@ expect_warning(
 expect_error(all_names(),
              pattern = "argument \"x\" is missing, with no default",
              fixed = TRUE)
-expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscores = NA),
-             pattern = "is_logical(allow_underscores) is not TRUE", fixed = TRUE)
+expect_error(all_names(x = names(c(a = 1, b = 2)), allow_underscore = NA),
+             pattern = "is_logical(allow_underscore) is not TRUE", fixed = TRUE)
 
 
 #### Remove objects used in tests ####

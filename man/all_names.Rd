@@ -4,12 +4,12 @@
 \alias{all_names}
 \title{Check that x Contains Syntactically Valid, Unadjusted Names}
 \usage{
-all_names(x, allow_underscores = TRUE)
+all_names(x, allow_underscore = TRUE)
 }
 \arguments{
 \item{x}{object to check.}
 
-\item{allow_underscores}{\code{TRUE} or \code{FALSE}: allow underscores?}
+\item{allow_underscore}{\code{TRUE} or \code{FALSE}: allow underscores?}
 }
 \value{
 \code{TRUE} or \code{FALSE}, indicating if \code{x} is a character vector that consists of
@@ -52,7 +52,7 @@ they are not adjusted by \code{\link[=make.names]{make.names()}}: they are \link
 
 Names containing underscores (\verb{_}) are by default \strong{allowed} by \code{all_names()}
 because names containing underscores are not syntactically invalid. However,
-setting \code{allow_underscores} to \code{FALSE} to \strong{not} allow such names is useful
+setting \code{allow_underscore} to \code{FALSE} to \strong{not} allow such names is useful
 to check that names do not contain underscores, for example if several names
 will be concatenated to create an ID-tag, separating the names by underscores.
 }
@@ -197,8 +197,8 @@ all_names(x = c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
                 "V3", "X.2", "X0...11", "X0.3", "X3"))
 
 # FALSE: underscores:
-all_names(x = "abc_def", allow_underscores = FALSE)
-all_names(x = "abc_def", allow_underscores = TRUE) # TRUE
+all_names(x = "abc_def", allow_underscore = FALSE)
+all_names(x = "abc_def", allow_underscore = TRUE) # TRUE
 
 # pass names() or colnames() used on an object
 # without (column) names to all_names():

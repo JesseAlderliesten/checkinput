@@ -134,7 +134,7 @@ and
 from the Posix standard
 \href{https://pubs.opengroup.org/onlinepubs/9799919799/}{POSIX.1-2024}
 \item 'Comparison of file systems' from
-\href{https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits}{Wikipedia}
+\href{https://en.wikipedia.org/wiki/Comparison_of_file_systems}{Wikipedia}
 }
 }
 

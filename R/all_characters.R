@@ -15,6 +15,9 @@
 #' returns `TRUE` for `x` with length larger than zero. Both functions return
 #' `TRUE` for character-type zero-length `x` if `allow_zerolength` is `TRUE`.
 #'
+#' `is_character()` and `all_characters()` return `FALSE` for [factor]s, see the
+#' last `Example`.
+#'
 #' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
 #' correct length with only allowed values.
 #'
@@ -29,6 +32,7 @@
 #' is_character(NA_character_) # FALSE: default 'allow_NA' is FALSE
 #' is_character(NA_character_, allow_NA = TRUE) # TRUE
 #' is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
+#' is_character(factor("n")) # FALSE: incorrect type
 #'
 #' @export
 all_characters <- function(x,
@@ -39,7 +43,7 @@ all_characters <- function(x,
             is_logical(allow_zerolength),
             is_logical(allow_NA))
 
-  is.character(x) && is.atomic(x) && is.null(dim(x)) &&
+  is.character(x) && is.null(dim(x)) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
     (allow_zerolength || length(x) > 0) &&
     (allow_NA || !anyNA(x))
