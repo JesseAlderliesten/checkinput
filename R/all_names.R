@@ -5,7 +5,7 @@
 #' were adjusted or automatically created.
 #'
 #' @inheritParams is_logical x
-#' @param allow_underscores `TRUE` or `FALSE`: allow underscores?
+#' @param allow_underscore `TRUE` or `FALSE`: allow underscores?
 #'
 #' @details
 #'
@@ -35,7 +35,7 @@
 #'
 #' Names containing underscores (`_`) are by default **allowed** by `all_names()`
 #' because names containing underscores are not syntactically invalid. However,
-#' setting `allow_underscores` to `FALSE` to **not** allow such names is useful
+#' setting `allow_underscore` to `FALSE` to **not** allow such names is useful
 #' to check that names do not contain underscores, for example if several names
 #' will be concatenated to create an ID-tag, separating the names by underscores.
 #'
@@ -177,8 +177,8 @@
 #'                 "V3", "X.2", "X0...11", "X0.3", "X3"))
 #'
 #' # FALSE: underscores:
-#' all_names(x = "abc_def", allow_underscores = FALSE)
-#' all_names(x = "abc_def", allow_underscores = TRUE) # TRUE
+#' all_names(x = "abc_def", allow_underscore = FALSE)
+#' all_names(x = "abc_def", allow_underscore = TRUE) # TRUE
 #'
 #' # pass names() or colnames() used on an object
 #' # without (column) names to all_names():
@@ -187,8 +187,8 @@
 #' all_names(13) # FALSE: 'x' is not a character vector
 #'
 #' @export
-all_names <- function(x, allow_underscores = TRUE) {
-  stopifnot(is_logical(allow_underscores))
+all_names <- function(x, allow_underscore = TRUE) {
+  stopifnot(is_logical(allow_underscore))
 
   name_x <- deparse1(substitute(x))
   length_name_x <- length(substitute(x))
@@ -280,15 +280,15 @@ all_names <- function(x, allow_underscores = TRUE) {
   }
 
   warn_text_underscores <- character(0)
-  if(!allow_underscores) {
+  if(!allow_underscore) {
     bool_underscores <- grepl(pattern = "_", x = x, fixed = TRUE)
     if(any(bool_underscores)) {
       warn_text_underscores <- paste0(
-        "contain underscores (which are not allowed if 'allow_underscores' is",
+        "contain underscores (which are not allowed if 'allow_underscore' is",
         " FALSE):\n", paste_quoted(x[bool_underscores]))
       suggest_make_names <- TRUE
       # Removing names that contain underscores because they are invalid,
-      # and thus not suspicious, if 'allow_underscores' is FALSE.
+      # and thus not suspicious, if 'allow_underscore' is FALSE.
       x <- x[!bool_underscores]
     }
   }
@@ -328,7 +328,7 @@ all_names <- function(x, allow_underscores = TRUE) {
                           note_dots, ")")
     }
 
-    if(allow_underscores) {
+    if(allow_underscore) {
       warn_text <- paste0(
         warn_text, ".\nUse '",
         if(length_name_x == 1L) {
