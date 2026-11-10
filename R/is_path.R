@@ -112,7 +112,7 @@
 #'   from the Posix standard
 #'   [POSIX.1-2024](https://pubs.opengroup.org/onlinepubs/9799919799/)
 #' - 'Comparison of file systems' from
-#'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits)
+#'   [Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_file_systems)
 #'
 #' @seealso
 #' [fs::path()] to construct file paths in a platform-independent way;
