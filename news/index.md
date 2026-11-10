@@ -1,5 +1,24 @@
 # Changelog
 
+## checkinput 1.6.0
+
+#### Breaking changes
+
+- Check functions no longer require `x` to be atomic.
+- [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md):
+  rename argument `allow_underscores` to the singular
+  `allow_underscore`.
+
+#### Documentation
+
+- Mention **rlang** and **testthat** in section `Similar packages` in
+  the README.
+- Document that
+  [`is_character()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
+  and
+  [`all_characters()`](https://jessealderliesten.github.io/checkinput/reference/all_characters.md)
+  return `FALSE` for factors.
+
 ## checkinput 1.5.2
 
 #### Documentation

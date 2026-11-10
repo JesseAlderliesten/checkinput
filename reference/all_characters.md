@@ -59,6 +59,9 @@ is `TRUE`.
 Both functions return `TRUE` for character-type zero-length `x` if
 `allow_zerolength` is `TRUE`.
 
+`is_character()` and `all_characters()` return `FALSE` for
+[factor](https://rdrr.io/r/base/factor.html)s, see the last `Example`.
+
 ## See also
 
 Other collections of checks on type and length:
@@ -85,5 +88,7 @@ is_character(NA_character_) # FALSE: default 'allow_NA' is FALSE
 is_character(NA_character_, allow_NA = TRUE) # TRUE
 #> [1] TRUE
 is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
+#> [1] FALSE
+is_character(factor("n")) # FALSE: incorrect type
 #> [1] FALSE
 ```

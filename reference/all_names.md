@@ -8,7 +8,7 @@ names that do not suggest they were adjusted or automatically created.
 ## Usage
 
 ``` r
-all_names(x, allow_underscores = TRUE)
+all_names(x, allow_underscore = TRUE)
 ```
 
 ## Arguments
@@ -17,7 +17,7 @@ all_names(x, allow_underscores = TRUE)
 
   object to check.
 
-- allow_underscores:
+- allow_underscore:
 
   `TRUE` or `FALSE`: allow underscores?
 
@@ -66,10 +66,10 @@ even though they are not adjusted by
 
 Names containing underscores (`_`) are by default **allowed** by
 `all_names()` because names containing underscores are not syntactically
-invalid. However, setting `allow_underscores` to `FALSE` to **not**
-allow such names is useful to check that names do not contain
-underscores, for example if several names will be concatenated to create
-an ID-tag, separating the names by underscores.
+invalid. However, setting `allow_underscore` to `FALSE` to **not** allow
+such names is useful to check that names do not contain underscores, for
+example if several names will be concatenated to create an ID-tag,
+separating the names by underscores.
 
 ### Suspicious names
 
@@ -267,13 +267,13 @@ all_names(x = c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
 #> [1] FALSE
 
 # FALSE: underscores:
-all_names(x = "abc_def", allow_underscores = FALSE)
-#> Warning: Names contain underscores (which are not allowed if 'allow_underscores' is FALSE):
+all_names(x = "abc_def", allow_underscore = FALSE)
+#> Warning: Names contain underscores (which are not allowed if 'allow_underscore' is FALSE):
 #> 'abc_def'.
 #> Use '"abc_def" <- make.names("abc_def", unique = TRUE, allow_ = FALSE)' to create unique,
 #> syntactically valid names without underscores!
 #> [1] FALSE
-all_names(x = "abc_def", allow_underscores = TRUE) # TRUE
+all_names(x = "abc_def", allow_underscore = TRUE) # TRUE
 #> [1] TRUE
 
 # pass names() or colnames() used on an object

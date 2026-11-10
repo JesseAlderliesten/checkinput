@@ -58,6 +58,6 @@ function name. For example, to check which elements of `x` are valid
 names, use `vapply(X = x, FUN = all_names, FUN.VALUE = logical(1))`
 instead of `all_names(x)`. Other function arguments passed to
 [`all_names()`](https://jessealderliesten.github.io/checkinput/reference/all_names.md),
-e.g., `allow_underscores = FALSE` to not allow underscores, should be
+e.g., `allow_underscore = FALSE` to not allow underscores, should be
 placed behind argument `FUN.VALUE`:
-`vapply(X = x, FUN = all_names, FUN.VALUE = logical(1), allow_underscores = FALSE)`.
+`vapply(X = x, FUN = all_names, FUN.VALUE = logical(1), allow_underscore = FALSE)`.
