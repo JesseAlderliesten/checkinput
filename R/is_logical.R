@@ -32,9 +32,11 @@ is_logical <- function(x,
                        allow_zerolength = FALSE,
                        allow_NA = FALSE) {
   stopifnot(is.logical(allow_zerolength),
+            is.null(dim(allow_zerolength)),
             length(allow_zerolength) == 1L,
             !is.na(allow_zerolength),
             is.logical(allow_NA),
+            is.null(dim(allow_NA)),
             length(allow_NA) == 1L,
             !is.na(allow_NA))
 
