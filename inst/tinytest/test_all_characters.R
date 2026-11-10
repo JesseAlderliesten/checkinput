@@ -12,6 +12,8 @@ for(x in list(c("a", "b"), 1, NA_character_)) {
   expect_false(is_character(x = x))
 }
 
+expect_false(is_character(x = factor("n")))
+
 
 #### Tests ####
 for(x in list("nco", c("nco", "ibf"))) {
