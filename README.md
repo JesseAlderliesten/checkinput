@@ -142,7 +142,8 @@ License](LICENSE.md).
     To cite package 'checkinput' in publications use:
 
       Alderliesten J (2026). _checkinput: Check Function Input_. R package
-      version 1.5.2, <https://github.com/JesseAlderliesten/checkinput>.
+      version 1.5.2, commit 11a4a93927334d4563af5a8c41e3a905fd308547,
+      <https://github.com/JesseAlderliesten/checkinput>.
 
     A BibTeX entry for LaTeX users is
 
@@ -150,7 +151,7 @@ License](LICENSE.md).
         title = {checkinput: Check Function Input},
         author = {Jesse Alderliesten},
         year = {2026},
-        note = {R package version 1.5.2},
+        note = {R package version 1.5.2, commit 11a4a93927334d4563af5a8c41e3a905fd308547},
         url = {https://github.com/JesseAlderliesten/checkinput},
       }
 
@@ -180,3 +181,7 @@ similar packages are worth looking into:
   function arguments
 - [**erify**](https://CRAN.R-project.org/package=erify): check arguments
   and generate readable error messages
+- [**rlang**](https://rlang.r-lib.org/): Functions for Base Types and
+  Core R and ‘Tidyverse’ Features
+- [**testthat**](https://testthat.r-lib.org/reference/index.html): Unit
+  Testing for R

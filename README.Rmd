@@ -161,3 +161,7 @@ looking into:
   function arguments
 - [**erify**](https://CRAN.R-project.org/package=erify): check arguments and
   generate readable error messages
+- [**rlang**](https://rlang.r-lib.org/): Functions for Base Types and Core R and
+  'Tidyverse' Features
+- [**testthat**](https://testthat.r-lib.org/reference/index.html): Unit Testing
+  for R
