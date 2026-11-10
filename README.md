@@ -55,11 +55,11 @@ more difficult to read:
 
 ``` r
 list_hobbies_base <- function(name, age, hobbies) {
-  stopifnot(is.character(name), is.atomic(name), is.null(dim(name)),
+  stopifnot(is.character(name), is.null(dim(name)),
             length(name) == 1L,
-            is.numeric(age), is.atomic(age), is.null(dim(age)),
+            is.numeric(age), is.null(dim(age)),
             length(age) == 1L, !is.na(age), age >= 0L,
-            is.character(hobbies), is.atomic(hobbies), is.null(dim(hobbies)),
+            is.character(hobbies), is.null(dim(hobbies)),
             length(hobbies) > 0L, all(nzchar(hobbies, keepNA = FALSE)),
             !anyNA(hobbies))
   list(name = name, age = age, hobbies = hobbies)

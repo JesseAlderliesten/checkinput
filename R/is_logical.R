@@ -38,7 +38,7 @@ is_logical <- function(x,
             length(allow_NA) == 1L,
             !is.na(allow_NA))
 
-  is.logical(x) && is.atomic(x) && is.null(dim(x)) &&
+  is.logical(x) && is.null(dim(x)) &&
     (length(x) == 1L || (allow_zerolength && length(x) == 0L)) &&
     (allow_NA || !anyNA(x))
 }

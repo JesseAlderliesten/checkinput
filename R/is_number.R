@@ -77,7 +77,7 @@ is_number <- function(x,
 
   length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
-  is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
+  is.numeric(x) && is.null(dim(x)) &&
     ((allow_zerolength && length_x == 0L) ||
        (length_x == 1L &&
           (allow_NA || !any(is.na(x) & !is.nan(x))) &&
@@ -95,7 +95,7 @@ all_numbers <- function(x,
             is_logical(allow_NaN))
   length_x <- length(x)
   # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value.
-  is.numeric(x) && is.atomic(x) && is.null(dim(x)) &&
+  is.numeric(x) && is.null(dim(x)) &&
     ((allow_zerolength && length_x == 0L) ||
        (length_x >= 1L &&
           (allow_NA || !any(is.na(x) & !is.nan(x))) &&

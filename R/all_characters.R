@@ -43,7 +43,7 @@ all_characters <- function(x,
             is_logical(allow_zerolength),
             is_logical(allow_NA))
 
-  is.character(x) && is.atomic(x) && is.null(dim(x)) &&
+  is.character(x) && is.null(dim(x)) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
     (allow_zerolength || length(x) > 0) &&
     (allow_NA || !anyNA(x))
