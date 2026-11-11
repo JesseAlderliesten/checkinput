@@ -14,6 +14,8 @@ toy_fun_safe <- function(x, all = TRUE) {
   seq_len(x)
 }
 
+x_large_double <- .Machine$integer.max + 1
+
 
 #### Test the examples ####
 expect_true(is_natural(x = 5 + 1e-10))
@@ -112,10 +114,15 @@ expect_false(all_natural(x = numeric(0), allow_zerolength = FALSE, strict = FALS
 expect_true(all_natural(x = numeric(0), allow_zerolength = TRUE, strict = FALSE))
 expect_false(all_natural(x = NULL, allow_zerolength = TRUE, strict = FALSE))
 
-# Testing values that cannot be represented as integer by R (R uses 32-bit
-# integers, see section 'Details' in help("integer")). Although negative values
-# are clearly not natural numbers, they will be converted to NA_integer_ so it
-# is worthwile to test them as well.
+# Testing values that cannot be represented as integer by R
+# Notes:
+# - .Machine$integer.max + as.integer(1) gives NA_integer_ (with the warning
+#   '"NAs produced by integer overflow"') whereas .Machine$integer.max + 1 gives
+#   a numeric value of type double.
+# - R uses 32-bit integers, so .Machine$integer.max is about 2 * 10^9, see
+#   section 'Details' in help("integer").
+# - Although large negative values are clearly not natural numbers, they will be
+#   converted to NA_integer_ so it is worthwhile to use them as input in tests.
 expect_warning(
   expect_false(all_natural(x = .Machine$integer.max + 1L)),
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
@@ -178,4 +185,4 @@ expect_error(all_natural(x = c(3, 5 + 1e-10), tol = 0),
 
 
 #### Remove objects used in tests ####
-rm(allow_NA, toy_fun_correct, toy_fun_erroneous, toy_fun_safe, x)
+rm(allow_NA, toy_fun_correct, toy_fun_erroneous, toy_fun_safe, x, x_large_double)
