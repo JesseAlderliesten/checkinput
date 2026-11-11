@@ -34,7 +34,7 @@ make_natural(
 \arguments{
 \item{x}{object to check.}
 
-\item{strict}{Exclude zero from the natural numbers?}
+\item{strict}{exclude zero from the natural numbers?}
 
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct \link[=typeof]{type}?}
@@ -42,7 +42,7 @@ make_natural(
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?
 \code{\link{NaN}} is never allowed in \code{x}.}
 
-\item{tol}{A small \link[=is_positive]{positive} number. Numbers that differ less
+\item{tol}{a small \link[=is_positive]{positive} number. Numbers that differ less
 than \code{tol} are considered equal.}
 
 \item{all}{\code{TRUE} or \code{FALSE}: use \code{all_natural()} instead of \code{is_natural()}?}
@@ -75,10 +75,10 @@ considered a natural number because it has \code{mode} \code{complex} instead of
 \code{numeric}).
 
 \code{\link{NULL}}, \code{\link{NaN}}, negative numbers, \code{\link[=is.finite]{Inf}}, and numbers that are
-\link[=.Machine]{too large} to be represented as \link[=integer]{integers} are \strong{never}
-considered natural numbers.
+\link[=.Machine]{too large} to be represented as \link[=integer]{integers} (about 2.1 *
+10^9) are \strong{not} considered natural numbers.
 }
-\section{Notes}{
+\section{Usage}{
 
 \code{make_natural(x, all = FALSE)} and \code{make_natural(x, all = TRUE)} throw an
 error if \code{x} is not natural according to \code{is_natural(x)} or \code{all_natural(x)},
@@ -96,8 +96,9 @@ x <- as.integer(round(x))
 
 \section{Programming Notes}{
 
-The code of \code{is_natural()} and \code{all_natural()} is partly based on the example
-\code{is.wholenumber()} in \code{\link[=is.integer]{is.integer()}}.
+The check for near-equality to the natural numbers in the last line of code
+of \code{all_natural()} is partly based on function \code{is.wholenumber()} from the
+\code{Examples} of \code{\link[=is.integer]{is.integer()}}.
 
 \code{\link[=is.integer]{is.integer()}} does \strong{not} check that \code{x} is a natural number (nor that \code{x}
 is a whole number) but rather that \code{x} is of \link[=typeof]{type} integer, see
@@ -133,7 +134,7 @@ all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
 all_natural(x = "a") # FALSE
 all_natural(x = 1:2) # TRUE
 
-# Illustrate the need to follow use of is_natural(x) or
+# Illustrate the need to follow the use of is_natural(x) or
 # all_natural(x) by assigning the rounded value to the argument
 toy_fun_erroneous <- function(x) {
   stopifnot(is_natural(x))

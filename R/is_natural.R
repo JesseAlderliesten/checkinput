@@ -4,10 +4,10 @@
 #' allowing for small numeric errors.
 #'
 #' @inheritParams is_number x allow_zerolength
-#' @param strict Exclude zero from the natural numbers?
+#' @param strict exclude zero from the natural numbers?
 #' @param allow_NA `TRUE` or `FALSE`: allow [`NA`] of the correct type in `x`?
 #' [`NaN`] is never allowed in `x`.
-#' @param tol A small [positive][is_positive()] number. Numbers that differ less
+#' @param tol a small [positive][is_positive()] number. Numbers that differ less
 #' than `tol` are considered equal.
 #' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
 #'
@@ -29,8 +29,8 @@
 #' `numeric`).
 #'
 #' [`NULL`], [`NaN`], negative numbers, [`Inf`][is.finite], and numbers that are
-#' [too large][.Machine] to be represented as [integers][integer] are **never**
-#' considered natural numbers.
+#' [too large][.Machine] to be represented as [integers][integer] (about 2.1 *
+#' 10^9) are **not** considered natural numbers.
 #'
 #' @returns
 #' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
@@ -38,7 +38,7 @@
 #' `make_natural()`: `x`, [rounded][round()] to a whole number and coerced to
 #' [integer] type.
 #'
-#' @section Notes:
+#' @section Usage:
 #' `make_natural(x, all = FALSE)` and `make_natural(x, all = TRUE)` throw an
 #' error if `x` is not natural according to `is_natural(x)` or `all_natural(x)`,
 #' respectively. Therefore, their result can be assigned to `x` without the need
@@ -54,8 +54,9 @@
 #' ```
 #'
 #' @section Programming Notes:
-#' The code of `is_natural()` and `all_natural()` is partly based on the example
-#' `is.wholenumber()` in [is.integer()].
+#' The check for near-equality to the natural numbers in the last line of code
+#' of `all_natural()` is partly based on function `is.wholenumber()` from the
+#' `Examples` of [is.integer()].
 #'
 #' [is.integer()] does **not** check that `x` is a natural number (nor that `x`
 #' is a whole number) but rather that `x` is of [type][typeof()] integer, see
@@ -105,7 +106,7 @@
 #' all_natural(x = "a") # FALSE
 #' all_natural(x = 1:2) # TRUE
 #'
-#' # Illustrate the need to follow use of is_natural(x) or
+#' # Illustrate the need to follow the use of is_natural(x) or
 #' # all_natural(x) by assigning the rounded value to the argument
 #' toy_fun_erroneous <- function(x) {
 #'   stopifnot(is_natural(x))
