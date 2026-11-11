@@ -9,12 +9,14 @@
 #' @param allow_NA `TRUE` or `FALSE`: allow [`NA`] of the correct type in `x`?
 #'
 #' @details
-#' `is_logical()` returns `TRUE` for logical-type `x` of length one, for
-#' logical-type [zero-length][is_zerolength()] `x` if `allow_zerolength` is
-#' `TRUE`, and for logical-type `NA` if `allow_NA` is `TRUE`.
+#' `is_logical()` returns `TRUE` if `x` is
 #'
-#' @returns `TRUE` or `FALSE` indicating if `x` is a logical vector of the
-#' correct length with only allowed values.
+#' - `TRUE`
+#' - `FALSE`
+#' - [`logical(0)`][is_zerolength()] and `allow_zerolength` is `TRUE`
+#' - logical-type [`NA`] and `allow_NA` is `TRUE`
+#'
+#' @returns `TRUE` or `FALSE`
 #'
 #' @family
 #' collections of checks on type and length
@@ -26,20 +28,19 @@
 #' is_logical(NA) # FALSE: default 'allow_NA' is FALSE
 #' is_logical(NA, allow_NA = TRUE) # TRUE
 #' is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
+#' is_logical(matrix(TRUE)) # FALSE: has non-NULL dimensions
+#' is_logical(data.frame(TRUE)) # FALSE: has non-NULL dimensions
 #'
 #' @export
 is_logical <- function(x,
                        allow_zerolength = FALSE,
                        allow_NA = FALSE) {
-  stopifnot(is.logical(allow_zerolength),
+  stopifnot(isFALSE(allow_zerolength) || isTRUE(allow_zerolength),
             is.null(dim(allow_zerolength)),
-            length(allow_zerolength) == 1L,
-            !is.na(allow_zerolength),
-            is.logical(allow_NA),
-            is.null(dim(allow_NA)),
-            length(allow_NA) == 1L,
-            !is.na(allow_NA))
+            isFALSE(allow_NA) || isTRUE(allow_NA),
+            is.null(dim(allow_NA)))
 
+  # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value
   is.logical(x) && is.null(dim(x)) &&
     (length(x) == 1L || (allow_zerolength && length(x) == 0L)) &&
     (allow_NA || !anyNA(x))
