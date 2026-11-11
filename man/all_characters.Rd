@@ -30,8 +30,7 @@ is_character(
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?}
 }
 \value{
-\code{TRUE} or \code{FALSE} indicating if \code{x} is a character vector of the
-correct length with only allowed values.
+\code{TRUE} or \code{FALSE}
 }
 \description{
 Check that \code{x} is a \link[=is.character]{character vector} of the correct length
@@ -40,14 +39,11 @@ with only allowed values.
 \details{
 \code{is_character()} and \code{all_characters()} return \code{TRUE} for empty strings
 (\code{""}) if \code{allow_empty} is \code{TRUE}, and for \code{NA_character_} if \code{allow_NA} is
-\code{TRUE}.
+\code{TRUE}. They return \code{FALSE} for \link{factor}s, see the last \code{Example}.
 
 \code{is_character()} returns \code{TRUE} for \code{x} with length one and \code{all_characters()}
 returns \code{TRUE} for \code{x} with length larger than zero. Both functions return
 \code{TRUE} for character-type zero-length \code{x} if \code{allow_zerolength} is \code{TRUE}.
-
-\code{is_character()} and \code{all_characters()} return \code{FALSE} for \link{factor}s, see the
-last \code{Example}.
 }
 \examples{
 is_character("a") # TRUE

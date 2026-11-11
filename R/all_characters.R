@@ -9,17 +9,13 @@
 #' @details
 #' `is_character()` and `all_characters()` return `TRUE` for empty strings
 #' (`""`) if `allow_empty` is `TRUE`, and for `NA_character_` if `allow_NA` is
-#' `TRUE`.
+#' `TRUE`. They return `FALSE` for [factor]s, see the last `Example`.
 #'
 #' `is_character()` returns `TRUE` for `x` with length one and `all_characters()`
 #' returns `TRUE` for `x` with length larger than zero. Both functions return
 #' `TRUE` for character-type zero-length `x` if `allow_zerolength` is `TRUE`.
 #'
-#' `is_character()` and `all_characters()` return `FALSE` for [factor]s, see the
-#' last `Example`.
-#'
-#' @returns `TRUE` or `FALSE` indicating if `x` is a character vector of the
-#' correct length with only allowed values.
+#' @returns `TRUE` or `FALSE`
 #'
 #' @family
 #' collections of checks on type and length
@@ -43,6 +39,7 @@ all_characters <- function(x,
             is_logical(allow_zerolength),
             is_logical(allow_NA))
 
+  # is.null(dim(x)) is needed to return `FALSE` for matrices with a single value
   is.character(x) && is.null(dim(x)) &&
     (allow_empty || all(nzchar(x, keepNA = FALSE))) &&
     (allow_zerolength || length(x) > 0) &&
