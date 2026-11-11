@@ -3,8 +3,10 @@
 #' Check element-wise near-equality to natural [numbers][is.numeric()] while
 #' allowing for small numeric errors.
 #'
-#' @inheritParams is_number x allow_zerolength allow_NA
+#' @inheritParams is_number x allow_zerolength
 #' @param strict Exclude zero from the natural numbers?
+#' @param allow_NA `TRUE` or `FALSE`: allow [`NA`] of the correct type in `x`?
+#' [`NaN`] is never allowed in `x`.
 #' @param tol A small [positive][is_positive()] number. Numbers that differ less
 #' than `tol` are considered equal.
 #' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
@@ -151,27 +153,18 @@ all_natural <- function(x,
                         allow_zerolength = FALSE,
                         allow_NA = FALSE,
                         tol = .Machine$double.eps^0.5) {
-  stopifnot(is_logical(strict), is_logical(allow_zerolength),
-            is_logical(allow_NA), is_positive(tol), tol < 0.5)
+  # Arguments 'allow_zerolength' and 'allow_NA' are checked in 'all_numbers()'.
+  stopifnot(is_logical(strict), is_positive(tol), tol < 0.5)
 
-  if(!is.numeric(x) || !is.null(dim(x))) {
+  # 'NaN' is never allowed.
+  if(!all_numbers(x = x, allow_zerolength = allow_zerolength,
+                  allow_NA = allow_NA, allow_NaN = FALSE)) {
     return(FALSE)
   }
 
-  if(!allow_zerolength && length(x) == 0L) {
-    return(FALSE)
-  }
-
-  # It is not a problem that 'anyNA' also returns
-  # TRUE for NaN: NaN is never allowed.
-  if(!allow_NA && anyNA(x)) {
-    return(FALSE)
-  }
-
-  # If 'allow_NA' is FALSE, NaN has been catched above
-  # through the condition '!allow_NA && anyNA(x)'
-  if(any(x > .Machine$integer.max | is.nan(x) | is.infinite(x) | x < 0 |
-         (strict & x < 0.5), na.rm = TRUE)) {
+  # NaN and, if 'allow_NA' is FALSE, NA, have been catched above
+  if(any(x > .Machine$integer.max | is.infinite(x) | x < 0 | (strict & x < 0.5),
+         na.rm = TRUE)) {
     return(FALSE)
   }
 

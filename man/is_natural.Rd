@@ -39,7 +39,8 @@ make_natural(
 \item{allow_zerolength}{\code{TRUE} or \code{FALSE}: allow
 \link[=is_zerolength]{zero-length} \code{x} of the correct \link[=typeof]{type}?}
 
-\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?}
+\item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?
+\code{\link{NaN}} is never allowed in \code{x}.}
 
 \item{tol}{A small \link[=is_positive]{positive} number. Numbers that differ less
 than \code{tol} are considered equal.}
