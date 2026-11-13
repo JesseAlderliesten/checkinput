@@ -183,7 +183,7 @@ expect_warning(
   expect_identical(-1L * .Machine$integer.max - 1L, NA_integer_),
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 
-expect_silent(expect_true(!is.na(x_large_double_pos)))
+expect_silent(expect_false(is.na(x_large_double_pos)))
 expect_true(is.finite(x_large_double_pos))
 expect_equal(sign(x_large_double_pos), 1)
 expect_silent(expect_true(all_natural(x = x_large_double_pos)))
@@ -204,7 +204,7 @@ expect_silent(expect_true(
   all_natural(x = x_large_double_pos - smaller_than_tol_large, tol = tol_large)
 ))
 
-expect_silent(expect_true(!is.na(x_large_double_neg)))
+expect_silent(expect_false(is.na(x_large_double_neg)))
 expect_true(is.finite(x_large_double_neg))
 expect_equal(sign(x_large_double_neg), -1)
 # Negative numbers are not considered natural
