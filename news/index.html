@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,9 +44,9 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.6.1" id="checkinput-161">checkinput 1.6.1<a class="anchor" aria-label="anchor" href="#checkinput-161"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.7.0" id="checkinput-170">checkinput 1.7.0<a class="anchor" aria-label="anchor" href="#checkinput-170"></a></h2>
 <div class="section level4">
-<h4 id="breaking-changes-1-6-1">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-6-1"></a></h4>
+<h4 id="breaking-changes-1-7-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-7-0"></a></h4>
 <ul><li>
 <code><a href="../reference/is_natural.html">is_natural()</a></code>, <code><a href="../reference/is_natural.html">all_natural()</a></code>, and <code><a href="../reference/is_natural.html">make_natural()</a></code>: values are larger than <code>.Machine$integer.max</code> are considered natural numbers if they differ less than <code>tol</code> from those numbers instead of considered not to be natural numbers. <code><a href="../reference/is_natural.html">make_natural()</a></code> returns <code>x</code> containing such large values as type <code>double</code> if the added argument <code>large_as_double</code> is <code>TRUE</code> and coerces them to <code>NA_integer_</code> if <code>large_as_double</code> is <code>FALSE</code>, both with a warning.</li>
 <li>

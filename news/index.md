@@ -1,6 +1,6 @@
 # Changelog
 
-## checkinput 1.6.1
+## checkinput 1.7.0
 
 #### Breaking changes
 
