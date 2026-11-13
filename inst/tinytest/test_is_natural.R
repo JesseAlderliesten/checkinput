@@ -14,7 +14,20 @@ toy_fun_safe <- function(x, all = TRUE) {
   seq_len(x)
 }
 
-x_large_double <- .Machine$integer.max + 1
+# 'larger_than_tol' and 'smaller_than_tol_large' should be large enough to not
+# vanish when added to 'x_large_double_pos'. To make that possible, 'tol_large'
+# is used instead of the default '.Machine$double.eps^0.5'.
+tol <- .Machine$double.eps^0.5
+larger_than_tol <- 100 * tol
+tol_large <- .Machine$double.eps^0.25
+smaller_than_tol_large <- 0.01 * tol_large
+
+warn_coercion <- "NAs introduced by coercion to integer range"
+warn_double <- paste0("The return of 'make_natural()' has type 'double'",
+                      " because 'large_as_double'")
+
+x_large_double_pos <- .Machine$integer.max + 1
+x_large_double_neg <- -1L * .Machine$integer.max - 1
 
 
 #### Test the examples ####
@@ -33,6 +46,10 @@ expect_true(is_natural(x = x)) # TRUE
 expect_false(x == 2)
 
 expect_true(all_natural(x = c(3, 5 + 1e-10)))
+expect_error(make_natural(x = c(3, 5 + 1e-10)),
+             pattern = "checkinput::is_natural(c(3, 5 + 1e-10))", fixed = TRUE)
+expect_identical(make_natural(x = c(3, 5 + 1e-10), all = TRUE), c(3L, 5L))
+
 expect_false(all_natural(x = c(1e-10, 3, 5)))
 expect_true(all_natural(x = c(1e-10, 3, 5), strict = FALSE))
 expect_false(all_natural(x = c(-1e-10, 3, 5), strict = FALSE))
@@ -40,6 +57,23 @@ expect_false(all_natural(x = c(3, 5, Inf)))
 expect_false(all_natural(x = c(3, 5, Inf), strict = FALSE))
 expect_false(all_natural(x = "a"))
 expect_true(all_natural(x = 1:2))
+
+expect_warning(
+  expect_equal(
+    make_natural(x = c(4, x_large_double_pos + smaller_than_tol_large), all = TRUE,
+                 tol = tol_large, large_as_double = TRUE),
+    c(4, x_large_double_pos)
+  ),
+  pattern = warn_double, strict = TRUE, fixed = TRUE
+)
+
+expect_warning(
+  expect_identical(
+    make_natural(x = c(4, x_large_double_pos + smaller_than_tol_large), all = TRUE,
+                 tol = tol_large, large_as_double = FALSE),
+    c(4L, NA_integer_)
+  ), pattern = warn_coercion, strict = TRUE, fixed = TRUE
+)
 
 expect_identical(toy_fun_erroneous(x = 5 - 1e-8), 1:4)
 expect_identical(toy_fun_correct(x = 5 - 1e-8), 1:5)
@@ -85,11 +119,38 @@ expect_true(is_natural(x = NA_integer_, allow_NA = TRUE))
 expect_true(is_natural(x = NA_real_, allow_NA = TRUE))
 expect_false(is_natural(x = NA_integer_, allow_NA = FALSE))
 expect_false(is_natural(x = NA_real_, allow_NA = FALSE))
-expect_identical(make_natural(x = NA_integer_, allow_NA = TRUE), NA_integer_)
+
+expect_silent(expect_identical(
+  make_natural(x = NA_integer_, allow_NA = TRUE, all = TRUE), NA_integer_
+))
+expect_silent(expect_identical(
+  make_natural(x = NA_integer_, allow_NA = TRUE, all = FALSE), NA_integer_
+))
+expect_silent(expect_identical(
+  make_natural(x = NA_real_, allow_NA = TRUE, all = TRUE), NA_integer_
+))
+expect_silent(expect_identical(
+  make_natural(x = NA_real_, allow_NA = TRUE, all = FALSE), NA_integer_
+))
+expect_error(make_natural(x = NA, allow_NA = TRUE, all = TRUE),
+             pattern = "all_natural(NA) is not TRUE", fixed = TRUE)
+expect_error(make_natural(x = NA, allow_NA = TRUE, all = FALSE),
+             pattern = "is_natural(NA) is not TRUE", fixed = TRUE)
+
 expect_error(make_natural(x = NA_integer_, allow_NA = FALSE, all = TRUE),
              pattern = "all_natural(NA_integer_) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = NA_integer_, allow_NA = FALSE, all = FALSE),
              pattern = "is_natural(NA_integer_) is not TRUE", fixed = TRUE)
+
+expect_error(make_natural(x = NA_real_, allow_NA = FALSE, all = TRUE),
+             pattern = "all_natural(NA_real_) is not TRUE", fixed = TRUE)
+expect_error(make_natural(x = NA_real_, allow_NA = FALSE, all = FALSE),
+             pattern = "is_natural(NA_real_) is not TRUE", fixed = TRUE)
+
+expect_error(make_natural(x = NA, allow_NA = FALSE, all = TRUE),
+             pattern = "all_natural(NA) is not TRUE", fixed = TRUE)
+expect_error(make_natural(x = NA, allow_NA = FALSE, all = FALSE),
+             pattern = "is_natural(NA) is not TRUE", fixed = TRUE)
 
 for(allow_NA in c(FALSE, TRUE)) {
   for(x in list(FALSE, TRUE, NA, NaN, NA_complex_, NA_character_)) {
@@ -115,31 +176,151 @@ expect_true(all_natural(x = numeric(0), allow_zerolength = TRUE, strict = FALSE)
 expect_false(all_natural(x = NULL, allow_zerolength = TRUE, strict = FALSE))
 
 # Testing values that cannot be represented as integer by R
-# Notes:
-# - .Machine$integer.max + as.integer(1) gives NA_integer_ (with the warning
-#   '"NAs produced by integer overflow"') whereas .Machine$integer.max + 1 gives
-#   a numeric value of type double.
-# - R uses 32-bit integers, so .Machine$integer.max is about 2 * 10^9, see
-#   section 'Details' in help("integer").
-# - Although large negative values are clearly not natural numbers, they will be
-#   converted to NA_integer_ so it is worthwhile to use them as input in tests.
 expect_warning(
-  expect_false(all_natural(x = .Machine$integer.max + 1L)),
+  expect_identical(.Machine$integer.max + 1L, NA_integer_),
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 expect_warning(
-  expect_error(make_natural(x = .Machine$integer.max + 1L),
-               pattern = "is_natural(.Machine$integer.max + 1L) is not TRUE",
-               fixed = TRUE),
+  expect_identical(-1L * .Machine$integer.max - 1L, NA_integer_),
   pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
 
+expect_silent(expect_true(!is.na(x_large_double_pos)))
+expect_true(is.finite(x_large_double_pos))
+expect_equal(sign(x_large_double_pos), 1)
+expect_silent(expect_true(all_natural(x = x_large_double_pos)))
+
+expect_true(abs(x_large_double_pos + larger_than_tol - x_large_double_pos) > 0)
+expect_silent(expect_false(
+  all_natural(x = x_large_double_pos + larger_than_tol, tol = tol)
+))
+expect_silent(expect_false(
+  all_natural(x = x_large_double_pos - larger_than_tol, tol = tol)
+))
+
+expect_true(abs(x_large_double_pos + smaller_than_tol_large - x_large_double_pos) > 0)
+expect_silent(expect_true(
+  all_natural(x = x_large_double_pos + smaller_than_tol_large, tol = tol_large)
+))
+expect_silent(expect_true(
+  all_natural(x = x_large_double_pos - smaller_than_tol_large, tol = tol_large)
+))
+
+expect_silent(expect_true(!is.na(x_large_double_neg)))
+expect_true(is.finite(x_large_double_neg))
+expect_equal(sign(x_large_double_neg), -1)
+# Negative numbers are not considered natural
+expect_silent(expect_false(all_natural(x = x_large_double_neg)))
+
+expect_true(abs(x_large_double_neg + larger_than_tol - x_large_double_neg) > 0)
+expect_silent(expect_false(
+  all_natural(x = x_large_double_neg + larger_than_tol, tol = tol)
+))
+expect_silent(expect_false(
+  all_natural(x = x_large_double_neg - larger_than_tol, tol = tol)
+))
+
+expect_true(abs(x_large_double_neg + smaller_than_tol_large - x_large_double_neg) > 0)
+expect_silent(expect_false(
+  all_natural(x = x_large_double_neg + smaller_than_tol_large, tol = tol_large)
+))
+expect_silent(expect_false(
+  all_natural(x = x_large_double_neg - smaller_than_tol_large, tol = tol_large)
+))
+
 expect_warning(
-  expect_false(all_natural(x = (-1L * .Machine$integer.max) - 1L)),
-  pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
+  expect_equal(
+    make_natural(x = x_large_double_pos, large_as_double = TRUE),
+    x_large_double_pos),
+  pattern = warn_double, strict = TRUE, fixed = TRUE)
+
 expect_warning(
-  expect_error(make_natural(x = (-1L * .Machine$integer.max) - 1L),
-               pattern = "is_natural((-1L * .Machine$integer.max) - 1L) is not TRUE",
-               fixed = TRUE),
-  pattern = "NAs produced by integer overflow", strict = TRUE, fixed = TRUE)
+  expect_identical(
+    make_natural(x = x_large_double_pos, large_as_double = FALSE),
+    NA_integer_),
+  pattern = warn_coercion, strict = TRUE, fixed = TRUE)
+
+
+for(large_as_double in c(TRUE, FALSE)) {
+  expect_error(
+    make_natural(x = x_large_double_pos + larger_than_tol, tol = tol,
+                 large_as_double = large_as_double),
+    pattern = "checkinput::is_natural(x_large_double_pos + larger_than_tol)",
+    fixed = TRUE
+  )
+  expect_error(
+    make_natural(x = x_large_double_pos - larger_than_tol, tol = tol,
+                 large_as_double = large_as_double),
+    pattern = "checkinput::is_natural(x_large_double_pos - larger_than_tol)",
+    fixed = TRUE
+  )
+}
+
+expect_warning(
+  expect_equal(
+    make_natural(x = x_large_double_pos + smaller_than_tol_large,
+                 tol = tol_large, large_as_double = TRUE),
+    x_large_double_pos),
+  pattern = warn_double, strict = TRUE, fixed = TRUE)
+
+expect_warning(
+  expect_identical(
+    make_natural(x = x_large_double_pos + smaller_than_tol_large,
+                 tol = tol_large, large_as_double = FALSE),
+    NA_integer_),
+  pattern = warn_coercion, strict = TRUE, fixed = TRUE)
+
+expect_warning(
+  expect_equal(
+    make_natural(x = x_large_double_pos - smaller_than_tol_large,
+                 tol = tol_large, large_as_double = TRUE),
+    x_large_double_pos),
+  pattern = warn_double, strict = TRUE, fixed = TRUE)
+
+expect_warning(
+  expect_identical(
+    make_natural(x = x_large_double_pos - smaller_than_tol_large,
+                 tol = tol_large, large_as_double = FALSE),
+    NA_integer_),
+  pattern = warn_coercion, strict = TRUE, fixed = TRUE)
+
+for(large_as_double in c(TRUE, FALSE)) {
+  expect_error(
+    make_natural(x = x_large_double_neg, tol = tol,
+                 large_as_double = large_as_double),
+    pattern = "checkinput::is_natural(x_large_double_neg)",
+    fixed = TRUE
+  )
+
+  expect_error(
+    make_natural(x = x_large_double_neg + larger_than_tol, tol = tol,
+                 large_as_double = large_as_double),
+    pattern = "checkinput::is_natural(x_large_double_neg + larger_than_tol)",
+    fixed = TRUE
+  )
+
+  expect_error(
+    make_natural(x = x_large_double_neg - larger_than_tol, tol = tol),
+    pattern = "checkinput::is_natural(x_large_double_neg - larger_than_tol)",
+    fixed = TRUE
+  )
+}
+
+# Negative values are not considered natural numbers.
+tol_large
+
+for(large_as_double in c(TRUE, FALSE)) {
+  expect_error(
+    make_natural(x = x_large_double_neg + smaller_than_tol_large,
+                 tol = tol_large, large_as_double = large_as_double),
+    pattern = "checkinput::is_natural(x_large_double_neg + smaller_than_tol_large)",
+    fixed = TRUE
+  )
+  expect_error(
+    make_natural(x = x_large_double_neg - smaller_than_tol_large,
+                 tol = tol_large, large_as_double = large_as_double),
+    pattern = "checkinput::is_natural(x_large_double_neg - smaller_than_tol_large)",
+    fixed = TRUE
+  )
+}
 
 expect_true(all_natural(x = c(3, 5 + 1e-10, 5.0, 1e4, 1.2e4)))
 expect_identical(make_natural(x = c(3, 5 + 1e-10, 5.0, 1e4, 1.2e4), all = TRUE),
@@ -150,6 +331,8 @@ expect_true(all_natural(x = NA_integer_, allow_NA = TRUE))
 expect_true(all_natural(x = NA_real_, allow_NA = TRUE))
 expect_false(all_natural(x = NA_integer_, allow_NA = FALSE))
 expect_false(all_natural(x = NA_real_, allow_NA = FALSE))
+expect_error(make_natural(x = NA_integer_, allow_NA = FALSE),
+             pattern = "is_natural(NA_integer_) is not TRUE", fixed = TRUE)
 
 for(allow_NA in c(FALSE, TRUE)) {
   for(x in list(FALSE, TRUE, NA, NaN, NA_complex_, NA_character_)) {
@@ -185,4 +368,6 @@ expect_error(all_natural(x = c(3, 5 + 1e-10), tol = 0),
 
 
 #### Remove objects used in tests ####
-rm(allow_NA, toy_fun_correct, toy_fun_erroneous, toy_fun_safe, x, x_large_double)
+rm(allow_NA, large_as_double, larger_than_tol, smaller_than_tol_large, tol,
+   tol_large, toy_fun_correct, toy_fun_erroneous, toy_fun_safe, warn_coercion,
+   warn_double, x, x_large_double_neg, x_large_double_pos)
