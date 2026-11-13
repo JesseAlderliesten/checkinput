@@ -15,17 +15,20 @@ is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?}
 }
 \value{
-\code{TRUE} or \code{FALSE} indicating if \code{x} is a logical vector of the
-correct length with only allowed values.
+\code{TRUE} or \code{FALSE}
 }
 \description{
 Check that \code{x} is a length-one \link[=is.logical]{logical vector} with only
 allowed values.
 }
 \details{
-\code{is_logical()} returns \code{TRUE} for logical-type \code{x} of length one, for
-logical-type \link[=is_zerolength]{zero-length} \code{x} if \code{allow_zerolength} is
-\code{TRUE}, and for logical-type \code{NA} if \code{allow_NA} is \code{TRUE}.
+\code{is_logical()} returns \code{TRUE} if \code{x} is
+\itemize{
+\item \code{TRUE}
+\item \code{FALSE}
+\item \code{\link[=is_zerolength]{logical(0)}} and \code{allow_zerolength} is \code{TRUE}
+\item logical-type \code{\link{NA}} and \code{allow_NA} is \code{TRUE}
+}
 }
 \examples{
 is_logical(TRUE) # TRUE
@@ -34,6 +37,8 @@ is_logical(1) # FALSE: incorrect type
 is_logical(NA) # FALSE: default 'allow_NA' is FALSE
 is_logical(NA, allow_NA = TRUE) # TRUE
 is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
+is_logical(matrix(TRUE)) # FALSE: has non-NULL dimensions
+is_logical(data.frame(TRUE)) # FALSE: has non-NULL dimensions
 
 }
 \seealso{

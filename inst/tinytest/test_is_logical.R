@@ -11,6 +11,8 @@ for(x in list(c(TRUE, TRUE), 1, NA)) {
 }
 
 expect_false(is_logical(x = NA_character_, allow_NA = TRUE))
+expect_false(is_logical(matrix(TRUE)))
+expect_false(is_logical(data.frame(TRUE)))
 
 
 #### Tests ####
@@ -54,12 +56,14 @@ for(allow_zerolength in false_true) {
 # Arguments that should result in an error.
 for(allow_NA in false_true) {
   expect_error(is_logical(x = TRUE, allow_zerolength = NA, allow_NA = allow_NA),
-               pattern = "!is.na(allow_zerolength) is not TRUE", fixed = TRUE)
+               pattern = "isFALSE(allow_zerolength) || isTRUE(allow_zerolength)",
+               fixed = TRUE)
 }
 
 for(allow_zerolength in false_true) {
   expect_error(is_logical(x = TRUE, allow_zerolength = allow_zerolength, allow_NA = NA),
-               pattern = "!is.na(allow_NA) is not TRUE", fixed = TRUE)
+               pattern = "isFALSE(allow_NA) || isTRUE(allow_NA)",
+               fixed = TRUE)
 }
 
 

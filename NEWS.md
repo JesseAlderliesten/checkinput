@@ -1,3 +1,16 @@
+# checkinput 1.6.1
+
+### Breaking changes
+- `is_natural()`, `all_natural()`, and `make_natural()`: values are larger than
+  `.Machine$integer.max` are considered natural numbers if they differ less than
+  `tol` from those numbers instead of considered not to be natural numbers.
+  `make_natural()` returns `x` containing such large values as type `double` if
+  the added argument `large_as_double` is `TRUE` and coerces them to
+  `NA_integer_` if `large_as_double` is `FALSE`, both with a warning.
+- `is_logical()`: show valid values more clearly inside `stopifnot()` (which
+  changes the error messages).
+
+
 # checkinput 1.6.0
 
 ### Breaking changes
