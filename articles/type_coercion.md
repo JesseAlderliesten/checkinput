@@ -142,7 +142,9 @@ word) of R objects. The following table gives an overview of the type
 overview shows differences between floating-point numbers such as `3.2`
 and integers such as `3L`: they both have mode `numeric` but different
 types and classes. Factors have type `factor`, mode `numeric` and
-`class` integer.
+`class` integer. See the `Examples` in
+[`help("mode")`](https://rdrr.io/r/base/mode.html) for an overview of
+the `type` and `mode` of additional objects.
 
     #>           class       mode        type       
     #> NULL      "NULL"      "NULL"      "NULL"     
@@ -185,7 +187,7 @@ multiple classes.
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #> [1] checkinput_1.6.0
+    #> [1] checkinput_1.6.1
     #> 
     #> loaded via a namespace (and not attached):
     #>  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    

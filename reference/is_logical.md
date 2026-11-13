@@ -28,16 +28,21 @@ is_logical(x, allow_zerolength = FALSE, allow_NA = FALSE)
 
 ## Value
 
-`TRUE` or `FALSE` indicating if `x` is a logical vector of the correct
-length with only allowed values.
+`TRUE` or `FALSE`
 
 ## Details
 
-`is_logical()` returns `TRUE` for logical-type `x` of length one, for
-logical-type
-[zero-length](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
-`x` if `allow_zerolength` is `TRUE`, and for logical-type `NA` if
-`allow_NA` is `TRUE`.
+`is_logical()` returns `TRUE` if `x` is
+
+- `TRUE`
+
+- `FALSE`
+
+- [`logical(0)`](https://jessealderliesten.github.io/checkinput/reference/is_zerolength.md)
+  and `allow_zerolength` is `TRUE`
+
+- logical-type [`NA`](https://rdrr.io/r/base/NA.html) and `allow_NA` is
+  `TRUE`
 
 ## See also
 
@@ -63,5 +68,9 @@ is_logical(NA) # FALSE: default 'allow_NA' is FALSE
 is_logical(NA, allow_NA = TRUE) # TRUE
 #> [1] TRUE
 is_logical(NA_character_, allow_NA = TRUE) # FALSE: incorrect type
+#> [1] FALSE
+is_logical(matrix(TRUE)) # FALSE: has non-NULL dimensions
+#> [1] FALSE
+is_logical(data.frame(TRUE)) # FALSE: has non-NULL dimensions
 #> [1] FALSE
 ```

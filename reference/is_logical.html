@@ -9,7 +9,7 @@ allowed values."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,15 +75,15 @@ allowed values.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>TRUE</code> or <code>FALSE</code> indicating if <code>x</code> is a logical vector of the
-correct length with only allowed values.</p>
+    <p><code>TRUE</code> or <code>FALSE</code></p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>is_logical()</code> returns <code>TRUE</code> for logical-type <code>x</code> of length one, for
-logical-type <a href="is_zerolength.html">zero-length</a> <code>x</code> if <code>allow_zerolength</code> is
-<code>TRUE</code>, and for logical-type <code>NA</code> if <code>allow_NA</code> is <code>TRUE</code>.</p>
-    </div>
+    <p><code>is_logical()</code> returns <code>TRUE</code> if <code>x</code> is</p><ul><li><p><code>TRUE</code></p></li>
+<li><p><code>FALSE</code></p></li>
+<li><p><code><a href="is_zerolength.html">logical(0)</a></code> and <code>allow_zerolength</code> is <code>TRUE</code></p></li>
+<li><p>logical-type <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code> and <code>allow_NA</code> is <code>TRUE</code></p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other collections of checks on type and length:
@@ -108,6 +108,10 @@ logical-type <a href="is_zerolength.html">zero-length</a> <code>x</code> if <cod
 <span class="r-in"><span><span class="fu">is_logical</span><span class="op">(</span><span class="cn">NA</span>, allow_NA <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu">is_logical</span><span class="op">(</span><span class="cn">NA_character_</span>, allow_NA <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># FALSE: incorrect type</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="fu">is_logical</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE: has non-NULL dimensions</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="fu">is_logical</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE: has non-NULL dimensions</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

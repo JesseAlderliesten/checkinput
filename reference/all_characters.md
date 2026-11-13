@@ -45,22 +45,19 @@ is_character(
 
 ## Value
 
-`TRUE` or `FALSE` indicating if `x` is a character vector of the correct
-length with only allowed values.
+`TRUE` or `FALSE`
 
 ## Details
 
 `is_character()` and `all_characters()` return `TRUE` for empty strings
 (`""`) if `allow_empty` is `TRUE`, and for `NA_character_` if `allow_NA`
-is `TRUE`.
+is `TRUE`. They return `FALSE` for
+[factor](https://rdrr.io/r/base/factor.html)s, see the last `Example`.
 
 `is_character()` returns `TRUE` for `x` with length one and
 `all_characters()` returns `TRUE` for `x` with length larger than zero.
 Both functions return `TRUE` for character-type zero-length `x` if
 `allow_zerolength` is `TRUE`.
-
-`is_character()` and `all_characters()` return `FALSE` for
-[factor](https://rdrr.io/r/base/factor.html)s, see the last `Example`.
 
 ## See also
 

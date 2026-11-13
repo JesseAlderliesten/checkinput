@@ -9,7 +9,7 @@ with only allowed values."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,19 +91,16 @@ with only allowed values.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>TRUE</code> or <code>FALSE</code> indicating if <code>x</code> is a character vector of the
-correct length with only allowed values.</p>
+    <p><code>TRUE</code> or <code>FALSE</code></p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>is_character()</code> and <code>all_characters()</code> return <code>TRUE</code> for empty strings
 (<code>""</code>) if <code>allow_empty</code> is <code>TRUE</code>, and for <code>NA_character_</code> if <code>allow_NA</code> is
-<code>TRUE</code>.</p>
+<code>TRUE</code>. They return <code>FALSE</code> for <a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a>s, see the last <code>Example</code>.</p>
 <p><code>is_character()</code> returns <code>TRUE</code> for <code>x</code> with length one and <code>all_characters()</code>
 returns <code>TRUE</code> for <code>x</code> with length larger than zero. Both functions return
 <code>TRUE</code> for character-type zero-length <code>x</code> if <code>allow_zerolength</code> is <code>TRUE</code>.</p>
-<p><code>is_character()</code> and <code>all_characters()</code> return <code>FALSE</code> for <a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a>s, see the
-last <code>Example</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

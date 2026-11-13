@@ -9,7 +9,7 @@ allowing for small numeric errors."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,8 @@ allowing for small numeric errors.</p>
 <span>  allow_zerolength <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  allow_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.5</span></span>
+<span>  tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.5</span>,</span>
+<span>  large_as_double <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -88,7 +89,7 @@ allowing for small numeric errors.</p>
 
 
 <dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
-<dd><p>Exclude zero from the natural numbers?</p></dd>
+<dd><p>exclude zero from the natural numbers?</p></dd>
 
 
 <dt id="arg-allow-zerolength">allow_zerolength<a class="anchor" aria-label="anchor" href="#arg-allow-zerolength"></a></dt>
@@ -97,67 +98,93 @@ allowing for small numeric errors.</p>
 
 
 <dt id="arg-allow-na">allow_NA<a class="anchor" aria-label="anchor" href="#arg-allow-na"></a></dt>
-<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code> of the correct type in <code>x</code>?</p></dd>
+<dd><p><code>TRUE</code> or <code>FALSE</code>: allow <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code> of the correct type in <code>x</code>?
+See the section 'Large Numbers' below on the disadvantage of using <code>TRUE</code> for
+<code>allow_NA</code> with large numbers. <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a></code> is never allowed in <code>x</code>.</p></dd>
 
 
 <dt id="arg-tol">tol<a class="anchor" aria-label="anchor" href="#arg-tol"></a></dt>
-<dd><p>A small <a href="is_number.html">positive</a> number. Numbers that differ less
+<dd><p>a small <a href="is_number.html">positive</a> number. Numbers that differ less
 than <code>tol</code> are considered equal.</p></dd>
 
 
 <dt id="arg-all">all<a class="anchor" aria-label="anchor" href="#arg-all"></a></dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code>: use <code>all_natural()</code> instead of <code>is_natural()</code>?</p></dd>
 
+
+<dt id="arg-large-as-double">large_as_double<a class="anchor" aria-label="anchor" href="#arg-large-as-double"></a></dt>
+<dd><p><code>TRUE</code> or <code>FALSE</code>: return an object of <a href="https://rdrr.io/r/base/typeof.html" class="external-link">type</a>
+<code>double</code> if <code>x</code> contains values that are too large to be represented as
+<a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a>? See the section 'Large Numbers' below.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>For <code>is_natural()</code> and <code>all_natural()</code>: <code>TRUE</code> or <code>FALSE</code> indicating if <code>x</code>
-is a vector of the appropriate length with only natural numbers. For
-<code>make_natural()</code>: <code>x</code>, <a href="https://rdrr.io/r/base/Round.html" class="external-link">rounded</a> to a whole number and coerced to
-<a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a> type.</p>
+is a vector of the appropriate length with only natural numbers.</p>
+<p>For <code>make_natural()</code>: <code>x</code>, <a href="https://rdrr.io/r/base/Round.html" class="external-link">rounded</a> to a whole number. The return
+has <code><a href="https://rdrr.io/r/base/typeof.html" class="external-link">type</a></code> <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></code>, unless argument <code>large_as_double</code> is
+<code>TRUE</code> and <code>x</code> contains values larger than <code><a href="https://rdrr.io/r/base/zMachine.html" class="external-link">.Machine$integer.max</a></code>
+(about 2 * 10^9): then the return has type <code>double</code>, see the section 'Large
+Numbers' below.</p>
+<p><code>make_natural()</code> <strong>throws an error</strong> if <code>x</code> contains values that differ more
+than <code>tol</code> from the natural numbers.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Natural numbers are the positive integers (<code>1</code>, <code>2</code>, <code>3</code>, etc.).
-<code>is_natural()</code> and <code>all_natural()</code> allow for small numeric errors when
-comparing numbers to the natural numbers. Such numeric errors can arise
-because of rounding or representation error. As the <code>Note</code> at <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">help("==")</a></code>
-warns, <code>x == round(x)</code> does <strong>not</strong> allow for such errors but checks exact
-equality.</p>
+    <p>Natural numbers are the positive integers (<code>1</code>, <code>2</code>, <code>3</code>, etc.). The
+functions <code>*_natural()</code> allow for small numeric errors when comparing numbers
+to the natural numbers, which is important because rounding errors and
+representation errors during normal calculations can lead to small numeric
+errors. As the <code>Note</code> at <code><a href="https://rdrr.io/r/base/Comparison.html" class="external-link">help("==")</a></code> warns, using <code>x == round(x)</code> does
+<strong>not</strong> allow for such errors but checks exact equality, incorrectly treating
+numbers as non-equal.</p>
 <p>Zero is considered a natural number if argument <code>strict</code> is <code>FALSE</code>, but even
 then small negative numbers are <strong>not</strong> considered natural numbers.</p>
 <p><code>integer(0)</code> and <code>numeric(0)</code> are considered natural numbers if argument
-<code>allow_zerolength</code> is <code>TRUE</code>, and <code>NA_integer_</code> and <code>NA_real_</code> are considered
-natural numbers if <code>allow_NA</code> is <code>TRUE</code> (even then <code>NA_complex_</code> is <strong>not</strong>
-considered a natural number because it has <code>mode</code> <code>complex</code> instead of
-<code>numeric</code>).</p>
-<p><code><a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a></code>, <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a></code>, negative numbers, <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">Inf</a></code>, and numbers that are
-<a href="https://rdrr.io/r/base/zMachine.html" class="external-link">too large</a> to be represented as <a href="https://rdrr.io/r/base/integer.html" class="external-link">integers</a> are <strong>never</strong>
+<code>allow_zerolength</code> is <code>TRUE</code>.</p>
+<p><code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA_integer_</a></code> and <code>NA_real_</code> are considered natural numbers if
+<code>allow_NA</code> is <code>TRUE</code>. Even then <code>NA_complex_</code> is <strong>not</strong> considered a natural
+number because it is <code><a href="https://rdrr.io/r/base/complex.html" class="external-link">complex</a></code> instead of
+<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></code>.</p>
+<p><code><a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a></code>, <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">NaN</a></code>, negative numbers, and <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">Inf</a></code> are <strong>not</strong>
 considered natural numbers.</p>
+<p>See section <code>Large Numbers</code> below on the treatment of numbers that are too
+large to be represented as integers.</p>
     </div>
     <div class="section level2">
-    <h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a></h2>
+    <h2 id="large-numbers">Large Numbers<a class="anchor" aria-label="anchor" href="#large-numbers"></a></h2>
 
 
-<p><code>make_natural(x, all = FALSE)</code> and <code>make_natural(x, all = TRUE)</code> throw an
-error if <code>x</code> is not natural according to <code>is_natural(x)</code> or <code>all_natural(x)</code>,
-respectively. Therefore, their result can be assigned to <code>x</code> without the need
-to use <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>.</p>
-<p>Alternatively, use <code>is_natural(x)</code> or <code>all_natural(x)</code> inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>,
-followed by converting the rounded value of <code>x</code> to <code>integer</code> and assigning it
-to <code>x</code>:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">is_natural</span>(x))</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">round</span>(x))</span></code></pre><p></p></div>
+<p>Numbers larger than <code><a href="https://rdrr.io/r/base/zMachine.html" class="external-link">.Machine$integer.max</a></code> (about 2 * 10^9) are
+too large to be represented as <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></code>, see section 'Details' in
+<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">help("integer")</a></code>. When such large numbers are produced in
+<a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">arithmetic operations</a> that should result in integers, they are
+coerced to <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA_integer_</a></code> with the warning
+'<code>NAs produced by integer overflow</code>'. <code>NA_integer_</code> itself is considered
+natural if <code>allow_NA = TRUE</code>, which is <strong>not</strong> useful when e.g., testing
+that <code>x</code> is a natural number before using it as an index.</p>
+<p><code>make_natural()</code> also coerces numbers that are too large to be represented as
+<code>integer</code> to <code>NA_integer_</code> if argument <code>large_as_double</code> is <code>FALSE</code>. If
+argument <code>large_as_double</code> is <code>TRUE</code>, <code>make_natural()</code> returns the actual
+values as <code><a href="https://rdrr.io/r/base/typeof.html" class="external-link">type</a></code> <code><a href="https://rdrr.io/r/base/double.html" class="external-link">double</a></code> instead of <code>integer</code>,
+with the warning '<code>The return of 'make_natural()' has type 'double'</code>' that
+also indicates which values are too large.</p>
     </div>
     <div class="section level2">
     <h2 id="programming-notes">Programming Notes<a class="anchor" aria-label="anchor" href="#programming-notes"></a></h2>
 
 
-<p>The code of <code>is_natural()</code> and <code>all_natural()</code> is partly based on the example
-<code>is.wholenumber()</code> in <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code>.</p>
+<p><code>make_natural(x, ..., all = FALSE)</code> and <code>make_natural(x, ..., all = TRUE)</code>
+throw an error if <code>x</code> is not natural according to <code>is_natural(x, ...)</code> or
+<code>all_natural(x, ...)</code>, respectively. Therefore, their result can be assigned
+to <code>x</code> without the need to use <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code>.</p>
 <p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code> does <strong>not</strong> check that <code>x</code> is a natural number (nor that <code>x</code>
 is a whole number) but rather that <code>x</code> is of <a href="https://rdrr.io/r/base/typeof.html" class="external-link">type</a> integer, see
 the section 'Note' in <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">help("is.integer")</a></code>.</p>
+<p>The check for near-equality to the natural numbers in the last line of code
+of <code>all_natural()</code> is partly based on function <code>is.wholenumber()</code> from the
+<code>Examples</code> of <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -213,9 +240,11 @@ for background on numerical equality and its pitfalls.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">all_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span> <span class="op">+</span> <span class="fl">1e-10</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span> <span class="op">+</span> <span class="fl">1e-10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># c(3L, 5L)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span> <span class="op">+</span> <span class="fl">1e-10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># error: wrong length</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in make_natural(x = c(3, 5 + 1e-10)) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   checkinput::is_natural(c(3, 5 + 1e-10)) is not TRUE</span>
+<span class="r-in"><span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span> <span class="op">+</span> <span class="fl">1e-10</span><span class="op">)</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># c(3L, 5L)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 5</span>
 <span class="r-in"><span><span class="co"># Zero is not considered a natural number if 'strict' is TRUE:</span></span></span>
 <span class="r-in"><span><span class="fu">all_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-10</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>, strict <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
@@ -231,7 +260,28 @@ for background on numerical equality and its pitfalls.</p>
 <span class="r-in"><span><span class="fu">all_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Illustrate the need to follow use of is_natural(x) or</span></span></span>
+<span class="r-in"><span><span class="co"># Handling of large numbers by make_natural(), using a larger</span></span></span>
+<span class="r-in"><span><span class="co"># tolerance to prevent the small value that is added to</span></span></span>
+<span class="r-in"><span><span class="co"># '.Machine$integer.max + 1' from vanishing.</span></span></span>
+<span class="r-in"><span><span class="va">large_tol</span> <span class="op">&lt;-</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.25</span></span></span>
+<span class="r-in"><span><span class="va">large_double</span> <span class="op">&lt;-</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">integer.max</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">+</span> <span class="fl">0.01</span> <span class="op">*</span> <span class="va">large_tol</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># c(4, 2147483648) with a warning that the return is of type 'double':</span></span></span>
+<span class="r-in"><span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">large_double</span><span class="op">)</span>, all <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>             tol <span class="op">=</span> <span class="va">large_tol</span>, large_as_double <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The return of 'make_natural()' has type 'double' because 'large_as_double'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> is 'TRUE' and a return of type 'integer' would produce 'NA_integer_'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> through integer overflow for the following rounded values of 'x':</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> '2147483648'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]          4 2147483648</span>
+<span class="r-in"><span><span class="co"># c(4L, NA_integer_) (printed as c(4, NA)) with a warning that</span></span></span>
+<span class="r-in"><span><span class="co"># NAs have been introduced by coercion to integer range:</span></span></span>
+<span class="r-in"><span><span class="fu">make_natural</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">large_double</span><span class="op">)</span>, all <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>             tol <span class="op">=</span> <span class="va">large_tol</span>, large_as_double <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs introduced by coercion to integer range</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4 NA</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Illustrate the need to follow the use of is_natural(x) or</span></span></span>
 <span class="r-in"><span><span class="co"># all_natural(x) by assigning the rounded value to the argument</span></span></span>
 <span class="r-in"><span><span class="va">toy_fun_erroneous</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu">is_natural</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
