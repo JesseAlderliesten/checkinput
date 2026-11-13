@@ -1,4 +1,4 @@
-# checkinput 1.6.1
+# checkinput 1.7.0
 
 ### Breaking changes
 - `is_natural()`, `all_natural()`, and `make_natural()`: values are larger than
