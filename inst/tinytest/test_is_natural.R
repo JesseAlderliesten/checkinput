@@ -32,7 +32,7 @@ x_large_double_neg <- -1L * .Machine$integer.max - 1
 
 #### Test the examples ####
 expect_true(is_natural(x = 5 + 1e-10))
-expect_false(is_natural(x = 1e-10))
+expect_false(is_natural(x = 1e-10, strict = TRUE))
 expect_true(is_natural(x = 1e-10, strict = FALSE))
 expect_false(is_natural(x = -1e-10, strict = FALSE))
 expect_identical(make_natural(x = 1e-10, strict = FALSE), 0L)
@@ -74,8 +74,8 @@ expect_warning(
   ), pattern = warn_coercion, strict = TRUE, fixed = TRUE
 )
 
-expect_false(is_natural(x = Inf))
-expect_error(make_natural(x = Inf),
+expect_false(is_natural(x = Inf, allow_Inf = FALSE))
+expect_error(make_natural(x = Inf, allow_Inf = FALSE),
              pattern = "checkinput::is_natural(Inf) is not TRUE", fixed = TRUE)
 expect_true(is_natural(x = Inf, allow_Inf = TRUE))
 expect_warning(
@@ -111,8 +111,8 @@ expect_error(make_natural(x = 1e-10, strict = TRUE),
 expect_identical(make_natural(x = 0L, strict = FALSE), 0L)
 expect_identical(make_natural(x = 1e-10, strict = FALSE), 0L)
 expect_true(is_natural(x = 0L, strict = FALSE))
-expect_false(is_natural(x = Inf, strict = TRUE))
-expect_false(is_natural(x = Inf, strict = FALSE))
+expect_false(is_natural(x = Inf, allow_Inf = FALSE))
+expect_true(is_natural(x = Inf, allow_Inf = TRUE))
 expect_false(is_natural(x = integer(0), allow_zerolength = FALSE, strict = FALSE))
 expect_true(is_natural(x = integer(0), allow_zerolength = TRUE, strict = FALSE))
 expect_false(is_natural(x = numeric(0), allow_zerolength = FALSE, strict = FALSE))
@@ -177,8 +177,8 @@ expect_false(all_natural(x = 0, strict = TRUE))
 expect_true(all_natural(x = 0, strict = FALSE))
 expect_false(all_natural(x = 0L, strict = TRUE))
 expect_true(all_natural(x = 0L, strict = FALSE))
-expect_false(all_natural(x = Inf, strict = TRUE))
-expect_false(all_natural(x = Inf, strict = FALSE))
+expect_false(all_natural(x = Inf, allow_Inf = FALSE))
+expect_true(all_natural(x = Inf, allow_Inf = TRUE))
 expect_false(all_natural(x = integer(0), allow_zerolength = FALSE, strict = FALSE))
 expect_true(all_natural(x = integer(0), allow_zerolength = TRUE, strict = FALSE))
 expect_false(all_natural(x = numeric(0), allow_zerolength = FALSE, strict = FALSE))
