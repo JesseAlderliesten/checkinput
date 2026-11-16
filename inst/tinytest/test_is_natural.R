@@ -36,8 +36,6 @@ expect_false(is_natural(x = 1e-10))
 expect_true(is_natural(x = 1e-10, strict = FALSE))
 expect_false(is_natural(x = -1e-10, strict = FALSE))
 expect_identical(make_natural(x = 1e-10, strict = FALSE), 0L)
-expect_false(is_natural(x = Inf))
-expect_false(is_natural(x = Inf, strict = FALSE))
 expect_false(is_natural(x = "a"))
 expect_false(is_natural(x = 1:2))
 
@@ -54,7 +52,8 @@ expect_false(all_natural(x = c(1e-10, 3, 5)))
 expect_true(all_natural(x = c(1e-10, 3, 5), strict = FALSE))
 expect_false(all_natural(x = c(-1e-10, 3, 5), strict = FALSE))
 expect_false(all_natural(x = c(3, 5, Inf)))
-expect_false(all_natural(x = c(3, 5, Inf), strict = FALSE))
+expect_false(all_natural(x = c(3, 5, Inf)))
+expect_true(all_natural(x = c(3, 5, Inf), allow_Inf = TRUE))
 expect_false(all_natural(x = "a"))
 expect_true(all_natural(x = 1:2))
 
@@ -74,6 +73,17 @@ expect_warning(
     c(4L, NA_integer_)
   ), pattern = warn_coercion, strict = TRUE, fixed = TRUE
 )
+
+expect_false(is_natural(x = Inf))
+expect_error(make_natural(x = Inf),
+             pattern = "checkinput::is_natural(Inf) is not TRUE", fixed = TRUE)
+expect_true(is_natural(x = Inf, allow_Inf = TRUE))
+expect_warning(
+  expect_identical(make_natural(x = Inf, allow_Inf = TRUE, large_as_double = TRUE), Inf),
+  pattern = warn_double, fixed = TRUE, strict = TRUE)
+expect_warning(
+  expect_identical(make_natural(x = Inf, allow_Inf = TRUE, large_as_double = FALSE), NA_integer_),
+  pattern = warn_coercion, fixed = TRUE, strict = TRUE)
 
 expect_identical(toy_fun_erroneous(x = 5 - 1e-8), 1:4)
 expect_identical(toy_fun_correct(x = 5 - 1e-8), 1:5)

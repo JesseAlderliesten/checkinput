@@ -11,6 +11,7 @@ is_natural(
   strict = TRUE,
   allow_zerolength = FALSE,
   allow_NA = FALSE,
+  allow_Inf = FALSE,
   tol = .Machine$double.eps^0.5
 )
 
@@ -19,6 +20,7 @@ all_natural(
   strict = TRUE,
   allow_zerolength = FALSE,
   allow_NA = FALSE,
+  allow_Inf = FALSE,
   tol = .Machine$double.eps^0.5
 )
 
@@ -27,6 +29,7 @@ make_natural(
   strict = TRUE,
   allow_zerolength = FALSE,
   allow_NA = FALSE,
+  allow_Inf = FALSE,
   all = FALSE,
   tol = .Machine$double.eps^0.5,
   large_as_double = TRUE
@@ -44,6 +47,9 @@ make_natural(
 See the section 'Large Numbers' below on the disadvantage of using \code{TRUE} for
 \code{allow_NA} with large numbers. \code{\link{NaN}} is never allowed in \code{x}.}
 
+\item{allow_Inf}{\code{TRUE} or \code{FALSE}: allow positive \code{\link{Inf}} in \code{x}? See the
+section 'Large Numbers' below.}
+
 \item{tol}{a small \link[=is_positive]{positive} number. Numbers that differ less
 than \code{tol} are considered equal.}
 
@@ -60,8 +66,8 @@ is a vector of the appropriate length with only natural numbers.
 For \code{make_natural()}: \code{x}, \link[=round]{rounded} to a whole number. The return
 has \code{\link[=typeof]{type}} \code{\link{integer}}, unless argument \code{large_as_double} is
 \code{TRUE} and \code{x} contains values larger than \code{\link[=.Machine]{.Machine$integer.max}}
-(about 2 * 10^9): then the return has type \code{double}, see the section 'Large
-Numbers' below.
+(about 2 * 10^9) or \code{\link{Inf}}: then the return has type \code{double}, see the
+section 'Large Numbers' below.
 
 \code{make_natural()} \strong{throws an error} if \code{x} contains values that differ more
 than \code{tol} from the natural numbers.
@@ -90,7 +96,9 @@ then small negative numbers are \strong{not} considered natural numbers.
 number because it is \code{\link[=is.complex]{complex}} instead of
 \code{\link[=is.numeric]{numeric}}.
 
-\code{\link{NULL}}, \code{\link{NaN}}, negative numbers, and \code{\link[=is.finite]{Inf}} are \strong{not}
+Positive \code{\link{Inf}} is considered a natural number if \code{allow_Inf} is \code{TRUE}.
+
+\code{\link{NULL}}, \code{\link{NaN}}, and negative numbers are \strong{not}
 considered natural numbers.
 
 See section \verb{Large Numbers} below on the treatment of numbers that are too
@@ -100,7 +108,7 @@ large to be represented as integers.
 
 Numbers larger than \code{\link[=.Machine]{.Machine$integer.max}} (about 2 * 10^9) are
 too large to be represented as \code{\link{integer}}, see section 'Details' in
-\code{help("integer")}. When such large numbers are produced in
+\code{help("integer")}. When such large numbers or \code{\link{Inf}} are produced in
 \link[=Arithmetic]{arithmetic operations} that should result in integers, they are
 coerced to \code{\link{NA_integer_}} with the warning
 '\verb{NAs produced by integer overflow}'. \code{NA_integer_} itself is considered
@@ -139,7 +147,6 @@ try(make_natural(x = 1e-10, strict = TRUE)) # Error
 is_natural(x = 1e-10, strict = FALSE) # TRUE
 make_natural(x = 1e-10, strict = FALSE) # 0
 is_natural(x = -1e-10, strict = FALSE) # FALSE: wrong sign
-is_natural(x = Inf, strict = FALSE) # FALSE
 is_natural(x = "a") # FALSE
 is_natural(x = 1:2) # FALSE: wrong length
 
@@ -157,7 +164,8 @@ all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
 all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
 # FALSE because of wrong sign:
 all_natural(x = c(-1e-10, 3, 5), strict = FALSE)
-all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
+all_natural(x = c(3, 5, Inf), allow_Inf = FALSE) # FALSE
+all_natural(x = c(3, 5, Inf), allow_Inf = TRUE) # TRUE
 all_natural(x = "a") # FALSE
 all_natural(x = 1:2) # TRUE
 
@@ -174,6 +182,14 @@ make_natural(x = c(4, large_double), all = TRUE,
 # NAs have been introduced by coercion to integer range:
 make_natural(x = c(4, large_double), all = TRUE,
              tol = large_tol, large_as_double = FALSE)
+is_natural(Inf) # FALSE
+make_natural(Inf) # Error
+is_natural(Inf, allow_Inf = TRUE) # TRUE
+# Inf, with a warning that the return is of type 'double':
+make_natural(Inf, allow_Inf = TRUE, large_as_double = TRUE)
+# NA_integer_ (printed as NA) with a warning that NAs
+# have been introduced by coercion to integer range:
+make_natural(Inf, allow_Inf = TRUE, large_as_double = FALSE)
 
 # Illustrate the need to follow the use of is_natural(x) or
 # all_natural(x) by assigning the rounded value to the argument

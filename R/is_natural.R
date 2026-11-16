@@ -8,6 +8,8 @@
 #' @param allow_NA `TRUE` or `FALSE`: allow [`NA`] of the correct type in `x`?
 #' See the section 'Large Numbers' below on the disadvantage of using `TRUE` for
 #' `allow_NA` with large numbers. [`NaN`] is never allowed in `x`.
+#' @param allow_Inf `TRUE` or `FALSE`: allow positive [`Inf`] in `x`? See the
+#' section 'Large Numbers' below.
 #' @param tol a small [positive][is_positive()] number. Numbers that differ less
 #' than `tol` are considered equal.
 #' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
@@ -35,7 +37,9 @@
 #' number because it is [`complex`][is.complex()] instead of
 #' [`numeric`][is.numeric()].
 #'
-#' [`NULL`], [`NaN`], negative numbers, and [`Inf`][is.finite] are **not**
+#' Positive [`Inf`] is considered a natural number if `allow_Inf` is `TRUE`.
+#'
+#' [`NULL`], [`NaN`], and negative numbers are **not**
 #' considered natural numbers.
 #'
 #' See section `Large Numbers` below on the treatment of numbers that are too
@@ -48,8 +52,8 @@
 #' For `make_natural()`: `x`, [rounded][round()] to a whole number. The return
 #' has [`type`][typeof()] [`integer`], unless argument `large_as_double` is
 #' `TRUE` and `x` contains values larger than [`.Machine$integer.max`][.Machine]
-#' (about 2 * 10^9): then the return has type `double`, see the section 'Large
-#' Numbers' below.
+#' (about 2 * 10^9) or [`Inf`]: then the return has type `double`, see the
+#' section 'Large Numbers' below.
 #'
 #' `make_natural()` **throws an error** if `x` contains values that differ more
 #' than `tol` from the natural numbers.
@@ -57,7 +61,7 @@
 #' @section Large Numbers:
 #' Numbers larger than [`.Machine$integer.max`][.Machine] (about 2 * 10^9) are
 #' too large to be represented as [`integer`], see section 'Details' in
-#' `help("integer")`. When such large numbers are produced in
+#' `help("integer")`. When such large numbers or [`Inf`] are produced in
 #' [arithmetic operations][Arithmetic] that should result in integers, they are
 #' coerced to [`NA_integer_`] with the warning
 #' '`NAs produced by integer overflow`'. `NA_integer_` itself is considered
@@ -108,7 +112,6 @@
 #' is_natural(x = 1e-10, strict = FALSE) # TRUE
 #' make_natural(x = 1e-10, strict = FALSE) # 0
 #' is_natural(x = -1e-10, strict = FALSE) # FALSE: wrong sign
-#' is_natural(x = Inf, strict = FALSE) # FALSE
 #' is_natural(x = "a") # FALSE
 #' is_natural(x = 1:2) # FALSE: wrong length
 #'
@@ -126,7 +129,8 @@
 #' all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
 #' # FALSE because of wrong sign:
 #' all_natural(x = c(-1e-10, 3, 5), strict = FALSE)
-#' all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
+#' all_natural(x = c(3, 5, Inf), allow_Inf = FALSE) # FALSE
+#' all_natural(x = c(3, 5, Inf), allow_Inf = TRUE) # TRUE
 #' all_natural(x = "a") # FALSE
 #' all_natural(x = 1:2) # TRUE
 #'
@@ -143,6 +147,15 @@
 #' # NAs have been introduced by coercion to integer range:
 #' make_natural(x = c(4, large_double), all = TRUE,
 #'              tol = large_tol, large_as_double = FALSE)
+
+#' is_natural(Inf) # FALSE
+#' make_natural(Inf) # Error
+#' is_natural(Inf, allow_Inf = TRUE) # TRUE
+#' # Inf, with a warning that the return is of type 'double':
+#' make_natural(Inf, allow_Inf = TRUE, large_as_double = TRUE)
+#' # NA_integer_ (printed as NA) with a warning that NAs
+#' # have been introduced by coercion to integer range:
+#' make_natural(Inf, allow_Inf = TRUE, large_as_double = FALSE)
 #'
 #' # Illustrate the need to follow the use of is_natural(x) or
 #' # all_natural(x) by assigning the rounded value to the argument
@@ -179,10 +192,11 @@ is_natural <- function(x,
                        strict = TRUE,
                        allow_zerolength = FALSE,
                        allow_NA = FALSE,
+                       allow_Inf = FALSE,
                        tol = .Machine$double.eps^0.5) {
   length(x) <= 1L &&
     all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
-                allow_NA = allow_NA, tol = tol)
+                allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol)
 }
 
 #' @rdname is_natural
@@ -191,9 +205,11 @@ all_natural <- function(x,
                         strict = TRUE,
                         allow_zerolength = FALSE,
                         allow_NA = FALSE,
+                        allow_Inf = FALSE,
                         tol = .Machine$double.eps^0.5) {
   # Arguments 'allow_zerolength' and 'allow_NA' are checked in 'all_numbers()'.
-  stopifnot(is_logical(strict), is_positive(tol), tol < 0.5)
+  stopifnot(is_logical(strict), is_logical(allow_Inf),
+            is_positive(tol), tol < 0.5)
 
   # 'NaN' is not considered a natural number.
   if(!all_numbers(x = x, allow_zerolength = allow_zerolength,
@@ -202,7 +218,12 @@ all_natural <- function(x,
   }
 
   # 'NaN' and, if 'allow_NA' is 'FALSE', 'NA', have been catched above
-  if(any(is.infinite(x) | x < 0 | (strict & x < 0.5), na.rm = TRUE)) {
+  if(!allow_Inf && any(is.infinite(x), na.rm = TRUE)) {
+    return(FALSE)
+  }
+
+  # 'NaN' and, if 'allow_NA' is 'FALSE', 'NA', have been catched above
+  if(any(x < 0 | (strict & x < 0.5), na.rm = TRUE)) {
     return(FALSE)
   }
 
@@ -215,6 +236,7 @@ make_natural <- function(x,
                          strict = TRUE,
                          allow_zerolength = FALSE,
                          allow_NA = FALSE,
+                         allow_Inf = FALSE,
                          all = FALSE,
                          tol = .Machine$double.eps^0.5,
                          large_as_double = TRUE) {
@@ -223,12 +245,12 @@ make_natural <- function(x,
 
   if(all) {
     if(!all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
-                    allow_NA = allow_NA, tol = tol)) {
+                    allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol)) {
       stop("checkinput::all_natural(", name_x, ") is not TRUE")
     }
   } else {
     if(!is_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
-                   allow_NA = allow_NA, tol = tol)) {
+                   allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol)) {
       stop("checkinput::is_natural(", name_x, ") is not TRUE")
     }
   }
