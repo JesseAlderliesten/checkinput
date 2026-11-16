@@ -149,7 +149,7 @@
 #'              tol = large_tol, large_as_double = FALSE)
 
 #' is_natural(Inf) # FALSE
-#' make_natural(Inf) # Error
+#' try(make_natural(Inf)) # Error
 #' is_natural(Inf, allow_Inf = TRUE) # TRUE
 #' # Inf, with a warning that the return is of type 'double':
 #' make_natural(Inf, allow_Inf = TRUE, large_as_double = TRUE)
