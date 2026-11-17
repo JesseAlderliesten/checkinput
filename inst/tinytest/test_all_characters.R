@@ -38,24 +38,27 @@ for(allow_empty in false_true) {
   }
 }
 
-for(x in list(NULL, FALSE, TRUE, NA, -Inf, -314, 0, 314, Inf, numeric(0), NaN,
-              NA_real_, NaN, data.frame(a = 314), as.matrix(data.frame(a = 314)),
-              list())) {
+for(x in list(NULL, FALSE, TRUE, NA, NaN, numeric(0), -Inf, -314, 0, 314, Inf,
+              NA_real_, list(), data.frame(a = "nco"), matrix("nco"),
+              list("nco"))) {
   for(allow_empty in false_true) {
     for(allow_zerolength in false_true) {
       for(allow_NA in false_true) {
         expect_false(
           all_characters(x = x, allow_empty = allow_empty,
-                         allow_zerolength = allow_zerolength, allow_NA = allow_NA))
+                         allow_zerolength = allow_zerolength, allow_NA = allow_NA)
+        )
+        expect_false(
+          is_character(x = x, allow_empty = allow_empty,
+                       allow_zerolength = allow_zerolength, allow_NA = allow_NA)
+        )
       }
     }
   }
 }
 
-for(x in list(NULL, FALSE, TRUE, NA, NaN, numeric(0), NA_real_, 0, 314, Inf,
-              c(NA_character_, NA_character_), c("", ""), c("nco", ""),
-              c("nco", "ibf"), data.frame(a = "nco"), matrix("nco"),
-              list("nco"))) {
+for(x in list(c(NA_character_, NA_character_), c("", ""), c("nco", ""),
+              c("nco", "ibf"))) {
   for(allow_empty in false_true) {
     for(allow_zerolength in false_true) {
       for(allow_NA in false_true) {
@@ -93,7 +96,8 @@ for(allow_zerolength in false_true) {
   }
 }
 
-# x for which return of all_characters() and is_character() is equal to argument 'allow_zerolength'
+# x for which return of all_characters() and is_character() is equal to argument
+# 'allow_zerolength'
 for(allow_empty in false_true) {
   for(allow_NA in false_true) {
     expect_true(
@@ -139,58 +143,29 @@ for(allow_empty in false_true) {
 }
 
 ##### Arguments that should result in an error #####
-for(allow_zerolength in false_true) {
-  for(allow_NA in false_true) {
-    expect_error(
-      all_characters(x = c("nco", "ibf"), allow_empty = NA,
-                     allow_zerolength = allow_zerolength, allow_NA = allow_NA),
-      pattern = "is_logical(allow_empty) is not TRUE", fixed = TRUE)
-  }
-}
+expect_error(
+  all_characters(x = c("nco", "ibf"), allow_empty = NA),
+  pattern = "is_logical(allow_empty) is not TRUE", fixed = TRUE)
 
-for(allow_empty in false_true) {
-  for(allow_NA in false_true) {
-    expect_error(
-      all_characters(x = c("nco", "ibf"), allow_empty = allow_empty,
-                     allow_zerolength = NA, allow_NA = allow_NA),
-      pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
-  }
-}
+expect_error(
+  all_characters(x = c("nco", "ibf"), allow_zerolength = NA),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
 
-for(allow_empty in false_true) {
-  for(allow_zerolength in false_true) {
-    expect_error(
-      all_characters(x = c("nco", "ibf"), allow_empty = allow_empty,
-                     allow_zerolength = allow_zerolength, allow_NA = NA),
-      pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
-  }
-}
+expect_error(
+  all_characters(x = c("nco", "ibf"), allow_NA = NA),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
 
-for(allow_zerolength in false_true) {
-  for(allow_NA in false_true) {
-    expect_error(is_character(x = "nco", allow_empty = NA,
-                              allow_zerolength = allow_zerolength, allow_NA = allow_NA),
-                 pattern = "is_logical(allow_empty) is not TRUE", fixed = TRUE)
-  }
-}
+expect_error(
+  is_character(x = "nco", allow_empty = NA),
+  pattern = "is_logical(allow_empty) is not TRUE", fixed = TRUE)
 
-for(allow_empty in false_true) {
-  for(allow_NA in false_true) {
-    expect_error(
-      all_characters(x = "nco", allow_empty = allow_empty,
-                     allow_zerolength = NA, allow_NA = allow_NA),
-      pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
-  }
-}
+expect_error(
+  all_characters(x = "nco", allow_zerolength = NA),
+  pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
 
-for(allow_empty in false_true) {
-  for(allow_zerolength in false_true) {
-    expect_error(
-      all_characters(x = "nco", allow_empty = allow_empty,
-                     allow_zerolength = allow_zerolength, allow_NA = NA),
-      pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
-  }
-}
+expect_error(
+  all_characters(x = "nco", allow_NA = NA),
+  pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
 
 
 #### Remove objects used in tests ####
