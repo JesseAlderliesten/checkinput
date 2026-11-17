@@ -51,6 +51,7 @@ case for \code{all(numeric(0))} and \code{all(character(0))} that get coerced to
 
 \examples{
 is_zerolength(x = character(0)) # TRUE
+is_zerolength(x = NULL) # TRUE
 is_zerolength(x = 0) # FALSE
 df <- data.frame(a = 314)
 zerorow_df <- df[numeric(0), , drop = FALSE]

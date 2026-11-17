@@ -14,6 +14,7 @@ test_list_char  <- list("nco")
 
 #### Test the examples ####
 expect_true(is_zerolength(x = character(0)))
+expect_true(is_zerolength(x = NULL))
 expect_false(is_zerolength(x = 0))
 expect_true(is_zerolength(x = test_mat_num[numeric(0), , drop = FALSE]))
 expect_false(is_zerolength(x = test_df_num[numeric(0), , drop = FALSE]))
