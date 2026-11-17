@@ -80,10 +80,10 @@ allowing for small numeric errors.
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). The
 functions \verb{*_natural()} allow for small numeric errors when comparing numbers
 to the natural numbers, which is important because rounding errors and
-representation errors during normal calculations can lead to small numeric
-errors. As the \code{Note} at \code{help("==")} warns, using \code{x == round(x)} does
-\strong{not} allow for such errors but checks exact equality, incorrectly treating
-numbers as non-equal.
+representation errors during normal calculations can lead to such small
+numeric errors. As the \code{Note} at \code{help("==")} warns, using \code{x == round(x)}
+does \strong{not} allow for such errors but checks exact equality, see the first
+\code{Examples}.
 
 Zero is considered a natural number if argument \code{strict} is \code{FALSE}, but even
 then small negative numbers are \strong{not} considered natural numbers.

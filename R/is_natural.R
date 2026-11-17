@@ -21,10 +21,10 @@
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). The
 #' functions `*_natural()` allow for small numeric errors when comparing numbers
 #' to the natural numbers, which is important because rounding errors and
-#' representation errors during normal calculations can lead to small numeric
-#' errors. As the `Note` at `help("==")` warns, using `x == round(x)` does
-#' **not** allow for such errors but checks exact equality, incorrectly treating
-#' numbers as non-equal.
+#' representation errors during normal calculations can lead to such small
+#' numeric errors. As the `Note` at `help("==")` warns, using `x == round(x)`
+#' does **not** allow for such errors but checks exact equality, see the first
+#' `Examples`.
 #'
 #' Zero is considered a natural number if argument `strict` is `FALSE`, but even
 #' then small negative numbers are **not** considered natural numbers.
