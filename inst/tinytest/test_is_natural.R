@@ -42,20 +42,20 @@ expect_true(is_natural(x))
 expect_identical(seq_len(x), 1:2)
 expect_identical(seq_len(make_natural(x)), 1:3)
 
-expect_true( is_natural(5 + 1e-9, tol = 1e-8))
+expect_true(is_natural(5 + 1e-9, tol = 1e-8))
 expect_false(is_natural(5 + 1e-7, tol = 1e-8))
 expect_false(is_natural(1:2))
 expect_true(all_natural(1:2))
 expect_false(is_natural("a"))
 
-expect_false(is_natural( 1e-9, strict = TRUE))
-expect_true( is_natural( 1e-9, strict = FALSE))
+expect_false(is_natural(1e-9, strict = TRUE))
+expect_true(is_natural(1e-9, strict = FALSE))
 expect_false(is_natural(-1e-9, strict = FALSE))
 
 expect_false(is_natural(integer(0), allow_zerolength = FALSE))
-expect_true( is_natural(integer(0), allow_zerolength = TRUE))
+expect_true(is_natural(integer(0), allow_zerolength = TRUE))
 expect_false(is_natural(numeric(0), allow_zerolength = FALSE))
-expect_true( is_natural(numeric(0), allow_zerolength = TRUE))
+expect_true(is_natural(numeric(0), allow_zerolength = TRUE))
 expect_false(is_natural(logical(0), allow_zerolength = TRUE))
 expect_false(is_natural(NULL, allow_zerolength = TRUE))
 
@@ -90,19 +90,19 @@ expect_true(is_natural(Inf, allow_Inf = TRUE))
 expect_warning(
   expect_identical(
     make_natural(x = Inf, allow_Inf = TRUE, large_as_double = TRUE), Inf
-    ),
+  ),
   pattern = warn_double, fixed = TRUE, strict = TRUE)
 expect_warning(
   expect_identical(
     make_natural(x = Inf, allow_Inf = TRUE, large_as_double = FALSE), NA_integer_
-    ),
+  ),
   pattern = warn_coercion, fixed = TRUE, strict = TRUE)
 
 #### Tests ####
 
 ##### vector input #####
-expect_false( is_natural(c(3, 5 + 1e-9, 5.0, 1.2e4)))
-expect_true( all_natural(c(3, 5 + 1e-9, 5.0, 1.2e4)))
+expect_false(is_natural(c(3, 5 + 1e-9, 5.0, 1.2e4)))
+expect_true(all_natural(c(3, 5 + 1e-9, 5.0, 1.2e4)))
 expect_error(make_natural(x = c(3, 5 + 1e-9, 5.0, 1.2e4), all = FALSE),
              pattern = "is_natural(c(3, 5 + 1e-09, 5, 12000)) is not TRUE",
              fixed = TRUE)
@@ -110,7 +110,7 @@ expect_identical(make_natural(x = c(3, 5 + 1e-9, 5.0, 1.2e4), all = TRUE),
                  c(3L, 5L, 5L, 12000L))
 
 ##### negative numbers #####
-expect_false( is_natural(-3L))
+expect_false(is_natural(-3L))
 expect_false(all_natural(-3L))
 expect_error(
   make_natural(x = -3L, all = FALSE),
@@ -120,7 +120,7 @@ expect_error(
   pattern = "all_natural(-3L) is not TRUE", fixed = TRUE)
 
 ##### (almost) zero #####
-expect_false( is_natural(0L, strict = TRUE))
+expect_false(is_natural(0L, strict = TRUE))
 expect_false(all_natural(0L, strict = TRUE))
 expect_error(
   make_natural(x = 0L, strict = TRUE, all = FALSE),
@@ -129,12 +129,12 @@ expect_error(
   make_natural(x = 0L, strict = TRUE, all = TRUE),
   pattern = "all_natural(0L) is not TRUE", fixed = TRUE)
 
-expect_true(  is_natural(0L, strict = FALSE))
-expect_true( all_natural(0L, strict = FALSE))
+expect_true(is_natural(0L, strict = FALSE))
+expect_true(all_natural(0L, strict = FALSE))
 expect_identical(make_natural(x = 0L, strict = FALSE, all = FALSE), 0L)
 expect_identical(make_natural(x = 0L, strict = FALSE, all = TRUE), 0L)
 
-expect_false( is_natural(0, strict = TRUE))
+expect_false(is_natural(0, strict = TRUE))
 expect_false(all_natural(0, strict = TRUE))
 expect_error(
   make_natural(x = 0, strict = TRUE, all = FALSE),
@@ -143,12 +143,12 @@ expect_error(
   make_natural(x = 0, strict = TRUE, all = TRUE),
   pattern = "all_natural(0) is not TRUE", fixed = TRUE)
 
-expect_true(  is_natural(0, strict = FALSE))
-expect_true( all_natural(0, strict = FALSE))
+expect_true(is_natural(0, strict = FALSE))
+expect_true(all_natural(0, strict = FALSE))
 expect_identical(make_natural(x = 0, strict = FALSE, all = FALSE), 0L)
 expect_identical(make_natural(x = 0, strict = FALSE, all = TRUE), 0L)
 
-expect_false( is_natural(1e-9, strict = TRUE))
+expect_false(is_natural(1e-9, strict = TRUE))
 expect_false(all_natural(1e-9, strict = TRUE))
 expect_error(
   make_natural(x = 1e-9, strict = TRUE, all = FALSE),
@@ -157,12 +157,12 @@ expect_error(
   make_natural(x = 1e-9, strict = TRUE, all = TRUE),
   pattern = "all_natural(1e-09) is not TRUE", fixed = TRUE)
 
-expect_true( is_natural(1e-9, strict = FALSE))
+expect_true(is_natural(1e-9, strict = FALSE))
 expect_true(all_natural(1e-9, strict = FALSE))
 expect_identical(make_natural(x = 1e-9, strict = FALSE, all = FALSE), 0L)
 expect_identical(make_natural(x = 1e-9, strict = FALSE, all = TRUE), 0L)
 
-expect_false( is_natural(-1e-9, strict = TRUE))
+expect_false(is_natural(-1e-9, strict = TRUE))
 expect_false(all_natural(-1e-9, strict = TRUE))
 expect_error(
   make_natural(x = -1e-9, strict = TRUE, all = FALSE),
@@ -171,7 +171,7 @@ expect_error(
   make_natural(x = -1e-9, strict = TRUE, all = TRUE),
   pattern = "all_natural(-1e-09) is not TRUE", fixed = TRUE)
 
-expect_false( is_natural(-1e-9, strict = FALSE))
+expect_false(is_natural(-1e-9, strict = FALSE))
 expect_false(all_natural(-1e-9, strict = FALSE))
 expect_error(
   make_natural(x = -1e-9, strict = FALSE, all = FALSE),
@@ -181,21 +181,21 @@ expect_error(
   pattern = "all_natural(-1e-09) is not TRUE", fixed = TRUE)
 
 ##### zero-length #####
-expect_false( is_natural(integer(0), allow_zerolength = FALSE))
+expect_false(is_natural(integer(0), allow_zerolength = FALSE))
 expect_false(all_natural(integer(0), allow_zerolength = FALSE))
-expect_true(  is_natural(integer(0), allow_zerolength = TRUE))
-expect_true( all_natural(integer(0), allow_zerolength = TRUE))
-expect_false( is_natural(numeric(0), allow_zerolength = FALSE))
+expect_true(is_natural(integer(0), allow_zerolength = TRUE))
+expect_true(all_natural(integer(0), allow_zerolength = TRUE))
+expect_false(is_natural(numeric(0), allow_zerolength = FALSE))
 expect_false(all_natural(numeric(0), allow_zerolength = FALSE))
-expect_true(  is_natural(numeric(0), allow_zerolength = TRUE))
-expect_true( all_natural(numeric(0), allow_zerolength = TRUE))
-expect_false( is_natural(logical(0), allow_zerolength = FALSE))
+expect_true(is_natural(numeric(0), allow_zerolength = TRUE))
+expect_true(all_natural(numeric(0), allow_zerolength = TRUE))
+expect_false(is_natural(logical(0), allow_zerolength = FALSE))
 expect_false(all_natural(logical(0), allow_zerolength = FALSE))
-expect_false( is_natural(logical(0), allow_zerolength = TRUE))
+expect_false(is_natural(logical(0), allow_zerolength = TRUE))
 expect_false(all_natural(logical(0), allow_zerolength = TRUE))
-expect_false( is_natural(NULL, allow_zerolength = FALSE))
+expect_false(is_natural(NULL, allow_zerolength = FALSE))
 expect_false(all_natural(NULL, allow_zerolength = FALSE))
-expect_false( is_natural(NULL, allow_zerolength = TRUE))
+expect_false(is_natural(NULL, allow_zerolength = TRUE))
 expect_false(all_natural(NULL, allow_zerolength = TRUE))
 
 expect_error(
@@ -215,11 +215,11 @@ expect_error(
 expect_identical(
   make_natural(x = numeric(0), allow_zerolength = TRUE, all = FALSE),
   integer(0)
-  )
+)
 expect_identical(
   make_natural(x = numeric(0), allow_zerolength = TRUE, all = TRUE),
   integer(0)
-  )
+)
 expect_error(
   make_natural(x = NULL, allow_zerolength = FALSE, all = FALSE),
   pattern = "is_natural(NULL) is not TRUE", fixed = TRUE)
@@ -235,8 +235,8 @@ expect_error(
 
 ##### NAs and NaN #####
 # Only NA_integer_ and NA_real_ are allowed if 'allow_NA' is TRUE
-expect_true(  is_natural(NA_integer_, allow_NA = TRUE))
-expect_true( all_natural(NA_integer_, allow_NA = TRUE))
+expect_true(is_natural(NA_integer_, allow_NA = TRUE))
+expect_true(all_natural(NA_integer_, allow_NA = TRUE))
 expect_silent(expect_identical(
   make_natural(x = NA_integer_, allow_NA = TRUE, all = FALSE), NA_integer_
 ))
@@ -244,7 +244,7 @@ expect_silent(expect_identical(
   make_natural(x = NA_integer_, allow_NA = TRUE, all = TRUE), NA_integer_
 ))
 
-expect_false( is_natural(NA_integer_, allow_NA = FALSE))
+expect_false(is_natural(NA_integer_, allow_NA = FALSE))
 expect_false(all_natural(NA_integer_, allow_NA = FALSE))
 expect_error(
   make_natural(x = NA_integer_, allow_NA = FALSE, all = FALSE),
@@ -253,8 +253,8 @@ expect_error(
   make_natural(x = NA_integer_, allow_NA = FALSE, all = TRUE),
   pattern = "all_natural(NA_integer_) is not TRUE", fixed = TRUE)
 
-expect_true(  is_natural(NA_real_, allow_NA = TRUE))
-expect_true( all_natural(NA_real_, allow_NA = TRUE))
+expect_true(is_natural(NA_real_, allow_NA = TRUE))
+expect_true(all_natural(NA_real_, allow_NA = TRUE))
 expect_silent(expect_identical(
   make_natural(x = NA_real_, allow_NA = TRUE, all = FALSE), NA_integer_
 ))
@@ -262,7 +262,7 @@ expect_silent(expect_identical(
   make_natural(x = NA_real_, allow_NA = TRUE, all = TRUE), NA_integer_
 ))
 
-expect_false( is_natural(NA_real_, allow_NA = FALSE))
+expect_false(is_natural(NA_real_, allow_NA = FALSE))
 expect_false(all_natural(NA_real_, allow_NA = FALSE))
 expect_error(
   make_natural(x = NA_real_, allow_NA = FALSE, all = FALSE),
@@ -273,7 +273,7 @@ expect_error(
 
 for(allow_NA in c(FALSE, TRUE)) {
   for(x in list(NA, NaN, NA_complex_, NA_character_)) {
-    expect_false( is_natural(x, allow_NA = allow_NA))
+    expect_false(is_natural(x, allow_NA = allow_NA))
     expect_false(all_natural(x, allow_NA = allow_NA))
     expect_error(
       make_natural(x = x, allow_NA = allow_NA, all = FALSE),
@@ -287,7 +287,7 @@ for(allow_NA in c(FALSE, TRUE)) {
 ##### large values and Inf #####
 
 # Testing values that cannot be represented as integer by R
-expect_true( is_natural(x_large_double_pos))
+expect_true(is_natural(x_large_double_pos))
 expect_true(all_natural(x_large_double_pos))
 for(arg_all in c(TRUE, FALSE)) {
   expect_warning(
@@ -343,7 +343,7 @@ for(arg_all in c(TRUE, FALSE)) {
     pattern = warn_coercion, strict = TRUE, fixed = TRUE)
 }
 
-expect_false( is_natural(x_large_double_pos - larger_than_tol, tol = tol))
+expect_false(is_natural(x_large_double_pos - larger_than_tol, tol = tol))
 expect_false(all_natural(x_large_double_pos - larger_than_tol, tol = tol))
 for(large_as_double in c(TRUE, FALSE)) {
   expect_error(
@@ -360,7 +360,7 @@ for(large_as_double in c(TRUE, FALSE)) {
   )
 }
 
-expect_false( is_natural(x_large_double_pos + larger_than_tol, tol = tol))
+expect_false(is_natural(x_large_double_pos + larger_than_tol, tol = tol))
 expect_false(all_natural(x_large_double_pos + larger_than_tol, tol = tol))
 for(large_as_double in c(TRUE, FALSE)) {
   expect_error(
@@ -460,7 +460,7 @@ for(large_as_double in c(TRUE, FALSE)) {
   )
 }
 
-expect_false( is_natural(Inf, allow_Inf = FALSE))
+expect_false(is_natural(Inf, allow_Inf = FALSE))
 expect_false(all_natural(Inf, allow_Inf = FALSE))
 expect_error(
   make_natural(x = Inf, allow_Inf = FALSE, all = FALSE, tol = tol,
@@ -484,7 +484,7 @@ expect_error(
 )
 
 
-expect_true( is_natural(Inf, allow_Inf = TRUE))
+expect_true(is_natural(Inf, allow_Inf = TRUE))
 expect_true(all_natural(Inf, allow_Inf = TRUE))
 
 expect_warning(
@@ -519,7 +519,7 @@ expect_warning(
 ##### Miscellaneous #####
 for(x in list(FALSE, TRUE, data.frame(a = "nco"),
               as.matrix(data.frame(a = "nco")))) {
-  expect_false( is_natural(x))
+  expect_false(is_natural(x))
   expect_false(all_natural(x))
   expect_error(
     make_natural(x = x, all = FALSE),
@@ -532,8 +532,8 @@ for(x in list(FALSE, TRUE, data.frame(a = "nco"),
 }
 
 ##### Erroneous arguments #####
-expect_error( is_natural(3, strict = NA),
-              pattern = "is_logical(strict) is not TRUE", fixed = TRUE)
+expect_error(is_natural(3, strict = NA),
+             pattern = "is_logical(strict) is not TRUE", fixed = TRUE)
 expect_error(all_natural(c(3, 5), strict = NA),
              pattern = "is_logical(strict) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 3, strict = NA, all = FALSE),
@@ -541,8 +541,8 @@ expect_error(make_natural(x = 3, strict = NA, all = FALSE),
 expect_error(make_natural(x = c(3, 5), strict = NA, all = TRUE),
              pattern = "is_logical(strict) is not TRUE", fixed = TRUE)
 
-expect_error( is_natural(3, allow_zerolength = NA),
-              pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
+expect_error(is_natural(3, allow_zerolength = NA),
+             pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
 expect_error(all_natural(c(3, 5), allow_zerolength = NA),
              pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 3, allow_zerolength = NA, all = FALSE),
@@ -550,8 +550,8 @@ expect_error(make_natural(x = 3, allow_zerolength = NA, all = FALSE),
 expect_error(make_natural(x = c(3, 5), allow_zerolength = NA, all = TRUE),
              pattern = "is_logical(allow_zerolength) is not TRUE", fixed = TRUE)
 
-expect_error( is_natural(3, allow_NA = NA),
-              pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
+expect_error(is_natural(3, allow_NA = NA),
+             pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
 expect_error(all_natural(c(3, 5), allow_NA = NA),
              pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 3, allow_NA = NA, all = FALSE),
@@ -559,8 +559,8 @@ expect_error(make_natural(x = 3, allow_NA = NA, all = FALSE),
 expect_error(make_natural(x = c(3, 5), allow_NA = NA, all = TRUE),
              pattern = "is_logical(allow_NA) is not TRUE", fixed = TRUE)
 
-expect_error( is_natural(3, allow_Inf = NA),
-              pattern = "is_logical(allow_Inf) is not TRUE", fixed = TRUE)
+expect_error(is_natural(3, allow_Inf = NA),
+             pattern = "is_logical(allow_Inf) is not TRUE", fixed = TRUE)
 expect_error(all_natural(c(3, 5), allow_Inf = NA),
              pattern = "is_logical(allow_Inf) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 3, allow_Inf = NA, all = FALSE),
@@ -568,8 +568,8 @@ expect_error(make_natural(x = 3, allow_Inf = NA, all = FALSE),
 expect_error(make_natural(x = c(3, 5), allow_Inf = NA, all = TRUE),
              pattern = "is_logical(allow_Inf) is not TRUE", fixed = TRUE)
 
-expect_error( is_natural(3, tol = -3),
-              pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
+expect_error(is_natural(3, tol = -3),
+             pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
 expect_error(all_natural(c(3, 5), tol = -3),
              pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 3, all = FALSE, tol = -3),
@@ -577,8 +577,8 @@ expect_error(make_natural(x = 3, all = FALSE, tol = -3),
 expect_error(make_natural(x = c(3, 5), all = TRUE, tol = -3),
              pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
 
-expect_error( is_natural(3, tol = 0),
-              pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
+expect_error(is_natural(3, tol = 0),
+             pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
 expect_error(all_natural(c(3, 5), tol = 0),
              pattern = "is_positive(tol) is not TRUE", fixed = TRUE)
 expect_error(make_natural(x = 3, all = FALSE, tol = 0),
