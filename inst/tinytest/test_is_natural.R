@@ -235,44 +235,57 @@ expect_error(
 
 ##### NAs and NaN #####
 # Only NA_integer_ and NA_real_ are allowed if 'allow_NA' is TRUE
-expect_true(is_natural(NA_integer_, allow_NA = TRUE))
-expect_true(all_natural(NA_integer_, allow_NA = TRUE))
+expect_true(is_natural(NA_integer_, allow_NA = TRUE, allow_NaN = FALSE))
+expect_true(all_natural(NA_integer_, allow_NA = TRUE, allow_NaN = FALSE))
 expect_silent(expect_identical(
-  make_natural(x = NA_integer_, allow_NA = TRUE, all = FALSE), NA_integer_
+  make_natural(x = NA_integer_, allow_NA = TRUE, allow_NaN = FALSE, all = FALSE),
+  NA_integer_
 ))
 expect_silent(expect_identical(
-  make_natural(x = NA_integer_, allow_NA = TRUE, all = TRUE), NA_integer_
+  make_natural(x = NA_integer_, allow_NA = TRUE, allow_NaN = FALSE, all = TRUE),
+  NA_integer_
 ))
 
-expect_false(is_natural(NA_integer_, allow_NA = FALSE))
-expect_false(all_natural(NA_integer_, allow_NA = FALSE))
+expect_false(is_natural(NA_integer_, allow_NA = FALSE, allow_NaN = TRUE))
+expect_false(all_natural(NA_integer_, allow_NA = FALSE, allow_NaN = TRUE))
 expect_error(
-  make_natural(x = NA_integer_, allow_NA = FALSE, all = FALSE),
+  make_natural(x = NA_integer_, allow_NA = FALSE, allow_NaN = TRUE, all = FALSE),
   pattern = "is_natural(NA_integer_) is not TRUE", fixed = TRUE)
 expect_error(
-  make_natural(x = NA_integer_, allow_NA = FALSE, all = TRUE),
+  make_natural(x = NA_integer_, allow_NA = FALSE, allow_NaN = TRUE, all = TRUE),
   pattern = "all_natural(NA_integer_) is not TRUE", fixed = TRUE)
 
-expect_true(is_natural(NA_real_, allow_NA = TRUE))
-expect_true(all_natural(NA_real_, allow_NA = TRUE))
-expect_silent(expect_identical(
-  make_natural(x = NA_real_, allow_NA = TRUE, all = FALSE), NA_integer_
-))
-expect_silent(expect_identical(
-  make_natural(x = NA_real_, allow_NA = TRUE, all = TRUE), NA_integer_
-))
+expect_true(is_natural(NA_real_, allow_NA = TRUE, allow_NaN = FALSE))
+expect_true(all_natural(NA_real_, allow_NA = TRUE, allow_NaN = FALSE))
+expect_silent(
+  expect_identical(
+    make_natural(x = NA_real_, allow_NA = TRUE, allow_NaN = FALSE, all = FALSE),
+    NA_integer_
+  )
+)
+expect_silent(
+  expect_identical(
+    make_natural(x = NA_real_, allow_NA = TRUE, allow_NaN = FALSE, all = TRUE),
+    NA_integer_
+  )
+)
 
-expect_false(is_natural(NA_real_, allow_NA = FALSE))
-expect_false(all_natural(NA_real_, allow_NA = FALSE))
+expect_false(is_natural(NA_real_, allow_NA = FALSE, allow_NaN = TRUE))
+expect_false(all_natural(NA_real_, allow_NA = FALSE, allow_NaN = TRUE))
 expect_error(
-  make_natural(x = NA_real_, allow_NA = FALSE, all = FALSE),
+  make_natural(x = NA_real_, allow_NA = FALSE, allow_NaN = TRUE, all = FALSE),
   pattern = "is_natural(NA_real_) is not TRUE", fixed = TRUE)
 expect_error(
-  make_natural(x = NA_real_, allow_NA = FALSE, all = TRUE),
+  make_natural(x = NA_real_, allow_NA = FALSE, allow_NaN = TRUE, all = TRUE),
   pattern = "all_natural(NA_real_) is not TRUE", fixed = TRUE)
 
+expect_true(is_natural(NaN, allow_NA = FALSE, allow_NaN = TRUE))
+expect_true(all_natural(NaN, allow_NA = FALSE, allow_NaN = TRUE))
 expect_identical(
   make_natural(NaN, allow_NA = FALSE, allow_NaN = TRUE), NA_integer_)
+
+expect_false(is_natural(NaN, allow_NA = TRUE, allow_NaN = FALSE))
+expect_false(all_natural(NaN, allow_NA = TRUE, allow_NaN = FALSE))
 expect_error(
   make_natural(NaN, allow_NA = TRUE, allow_NaN = FALSE),
   pattern = "checkinput::is_natural(NaN) is not TRUE", fixed = TRUE)
