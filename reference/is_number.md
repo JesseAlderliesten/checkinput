@@ -113,16 +113,20 @@ is_number(x = 1) # TRUE
 #> [1] TRUE
 is_number(x = 3.14) # TRUE
 #> [1] TRUE
+is_number(x = Inf) # TRUE
+#> [1] TRUE
 is_number(x = c(1, 2)) # FALSE: incorrect length
 #> [1] FALSE
 all_numbers(x = c(1, 2)) # TRUE
 #> [1] TRUE
 is_number(x = "a") # FALSE: incorrect type
 #> [1] FALSE
+
 is_number(x = numeric(0)) # FALSE: incorrect length
 #> [1] FALSE
 is_number(x = numeric(0), allow_zerolength = TRUE) # TRUE
 #> [1] TRUE
+
 is_number(x = NA_real_) # FALSE
 #> [1] FALSE
 is_number(x = NA_real_, allow_NA = TRUE) # TRUE
@@ -135,8 +139,7 @@ is_number(x = NaN, allow_NA = TRUE)
 #> [1] FALSE
 is_number(x = NaN, allow_NaN = TRUE) # TRUE
 #> [1] TRUE
-is_number(x = Inf) # TRUE
-#> [1] TRUE
+
 is_nonnegative(x = 3) # TRUE
 #> [1] TRUE
 is_nonnegative(x = 0) # TRUE
@@ -145,6 +148,7 @@ all_nonnegative(x = c(3, 0)) # TRUE
 #> [1] TRUE
 all_nonnegative(x = numeric(0), allow_zerolength = TRUE) # TRUE
 #> [1] TRUE
+
 is_positive(x = 3) # TRUE
 #> [1] TRUE
 is_positive(x = 0) # FALSE

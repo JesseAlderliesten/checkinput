@@ -1,5 +1,16 @@
 # Changelog
 
+## checkinput 1.8.0
+
+#### Breaking changes
+
+- [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
+  [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
+  and
+  [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
+  add arguments `allow_Inf` and `allow_NaN` to allow positive `Inf` and
+  `NaN` in `x`, respectively.
+
 ## checkinput 1.7.0
 
 #### Breaking changes

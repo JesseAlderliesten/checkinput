@@ -76,6 +76,8 @@ Other collections of checks on type and length:
 ``` r
 is_zerolength(x = character(0)) # TRUE
 #> [1] TRUE
+is_zerolength(x = NULL) # TRUE
+#> [1] TRUE
 is_zerolength(x = 0) # FALSE
 #> [1] FALSE
 df <- data.frame(a = 314)

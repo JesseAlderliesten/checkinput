@@ -80,7 +80,7 @@ all_characters(c("a", "b")) # TRUE
 #> [1] TRUE
 is_character(1) # FALSE: incorrect type
 #> [1] FALSE
-is_character(NA_character_) # FALSE: default 'allow_NA' is FALSE
+is_character(NA_character_, allow_NA = FALSE) # FALSE
 #> [1] FALSE
 is_character(NA_character_, allow_NA = TRUE) # TRUE
 #> [1] TRUE
