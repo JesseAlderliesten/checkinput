@@ -82,11 +82,14 @@ in vignette \emph{type_coercion}:
 \examples{
 is_number(x = 1) # TRUE
 is_number(x = 3.14) # TRUE
+is_number(x = Inf) # TRUE
 is_number(x = c(1, 2)) # FALSE: incorrect length
 all_numbers(x = c(1, 2)) # TRUE
 is_number(x = "a") # FALSE: incorrect type
+
 is_number(x = numeric(0)) # FALSE: incorrect length
 is_number(x = numeric(0), allow_zerolength = TRUE) # TRUE
+
 is_number(x = NA_real_) # FALSE
 is_number(x = NA_real_, allow_NA = TRUE) # TRUE
 # FALSE: incorrect type:
@@ -94,11 +97,12 @@ is_number(x = NA_character_, allow_NA = TRUE)
 # FALSE, need allow_NaN = TRUE to allow NaN:
 is_number(x = NaN, allow_NA = TRUE)
 is_number(x = NaN, allow_NaN = TRUE) # TRUE
-is_number(x = Inf) # TRUE
+
 is_nonnegative(x = 3) # TRUE
 is_nonnegative(x = 0) # TRUE
 all_nonnegative(x = c(3, 0)) # TRUE
 all_nonnegative(x = numeric(0), allow_zerolength = TRUE) # TRUE
+
 is_positive(x = 3) # TRUE
 is_positive(x = 0) # FALSE
 

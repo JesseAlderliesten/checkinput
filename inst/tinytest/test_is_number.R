@@ -12,21 +12,25 @@ expect_inherits(3L, "integer")
 #### Test the examples ####
 expect_true(is_number(x = 1))
 expect_true(is_number(x = 3.14))
+expect_true(is_number(x = Inf))
 expect_false(is_number(x = c(1, 2)))
 expect_true(all_numbers(x = c(1, 2)))
 expect_false(is_number(x = "a"))
+
 expect_false(is_number(x = numeric(0), allow_zerolength = FALSE))
 expect_true(is_number(x = numeric(0), allow_zerolength = TRUE))
+
 expect_false(is_number(x = NA_real_, allow_NA = FALSE))
 expect_true(is_number(x = NA_real_, allow_NA = TRUE))
 expect_false(is_number(x = NA_character_, allow_NA = TRUE))
 expect_false(is_number(x = NaN, allow_NA = TRUE, allow_NaN = FALSE))
 expect_true(is_number(x = NaN, allow_NA = FALSE, allow_NaN = TRUE))
-expect_true(is_number(x = Inf))
+
 expect_true(is_nonnegative(x = 3))
 expect_true(is_nonnegative(x = 0))
 expect_true(all_nonnegative(x = c(3, 0)))
 expect_true(all_nonnegative(x = numeric(0), allow_zerolength = TRUE))
+
 expect_true(is_positive(x = 3))
 expect_false(is_positive(x = 0))
 
