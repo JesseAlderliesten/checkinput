@@ -1,3 +1,11 @@
+# checkinput 1.8.0
+
+### Breaking changes
+- `is_natural()`, `all_natural()`, and `make_natural()`: add arguments
+  `allow_Inf` and `allow_NaN` to allow positive `Inf` and `NaN` in `x`,
+  respectively.
+
+
 # checkinput 1.7.0
 
 ### Breaking changes
