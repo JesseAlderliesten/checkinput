@@ -12,10 +12,10 @@
 #' section 'Large Numbers' below.
 #' @param tol a small [positive][is_positive()] number. Numbers that differ less
 #' than `tol` are considered equal.
-#' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
 #' @param large_as_double `TRUE` or `FALSE`: return an object of [type][typeof]
 #' `double` if `x` contains values that are too large to be represented as
 #' [integer]? See the section 'Large Numbers' below.
+#' @param all `TRUE` or `FALSE`: use `all_natural()` instead of `is_natural()`?
 #'
 #' @details
 #' Natural numbers are the positive integers (`1`, `2`, `3`, etc.). The
@@ -55,8 +55,8 @@
 #' (about 2 * 10^9) or [`Inf`]: then the return has type `double`, see the
 #' section 'Large Numbers' below.
 #'
-#' `make_natural()` **throws an error** if `x` contains values that differ more
-#' than `tol` from the natural numbers.
+#' `make_natural()` throws an [error][stop()] if `x` contains values that are
+#' not allowed or values that differ more than `tol` from the natural numbers.
 #'
 #' @section Large Numbers:
 #' Numbers larger than [`.Machine$integer.max`][.Machine] (about 2 * 10^9) are
@@ -105,87 +105,54 @@
 #' for background on numerical equality and its pitfalls.
 #'
 #' @examples
-#' is_natural(x = 5 + 1e-10) # TRUE
-#' # Zero is not considered a natural number if 'strict' is TRUE:
-#' is_natural(x = 1e-10, strict = TRUE) # FALSE
-#' try(make_natural(x = 1e-10, strict = TRUE)) # Error
-#' is_natural(x = 1e-10, strict = FALSE) # TRUE
-#' make_natural(x = 1e-10, strict = FALSE) # 0
-#' is_natural(x = -1e-10, strict = FALSE) # FALSE: wrong sign
-#' is_natural(x = "a") # FALSE
-#' is_natural(x = 1:2) # FALSE: wrong length
-#'
 #' # Allowing for small numeric errors is important
-#' x <- sqrt(2)^2
-#' is_natural(x = x) # TRUE
-#' x == 2 # FALSE!
-#' x - 2 # about 4.44e-16
+#' x <- sqrt(3)^2
+#' x == 3        # FALSE!
+#' x - 3         # about -4.44e-16
+#' is_natural(x) # TRUE
+#' seq_len(x)    # 1:2 (incorrect)
+#' seq_len(make_natural(x)) # 1:3 (correct)
 #'
-#' all_natural(x = c(3, 5 + 1e-10)) # TRUE
-#' try(make_natural(x = c(3, 5 + 1e-10))) # error: wrong length
-#' make_natural(x = c(3, 5 + 1e-10), all = TRUE) # c(3L, 5L)
+#' # Normal behaviour
+#' is_natural(5 + 1e-9, tol = 1e-8) # TRUE
+#' is_natural(5 + 1e-7, tol = 1e-8) # FALSE
+#' is_natural(1:2)  # FALSE: wrong length
+#' all_natural(1:2) # TRUE
+#' is_natural("a")  # FALSE: wrong type
+#'
 #' # Zero is not considered a natural number if 'strict' is TRUE:
-#' all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
-#' all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
-#' # FALSE because of wrong sign:
-#' all_natural(x = c(-1e-10, 3, 5), strict = FALSE)
-#' all_natural(x = c(3, 5, Inf), allow_Inf = FALSE) # FALSE
-#' all_natural(x = c(3, 5, Inf), allow_Inf = TRUE) # TRUE
-#' all_natural(x = "a") # FALSE
-#' all_natural(x = 1:2) # TRUE
+#' is_natural(1e-9, strict = TRUE)   # FALSE
+#' is_natural(1e-9, strict = FALSE)  # TRUE
+#' is_natural(-1e-9, strict = FALSE) # FALSE: wrong sign
 #'
-#' # Handling of large numbers by make_natural(), using a larger
-#' # tolerance to prevent the small value that is added to
-#' # '.Machine$integer.max + 1' from vanishing.
-#' large_tol <- .Machine$double.eps^0.25
-#' large_double <- .Machine$integer.max + 1 + 0.01 * large_tol
+#' # Zero-length input
+#' is_natural(integer(0), allow_zerolength = FALSE) # FALSE
+#' is_natural(integer(0), allow_zerolength = TRUE)  # TRUE
+#' is_natural(numeric(0), allow_zerolength = FALSE) # FALSE
+#' is_natural(numeric(0), allow_zerolength = TRUE)  # TRUE
+#' is_natural(logical(0), allow_zerolength = TRUE)  # FALSE: wrong type
+#' is_natural(NULL, allow_zerolength = TRUE)        # FALSE: wrong type
 #'
-#' # c(4, 2147483648) with a warning that the return is of type 'double':
-#' make_natural(x = c(4, large_double), all = TRUE,
-#'              tol = large_tol, large_as_double = TRUE)
-#' # c(4L, NA_integer_) (printed as c(4, NA)) with a warning that
-#' # NAs have been introduced by coercion to integer range:
-#' make_natural(x = c(4, large_double), all = TRUE,
-#'              tol = large_tol, large_as_double = FALSE)
-
-#' is_natural(Inf) # FALSE
-#' try(make_natural(Inf)) # Error
+#' # make_natural()
+#' make_natural(5 + 1e-9) # 5L
+#' try(make_natural(5 + 1e-7)) # error: checkinput::is_natural(5 + 1e-07) is not TRUE
+#' try(make_natural(c(3, 5 + 1e-9), all = FALSE)) # error: wrong length
+#' make_natural(c(3, 5 + 1e-9), all = TRUE) # c(3L, 5L)
+#'
+#' # Handling of large numbers by make_natural()
+#' large_double <- .Machine$integer.max + 1
+#' make_natural(c(4, large_double), all = TRUE, large_as_double = TRUE)
+#' # c(4, 2147483648) with a warning that the return is of type 'double'
+#' make_natural(c(4, large_double), all = TRUE, large_as_double = FALSE)
+#' # c(4L, NA_integer_) with a warning that NAs have been introduced
+#'
+#' is_natural(Inf, allow_Inf = FALSE) # FALSE
+#' try(make_natural(Inf, allow_Inf = FALSE)) # Error
 #' is_natural(Inf, allow_Inf = TRUE) # TRUE
-#' # Inf, with a warning that the return is of type 'double':
 #' make_natural(Inf, allow_Inf = TRUE, large_as_double = TRUE)
-#' # NA_integer_ (printed as NA) with a warning that NAs
-#' # have been introduced by coercion to integer range:
+#' # Inf, with a warning that the return is of type 'double'
 #' make_natural(Inf, allow_Inf = TRUE, large_as_double = FALSE)
-#'
-#' # Illustrate the need to follow the use of is_natural(x) or
-#' # all_natural(x) by assigning the rounded value to the argument
-#' toy_fun_erroneous <- function(x) {
-#'   stopifnot(is_natural(x))
-#'   seq_len(x)
-#' }
-#'
-#' toy_fun_correct <- function(x) {
-#'   stopifnot(is_natural(x))
-#'   x <- round(x)
-#'   seq_len(x)
-#' }
-#'
-#' toy_fun_safe <- function(x, all = TRUE) {
-#'   x <- make_natural(x, all = all)
-#'   seq_len(x)
-#' }
-#'
-#' toy_fun_erroneous(x = 5 - 1e-8) # 1:4
-#' toy_fun_correct(x = 5 - 1e-8) # 1:5
-#' toy_fun_safe(x = 5 - 1e-8) # 1:5
-#'
-#' # Error: is_natural(x) is not TRUE
-#' try(toy_fun_erroneous(x = 5.1))
-#' try(toy_fun_correct(x = 5.1))
-#' try(toy_fun_safe(x = 5.1, all = FALSE))
-#'
-#' # Error: all_natural(x) is not TRUE
-#' try(toy_fun_safe(x = 5.1, all = TRUE))
+#' # NA_integer_ with a warning that NAs have been introduced
 #'
 #' @export
 is_natural <- function(x,
@@ -194,9 +161,9 @@ is_natural <- function(x,
                        allow_NA = FALSE,
                        allow_Inf = FALSE,
                        tol = .Machine$double.eps^0.5) {
-  length(x) <= 1L &&
-    all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
-                allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol)
+  all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
+              allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol) &&
+    length(x) <= 1L
 }
 
 #' @rdname is_natural
@@ -217,12 +184,10 @@ all_natural <- function(x,
     return(FALSE)
   }
 
-  # 'NaN' and, if 'allow_NA' is 'FALSE', 'NA', have been catched above
   if(!allow_Inf && any(is.infinite(x), na.rm = TRUE)) {
     return(FALSE)
   }
 
-  # 'NaN' and, if 'allow_NA' is 'FALSE', 'NA', have been catched above
   if(any(x < 0 | (strict & x < 0.5), na.rm = TRUE)) {
     return(FALSE)
   }
@@ -237,9 +202,9 @@ make_natural <- function(x,
                          allow_zerolength = FALSE,
                          allow_NA = FALSE,
                          allow_Inf = FALSE,
-                         all = FALSE,
                          tol = .Machine$double.eps^0.5,
-                         large_as_double = TRUE) {
+                         large_as_double = TRUE,
+                         all = FALSE) {
   name_x <- deparse1(substitute(x))
   stopifnot(is_logical(all), is_logical(large_as_double))
 
