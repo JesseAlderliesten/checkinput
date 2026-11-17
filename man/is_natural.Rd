@@ -11,6 +11,8 @@ is_natural(
   strict = TRUE,
   allow_zerolength = FALSE,
   allow_NA = FALSE,
+  allow_NaN = FALSE,
+  allow_Inf = FALSE,
   tol = .Machine$double.eps^0.5
 )
 
@@ -19,6 +21,8 @@ all_natural(
   strict = TRUE,
   allow_zerolength = FALSE,
   allow_NA = FALSE,
+  allow_NaN = FALSE,
+  allow_Inf = FALSE,
   tol = .Machine$double.eps^0.5
 )
 
@@ -27,9 +31,11 @@ make_natural(
   strict = TRUE,
   allow_zerolength = FALSE,
   allow_NA = FALSE,
-  all = FALSE,
+  allow_NaN = FALSE,
+  allow_Inf = FALSE,
   tol = .Machine$double.eps^0.5,
-  large_as_double = TRUE
+  large_as_double = TRUE,
+  all = FALSE
 )
 }
 \arguments{
@@ -42,29 +48,35 @@ make_natural(
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?
 See the section 'Large Numbers' below on the disadvantage of using \code{TRUE} for
-\code{allow_NA} with large numbers. \code{\link{NaN}} is never allowed in \code{x}.}
+\code{allow_NA} with large numbers.}
+
+\item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \code{\link{NaN}}?}
+
+\item{allow_Inf}{\code{TRUE} or \code{FALSE}: allow positive \code{\link{Inf}} in \code{x}? See the
+section 'Large Numbers' below.}
 
 \item{tol}{a small \link[=is_positive]{positive} number. Numbers that differ less
 than \code{tol} are considered equal.}
 
-\item{all}{\code{TRUE} or \code{FALSE}: use \code{all_natural()} instead of \code{is_natural()}?}
-
 \item{large_as_double}{\code{TRUE} or \code{FALSE}: return an object of \link[=typeof]{type}
 \code{double} if \code{x} contains values that are too large to be represented as
 \link{integer}? See the section 'Large Numbers' below.}
+
+\item{all}{\code{TRUE} or \code{FALSE}: use \code{all_natural()} instead of \code{is_natural()}?}
 }
 \value{
-For \code{is_natural()} and \code{all_natural()}: \code{TRUE} or \code{FALSE} indicating if \code{x}
-is a vector of the appropriate length with only natural numbers.
+\code{is_natural()} and \code{all_natural()} return \code{TRUE} or \code{FALSE} indicating if \code{x}
+is a vector of the appropriate length with only natural numbers according to
+the values of their other arguments.
 
-For \code{make_natural()}: \code{x}, \link[=round]{rounded} to a whole number. The return
-has \code{\link[=typeof]{type}} \code{\link{integer}}, unless argument \code{large_as_double} is
-\code{TRUE} and \code{x} contains values larger than \code{\link[=.Machine]{.Machine$integer.max}}
-(about 2 * 10^9): then the return has type \code{double}, see the section 'Large
-Numbers' below.
-
-\code{make_natural()} \strong{throws an error} if \code{x} contains values that differ more
-than \code{tol} from the natural numbers.
+\code{make_natural()} throws an \link[=stop]{error} if \code{x} contains values that are
+not natural according to \code{is_natural()} or \code{all_natural()}. Otherwise,
+\code{make_natural()} returns \code{x}, \link[=round]{rounded} to a whole number. The
+returned value is coerced to \code{\link[=typeof]{type}} \code{\link{integer}} if
+\code{large_as_double} is \code{FALSE} or \code{x} does not contain \code{\link{Inf}} nor values
+larger than \code{\link[=.Machine]{.Machine$integer.max}} (about 2 * 10^9), otherwise it
+is kept as \code{\link[=typeof]{type}} \code{\link{double}}, see the section 'Large Numbers'
+below.
 }
 \description{
 Check element-wise near-equality to natural \link[=is.numeric]{numbers} while
@@ -74,45 +86,59 @@ allowing for small numeric errors.
 Natural numbers are the positive integers (\code{1}, \code{2}, \code{3}, etc.). The
 functions \verb{*_natural()} allow for small numeric errors when comparing numbers
 to the natural numbers, which is important because rounding errors and
-representation errors during normal calculations can lead to small numeric
-errors. As the \code{Note} at \code{help("==")} warns, using \code{x == round(x)} does
-\strong{not} allow for such errors but checks exact equality, incorrectly treating
-numbers as non-equal.
+representation errors during normal calculations can lead to such small
+numeric errors. As the \code{Note} at \code{help("==")} warns, using \code{x == round(x)}
+does \strong{not} allow for such errors but checks exact equality, see the first
+\code{Examples}.
 
 Zero is considered a natural number if argument \code{strict} is \code{FALSE}, but even
 then small negative numbers are \strong{not} considered natural numbers.
 
+Although using \code{TRUE} for arguments \code{allow_zerolength}, \code{allow_NA},
+\code{allow_NaN}, or \code{allow_Inf} might be useful during specific programming
+checks and are provided for consistency with \code{\link[=is_number]{is_number()}}, using \code{TRUE} for
+those arguments is \strong{not} useful when testing that \code{x} is a natural number
+before using it as an index.
+
 \code{integer(0)} and \code{numeric(0)} are considered natural numbers if argument
-\code{allow_zerolength} is \code{TRUE}.
+\code{allow_zerolength} is \code{TRUE}.  \code{make_natural()} then returns \code{integer(0)} for
+both.
 
 \code{\link[=NA]{NA_integer_}} and \code{NA_real_} are considered natural numbers if
-\code{allow_NA} is \code{TRUE}. Even then \code{NA_complex_} is \strong{not} considered a natural
-number because it is \code{\link[=is.complex]{complex}} instead of
-\code{\link[=is.numeric]{numeric}}.
+\code{allow_NA} is \code{TRUE}. \code{make_natural()} then returns \code{NA_integer_} for both.
+Even then \code{NA_complex_} is \strong{not} considered a natural number because it is
+\code{\link[=is.complex]{complex}} instead of \code{\link[=is.numeric]{numeric}}.
 
-\code{\link{NULL}}, \code{\link{NaN}}, negative numbers, and \code{\link[=is.finite]{Inf}} are \strong{not}
-considered natural numbers.
+\code{\link{NaN}} (which has \code{\link{mode}} \code{numeric}, despite meaning 'not a number') is
+considered a natural number if \code{allow_NaN} is \code{TRUE}. \code{make_natural()} then
+returns \code{NA_integer_} for \code{NaN}.
 
-See section \verb{Large Numbers} below on the treatment of numbers that are too
-large to be represented as integers.
+Positive \code{\link{Inf}} is considered a natural number if \code{allow_Inf} is \code{TRUE}.
+\code{make_natural()} then returns positive \code{Inf} unchanged if \code{large_as_double}
+is \code{TRUE}, and \code{NA_integer_} for positive \code{Inf} if \code{large_as_double} is
+\code{FALSE}.
+
+\code{\link{NULL}} and negative numbers are \strong{not} considered natural numbers and
+\code{make_natural()} throws an \link[=stop]{error} for them.
+
+See the section \verb{Large Numbers} below on the treatment of numbers that are
+too large to be represented as integers.
 }
 \section{Large Numbers}{
 
 Numbers larger than \code{\link[=.Machine]{.Machine$integer.max}} (about 2 * 10^9) are
-too large to be represented as \code{\link{integer}}, see section 'Details' in
-\code{help("integer")}. When such large numbers are produced in
-\link[=Arithmetic]{arithmetic operations} that should result in integers, they are
-coerced to \code{\link{NA_integer_}} with the warning
-'\verb{NAs produced by integer overflow}'. \code{NA_integer_} itself is considered
-natural if \code{allow_NA = TRUE}, which is \strong{not} useful when e.g., testing
-that \code{x} is a natural number before using it as an index.
+too large to be represented as 32-bit \link[=is.integer]{integers} used by \R.
+When such large numbers are produced in \link[=Arithmetic]{arithmetic operations}
+that should result in integers, they are coerced to \code{\link{NA_integer_}} with the
+warning '\verb{NAs produced by integer overflow}'.
 
-\code{make_natural()} also coerces numbers that are too large to be represented as
-\code{integer} to \code{NA_integer_} if argument \code{large_as_double} is \code{FALSE}. If
-argument \code{large_as_double} is \code{TRUE}, \code{make_natural()} returns the actual
-values as \code{\link[=typeof]{type}} \code{\link[=is.double]{double}} instead of \code{integer},
-with the warning '\verb{The return of 'make_natural()' has type 'double'}' that
-also indicates which values are too large.
+If argument \code{large_as_double} is \code{FALSE}, that approach is also followed by
+\code{make_natural()}: then it coerces \code{Inf} and numbers that are too large to be
+represented as \code{integer} to \code{NA_integer_}. If argument \code{large_as_double} is
+\code{TRUE}, \code{make_natural()} returns the actual values as \code{\link[=typeof]{type}}
+\code{\link[=is.double]{double}} instead of \code{integer}, with the warning
+'\verb{The return of 'make_natural()' has type 'double'}' that also indicates
+which values are too large.
 }
 
 \section{Programming Notes}{
@@ -132,78 +158,54 @@ of \code{all_natural()} is partly based on function \code{is.wholenumber()} from
 }
 
 \examples{
-is_natural(x = 5 + 1e-10) # TRUE
-# Zero is not considered a natural number if 'strict' is TRUE:
-is_natural(x = 1e-10, strict = TRUE) # FALSE
-try(make_natural(x = 1e-10, strict = TRUE)) # Error
-is_natural(x = 1e-10, strict = FALSE) # TRUE
-make_natural(x = 1e-10, strict = FALSE) # 0
-is_natural(x = -1e-10, strict = FALSE) # FALSE: wrong sign
-is_natural(x = Inf, strict = FALSE) # FALSE
-is_natural(x = "a") # FALSE
-is_natural(x = 1:2) # FALSE: wrong length
-
 # Allowing for small numeric errors is important
-x <- sqrt(2)^2
-is_natural(x = x) # TRUE
-x == 2 # FALSE!
-x - 2 # about 4.44e-16
+x <- sqrt(3)^2
+x == 3        # FALSE!
+x - 3         # about -4.44e-16
+is_natural(x) # TRUE
+seq_len(x)    # 1:2 (incorrect)
+seq_len(make_natural(x)) # 1:3 (correct)
 
-all_natural(x = c(3, 5 + 1e-10)) # TRUE
-try(make_natural(x = c(3, 5 + 1e-10))) # error: wrong length
-make_natural(x = c(3, 5 + 1e-10), all = TRUE) # c(3L, 5L)
+# Normal behaviour
+is_natural(5 + 1e-9, tol = 1e-8) # TRUE
+is_natural(5 + 1e-7, tol = 1e-8) # FALSE
+is_natural(1:2)  # FALSE: wrong length
+all_natural(1:2) # TRUE
+is_natural("a")  # FALSE: wrong type
+
 # Zero is not considered a natural number if 'strict' is TRUE:
-all_natural(x = c(1e-10, 3, 5), strict = TRUE) # FALSE
-all_natural(x = c(1e-10, 3, 5), strict = FALSE) # TRUE
-# FALSE because of wrong sign:
-all_natural(x = c(-1e-10, 3, 5), strict = FALSE)
-all_natural(x = c(3, 5, Inf), strict = FALSE) # FALSE
-all_natural(x = "a") # FALSE
-all_natural(x = 1:2) # TRUE
+is_natural(1e-9, strict = TRUE)   # FALSE
+is_natural(1e-9, strict = FALSE)  # TRUE
+is_natural(-1e-9, strict = FALSE) # FALSE: wrong sign
 
-# Handling of large numbers by make_natural(), using a larger
-# tolerance to prevent the small value that is added to
-# '.Machine$integer.max + 1' from vanishing.
-large_tol <- .Machine$double.eps^0.25
-large_double <- .Machine$integer.max + 1 + 0.01 * large_tol
+# Zero-length input
+is_natural(integer(0), allow_zerolength = FALSE) # FALSE
+is_natural(integer(0), allow_zerolength = TRUE)  # TRUE
+is_natural(numeric(0), allow_zerolength = FALSE) # FALSE
+is_natural(numeric(0), allow_zerolength = TRUE)  # TRUE
+is_natural(logical(0), allow_zerolength = TRUE)  # FALSE: wrong type
+is_natural(NULL, allow_zerolength = TRUE)        # FALSE: wrong type
 
-# c(4, 2147483648) with a warning that the return is of type 'double':
-make_natural(x = c(4, large_double), all = TRUE,
-             tol = large_tol, large_as_double = TRUE)
-# c(4L, NA_integer_) (printed as c(4, NA)) with a warning that
-# NAs have been introduced by coercion to integer range:
-make_natural(x = c(4, large_double), all = TRUE,
-             tol = large_tol, large_as_double = FALSE)
+# make_natural()
+make_natural(5 + 1e-9) # 5L
+try(make_natural(5 + 1e-7)) # error: checkinput::is_natural(5 + 1e-07) is not TRUE
+try(make_natural(c(3, 5 + 1e-9), all = FALSE)) # error: wrong length
+make_natural(c(3, 5 + 1e-9), all = TRUE) # c(3L, 5L)
 
-# Illustrate the need to follow the use of is_natural(x) or
-# all_natural(x) by assigning the rounded value to the argument
-toy_fun_erroneous <- function(x) {
-  stopifnot(is_natural(x))
-  seq_len(x)
-}
+# Handling of large numbers by make_natural()
+large_double <- .Machine$integer.max + 1
+make_natural(c(4, large_double), all = TRUE, large_as_double = TRUE)
+# c(4, 2147483648) with a warning that the return is of type 'double'
+make_natural(c(4, large_double), all = TRUE, large_as_double = FALSE)
+# c(4L, NA_integer_) with a warning that NAs have been introduced
 
-toy_fun_correct <- function(x) {
-  stopifnot(is_natural(x))
-  x <- round(x)
-  seq_len(x)
-}
-
-toy_fun_safe <- function(x, all = TRUE) {
-  x <- make_natural(x, all = all)
-  seq_len(x)
-}
-
-toy_fun_erroneous(x = 5 - 1e-8) # 1:4
-toy_fun_correct(x = 5 - 1e-8) # 1:5
-toy_fun_safe(x = 5 - 1e-8) # 1:5
-
-# Error: is_natural(x) is not TRUE
-try(toy_fun_erroneous(x = 5.1))
-try(toy_fun_correct(x = 5.1))
-try(toy_fun_safe(x = 5.1, all = FALSE))
-
-# Error: all_natural(x) is not TRUE
-try(toy_fun_safe(x = 5.1, all = TRUE))
+is_natural(Inf, allow_Inf = FALSE) # FALSE
+try(make_natural(Inf, allow_Inf = FALSE)) # Error
+is_natural(Inf, allow_Inf = TRUE) # TRUE
+make_natural(Inf, allow_Inf = TRUE, large_as_double = TRUE)
+# Inf, with a warning that the return is of type 'double'
+make_natural(Inf, allow_Inf = TRUE, large_as_double = FALSE)
+# NA_integer_, with a warning that NAs have been introduced
 
 }
 \seealso{
@@ -214,6 +216,7 @@ check for exact equality and \code{\link{Comparison}} to do so using binary oper
 \code{\link[=match]{match()}} and
 \href{https://jessealderliesten.github.io/progutils/reference/not_in.html}{\code{progutils::not_in()}}
 to compare character vectors;
+help(\code{\%/\%}) on integer division;
 \href{https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{\R FAQ 7.31}
 for background on numerical equality and its pitfalls.
 

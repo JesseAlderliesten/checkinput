@@ -11,21 +11,25 @@ x_fact_num <- as.factor(x_fact_ind / 16)
 
 
 #### Test the examples ####
-expect_identical(paste_quoted(c(3, 4)), "'3', '4'")
+expect_identical(paste_quoted(c(3, 4), collapse = ", "), "'3', '4'")
 expect_warning(
   expect_identical(
-    paste_quoted(c(a = 3, b = 4)),
+    paste_quoted(c(a = 3, b = 4), collapse = ", "),
     "'3', '4'"),
   pattern = "'x' has names, these will be discarded.\nUse progutils::vect_to_char",
   strict = TRUE, fixed = TRUE)
-expect_identical(paste_quoted(NULL), "'NULL'") # Also mentioned in the 'Note'
+# Also mentioned in the 'Note':
+expect_identical(paste_quoted(NULL, collapse = ", "), "'NULL'")
 expect_identical(paste_quoted(c(3, 4), collapse = "\n"), "'3'\n'4'")
 
 
 #### Test other sections ####
 # 'Note'
-expect_identical(paste_quoted(logical(0)), "'logical(0)'")
-expect_silent(expect_identical(paste_quoted(c("a", "b")), "'a', 'b'"))
+expect_identical(paste_quoted(logical(0), collapse = ", "), "'logical(0)'")
+expect_silent(expect_identical(
+  paste_quoted(c("a", "b"), collapse = ", "),
+  "'a', 'b'"
+))
 expect_identical(toString(c("a", "b")), paste0(c("a", "b"), collapse = ", "))
 
 # Note before return
@@ -44,25 +48,34 @@ expect_identical(
 
 #### Tests ####
 for(index in seq_along(list_input)) {
-  expect_identical(paste_quoted(x = list_input[[index]]), list_output[[index]])
-  expect_identical(paste_quoted(x = factor(list_input[[index]], exclude = NULL)),
+  expect_identical(paste_quoted(x = list_input[[index]], collapse = ", "),
+                   list_output[[index]])
+  expect_identical(paste_quoted(x = factor(list_input[[index]], exclude = NULL),
+                                collapse = ", "),
                    list_output[[index]])
 }
 
-expect_identical(paste_quoted(x = NA), "'NA'")
-expect_identical(paste_quoted(x = NA_character_), "'NA_character_'")
-expect_identical(paste_quoted(x = factor(NA, exclude = NULL)), "'NA_character_'")
-expect_identical(paste_quoted(x = factor(NA_character_, exclude = NULL)),
+expect_identical(paste_quoted(x = NA, collapse = ", "), "'NA'")
+expect_identical(paste_quoted(x = NA_character_, collapse = ", "),
+                 "'NA_character_'")
+expect_identical(paste_quoted(x = factor(NA, exclude = NULL), collapse = ", "),
+                 "'NA_character_'")
+expect_identical(
+  paste_quoted(x = factor(NA_character_, exclude = NULL), collapse = ", "),
                  "'NA_character_'")
 
-expect_identical(paste_quoted(x = NULL), "'NULL'")
-expect_identical(paste_quoted(x = as.factor(NULL)), "'character(0)'")
-expect_silent(expect_identical(paste_quoted(c("a", "", "c", NA_character_)),
+expect_identical(paste_quoted(x = NULL, collapse = ", "), "'NULL'")
+expect_identical(paste_quoted(x = as.factor(NULL), collapse = ", "),
+                 "'character(0)'")
+expect_silent(expect_identical(
+  paste_quoted(c("a", "", "c", NA_character_), collapse = ", "),
                                "'a', '\"\"', 'c', 'NA_character_'"))
 
-expect_silent(expect_identical(paste_quoted(x = x_fact), "'d', 'e', 'f', 'e'"))
-expect_silent(expect_identical(paste_quoted(x = x_fact_int), "'4', '5', '6', '5'"))
-expect_silent(expect_identical(paste_quoted(x = x_fact_num),
+expect_silent(expect_identical(paste_quoted(x = x_fact, collapse = ", "),
+                               "'d', 'e', 'f', 'e'"))
+expect_silent(expect_identical(paste_quoted(x = x_fact_int, collapse = ", "),
+                               "'4', '5', '6', '5'"))
+expect_silent(expect_identical(paste_quoted(x = x_fact_num, collapse = ", "),
                                "'0.25', '0.3125', '0.375', '0.3125'"))
 
 expect_error(
@@ -83,7 +96,7 @@ expect_error(
 
 for(index_NULL in seq_along(list_input_zerolength)) {
   expect_silent(expect_identical(
-    paste_quoted(list_input_zerolength[[index_NULL]]),
+    paste_quoted(list_input_zerolength[[index_NULL]], collapse = ", "),
     list_output_zerolength[[index_NULL]]))
 }
 

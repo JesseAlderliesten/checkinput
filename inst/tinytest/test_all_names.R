@@ -9,7 +9,7 @@ x_dupl <- c(".X", "X.", "ab", "a.", "A.X", "X.X")
 x_invld <- c("", x_invld_caught)
 x_invld_empty_q <- "'\"\"' \\(i.e., an empty string)"
 x_invld_mn_made <- make.names(names = x_invld_caught)
-# paste0(paste_quoted(x_invld[-1]), ", ", x_invld_empty_q)
+# paste0(paste_quoted(x_invld[-1], collapse = ", "), ", ", x_invld_empty_q)
 x_invld_q <- paste0("'.1a', '_0', '_0A', '_A', '_A0', '1a._', 'for', 'NA',",
                     " 'a-b', 'a1\\$', 'a1._#', 'ab#cd', 'c/d', '\\\"\\\"'",
                     " \\(i.e., an empty string)")
@@ -22,12 +22,12 @@ x_mknm <- c(
   make.names(c(.3, .33)),
   # started with a digit: c("X1.1", "X3.1")
   make.names(c("1.1", "3.1")))
-x_mknm_q <- paste_quoted(x_mknm)
+x_mknm_q <- paste_quoted(x_mknm, collapse = ", ")
 x_mknm_csv <- c(
   # first empty column with read.csv(x, header = TRUE): "X.1"
   make.names(rep("", 2L), unique = TRUE)[2L],
   "X.2", "X.234") # read.csv(x, header = TRUE): 3rd and 235th unnamed column
-x_mknm_csv_q <- paste_quoted(x_mknm_csv)
+x_mknm_csv_q <- paste_quoted(x_mknm_csv, collapse = ", ")
 # c("X1", "X3", "X33"): consisted only of digits;
 # c("X0", "X00", "X03", "X013", "X033"): consisted only of digits;
 # c("X0cc", "X00cc", "X03cc", "X033cc", "X3cc", "X33cc", "X0.3cc", "X0.33cc"):
@@ -44,7 +44,7 @@ x_mknm_false <- make.names(
 x_mknm_true <- make.names(names = rep(x = x_dupl, each = 3L), unique = TRUE)
 x_mknm_true <- c(make.names(rep(TRUE, 2L), unique = TRUE)[-1L],
               x_mknm_true[!(x_mknm_true %in% x_dupl)], "c..1", "c..314")
-x_mknm_true_q <- paste_quoted(x_mknm_true)
+x_mknm_true_q <- paste_quoted(x_mknm_true, collapse = ", ")
 # Partly from help(vctrs::vec_as_names) and their test suite
 x_mknm_true_vcsnm <- c(
   # or vctrs::vec_as_names(as.character(c(1:3)), repair = "universal")
@@ -52,12 +52,12 @@ x_mknm_true_vcsnm <- c(
   # or vctrs::vec_as_names(rep("if", 2L), repair = "universal")
   make.names(rep("&if<=", 3L), unique = TRUE)[-1L], # c(".if...1", ".if...2")
   "a...2", "X...11")
-x_mknm_true_vcsnm_q <- paste_quoted(x_mknm_true_vcsnm)
+x_mknm_true_vcsnm_q <- paste_quoted(x_mknm_true_vcsnm, collapse = ", ")
 x_mknm_vcsnm <- "X0...11"
 x_susp_dot <- c("..a..", ".a", ".a.", ".V1", ".V234", "a...03", "V1.", "V234.",
                 "X..", "X..X", "X.A", "X.a2", "X.b.", "X.X.X")
 x_susp_undersc <- c(".a1_", "a.1_", "a1._", "X._")
-x_susp_undersc_q <- paste_quoted(x_susp_undersc)
+x_susp_undersc_q <- paste_quoted(x_susp_undersc, collapse = ", ")
 # From help(vctrs::vec_as_names) and their test suite, created by
 # vctrs::vec_as_names(c("0a", "1a", "22c", "2fa", "_", "_0", "_a.", "_a1",
 #                       "_foo", "_z", FALSE, "for", "if", "Inf", "NA_real_",
@@ -65,7 +65,7 @@ x_susp_undersc_q <- paste_quoted(x_susp_undersc)
 x_vcsnm <- c("..0a", "..1a", "..22c", "..2fa", "..3..", "._", "._0", "._a.",
              "._a1", "._foo", "._z", ".FALSE", ".for", ".if", ".Inf",
              ".NA_real_", ".TRUE")
-x_vcsnm_q <- paste_quoted(x_vcsnm)
+x_vcsnm_q <- paste_quoted(x_vcsnm, collapse = ", ")
 x_vld <- c("a", "A", "C", "nco", "V", "V0", "V03", "v1", "V1V", "V234V", "VV1",
            "VV234", "x", "x0", "Xa", "XX")
 x_vld_undersc <- c("g_hi", "V_", "V0_3", "V1V_", "V2_34V", "VV_1", "VV_234")
@@ -92,14 +92,14 @@ note_mknm_dots <- paste0("\n\\(it does not adjust names that consist of only",
 
 
 #### Test the examples ####
-expect_true(all_names(x = c("a", "b2a")))
+expect_true(all_names(x = c("a", "b2a"), allow_underscore = TRUE))
 expect_warning(
-  expect_false(all_names(x = c("a", "b2a", "a"))),
+  expect_false(all_names(x = c("a", "b2a", "a"), allow_underscore = TRUE)),
   pattern = paste0(warn_dupl, "'a'", use_mknm_mult), strict = TRUE, fixed = FALSE)
 
 invalid_names <- c("a", "ab#cd", "", "for", "..", "..23")
 expect_warning(
-  expect_false(all_names(x = invalid_names)),
+  expect_false(all_names(x = invalid_names, allow_underscore = TRUE)),
   pattern = paste0(
     "Names are syntactically invalid: 'ab#cd', 'for', ", x_invld_empty_q,
     "; and ", warn_dots, "'..'; and ", warn_dots_pattern, "'..23'", use_mknm,
@@ -116,7 +116,8 @@ x_susp_example <- c("e.2", "a.1b", ".TRUE", "..22c", "a...2",
                     "V3", "X.2", "X0...11", "X0.3", "X3")
 expect_warning(
   expect_false(all_names(x = x_susp_example)),
-  pattern = paste0("Names are suspicious: ", paste_quoted(x_susp_example)),
+  pattern = paste0("Names are suspicious: ",
+                   paste_quoted(x_susp_example, collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
@@ -192,32 +193,38 @@ expect_warning(
 ##### Duplicated values #####
 expect_warning(
   expect_false(all_names(x = c(x_vld, x_vld[c(2, 3)]))),
-  pattern = paste0(warn_dupl, paste_quoted(x_vld[c(2, 3)])),
+  pattern = paste0(warn_dupl, paste_quoted(x_vld[c(2, 3)], collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = c(x_invld, x_invld[c(2, 3)]))),
-  pattern = paste0(warn_dupl, paste_quoted(x_invld[c(2, 3)]),
+  expect_false(all_names(x = c(x_invld, x_invld[c(2, 3)]),
+                         allow_underscore = TRUE)),
+  pattern = paste0(warn_dupl, paste_quoted(x_invld[c(2, 3)], collapse = ", "),
                    "; and ", warn_syntax, x_invld_q, use_mknm_mult),
   strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = c(x_susp_dot, x_susp_dot[c(2, 3)]))),
-  pattern = paste0(warn_dupl, paste_quoted(x_susp_dot[c(2, 3)]),
-                   "; and are suspicious: ", paste_quoted(x_susp_dot)),
+  pattern = paste0(warn_dupl, paste_quoted(x_susp_dot[c(2, 3)], collapse = ", "),
+                   "; and are suspicious: ",
+                   paste_quoted(x_susp_dot, collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
   expect_false(all_names(x = c(x_vld_undersc, x_vld_undersc[c(2, 3)]),
                          allow_underscore = TRUE)),
-  pattern = paste0(warn_dupl, paste_quoted(x_vld_undersc[c(2, 3)]), use_mknm_mult),
+  pattern = paste0(warn_dupl,
+                   paste_quoted(x_vld_undersc[c(2, 3)], collapse = ", "),
+                   use_mknm_mult),
   strict = TRUE, fixed = FALSE)
 
 expect_warning(
   expect_false(all_names(x = c(x_vld_undersc, x_vld_undersc[c(2, 3)]),
                          allow_underscore = FALSE)),
-  pattern = paste0(warn_dupl, paste_quoted(x_vld_undersc[c(2, 3)]),
-                   "; and ", warn_undersc, paste_quoted(x_vld_undersc),
+  pattern = paste0(warn_dupl,
+                   paste_quoted(x_vld_undersc[c(2, 3)], collapse = ", "),
+                   "; and ", warn_undersc,
+                   paste_quoted(x_vld_undersc, collapse = ", "),
                    use_mknm_undersc_mult),
   strict = TRUE, fixed = FALSE)
 
@@ -234,7 +241,7 @@ expect_warning(
   strict = TRUE, fixed = FALSE)
 
 expect_warning(
-  expect_false(all_names(x = "")),
+  expect_false(all_names(x = "", allow_underscore = TRUE)),
   pattern = paste0(warn_syntax, x_invld_empty_q, use_mknm),
   strict = TRUE, fixed = FALSE)
 
@@ -260,7 +267,8 @@ expect_silent(
 expect_warning(
   expect_false(all_names(x = c(x_vld, x_vld_undersc),
                          allow_underscore = FALSE)),
-  pattern = paste0("Names ", warn_undersc, paste_quoted(x_vld_undersc),
+  pattern = paste0("Names ", warn_undersc,
+                   paste_quoted(x_vld_undersc, collapse = ", "),
                    use_mknm_undersc_mult),
   strict = TRUE, fixed = FALSE)
 
@@ -283,27 +291,28 @@ expect_warning(
 
 expect_warning(
   expect_false(all_names(x = x_csv_df)),
-  pattern = paste0(warn_suspicious, paste_quoted(x_csv_df)),
+  pattern = paste0(warn_suspicious, paste_quoted(x_csv_df, collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = x_invld_mn_made)),
-  pattern = paste0("Names are suspicious: ", paste_quoted(x_invld_mn_made)),
-  strict = TRUE, fixed = TRUE)
-
-expect_warning(
-  expect_false(all_names(x = x_invld_vcsnm_repaired)),
+  expect_false(all_names(x = x_invld_mn_made, allow_underscore = TRUE)),
   pattern = paste0("Names are suspicious: ",
-                   paste_quoted(x_invld_vcsnm_repaired)),
+                   paste_quoted(x_invld_mn_made, collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = x_mknm_false)),
-  pattern = paste0(warn_suspicious, paste_quoted(x_mknm_false)),
+  expect_false(all_names(x = x_invld_vcsnm_repaired, allow_underscore = TRUE)),
+  pattern = paste0("Names are suspicious: ",
+                   paste_quoted(x_invld_vcsnm_repaired, collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = x_mknm_true)),
+  expect_false(all_names(x = x_mknm_false, allow_underscore = TRUE)),
+  pattern = paste0(warn_suspicious, paste_quoted(x_mknm_false, collapse = ", ")),
+  strict = TRUE, fixed = TRUE)
+
+expect_warning(
+  expect_false(all_names(x = x_mknm_true, allow_underscore = TRUE)),
   pattern = paste0(warn_suspicious, x_mknm_true_q),
   strict = TRUE, fixed = TRUE)
 
@@ -324,16 +333,16 @@ expect_warning(
 
 expect_warning(
   expect_false(all_names(x = x_mknm_vcsnm)),
-  pattern = paste0(warn_suspicious, paste_quoted(x_mknm_vcsnm)),
+  pattern = paste0(warn_suspicious, paste_quoted(x_mknm_vcsnm, collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
   expect_false(all_names(x = x_susp_dot)),
-  pattern = paste0(warn_suspicious, paste_quoted(x_susp_dot)),
+  pattern = paste0(warn_suspicious, paste_quoted(x_susp_dot, collapse = ", ")),
   strict = TRUE, fixed = TRUE)
 
 expect_warning(
-  expect_false(all_names(x = x_vcsnm)),
+  expect_false(all_names(x = x_vcsnm, allow_underscore = TRUE)),
   pattern = paste0(warn_suspicious, x_vcsnm_q),
   strict = TRUE, fixed = TRUE)
 
@@ -366,11 +375,11 @@ expect_warning(
       # invalid, not as containing underscores!
       grep(pattern = "_", x = c(x_vld, x_mknm, x_mknm_csv, x_mknm_true,
                                 x_mknm_true_vcsnm, x_vcsnm, x_vld_undersc),
-           value = TRUE, fixed = TRUE)),
+           value = TRUE, fixed = TRUE), collapse = ", "),
     "; and are suspicious: ", x_mknm_q, ", ", x_mknm_csv_q, ", ", x_mknm_true_q,
     ", ", x_mknm_true_vcsnm_q, ", ",
     paste_quoted(grep(pattern = "_", x = x_vcsnm, value = TRUE, fixed = TRUE,
-                      invert = TRUE)),
+                      invert = TRUE), collapse = ", "),
     use_mknm_undersc_mult),
   strict = TRUE, fixed = FALSE)
 

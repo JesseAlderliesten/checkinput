@@ -50,7 +50,7 @@ is_character("a") # TRUE
 is_character(c("a", "b")) # FALSE: incorrect length
 all_characters(c("a", "b")) # TRUE
 is_character(1) # FALSE: incorrect type
-is_character(NA_character_) # FALSE: default 'allow_NA' is FALSE
+is_character(NA_character_, allow_NA = FALSE) # FALSE
 is_character(NA_character_, allow_NA = TRUE) # TRUE
 is_character(NA, allow_NA = TRUE) # FALSE: incorrect type
 is_character(factor("n")) # FALSE: incorrect type
