@@ -271,15 +271,21 @@ expect_error(
   make_natural(x = NA_real_, allow_NA = FALSE, all = TRUE),
   pattern = "all_natural(NA_real_) is not TRUE", fixed = TRUE)
 
+expect_identical(
+  make_natural(NaN, allow_NA = FALSE, allow_NaN = TRUE), NA_integer_)
+expect_error(
+  make_natural(NaN, allow_NA = TRUE, allow_NaN = FALSE),
+  pattern = "checkinput::is_natural(NaN) is not TRUE", fixed = TRUE)
+
 for(allow_NA in c(FALSE, TRUE)) {
   for(x in list(NA, NaN, NA_complex_, NA_character_)) {
-    expect_false(is_natural(x, allow_NA = allow_NA))
-    expect_false(all_natural(x, allow_NA = allow_NA))
+    expect_false(is_natural(x, allow_NA = allow_NA, allow_NaN = FALSE))
+    expect_false(all_natural(x, allow_NA = allow_NA, allow_NaN = FALSE))
     expect_error(
-      make_natural(x = x, allow_NA = allow_NA, all = FALSE),
+      make_natural(x = x, allow_NA = allow_NA, allow_NaN = FALSE, all = FALSE),
       pattern = "is_natural(x) is not TRUE", fixed = TRUE)
     expect_error(
-      make_natural(x = x, allow_NA = allow_NA, all = TRUE),
+      make_natural(x = x, allow_NA = allow_NA, allow_NaN = FALSE, all = TRUE),
       pattern = "all_natural(x) is not TRUE", fixed = TRUE)
   }
 }

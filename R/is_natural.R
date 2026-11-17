@@ -3,11 +3,11 @@
 #' Check element-wise near-equality to natural [numbers][is.numeric()] while
 #' allowing for small numeric errors.
 #'
-#' @inheritParams is_number x allow_zerolength
+#' @inheritParams is_number x allow_zerolength allow_NaN
 #' @param strict exclude zero from the natural numbers?
 #' @param allow_NA `TRUE` or `FALSE`: allow [`NA`] of the correct type in `x`?
 #' See the section 'Large Numbers' below on the disadvantage of using `TRUE` for
-#' `allow_NA` with large numbers. [`NaN`] is never allowed in `x`.
+#' `allow_NA` with large numbers.
 #' @param allow_Inf `TRUE` or `FALSE`: allow positive [`Inf`] in `x`? See the
 #' section 'Large Numbers' below.
 #' @param tol a small [positive][is_positive()] number. Numbers that differ less
@@ -29,51 +29,64 @@
 #' Zero is considered a natural number if argument `strict` is `FALSE`, but even
 #' then small negative numbers are **not** considered natural numbers.
 #'
+#' Although using `TRUE` for arguments `allow_zerolength`, `allow_NA`,
+#' `allow_NaN`, or `allow_Inf` might be useful during specific programming
+#' checks and are provided for consistency with [is_number()], using `TRUE` for
+#' those arguments is **not** useful when testing that `x` is a natural number
+#' before using it as an index.
+#'
 #' `integer(0)` and `numeric(0)` are considered natural numbers if argument
-#' `allow_zerolength` is `TRUE`.
+#' `allow_zerolength` is `TRUE`.  `make_natural()` then returns `integer(0)` for
+#' both.
 #'
 #' [`NA_integer_`][NA] and `NA_real_` are considered natural numbers if
-#' `allow_NA` is `TRUE`. Even then `NA_complex_` is **not** considered a natural
-#' number because it is [`complex`][is.complex()] instead of
-#' [`numeric`][is.numeric()].
+#' `allow_NA` is `TRUE`. `make_natural()` then returns `NA_integer_` for both.
+#' Even then `NA_complex_` is **not** considered a natural number because it is
+#' [`complex`][is.complex()] instead of [`numeric`][is.numeric()].
+#'
+#' [`NaN`] (which has [`mode`] `numeric`, despite meaning 'not a number') is
+#' considered a natural number if `allow_NaN` is `TRUE`. `make_natural()` then
+#' returns `NA_integer_` for `NaN`.
 #'
 #' Positive [`Inf`] is considered a natural number if `allow_Inf` is `TRUE`.
+#' `make_natural()` then returns positive `Inf` unchanged if `large_as_double`
+#' is `TRUE`, and `NA_integer_` for positive `Inf` if `large_as_double` is
+#' `FALSE`.
 #'
-#' [`NULL`], [`NaN`], and negative numbers are **not**
-#' considered natural numbers.
+#' [`NULL`] and negative numbers are **not** considered natural numbers and
+#' `make_natural()` throws an [error][stop()] for them.
 #'
-#' See section `Large Numbers` below on the treatment of numbers that are too
-#' large to be represented as integers.
+#' See the section `Large Numbers` below on the treatment of numbers that are
+#' too large to be represented as integers.
 #'
 #' @returns
-#' For `is_natural()` and `all_natural()`: `TRUE` or `FALSE` indicating if `x`
-#' is a vector of the appropriate length with only natural numbers.
-#'
-#' For `make_natural()`: `x`, [rounded][round()] to a whole number. The return
-#' has [`type`][typeof()] [`integer`], unless argument `large_as_double` is
-#' `TRUE` and `x` contains values larger than [`.Machine$integer.max`][.Machine]
-#' (about 2 * 10^9) or [`Inf`]: then the return has type `double`, see the
-#' section 'Large Numbers' below.
+#' `is_natural()` and `all_natural()` return `TRUE` or `FALSE` indicating if `x`
+#' is a vector of the appropriate length with only natural numbers according to
+#' the values of their other arguments.
 #'
 #' `make_natural()` throws an [error][stop()] if `x` contains values that are
-#' not allowed or values that differ more than `tol` from the natural numbers.
+#' not natural according to `is_natural()` or `all_natural()`. Otherwise,
+#' `make_natural()` returns `x`, [rounded][round()] to a whole number. The
+#' returned value is coerced to [`type`][typeof()] [`integer`] if
+#' `large_as_double` is `FALSE` or `x` does not contain [`Inf`] nor values
+#' larger than [`.Machine$integer.max`][.Machine] (about 2 * 10^9), otherwise it
+#' is kept as [`type`][typeof()] [`double`], see the section 'Large Numbers'
+#' below.
 #'
 #' @section Large Numbers:
 #' Numbers larger than [`.Machine$integer.max`][.Machine] (about 2 * 10^9) are
-#' too large to be represented as [`integer`], see section 'Details' in
-#' `help("integer")`. When such large numbers or [`Inf`] are produced in
-#' [arithmetic operations][Arithmetic] that should result in integers, they are
-#' coerced to [`NA_integer_`] with the warning
-#' '`NAs produced by integer overflow`'. `NA_integer_` itself is considered
-#' natural if `allow_NA = TRUE`, which is **not** useful when e.g., testing
-#' that `x` is a natural number before using it as an index.
+#' too large to be represented as 32-bit [integers][is.integer()] used by \R.
+#' When such large numbers are produced in [arithmetic operations][Arithmetic]
+#' that should result in integers, they are coerced to [`NA_integer_`] with the
+#' warning '`NAs produced by integer overflow`'.
 #'
-#' `make_natural()` also coerces numbers that are too large to be represented as
-#' `integer` to `NA_integer_` if argument `large_as_double` is `FALSE`. If
-#' argument `large_as_double` is `TRUE`, `make_natural()` returns the actual
-#' values as [`type`][typeof()] [`double`][is.double()] instead of `integer`,
-#' with the warning '`The return of 'make_natural()' has type 'double'`' that
-#' also indicates which values are too large.
+#' If argument `large_as_double` is `FALSE`, that approach is also followed by
+#' `make_natural()`: then it coerces `Inf` and numbers that are too large to be
+#' represented as `integer` to `NA_integer_`. If argument `large_as_double` is
+#' `TRUE`, `make_natural()` returns the actual values as [`type`][typeof()]
+#' [`double`][is.double()] instead of `integer`, with the warning
+#' '`The return of 'make_natural()' has type 'double'`' that also indicates
+#' which values are too large.
 #'
 #' @section Programming Notes:
 #' `make_natural(x, ..., all = FALSE)` and `make_natural(x, ..., all = TRUE)`
@@ -100,6 +113,7 @@
 #' [match()] and
 #' [`progutils::not_in()`](https://jessealderliesten.github.io/progutils/reference/not_in.html)
 #' to compare character vectors;
+#' help(`%/%`) on integer division;
 #' [\R FAQ 7.31](
 #' https://CRAN.R-project.org/doc/manuals/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 #' for background on numerical equality and its pitfalls.
@@ -152,17 +166,19 @@
 #' make_natural(Inf, allow_Inf = TRUE, large_as_double = TRUE)
 #' # Inf, with a warning that the return is of type 'double'
 #' make_natural(Inf, allow_Inf = TRUE, large_as_double = FALSE)
-#' # NA_integer_ with a warning that NAs have been introduced
+#' # NA_integer_, with a warning that NAs have been introduced
 #'
 #' @export
 is_natural <- function(x,
                        strict = TRUE,
                        allow_zerolength = FALSE,
                        allow_NA = FALSE,
+                       allow_NaN = FALSE,
                        allow_Inf = FALSE,
                        tol = .Machine$double.eps^0.5) {
   all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
-              allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol) &&
+              allow_NA = allow_NA, allow_NaN = allow_NaN, allow_Inf = allow_Inf,
+              tol = tol) &&
     length(x) <= 1L
 }
 
@@ -172,15 +188,15 @@ all_natural <- function(x,
                         strict = TRUE,
                         allow_zerolength = FALSE,
                         allow_NA = FALSE,
+                        allow_NaN = FALSE,
                         allow_Inf = FALSE,
                         tol = .Machine$double.eps^0.5) {
-  # Arguments 'allow_zerolength' and 'allow_NA' are checked in 'all_numbers()'.
+  # The other arguments are checked in 'all_numbers()'.
   stopifnot(is_logical(strict), is_logical(allow_Inf),
             is_positive(tol), tol < 0.5)
 
-  # 'NaN' is not considered a natural number.
   if(!all_numbers(x = x, allow_zerolength = allow_zerolength,
-                  allow_NA = allow_NA, allow_NaN = FALSE)) {
+                  allow_NA = allow_NA, allow_NaN = allow_NaN)) {
     return(FALSE)
   }
 
@@ -201,6 +217,7 @@ make_natural <- function(x,
                          strict = TRUE,
                          allow_zerolength = FALSE,
                          allow_NA = FALSE,
+                         allow_NaN = FALSE,
                          allow_Inf = FALSE,
                          tol = .Machine$double.eps^0.5,
                          large_as_double = TRUE,
@@ -210,12 +227,14 @@ make_natural <- function(x,
 
   if(all) {
     if(!all_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
-                    allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol)) {
+                    allow_NA = allow_NA, allow_NaN = allow_NaN,
+                    allow_Inf = allow_Inf, tol = tol)) {
       stop("checkinput::all_natural(", name_x, ") is not TRUE")
     }
   } else {
     if(!is_natural(x = x, strict = strict, allow_zerolength = allow_zerolength,
-                   allow_NA = allow_NA, allow_Inf = allow_Inf, tol = tol)) {
+                   allow_NA = allow_NA, allow_NaN = allow_NaN,
+                   allow_Inf = allow_Inf, tol = tol)) {
       stop("checkinput::is_natural(", name_x, ") is not TRUE")
     }
   }
