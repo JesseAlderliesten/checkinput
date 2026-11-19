@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">checkinput</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,14 @@
       <small>Source: <a href="https://github.com/JesseAlderliesten/checkinput/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.9.0" id="checkinput-190">checkinput 1.9.0<a class="anchor" aria-label="anchor" href="#checkinput-190"></a></h2>
+<div class="section level4">
+<h4 id="breaking-changes-1-9-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-9-0"></a></h4>
+<ul><li>
+<code><a href="../reference/is_natural.html">is_natural()</a></code>, <code><a href="../reference/is_natural.html">all_natural()</a></code>, and <code><a href="../reference/is_natural.html">make_natural()</a></code>: large overhaul. Remove arguments <code>allow_Inf</code> and <code>large_as_double</code> and never consider <code>Inf</code> or numbers larger than <code>.Machine$integer.max</code> a natural number. Replace argument <code>strict</code> by <code>include_zero</code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8.0" id="checkinput-180">checkinput 1.8.0<a class="anchor" aria-label="anchor" href="#checkinput-180"></a></h2>
 <div class="section level4">

@@ -47,7 +47,7 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 - allow_NaN:
 
   `TRUE` or `FALSE`: allow
-  [`NaN`](https://rdrr.io/r/base/is.finite.html)?
+  [`NaN`](https://rdrr.io/r/base/is.finite.html) in `x`?
 
 ## Value
 

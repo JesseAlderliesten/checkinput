@@ -1,5 +1,17 @@
 # Changelog
 
+## checkinput 1.9.0
+
+#### Breaking changes
+
+- [`is_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
+  [`all_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md),
+  and
+  [`make_natural()`](https://jessealderliesten.github.io/checkinput/reference/is_natural.md):
+  large overhaul. Remove arguments `allow_Inf` and `large_as_double` and
+  never consider `Inf` or numbers larger than `.Machine$integer.max` a
+  natural number. Replace argument `strict` by `include_zero`.
+
 ## checkinput 1.8.0
 
 #### Breaking changes
