@@ -4,7 +4,7 @@
 #' of the correct sign.
 #'
 #' @inheritParams is_logical x allow_zerolength allow_NA
-#' @param allow_NaN `TRUE` or `FALSE`: allow [`NaN`]?
+#' @param allow_NaN `TRUE` or `FALSE`: allow [`NaN`] in `x`?
 #'
 #' @details
 #' `is_number()`, `all_numbers()`, `all_nonnegative()` and `is_nonnegative()`
