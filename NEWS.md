@@ -1,3 +1,12 @@
+# checkinput 1.9.0
+
+### Breaking changes
+- `is_natural()`, `all_natural()`, and `make_natural()`: large overhaul.
+  Remove arguments `allow_Inf` and `large_as_double` and never consider `Inf` or
+  numbers larger than `.Machine$integer.max` a natural number. Replace argument
+  `strict` by `include_zero`.
+
+
 # checkinput 1.8.0
 
 ### Breaking changes
