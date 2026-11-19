@@ -36,7 +36,7 @@ is_positive(x, allow_zerolength = FALSE, allow_NA = FALSE, allow_NaN = FALSE)
 
 \item{allow_NA}{\code{TRUE} or \code{FALSE}: allow \code{\link{NA}} of the correct type in \code{x}?}
 
-\item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \code{\link{NaN}}?}
+\item{allow_NaN}{\code{TRUE} or \code{FALSE}: allow \code{\link{NaN}} in \code{x}?}
 }
 \value{
 \code{TRUE} or \code{FALSE} indicating if \code{x} is a vector of the correct length only
